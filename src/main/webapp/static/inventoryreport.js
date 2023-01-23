@@ -36,7 +36,7 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayInventoryList(data);  
+					displayInventoryList(data);
 			},
 			error: handleAjaxError
 		 });
@@ -90,15 +90,32 @@ function displayInventoryList(data){
 	$("#inventory-table-body").empty();
     var row = "";
     var sno = 0;
-	for (var i = 0; i < data.length; i++) {
+	var dataMap = new Map([]);
+	var grandTotalQuantity = 0
+	for(var i =0; i < data.length; i++){
+		if(dataMap.has(data[i].brand + "-"+ data[i].category)){
+			var initialQuantity = dataMap.get(data[i].brand + "-"+ data[i].category);
+			var finalQuantity = initialQuantity + data[i].quantity;
+			dataMap.set(data[i].brand + "-"+ data[i].category, finalQuantity);
+		}
+		else{
+			dataMap.set(data[i].brand + "-"+ data[i].category, data[i].quantity);
+		}
+		grandTotalQuantity += data[i].quantity;
+	}
+
+	dataMap.forEach(function(value, key){
 		sno += 1;
+		var strArr = key.split("-");
 		row = "<tr><td>" 
 		+ sno + "</td><td>" 
-		+ data[i].brand + "</td><td>"
-		+ data[i].category + "</td><td>"
-		+ data[i].quantity + "</td></tr>";
+		+ strArr[0] + "</td><td>"
+		+ strArr[1] + "</td><td>"
+		+ value + "</td></tr>";
 		$("#inventory-table-body").append(row);
 	}
+	)
+	$("#inventory-table-body").append('<tr styple="font-size:30px; text-align:right;"><td colspan="3">Total</td><td>' + grandTotalQuantity + '</td></tr>');
 	
 }
 

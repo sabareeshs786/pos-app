@@ -1,19 +1,19 @@
-function getBrandReportUrl(){
+function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brandreport";
+	return baseUrl + "/api/salesreport";
 }
 
 //BUTTON ACTIONS
 
-function getBrandList(){
-	var url = getBrandReportUrl();
+function getSalesList(){
+	var url = getSalesReportUrl();
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-	   		displayBrandList(data);  
+	   		displaySalesList(data);  
 	   },
 	   error: handleAjaxError
 	});
@@ -25,7 +25,7 @@ function processData(){
 	var brand = $('#brand-report-form input[name=brand]').val();
 	var category = $('#brand-report-form input[name=category]').val();
 	if(brand.length != 0 && category.length != 0){
-		var url = getBrandReportUrl() + '/brand/' + brand + '/category/' + category;
+		var url = getSalesReportUrl() + '/brand/' + brand + '/category/' + category;
 		console.log(url);
 		$.ajax({
 			url: url,
@@ -33,33 +33,33 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayBrandList1(data);  
+					displaySalesList1(data);  
 			},
 			error: handleAjaxError
 		 });
 	}
 	else if(brand.length != 0 && category.length == 0){
-		var url = getBrandReportUrl() + '/brand/' + brand;
+		var url = getSalesReportUrl() + '/brand/' + brand;
 		$.ajax({
 			url: url,
 			type: 'GET',
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayBrandList(data);  
+					displaySalesList(data);  
 			},
 			error: handleAjaxError
 		 });
 	}
 	else if(brand.length == 0 && category.length != 0){
-		var url = getBrandReportUrl() + '/category/' + category;
+		var url = getSalesReportUrl() + '/category/' + category;
 		$.ajax({
 			url: url,
 			type: 'GET',
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayBrandList(data);  
+					displaySalesList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -71,7 +71,7 @@ function processData(){
 
 //UI DISPLAY METHODS
 
-function displayBrandList1(data){
+function displaySalesList1(data){
 	$("#brand-table-body").empty();
     var row = "";
 	var sno = 1;
@@ -82,7 +82,7 @@ function displayBrandList1(data){
 	$("#brand-table-body").append(row);
 }
 
-function displayBrandList(data){
+function displaySalesList(data){
 	$("#brand-table-body").empty();
     var row = "";
     var sno = 0;
@@ -100,8 +100,8 @@ function displayBrandList(data){
 //INITIALIZATION CODE
 function init(){
 	$('#process-data').click(processData);
-	$('#refresh-data').click(getBrandList)
+	$('#refresh-data').click(getSalesList)
 }
 
 $(document).ready(init);
-$(document).ready(getBrandList);
+$(document).ready(getSalesList);

@@ -2227,3 +2227,17 @@ Caused by: org.hibernate.AnnotationException: Unable to create unique key constr
 2023-01-23 15:38:55 INFO  SecurityConfig:33 - Configuration complete
 2023-01-23 15:42:47 INFO  SecurityConfig:33 - Configuration complete
 2023-01-23 15:44:14 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 16:13:34 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 16:19:11 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 16:19:46 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 16:27:13 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 16:28:21 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:13:34 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:28:01 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:30:28 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:31:57 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:33:12 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:34:06 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:35:09 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:38:29 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 17:41:37 INFO  SecurityConfig:33 - Configuration complete

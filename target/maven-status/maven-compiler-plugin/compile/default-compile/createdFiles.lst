@@ -2,6 +2,7 @@ com/increff/posapp/model/OrderData.class
 com/increff/posapp/pojo/OrderPojo.class
 com/increff/posapp/util/FormValidator.class
 com/increff/posapp/dao/UserDao.class
+com/increff/posapp/controller/SalesReportController.class
 com/increff/posapp/util/DoubleUtil.class
 com/increff/posapp/model/InventoryReportData.class
 com/increff/posapp/pojo/ProductPojo.class

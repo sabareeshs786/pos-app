@@ -26,6 +26,7 @@ pos-app,com.increff.posapp.controller,InventoryController,25,3,0,0,8,1,5,1,5,1
 pos-app,com.increff.posapp.controller,OrderController,16,3,0,0,5,1,4,1,4,1
 pos-app,com.increff.posapp.controller,SampleController,43,3,0,0,11,1,1,1,1,1
 pos-app,com.increff.posapp.controller,ProductController,25,3,0,0,8,1,5,1,5,1
+pos-app,com.increff.posapp.controller,SalesReportController,20,3,0,0,4,1,4,1,4,1
 pos-app,com.increff.posapp.controller,BrandController,28,3,0,0,8,1,5,1,5,1
 pos-app,com.increff.posapp.controller,BrandReportController,20,3,0,0,4,1,4,1,4,1
 pos-app,com.increff.posapp.controller,AdminApiController,75,3,2,0,21,1,6,1,5,1
