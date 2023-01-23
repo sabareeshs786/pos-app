@@ -30,6 +30,7 @@ public class ProductDto {
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brand_category = brandPojo.getId();
 		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brand_category);
+		System.out.printf("Double value: "+productPojo.getMrp());
 		productService.add(productPojo);
 	}
 	

@@ -12,7 +12,7 @@ public class OrderData {
 	private Integer id;
 	private String time;
 
-	private Double totalAmount;
+	private String totalAmount;
 	
 	@Override
 	public String toString() {

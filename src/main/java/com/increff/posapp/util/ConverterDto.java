@@ -3,6 +3,7 @@ package com.increff.posapp.util;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import com.increff.posapp.model.*;
 
@@ -37,7 +38,7 @@ public class ConverterDto {
 		productData.setCategory(brandPojo.getCategory());
 		productData.setBrand_category(productPojo.getBrandCategory());
 		productData.setName(productPojo.getName());
-		productData.setMrp(productPojo.getMrp());
+		productData.setMrp(DoubleUtil.roundToString(productPojo.getMrp()));
 		return productData;
 	}
 
@@ -45,7 +46,8 @@ public class ConverterDto {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
 		p.setBrandCategory(brand_category);
-		p.setMrp(f.getMrp());
+		System.out.println(f.getMrp());
+		p.setMrp(DoubleUtil.round(Double.parseDouble(f.getMrp()), 2));
 		p.setName(f.getName());
 		return p;
 	}
@@ -70,7 +72,7 @@ public class ConverterDto {
 		orderData.setId(orderPojo.getId());
 		String format = "MM/dd/yyyy - HH:mm:ss";
 		orderData.setTime(DateTimeUtil.getDateTime(orderPojo.getTime(), format));
-		orderData.setTotalAmount(totalAmount);
+		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
 		return orderData;
 	}
 	
@@ -114,4 +116,15 @@ public class ConverterDto {
 		return orderItemData;
 
 	}
+
+	public static InventoryReportData convertToInventoryReportData(InventoryData inventoryData, BrandPojo brandPojo){
+		InventoryReportData inventoryReportData = new InventoryReportData();
+		inventoryReportData.setBrand(brandPojo.getBrand());
+		inventoryReportData.setCategory(brandPojo.getCategory());
+		inventoryReportData.setId(inventoryData.getId());
+		inventoryReportData.setQuantity(inventoryData.getQuantity());
+		inventoryReportData.setBarcode(inventoryData.getBarcode());
+		return inventoryReportData;
+	}
+
 }

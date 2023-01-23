@@ -30,35 +30,36 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L30">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
 <span class="nc" id="L31">		Integer brand_category = brandPojo.getId();</span>
 <span class="nc" id="L32">		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brand_category);</span>
-<span class="nc" id="L33">		productService.add(productPojo);</span>
-<span class="nc" id="L34">	}</span>
+<span class="nc" id="L33">		System.out.printf(&quot;Double value: &quot;+productPojo.getMrp());</span>
+<span class="nc" id="L34">		productService.add(productPojo);</span>
+<span class="nc" id="L35">	}</span>
 	
 	public void deleteById(Integer id) throws ApiException {
-<span class="nc" id="L37">		productService.deleteById(id);</span>
-<span class="nc" id="L38">	}</span>
+<span class="nc" id="L38">		productService.deleteById(id);</span>
+<span class="nc" id="L39">	}</span>
 	
 	public ProductData getById(Integer id) throws ApiException {
-<span class="nc" id="L41">		ProductPojo productPojo = productService.getById(id);</span>
-<span class="nc" id="L42">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L43">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
+<span class="nc" id="L42">		ProductPojo productPojo = productService.getById(id);</span>
+<span class="nc" id="L43">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L44">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
 	}
 	
 	public List&lt;ProductData&gt; getAll() throws ApiException{
-<span class="nc" id="L47">		List&lt;ProductPojo&gt; list = productService.getAll();</span>
-<span class="nc" id="L48">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
-<span class="nc" id="L50">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L51">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
-<span class="nc" id="L52">		}</span>
-<span class="nc" id="L53">		System.out.println(list2);</span>
-<span class="nc" id="L54">		return list2;</span>
+<span class="nc" id="L48">		List&lt;ProductPojo&gt; list = productService.getAll();</span>
+<span class="nc" id="L49">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
+<span class="nc" id="L51">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L52">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
+<span class="nc" id="L53">		}</span>
+<span class="nc" id="L54">		System.out.println(list2);</span>
+<span class="nc" id="L55">		return list2;</span>
 	}
 	
 	public void updateById(Integer id, ProductForm form) throws ApiException {
-<span class="nc" id="L58">		FormValidator.productFormValidator(form);</span>
-<span class="nc" id="L59">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="nc" id="L60">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
-<span class="nc" id="L61">		productService.updateById(id, p);</span>
-<span class="nc" id="L62">	}</span>
+<span class="nc" id="L59">		FormValidator.productFormValidator(form);</span>
+<span class="nc" id="L60">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="nc" id="L61">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
+<span class="nc" id="L62">		productService.updateById(id, p);</span>
+<span class="nc" id="L63">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

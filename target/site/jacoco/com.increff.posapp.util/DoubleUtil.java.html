@@ -2,15 +2,19 @@
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
-<span class="nc" id="L6">public class DoubleUtil {</span>
-	public static double round(double value, int places) {
-<span class="nc bnc" id="L8" title="All 2 branches missed.">	    if (places &lt; 0) throw new IllegalArgumentException();</span>
+<span class="nc" id="L7">public class DoubleUtil {</span>
+	public static Double round(Double value, Integer places) throws NumberFormatException{
+<span class="nc bnc" id="L9" title="All 2 branches missed.">		if (places &lt; 0) throw new IllegalArgumentException();</span>
 
-<span class="nc" id="L10">	    BigDecimal bd = BigDecimal.valueOf(value);</span>
-<span class="nc" id="L11">	    bd = bd.setScale(places, RoundingMode.HALF_UP);</span>
-<span class="nc" id="L12">	    return bd.doubleValue();</span>
+<span class="nc" id="L11">		BigDecimal bd = BigDecimal.valueOf(value);</span>
+<span class="nc" id="L12">		bd = bd.setScale(places, RoundingMode.HALF_UP);</span>
+<span class="nc" id="L13">		return bd.doubleValue();</span>
 	}
-	
+
+	public static String roundToString(Double num) throws NumberFormatException{
+<span class="nc" id="L17">		return String.format(&quot;%.2f&quot;, num);</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

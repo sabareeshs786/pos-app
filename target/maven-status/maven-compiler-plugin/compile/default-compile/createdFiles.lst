@@ -3,6 +3,7 @@ com/increff/posapp/pojo/OrderPojo.class
 com/increff/posapp/util/FormValidator.class
 com/increff/posapp/dao/UserDao.class
 com/increff/posapp/util/DoubleUtil.class
+com/increff/posapp/model/InventoryReportData.class
 com/increff/posapp/pojo/ProductPojo.class
 com/increff/posapp/dto/OrderDataDto.class
 com/increff/posapp/pojo/InventoryPojo.class
@@ -71,6 +72,7 @@ com/increff/posapp/util/SecurityUtil.class
 com/increff/posapp/controller/AbstractUiController.class
 com/increff/posapp/spring/DbConfig.class
 com/increff/posapp/util/IOUtil.class
+com/increff/posapp/controller/InventoryReportController.class
 com/increff/posapp/spring/SecurityConfig.class
 com/increff/posapp/dao/BrandDao.class
 com/increff/posapp/controller/AppRestControllerAdvice.class
@@ -78,4 +80,5 @@ com/increff/posapp/dao/ProductDao.class
 com/increff/posapp/service/OrderItemService.class
 com/increff/posapp/model/InfoData.class
 com/increff/posapp/model/OrderItemData.class
+com/increff/posapp/dto/InventoryReportDto.class
 com/increff/posapp/model/MessageData.class

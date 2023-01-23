@@ -129,39 +129,41 @@ import com.increff.posapp.util.StringUtil;
 
 	public BrandPojo getCheckById(int id) throws ApiException {
 <span class="nc" id="L131">		BrandPojo p = brandDao.selectById(id);</span>
-<span class="nc bnc" id="L132" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L133">			throw new ApiException(&quot;Brand Category combination with given ID does not exit, id: &quot; + id);</span>
+<span class="nc" id="L132">		System.out.println(&quot;Brand-&gt;&gt;&quot;+p.getBrand());</span>
+<span class="nc" id="L133">		System.out.println(&quot;Category --&gt; &quot;+ p.getCategory());</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L135">			throw new ApiException(&quot;Brand Category combination with given ID does not exit, id: &quot; + id);</span>
 		}
-<span class="nc" id="L135">		return p;</span>
+<span class="nc" id="L137">		return p;</span>
 	}
 
 	public List&lt;BrandPojo&gt; getCheckByBrand(String brand) throws ApiException {
-<span class="nc" id="L139">		List&lt;BrandPojo&gt; p = brandDao.selectByBrand(brand);</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L141">			throw new ApiException(&quot;Brand&quot; + brand + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L141">		List&lt;BrandPojo&gt; p = brandDao.selectByBrand(brand);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L143">			throw new ApiException(&quot;Brand&quot; + brand + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L143">		return p;</span>
+<span class="nc" id="L145">		return p;</span>
 	}
 
 	public List&lt;BrandPojo&gt; getCheckByCategory(String category) throws ApiException {
-<span class="nc" id="L147">		List&lt;BrandPojo&gt; p = brandDao.selectByCategory(category);</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L149">			throw new ApiException(&quot;category&quot; + category + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L149">		List&lt;BrandPojo&gt; p = brandDao.selectByCategory(category);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L151">			throw new ApiException(&quot;category&quot; + category + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L151">		return p;</span>
+<span class="nc" id="L153">		return p;</span>
 	}
 
 	public BrandPojo getCheckByBrandAndCategory(String brand, String category) throws ApiException {
-<span class="nc" id="L155">		BrandPojo p = brandDao.selectByBrandAndCategory(brand, category);</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L157">			throw new ApiException(&quot;Brand Category combination doesnot exist&quot;);</span>
+<span class="nc" id="L157">		BrandPojo p = brandDao.selectByBrandAndCategory(brand, category);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L159">			throw new ApiException(&quot;Brand Category combination doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L159">		return p;</span>
+<span class="nc" id="L161">		return p;</span>
 	}
 	
 	protected static void normalize(BrandPojo p) {
-<span class="fc" id="L163">		p.setBrand(StringUtil.toLowerCase(p.getBrand()));</span>
-<span class="fc" id="L164">		p.setCategory(StringUtil.toLowerCase(p.getCategory()));</span>
-<span class="fc" id="L165">	}</span>
+<span class="fc" id="L165">		p.setBrand(StringUtil.toLowerCase(p.getBrand()));</span>
+<span class="fc" id="L166">		p.setCategory(StringUtil.toLowerCase(p.getCategory()));</span>
+<span class="fc" id="L167">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

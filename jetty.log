@@ -2169,3 +2169,61 @@ Caused by: org.hibernate.AnnotationException: Unable to create unique key constr
 2023-01-22 11:25:24 INFO  SecurityConfig:33 - Configuration complete
 2023-01-22 11:30:51 INFO  SecurityConfig:33 - Configuration complete
 2023-01-22 11:33:47 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 10:59:13 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 11:38:29 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 11:41:24 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 11:44:05 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 11:45:44 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 11:55:41 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:03:25 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:03:25 ERROR SqlExceptionHelper:142 - Duplicate entry 'as34y1' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:04:17 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:04:17 ERROR SqlExceptionHelper:142 - Duplicate entry 'as34y88' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:07:27 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:07:27 ERROR SqlExceptionHelper:142 - Duplicate entry 'asr45f' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:07:55 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:07:55 ERROR SqlExceptionHelper:142 - Duplicate entry 'asr45g' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:08:15 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:08:15 ERROR SqlExceptionHelper:142 - Duplicate entry 'asr45y' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:09:08 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:09:08 ERROR SqlExceptionHelper:142 - Duplicate entry 'asr45y543' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:10:05 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:10:05 ERROR SqlExceptionHelper:142 - Duplicate entry 'ndfr45n' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:11:26 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:11:26 ERROR SqlExceptionHelper:142 - Duplicate entry 'ndfr45y' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:11:49 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 12:11:49 ERROR SqlExceptionHelper:142 - Duplicate entry 'ndfr6y4e' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 12:15:36 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:28:07 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:33:16 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:38:16 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:42:04 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:43:40 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:45:27 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:48:40 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:48:50 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:50:34 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:53:00 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 12:59:09 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 13:07:34 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 13:08:30 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 13:28:56 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:17:39 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:25:50 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:26:47 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-23 14:26:47 ERROR SqlExceptionHelper:142 - Duplicate entry 'hfrtue' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-23 14:27:49 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:34:53 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:38:08 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:38:50 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:41:18 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:44:11 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:54:24 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:57:46 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 14:58:58 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:03:19 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:24:04 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:29:12 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:38:55 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:42:47 INFO  SecurityConfig:33 - Configuration complete
+2023-01-23 15:44:14 INFO  SecurityConfig:33 - Configuration complete

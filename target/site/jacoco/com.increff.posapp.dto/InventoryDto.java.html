@@ -47,20 +47,30 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L47">		List&lt;InventoryPojo&gt; listInventoryPojo = inventoryService.getAll();</span>
 <span class="nc" id="L48">		List&lt;InventoryData&gt; list = new ArrayList&lt;InventoryData&gt;();</span>
 <span class="nc bnc" id="L49" title="All 2 branches missed.">		for(InventoryPojo inventoryPojo: listInventoryPojo) {</span>
-<span class="nc" id="L50">			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
-<span class="nc" id="L51">			String barcode = productPojo.getBarcode();</span>
-<span class="nc" id="L52">			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));</span>
-<span class="nc" id="L53">		}</span>
-<span class="nc" id="L54">		System.out.println(list);</span>
-<span class="nc" id="L55">		return list;</span>
+<span class="nc" id="L50">			System.out.println(&quot;1) Product id = &quot;+inventoryPojo.getProductId());</span>
+<span class="nc" id="L51">			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L52">			System.out.println(&quot;2) Product id = &quot;+productPojo.getId());</span>
+<span class="nc" id="L53">			String barcode = productPojo.getBarcode();</span>
+<span class="nc" id="L54">			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));</span>
+<span class="nc" id="L55">		}</span>
+<span class="nc" id="L56">		System.out.println(list);</span>
+<span class="nc" id="L57">		return list;</span>
 	}
 	
 	public void updateById(Integer id, InventoryForm form) throws ApiException {
-<span class="nc" id="L59">		FormValidator.inventoryFormValidator(form);</span>
-<span class="nc" id="L60">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
-<span class="nc" id="L61">		Integer productId = productPojo.getId();</span>
-<span class="nc" id="L62">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
-<span class="nc" id="L63">		inventoryService.updateById(id, inventoryPojo);</span>
-<span class="nc" id="L64">	}</span>
+<span class="nc" id="L61">		FormValidator.inventoryFormValidator(form);</span>
+<span class="nc" id="L62">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
+<span class="nc" id="L63">		Integer productId = productPojo.getId();</span>
+<span class="nc" id="L64">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
+<span class="nc" id="L65">		inventoryService.updateById(id, inventoryPojo);</span>
+<span class="nc" id="L66">	}</span>
+
+	protected ProductService productService(){
+<span class="nc" id="L69">		return productService;</span>
+	}
+
+	protected InventoryService inventoryService(){
+<span class="nc" id="L73">		return inventoryService;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

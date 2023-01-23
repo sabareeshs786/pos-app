@@ -47,7 +47,9 @@ public class InventoryDto {
 		List<InventoryPojo> listInventoryPojo = inventoryService.getAll();
 		List<InventoryData> list = new ArrayList<InventoryData>();
 		for(InventoryPojo inventoryPojo: listInventoryPojo) {
+			System.out.println("1) Product id = "+inventoryPojo.getProductId());
 			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
+			System.out.println("2) Product id = "+productPojo.getId());
 			String barcode = productPojo.getBarcode();
 			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));
 		}
@@ -61,5 +63,13 @@ public class InventoryDto {
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);
 		inventoryService.updateById(id, inventoryPojo);
+	}
+
+	protected ProductService productService(){
+		return productService;
+	}
+
+	protected InventoryService inventoryService(){
+		return inventoryService;
 	}
 }

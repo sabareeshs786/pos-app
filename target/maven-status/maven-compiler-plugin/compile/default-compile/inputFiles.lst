@@ -41,6 +41,7 @@
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/OrderInMemDao.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/BrandReportController.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/BrandController.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dto/InventoryReportDto.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/service/AboutAppService.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/InventoryDao.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/OrderItemDao.java
@@ -69,9 +70,11 @@
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/OrderItemEditForm.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/service/BrandService.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/ProductDao.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/InventoryReportController.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/ProductInMemDao.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/InventoryData.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/util/CookieUtil.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/InventoryReportData.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/service/OrderItemService.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/util/UserPrincipal.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/ProductController.java

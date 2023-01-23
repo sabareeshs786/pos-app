@@ -1,3 +1,10 @@
+//GLOBAL VARIABLES
+var htmlContent = '';
+
+function getHtmlContent(){
+	htmlContent = $('#place-order-form').html();
+}
+
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/order";
@@ -91,10 +98,46 @@ function updateOrderItem(){
 
 	return false;
 }
+
+function addRow(){
+	$('#place-order-form').append(htmlContent);
+}
+
+//BUTTON ACTIONS
+function addItemToExistingOrder(event){
+	var $form = $("#place-order-form");
+	var orderId =  getOrderId();
+	var json = toJsonArray($form);
+	for(var i=0; i < json.length; i++){
+		json[i]['quantity'] = parseInt(json[i]['quantity']);
+		json[i]['sellingPrice'] = parseFloat(json[i]['sellingPrice']);
+	}
+	json = JSON.stringify(json);
+	var url = getOrderUrl();
+	console.log(json);
+	// $.ajax({
+	//    url: url,
+	//    type: 'POST',
+	//    data: json,
+	//    headers: {
+    //    	'Content-Type': 'application/json'
+    //    },	   
+	//    success: function(response) {
+	// 	history.back();
+	//    },
+	//    error: handleAjaxError
+	// });
+
+	return false;
+}
+
 //INITIALIZATION CODE
 function init(){
+	$('#place-order-confirm').click(addItemToExistingOrder);
+	$('#add-row').click(addRow);
 	$('#update-order-item').click(updateOrderItem);
 }
 
 $(document).ready(init);
 $(document).ready(getOrderItems);
+$(document).ready(getHtmlContent)

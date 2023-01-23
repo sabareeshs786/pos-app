@@ -129,6 +129,8 @@ public class BrandService {
 
 	public BrandPojo getCheckById(int id) throws ApiException {
 		BrandPojo p = brandDao.selectById(id);
+		System.out.println("Brand->>"+p.getBrand());
+		System.out.println("Category --> "+ p.getCategory());
 		if (p == null) {
 			throw new ApiException("Brand Category combination with given ID does not exit, id: " + id);
 		}

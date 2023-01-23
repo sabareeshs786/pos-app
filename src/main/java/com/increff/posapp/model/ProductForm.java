@@ -11,7 +11,7 @@ public class ProductForm {
 	private String brand;
 	private String category;
 	private String name;
-	private Double mrp;
+	private String mrp;
 	
 	@Override
 	public String toString() {

@@ -26,7 +26,7 @@ public class FormValidator {
 		if (form.getMrp().toString().isEmpty()) {
 			throw new ApiException("MRP cannot be empty");
 		}
-		if (form.getMrp() <= 0) {
+		if (Double.parseDouble(form.getMrp()) <= 0) {
 			throw new ApiException("MRP must be greater than zero");
 		}
 		if (form.getName().isEmpty()) {

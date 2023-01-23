@@ -12,7 +12,7 @@ function getHtmlContent(){
 }
 
 //BUTTON ACTIONS
-function addOrder(event){
+function addItemToExistingOrder(event){
 	var $form = $("#place-order-form");
 	var json = toJsonArray($form);
 	for(var i=0; i < json.length; i++){
@@ -71,8 +71,8 @@ function addRow(){
 
 //INITIALIZATION CODE
 function init(){
-	$('#place-order-confirm').click(addOrder);
-	$('#add-row').click(addRow)
+	$('#place-order-confirm').click(addItemToExistingOrder);
+	$('#add-row').click(addRow);
 }
 
 $(document).ready(init);

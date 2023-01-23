@@ -174,41 +174,42 @@ import com.increff.posapp.util.StringUtil;
 
 	public ProductPojo getCheckByBarcode(String barcode) throws ApiException {
 <span class="nc" id="L176">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L178">			throw new ApiException(&quot;Item with given barcode &quot;+ barcode + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L177">		System.out.println(&quot;Barcode is &quot;+p.getBarcode());</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L179">			throw new ApiException(&quot;Item with given barcode &quot;+ barcode + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L180">		return p;</span>
+<span class="nc" id="L181">		return p;</span>
 	}
 
 	public List&lt;ProductPojo&gt; getCheckByBrandCategory(Integer brand_category) throws ApiException {
-<span class="nc" id="L184">		List&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brand_category);</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L186">			throw new ApiException(&quot;Item with given brand-category &quot;+ brand_category + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L185">		List&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brand_category);</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L187">			throw new ApiException(&quot;Item with given brand-category &quot;+ brand_category + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L188">		return p;</span>
+<span class="nc" id="L189">		return p;</span>
 	}
 
 	public ProductPojo getCheckByName(String name) throws ApiException {
-<span class="nc" id="L192">		ProductPojo p = productDao.selectByName(name);</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L194">			throw new ApiException(&quot;Item with given name &quot;+ name + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L193">		ProductPojo p = productDao.selectByName(name);</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L195">			throw new ApiException(&quot;Item with given name &quot;+ name + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L196">		return p;</span>
+<span class="nc" id="L197">		return p;</span>
 	}
 
 	public List&lt;ProductPojo&gt; getCheckByMrp(Double mrp) throws ApiException {
-<span class="nc" id="L200">		List&lt;ProductPojo&gt; p = productDao.selectByMrp(mrp);</span>
-<span class="nc bnc" id="L201" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L202">			throw new ApiException(&quot;Item with given mrp &quot;+ mrp + &quot;doesnot exist&quot;);</span>
+<span class="nc" id="L201">		List&lt;ProductPojo&gt; p = productDao.selectByMrp(mrp);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L203">			throw new ApiException(&quot;Item with given mrp &quot;+ mrp + &quot;doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L204">		return p;</span>
+<span class="nc" id="L205">		return p;</span>
 	}
 	
 	protected static void normalize(ProductPojo p) {
-<span class="nc" id="L208">		p.setBarcode(p.getBarcode().toLowerCase());</span>
-<span class="nc" id="L209">		p.setName(p.getName().toLowerCase());</span>
-<span class="nc" id="L210">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
-<span class="nc" id="L211">	}</span>
+<span class="nc" id="L209">		p.setBarcode(p.getBarcode().toLowerCase());</span>
+<span class="nc" id="L210">		p.setName(p.getName().toLowerCase());</span>
+<span class="nc" id="L211">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
+<span class="nc" id="L212">	}</span>
 
 
 }

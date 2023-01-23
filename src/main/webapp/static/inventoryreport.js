@@ -22,9 +22,11 @@ function getInventoryList(){
 }
 
 function processData(){
-	var $form = $('#inventory-report-form')
-	var inventory = $('#inventory-report-form input[name=brand]').val();
+	var $form = $('#inventory-report-form');
+	var brand = $('#inventory-report-form input[name=brand]').val();
 	var category = $('#inventory-report-form input[name=category]').val();
+	console.log("Brand="+brand);
+	console.log("Category="+category);
 	if(brand.length != 0 && category.length != 0){
 		var url = getInventoryReportUrl() + '/brand/' + brand + '/category/' + category;
 		console.log(url);
@@ -34,7 +36,7 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayInventoryList1(data);  
+					displayInventoryList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -79,7 +81,8 @@ function displayInventoryList1(data){
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data.brand + "</td><td>"
-	+ data.category + "</td></tr>";
+	+ data.category + "</td><td>"
+	+ data.quantity + "</td></tr>";
 	$("#inventory-table-body").append(row);
 }
 
@@ -92,7 +95,8 @@ function displayInventoryList(data){
 		row = "<tr><td>" 
 		+ sno + "</td><td>" 
 		+ data[i].brand + "</td><td>"
-		+ data[i].category + "</td></tr>";
+		+ data[i].category + "</td><td>"
+		+ data[i].quantity + "</td></tr>";
 		$("#inventory-table-body").append(row);
 	}
 	

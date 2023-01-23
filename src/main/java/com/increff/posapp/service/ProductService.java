@@ -174,6 +174,7 @@ public class ProductService {
 
 	public ProductPojo getCheckByBarcode(String barcode) throws ApiException {
 		ProductPojo p = productDao.selectByBarcode(barcode);
+		System.out.println("Barcode is "+p.getBarcode());
 		if (p == null) {
 			throw new ApiException("Item with given barcode "+ barcode + "doesnot exist");
 		}

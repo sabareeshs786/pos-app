@@ -3,6 +3,7 @@
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import com.increff.posapp.model.*;
 
@@ -13,106 +14,118 @@ import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
 
-<span class="nc" id="L16">public class ConverterDto {</span>
+<span class="nc" id="L17">public class ConverterDto {</span>
 	public static BrandData convertToBrandData(BrandPojo p) {
-<span class="nc" id="L18">		BrandData d = new BrandData();</span>
-<span class="nc" id="L19">		d.setBrand(p.getBrand());</span>
-<span class="nc" id="L20">		d.setCategory(p.getCategory());</span>
-<span class="nc" id="L21">		d.setId(p.getId());</span>
-<span class="nc" id="L22">		return d;</span>
+<span class="nc" id="L19">		BrandData d = new BrandData();</span>
+<span class="nc" id="L20">		d.setBrand(p.getBrand());</span>
+<span class="nc" id="L21">		d.setCategory(p.getCategory());</span>
+<span class="nc" id="L22">		d.setId(p.getId());</span>
+<span class="nc" id="L23">		return d;</span>
 	}
 
 	public static BrandPojo convertToBrandPojo(BrandForm f) {
-<span class="nc" id="L26">		BrandPojo p = new BrandPojo();</span>
-<span class="nc" id="L27">		p.setBrand(f.getBrand());</span>
-<span class="nc" id="L28">		p.setCategory(f.getCategory());</span>
-<span class="nc" id="L29">		return p;</span>
+<span class="nc" id="L27">		BrandPojo p = new BrandPojo();</span>
+<span class="nc" id="L28">		p.setBrand(f.getBrand());</span>
+<span class="nc" id="L29">		p.setCategory(f.getCategory());</span>
+<span class="nc" id="L30">		return p;</span>
 	}
 	
 	public static ProductData convertToProductData(ProductPojo productPojo, BrandPojo brandPojo) {
-<span class="nc" id="L33">		ProductData productData = new ProductData();</span>
-<span class="nc" id="L34">		productData.setId(productPojo.getId());</span>
-<span class="nc" id="L35">		productData.setBarcode(productPojo.getBarcode());</span>
-<span class="nc" id="L36">		productData.setBrand(brandPojo.getBrand());</span>
-<span class="nc" id="L37">		productData.setCategory(brandPojo.getCategory());</span>
-<span class="nc" id="L38">		productData.setBrand_category(productPojo.getBrandCategory());</span>
-<span class="nc" id="L39">		productData.setName(productPojo.getName());</span>
-<span class="nc" id="L40">		productData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L41">		return productData;</span>
+<span class="nc" id="L34">		ProductData productData = new ProductData();</span>
+<span class="nc" id="L35">		productData.setId(productPojo.getId());</span>
+<span class="nc" id="L36">		productData.setBarcode(productPojo.getBarcode());</span>
+<span class="nc" id="L37">		productData.setBrand(brandPojo.getBrand());</span>
+<span class="nc" id="L38">		productData.setCategory(brandPojo.getCategory());</span>
+<span class="nc" id="L39">		productData.setBrand_category(productPojo.getBrandCategory());</span>
+<span class="nc" id="L40">		productData.setName(productPojo.getName());</span>
+<span class="nc" id="L41">		productData.setMrp(DoubleUtil.roundToString(productPojo.getMrp()));</span>
+<span class="nc" id="L42">		return productData;</span>
 	}
 
 	public static ProductPojo convertToProductPojo(ProductForm f, Integer brand_category) {
-<span class="nc" id="L45">		ProductPojo p = new ProductPojo();</span>
-<span class="nc" id="L46">		p.setBarcode(f.getBarcode());</span>
-<span class="nc" id="L47">		p.setBrandCategory(brand_category);</span>
-<span class="nc" id="L48">		p.setMrp(f.getMrp());</span>
-<span class="nc" id="L49">		p.setName(f.getName());</span>
-<span class="nc" id="L50">		return p;</span>
+<span class="nc" id="L46">		ProductPojo p = new ProductPojo();</span>
+<span class="nc" id="L47">		p.setBarcode(f.getBarcode());</span>
+<span class="nc" id="L48">		p.setBrandCategory(brand_category);</span>
+<span class="nc" id="L49">		System.out.println(f.getMrp());</span>
+<span class="nc" id="L50">		p.setMrp(DoubleUtil.round(Double.parseDouble(f.getMrp()), 2));</span>
+<span class="nc" id="L51">		p.setName(f.getName());</span>
+<span class="nc" id="L52">		return p;</span>
 	}
 	
 	public static InventoryPojo convertToInventoryPojo(InventoryForm f, Integer productId) throws ApiException{
-<span class="nc" id="L54">		InventoryPojo p = new InventoryPojo();</span>
-<span class="nc" id="L55">		p.setProductId(productId);</span>
-<span class="nc" id="L56">		p.setQuantity(f.getQuantity());</span>
-<span class="nc" id="L57">		return p;</span>
+<span class="nc" id="L56">		InventoryPojo p = new InventoryPojo();</span>
+<span class="nc" id="L57">		p.setProductId(productId);</span>
+<span class="nc" id="L58">		p.setQuantity(f.getQuantity());</span>
+<span class="nc" id="L59">		return p;</span>
 	}
 	
 	public static InventoryData convertToInventoryData(InventoryPojo p, String barcode) {
-<span class="nc" id="L61">		InventoryData d = new InventoryData();</span>
-<span class="nc" id="L62">		d.setId(p.getId());</span>
-<span class="nc" id="L63">		d.setBarcode(barcode);</span>
-<span class="nc" id="L64">		d.setQuantity(p.getQuantity());</span>
-<span class="nc" id="L65">		return d;</span>
+<span class="nc" id="L63">		InventoryData d = new InventoryData();</span>
+<span class="nc" id="L64">		d.setId(p.getId());</span>
+<span class="nc" id="L65">		d.setBarcode(barcode);</span>
+<span class="nc" id="L66">		d.setQuantity(p.getQuantity());</span>
+<span class="nc" id="L67">		return d;</span>
 	}
 	
 	public static OrderData convertToOrderData(OrderPojo orderPojo, Double totalAmount) {
-<span class="nc" id="L69">		OrderData orderData = new OrderData();</span>
-<span class="nc" id="L70">		orderData.setId(orderPojo.getId());</span>
-<span class="nc" id="L71">		String format = &quot;MM/dd/yyyy - HH:mm:ss&quot;;</span>
-<span class="nc" id="L72">		orderData.setTime(DateTimeUtil.getDateTime(orderPojo.getTime(), format));</span>
-<span class="nc" id="L73">		orderData.setTotalAmount(totalAmount);</span>
-<span class="nc" id="L74">		return orderData;</span>
+<span class="nc" id="L71">		OrderData orderData = new OrderData();</span>
+<span class="nc" id="L72">		orderData.setId(orderPojo.getId());</span>
+<span class="nc" id="L73">		String format = &quot;MM/dd/yyyy - HH:mm:ss&quot;;</span>
+<span class="nc" id="L74">		orderData.setTime(DateTimeUtil.getDateTime(orderPojo.getTime(), format));</span>
+<span class="nc" id="L75">		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));</span>
+<span class="nc" id="L76">		return orderData;</span>
 	}
 	
 	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  OrderPojo orderPojo, Integer productId) throws ApiException {
-<span class="nc" id="L78">		OrderItemPojo orderItemPojo = new OrderItemPojo();</span>
-<span class="nc" id="L79">		orderItemPojo.setOrderId(orderPojo.getId());</span>
-<span class="nc" id="L80">		orderItemPojo.setProductId(productId);</span>
-<span class="nc" id="L81">		orderItemPojo.setQuantity(form.getQuantity());</span>
-<span class="nc" id="L82">		orderItemPojo.setSellingPrice(form.getSellingPrice());</span>
-<span class="nc" id="L83">		return orderItemPojo;</span>
+<span class="nc" id="L80">		OrderItemPojo orderItemPojo = new OrderItemPojo();</span>
+<span class="nc" id="L81">		orderItemPojo.setOrderId(orderPojo.getId());</span>
+<span class="nc" id="L82">		orderItemPojo.setProductId(productId);</span>
+<span class="nc" id="L83">		orderItemPojo.setQuantity(form.getQuantity());</span>
+<span class="nc" id="L84">		orderItemPojo.setSellingPrice(form.getSellingPrice());</span>
+<span class="nc" id="L85">		return orderItemPojo;</span>
 	}
 	public static OrderPojo convertToOrderPojo() throws ApiException{
-<span class="nc" id="L86">		OrderPojo p = new OrderPojo();</span>
-<span class="nc" id="L87">		LocalDateTime localDateTime = LocalDateTime.now();</span>
-<span class="nc" id="L88">		ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
-<span class="nc" id="L89">		ZonedDateTime zone1 = ZonedDateTime.of(localDateTime, india);</span>
-<span class="nc" id="L90">		p.setTime(zone1);</span>
-<span class="nc" id="L91">		return p;</span>
+<span class="nc" id="L88">		OrderPojo p = new OrderPojo();</span>
+<span class="nc" id="L89">		LocalDateTime localDateTime = LocalDateTime.now();</span>
+<span class="nc" id="L90">		ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
+<span class="nc" id="L91">		ZonedDateTime zone1 = ZonedDateTime.of(localDateTime, india);</span>
+<span class="nc" id="L92">		p.setTime(zone1);</span>
+<span class="nc" id="L93">		return p;</span>
 	}
 
 	public static OrderItemsData convertToOrderItemsData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
-<span class="nc" id="L95">		OrderItemsData orderItemsData = new OrderItemsData();</span>
-<span class="nc" id="L96">		orderItemsData.setId(orderItemPojo.getId());</span>
-<span class="nc" id="L97">		orderItemsData.setOrderId(orderItemPojo.getOrderId());</span>
-<span class="nc" id="L98">		orderItemsData.setProductName(productPojo.getName());</span>
-<span class="nc" id="L99">		orderItemsData.setQuantity(orderItemPojo.getQuantity());</span>
-<span class="nc" id="L100">		orderItemsData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L101">		orderItemsData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L102">		return orderItemsData;</span>
+<span class="nc" id="L97">		OrderItemsData orderItemsData = new OrderItemsData();</span>
+<span class="nc" id="L98">		orderItemsData.setId(orderItemPojo.getId());</span>
+<span class="nc" id="L99">		orderItemsData.setOrderId(orderItemPojo.getOrderId());</span>
+<span class="nc" id="L100">		orderItemsData.setProductName(productPojo.getName());</span>
+<span class="nc" id="L101">		orderItemsData.setQuantity(orderItemPojo.getQuantity());</span>
+<span class="nc" id="L102">		orderItemsData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L103">		orderItemsData.setMrp(productPojo.getMrp());</span>
+<span class="nc" id="L104">		return orderItemsData;</span>
 	}
 
 	public static OrderItemData convertToOrderItemData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
-<span class="nc" id="L106">		OrderItemData orderItemData = new OrderItemData();</span>
-<span class="nc" id="L107">		orderItemData.setId(orderItemPojo.getId());</span>
-<span class="nc" id="L108">		orderItemData.setOrderId(orderItemPojo.getOrderId());</span>
-<span class="nc" id="L109">		orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
-<span class="nc" id="L110">		orderItemData.setBarcode(productPojo.getBarcode());</span>
-<span class="nc" id="L111">		orderItemData.setProductName(productPojo.getName());</span>
-<span class="nc" id="L112">		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L113">		orderItemData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L114">		return orderItemData;</span>
+<span class="nc" id="L108">		OrderItemData orderItemData = new OrderItemData();</span>
+<span class="nc" id="L109">		orderItemData.setId(orderItemPojo.getId());</span>
+<span class="nc" id="L110">		orderItemData.setOrderId(orderItemPojo.getOrderId());</span>
+<span class="nc" id="L111">		orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
+<span class="nc" id="L112">		orderItemData.setBarcode(productPojo.getBarcode());</span>
+<span class="nc" id="L113">		orderItemData.setProductName(productPojo.getName());</span>
+<span class="nc" id="L114">		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L115">		orderItemData.setMrp(productPojo.getMrp());</span>
+<span class="nc" id="L116">		return orderItemData;</span>
 
 	}
+
+	public static InventoryReportData convertToInventoryReportData(InventoryData inventoryData, BrandPojo brandPojo){
+<span class="nc" id="L121">		InventoryReportData inventoryReportData = new InventoryReportData();</span>
+<span class="nc" id="L122">		inventoryReportData.setBrand(brandPojo.getBrand());</span>
+<span class="nc" id="L123">		inventoryReportData.setCategory(brandPojo.getCategory());</span>
+<span class="nc" id="L124">		inventoryReportData.setId(inventoryData.getId());</span>
+<span class="nc" id="L125">		inventoryReportData.setQuantity(inventoryData.getQuantity());</span>
+<span class="nc" id="L126">		inventoryReportData.setBarcode(inventoryData.getBarcode());</span>
+<span class="nc" id="L127">		return inventoryReportData;</span>
+	}
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

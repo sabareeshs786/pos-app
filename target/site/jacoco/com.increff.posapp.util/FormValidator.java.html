@@ -26,7 +26,7 @@ import com.increff.posapp.service.ApiException;
 <span class="nc bnc" id="L26" title="All 2 branches missed.">		if (form.getMrp().toString().isEmpty()) {</span>
 <span class="nc" id="L27">			throw new ApiException(&quot;MRP cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L29" title="All 2 branches missed.">		if (form.getMrp() &lt;= 0) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">		if (Double.parseDouble(form.getMrp()) &lt;= 0) {</span>
 <span class="nc" id="L30">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
 		}
 <span class="nc bnc" id="L32" title="All 2 branches missed.">		if (form.getName().isEmpty()) {</span>

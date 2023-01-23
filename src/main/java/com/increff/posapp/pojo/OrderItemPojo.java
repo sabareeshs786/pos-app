@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "orderitem", uniqueConstraints = { @UniqueConstraint(columnNames = { "orderId", "productId" }) })
+@Table(name = "orderitem", uniqueConstraints = { @UniqueConstraint(columnNames = { "order_id", "product_id" }) })
 @Getter
 @Setter
 public class OrderItemPojo {
@@ -15,13 +15,13 @@ public class OrderItemPojo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	@Column(name = "orderId", nullable = false)
+	@Column(name = "order_id", nullable = false)
 	private Integer orderId;
-	@Column(name = "productId", nullable = false)
+	@Column(name = "product_id", nullable = false)
 	private Integer productId;
 	@Column(name = "quantity", nullable = false)
 	private Integer quantity;
-	@Column(name = "sellingPrice", nullable = false)
+	@Column(name = "selling_price", nullable = false)
 	private Double sellingPrice;
 
 	@Override

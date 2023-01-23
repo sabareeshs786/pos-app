@@ -1,7 +1,8 @@
 package com.increff.posapp.controller;
 
-import com.increff.posapp.dto.BrandDto;
-import com.increff.posapp.model.BrandData;
+import com.increff.posapp.dto.InventoryReportDto;
+import com.increff.posapp.dto.InventoryReportDto;
+import com.increff.posapp.model.InventoryReportData;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,29 +19,30 @@ import java.util.List;
 public class InventoryReportController {
 
     @Autowired
-    private BrandDto brandDto;
+    private InventoryReportDto inventoryReportDto;
 
     @ApiOperation(value = "Gets all brands")
     @RequestMapping(path = "/api/inventoryreport", method = RequestMethod.GET)
-    public List<BrandData> getAll() throws ApiException {
-        return brandDto.getAll();
+    public List<InventoryReportData> getAll() throws ApiException {
+        System.out.println("Inventory Reports\n\n\nInventory Reports");
+        return inventoryReportDto.getall();
     }
 
     @ApiOperation(value = "Gets all details of a specific brand")
-    @RequestMapping(path = "/api/brandreport/brand/{brand}", method = RequestMethod.GET)
-    public List<BrandData> getByBrand(@PathVariable String brand) throws ApiException {
-        return brandDto.getByBrand(brand);
+    @RequestMapping(path = "/api/inventoryreport/brand/{brand}", method = RequestMethod.GET)
+    public List<InventoryReportData> getByBrand(@PathVariable String brand) throws ApiException {
+        return inventoryReportDto.getByBrand(brand);
     }
 
     @ApiOperation(value = "Gets all details of a specific category")
-    @RequestMapping(path = "/api/brandreport/category/{category}", method = RequestMethod.GET)
-    public List<BrandData> getByCategory(@PathVariable String category) throws ApiException {
-        return brandDto.getByCategory(category);
+    @RequestMapping(path = "/api/inventoryreport/category/{category}", method = RequestMethod.GET)
+    public List<InventoryReportData> getByCategory(@PathVariable String category) throws ApiException {
+        return inventoryReportDto.getByCategory(category);
     }
 
     @ApiOperation(value = "Gets all details of a specific category")
-    @RequestMapping(path = "/api/brandreport/brand/{brand}/category/{category}", method = RequestMethod.GET)
-    public BrandData getByBrandAndCategory(@PathVariable String brand, @PathVariable String category) throws ApiException {
-        return brandDto.getByBrandandCategory(brand, category);
+    @RequestMapping(path = "/api/inventoryreport/brand/{brand}/category/{category}", method = RequestMethod.GET)
+    public List<InventoryReportData> getByBrandAndCategory(@PathVariable String brand, @PathVariable String category) throws ApiException {
+        return inventoryReportDto.getByBrandAndCategory(brand, category);
     }
 }
