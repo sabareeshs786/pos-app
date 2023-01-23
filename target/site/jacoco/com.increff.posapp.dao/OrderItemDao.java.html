@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.dao</a> &gt; <span class="el_source">OrderItemDao.java</span></div><h1>OrderItemDao.java</h1><pre class="source lang-java linenums">package com.increff.posapp.dao;
+
+import com.increff.posapp.pojo.OrderItemPojo;
+import com.increff.posapp.service.ApiException;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Repository
+@Transactional(rollbackOn = ApiException.class)
+<span class="fc" id="L14">public class OrderItemDao extends AbstractDao{</span>
+
+<span class="fc" id="L16">	private static String delete_id = &quot;delete from OrderItemPojo p where id=:id&quot;;</span>
+<span class="fc" id="L17">	private static String delete_orderId = &quot;delete from OrderItemPojo p where orderId=:orderId&quot;;</span>
+<span class="fc" id="L18">	private static String delete_productId = &quot;delete from OrderItemPojo p where productId=:productId&quot;;</span>
+<span class="fc" id="L19">	private static String delete_quantity = &quot;delete from OrderItemPojo p where quantity=:quantity&quot;;</span>
+<span class="fc" id="L20">	private static String delete_selling_price = &quot;delete from OrderItemPojo p where sellingPrice=:sellingPrice&quot;;</span>
+
+<span class="fc" id="L22">	private static String select_id = &quot;select p from OrderItemPojo p where id=:id&quot;;</span>
+<span class="fc" id="L23">	private static String select_orderId = &quot;select p from OrderItemPojo p where orderId=:orderId&quot;;</span>
+<span class="fc" id="L24">	private static String select_productId = &quot;select p from OrderItemPojo p where productId=:productId&quot;;</span>
+<span class="fc" id="L25">	private static String select_quantity = &quot;select p from OrderItemPojo p where quantity=:quantity&quot;;</span>
+<span class="fc" id="L26">	private static String select_selling_price = &quot;select p from OrderItemPojo p where sellingPrice=:sellingPrice&quot;;</span>
+
+<span class="fc" id="L28">	private static String select_all = &quot;select p from OrderItemPojo p&quot;;</span>
+
+	public void insert(OrderItemPojo p) {
+<span class="nc" id="L31">		em().persist(p);</span>
+<span class="nc" id="L32">	}</span>
+
+	public Integer deleteById(Integer id) {
+<span class="nc" id="L35">		Query query = em().createQuery(delete_id);</span>
+<span class="nc" id="L36">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L37">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByOrderId(Integer orderId) {
+<span class="nc" id="L41">		Query query = em().createQuery(delete_orderId);</span>
+<span class="nc" id="L42">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L43">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByProductId(Integer productId) {
+<span class="nc" id="L47">		Query query = em().createQuery(delete_productId);</span>
+<span class="nc" id="L48">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L49">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByQuantity(Integer quantity) {
+<span class="nc" id="L53">		Query query = em().createQuery(delete_quantity);</span>
+<span class="nc" id="L54">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L55">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteBySellingPrice(Double sellingPrice) {
+<span class="nc" id="L59">		Query query = em().createQuery(delete_selling_price);</span>
+<span class="nc" id="L60">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L61">		return query.executeUpdate();</span>
+	}
+
+	public OrderItemPojo selectById(Integer id) {
+<span class="nc" id="L65">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_id, OrderItemPojo.class);</span>
+<span class="nc" id="L66">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L67">		return getSingle(query);</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectByOrderId(Integer orderId) {
+<span class="nc" id="L71">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_orderId, OrderItemPojo.class);</span>
+<span class="nc" id="L72">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L73">		return query.getResultList();</span>
+	}
+
+	public OrderItemPojo selectByProductId(Integer productId) {
+<span class="nc" id="L77">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_productId, OrderItemPojo.class);</span>
+<span class="nc" id="L78">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L79">		return getSingle(query);</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectByQuantity(Integer quantity) {
+<span class="nc" id="L83">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_quantity, OrderItemPojo.class);</span>
+<span class="nc" id="L84">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L85">		return query.getResultList();</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectBySellingPrice(Double sellingPrice) {
+<span class="nc" id="L89">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_selling_price, OrderItemPojo.class);</span>
+<span class="nc" id="L90">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L91">		return query.getResultList();</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectAll() {
+<span class="nc" id="L95">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_all, OrderItemPojo.class);</span>
+<span class="nc" id="L96">		return query.getResultList();</span>
+	}
+
+	public void update(OrderItemPojo p) {
+		// Implemented by Spring itself
+<span class="nc" id="L101">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

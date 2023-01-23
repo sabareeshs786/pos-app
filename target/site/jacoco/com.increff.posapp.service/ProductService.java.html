@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.service</a> &gt; <span class="el_source">ProductService.java</span></div><h1>ProductService.java</h1><pre class="source lang-java linenums">package com.increff.posapp.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.increff.posapp.dao.BrandDao;
+import com.increff.posapp.dao.InventoryDao;
+import com.increff.posapp.dao.ProductDao;
+import com.increff.posapp.pojo.ProductPojo;
+import com.increff.posapp.util.DoubleUtil;
+import com.increff.posapp.util.StringUtil;
+
+@Service
+@Transactional(rollbackOn = ApiException.class)
+<span class="fc" id="L19">public class ProductService {</span>
+
+	@Autowired
+	private ProductDao productDao;
+	
+	@Autowired
+	private BrandDao brandDao;
+	
+	@Autowired
+	private InventoryDao inventoryDao;
+	
+	@Autowired
+	private InventoryService inventoryService;
+
+	public void add(ProductPojo p) throws ApiException {
+<span class="nc" id="L34">		normalize(p);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">		if(StringUtil.isEmpty(p.getBarcode())) {</span>
+<span class="nc" id="L36">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		if(StringUtil.isEmpty(Integer.toString(p.getBrandCategory()))){</span>
+<span class="nc" id="L39">			throw new ApiException(&quot;Brand Category combination id cannot be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		if(StringUtil.isEmpty(p.getName())) {</span>
+<span class="nc" id="L42">			throw new ApiException(&quot;Product name cannot be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if(StringUtil.isEmpty(Double.toString(p.getMrp()))) {</span>
+<span class="nc" id="L45">			throw new ApiException(&quot;Product MRP cannot be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		if(p.getMrp() &lt; 0) {</span>
+<span class="nc" id="L48">			throw new ApiException(&quot;MRP cannot be less than zero&quot;);</span>
+		}
+<span class="nc bnc" id="L50" title="All 2 branches missed.">		if(brandDao.selectById(p.getBrandCategory()) == null) {</span>
+<span class="nc" id="L51">			throw new ApiException(&quot;Product with specified brand and category doesn't exist&quot;);</span>
+		}
+
+		//Inserting
+<span class="nc" id="L55">		productDao.insert(p);</span>
+<span class="nc" id="L56">	}</span>
+
+	public void deleteById(int id) throws ApiException {
+<span class="nc" id="L59">		inventoryDao.deleteById(id);</span>
+<span class="nc" id="L60">		productDao.deleteById(id);</span>
+<span class="nc" id="L61">	}</span>
+
+	public void deleteByBarcode(String barcode) {
+<span class="nc" id="L64">		ProductPojo productPojo = productDao.selectByBarcode(barcode);</span>
+<span class="nc" id="L65">		inventoryDao.deleteByProductId(productPojo.getId());</span>
+<span class="nc" id="L66">		productDao.deleteByBarcode(barcode);</span>
+<span class="nc" id="L67">	}</span>
+
+	public void deleteByBrandCategory(Integer brand_category) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		for(ProductPojo p: productDao.selectByBrandCategory(brand_category)) {</span>
+<span class="nc" id="L71">			inventoryDao.deleteByProductId(p.getId());</span>
+<span class="nc" id="L72">		}</span>
+<span class="nc" id="L73">		productDao.deleteByBrandCategory(brand_category);</span>
+<span class="nc" id="L74">	}</span>
+
+	public void deleteByName(String name) {
+<span class="nc" id="L77">		inventoryDao.deleteById(productDao.selectByName(name).getId());</span>
+<span class="nc" id="L78">		productDao.deleteByName(name);</span>
+<span class="nc" id="L79">	}</span>
+
+	public void deleteByMrp(Double mrp) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">		for(ProductPojo p: productDao.selectByMrp(mrp)) {</span>
+<span class="nc" id="L83">			inventoryDao.deleteById(p.getId());</span>
+<span class="nc" id="L84">		}</span>
+<span class="nc" id="L85">		productDao.deleteByMrp(mrp);</span>
+<span class="nc" id="L86">	}</span>
+
+	public ProductPojo getById(int id) throws ApiException {
+<span class="nc" id="L89">		System.out.println(&quot;ProductPojo getById&quot;);</span>
+<span class="nc" id="L90">		return getCheckById(id);</span>
+	}
+
+	public ProductPojo getByBarcode(String barcode) throws ApiException {
+<span class="nc" id="L94">		return getCheckByBarcode(barcode);</span>
+	}
+
+	public List&lt;ProductPojo&gt; getByBrandCategory(Integer brand_category) throws ApiException {
+<span class="nc" id="L98">		return getCheckByBrandCategory(brand_category);</span>
+	}
+
+	public ProductPojo getByName(String name) throws ApiException {
+<span class="nc" id="L102">		return getCheckByName(name);</span>
+	}
+
+	public List&lt;ProductPojo&gt; getByMrp(Double mrp) throws ApiException {
+<span class="nc" id="L106">		return getCheckByMrp(mrp);</span>
+	}
+
+	public List&lt;ProductPojo&gt; getAll() {
+<span class="nc" id="L110">		return productDao.selectAll();</span>
+	}
+
+	public void updateById(int id, ProductPojo p) throws ApiException {
+<span class="nc" id="L114">		normalize(p);</span>
+<span class="nc" id="L115">		ProductPojo ex = getCheckById(id);</span>
+<span class="nc" id="L116">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L117">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L118">		ex.setName(p.getName());</span>
+<span class="nc" id="L119">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L120">		productDao.update(ex);</span>
+<span class="nc" id="L121">	}</span>
+
+	public void updateByBarcode(String barcode, ProductPojo p) throws ApiException {
+<span class="nc" id="L124">		normalize(p);</span>
+<span class="nc" id="L125">		ProductPojo ex = getCheckByBarcode(barcode);</span>
+<span class="nc" id="L126">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L127">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L128">		ex.setName(p.getName());</span>
+<span class="nc" id="L129">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L130">		productDao.update(ex);</span>
+<span class="nc" id="L131">	}</span>
+
+	public void updateByBrandCategory(Integer brandCategory, ProductPojo p) throws ApiException {
+<span class="nc" id="L134">		normalize(p);</span>
+<span class="nc" id="L135">		List&lt;ProductPojo&gt; list = getCheckByBrandCategory(brandCategory);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">		for(ProductPojo ex: list) {</span>
+<span class="nc" id="L137">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L138">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L139">		ex.setName(p.getName());</span>
+<span class="nc" id="L140">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L141">		productDao.update(ex);</span>
+<span class="nc" id="L142">	}</span>
+<span class="nc" id="L143">	}</span>
+
+	public void updateByName(String name, ProductPojo p) throws ApiException {
+<span class="nc" id="L146">		normalize(p);</span>
+<span class="nc" id="L147">		ProductPojo ex = getCheckByName(name);</span>
+<span class="nc" id="L148">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L149">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L150">		ex.setName(p.getName());</span>
+<span class="nc" id="L151">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L152">		productDao.update(ex);</span>
+<span class="nc" id="L153">	}</span>
+
+	public void updateByMrp(Double mrp, ProductPojo p) throws ApiException {
+<span class="nc" id="L156">		normalize(p);</span>
+<span class="nc" id="L157">		List&lt;ProductPojo&gt; list = getCheckByMrp(mrp);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		for(ProductPojo ex: list) {</span>
+<span class="nc" id="L159">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L160">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L161">		ex.setName(p.getName());</span>
+<span class="nc" id="L162">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L163">		productDao.update(ex);</span>
+<span class="nc" id="L164">	}</span>
+<span class="nc" id="L165">	}</span>
+
+	public ProductPojo getCheckById(Integer id) throws ApiException {
+<span class="nc" id="L168">		ProductPojo p = productDao.selectById(id);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L170">			throw new ApiException(&quot;Product with given ID does not exist&quot;);</span>
+		}
+<span class="nc" id="L172">		return p;</span>
+	}
+
+	public ProductPojo getCheckByBarcode(String barcode) throws ApiException {
+<span class="nc" id="L176">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L178">			throw new ApiException(&quot;Item with given barcode &quot;+ barcode + &quot;doesnot exist&quot;);</span>
+		}
+<span class="nc" id="L180">		return p;</span>
+	}
+
+	public List&lt;ProductPojo&gt; getCheckByBrandCategory(Integer brand_category) throws ApiException {
+<span class="nc" id="L184">		List&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brand_category);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L186">			throw new ApiException(&quot;Item with given brand-category &quot;+ brand_category + &quot;doesnot exist&quot;);</span>
+		}
+<span class="nc" id="L188">		return p;</span>
+	}
+
+	public ProductPojo getCheckByName(String name) throws ApiException {
+<span class="nc" id="L192">		ProductPojo p = productDao.selectByName(name);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L194">			throw new ApiException(&quot;Item with given name &quot;+ name + &quot;doesnot exist&quot;);</span>
+		}
+<span class="nc" id="L196">		return p;</span>
+	}
+
+	public List&lt;ProductPojo&gt; getCheckByMrp(Double mrp) throws ApiException {
+<span class="nc" id="L200">		List&lt;ProductPojo&gt; p = productDao.selectByMrp(mrp);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L202">			throw new ApiException(&quot;Item with given mrp &quot;+ mrp + &quot;doesnot exist&quot;);</span>
+		}
+<span class="nc" id="L204">		return p;</span>
+	}
+	
+	protected static void normalize(ProductPojo p) {
+<span class="nc" id="L208">		p.setBarcode(p.getBarcode().toLowerCase());</span>
+<span class="nc" id="L209">		p.setName(p.getName().toLowerCase());</span>
+<span class="nc" id="L210">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
+<span class="nc" id="L211">	}</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.dto</a> &gt; <span class="el_source">OrderDto.java</span></div><h1>OrderDto.java</h1><pre class="source lang-java linenums">package com.increff.posapp.dto;
+
+import com.increff.posapp.model.OrderData;
+import com.increff.posapp.pojo.OrderItemPojo;
+import com.increff.posapp.pojo.ProductPojo;
+import com.increff.posapp.service.OrderItemService;
+import com.increff.posapp.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.increff.posapp.pojo.OrderPojo;
+import com.increff.posapp.service.ApiException;
+import com.increff.posapp.service.OrderService;
+import com.increff.posapp.util.ConverterDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+<span class="fc" id="L20">public class OrderDto {</span>
+
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	private OrderItemService orderItemService;
+	
+	public OrderPojo add() throws ApiException {
+<span class="nc" id="L32">		OrderPojo orderPojo = ConverterDto.convertToOrderPojo();</span>
+<span class="nc" id="L33">		orderService.add(orderPojo);</span>
+<span class="nc" id="L34">		return orderPojo;</span>
+	}
+
+	public List&lt;OrderData&gt; getAll() throws ApiException {
+<span class="nc" id="L38">		List&lt;OrderPojo&gt; list = orderService.getAll();</span>
+<span class="nc" id="L39">		List&lt;OrderData&gt; list2 = new ArrayList&lt;OrderData&gt;();</span>
+		Double totalAmount;
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		for (OrderPojo orderPojo : list) {</span>
+<span class="nc" id="L42">			totalAmount = 0.00;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){</span>
+<span class="nc" id="L44">				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();</span>
+<span class="nc" id="L45">			}</span>
+<span class="nc" id="L46">			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));</span>
+<span class="nc" id="L47">		}</span>
+<span class="nc" id="L48">		return list2;</span>
+	}
+	public void update(Integer id){
+<span class="nc" id="L51">		OrderPojo p = new OrderPojo();</span>
+<span class="nc" id="L52">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
