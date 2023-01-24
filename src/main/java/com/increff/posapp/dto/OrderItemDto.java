@@ -113,11 +113,11 @@ public class OrderItemDto {
 	}
 	private void updateProduct(OrderItemPojo orderItemPojo, OrderItemEditForm orderItemEditForm) throws ApiException {
 		//INVENTORY UPDATING
-		InventoryPojo inventoryPojo = inventoryService.getByPid(orderItemPojo.getProductId());
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());
 		inventoryPojo.setQuantity(inventoryPojo.getQuantity() + orderItemPojo.getQuantity());
-		inventoryService.updateByPid(inventoryPojo.getProductId(), inventoryPojo);
+		inventoryService.updateByProductId(inventoryPojo.getProductId(), inventoryPojo);
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
-		inventoryPojo = inventoryService.getByPid(productPojo.getId());
+		inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 		inventoryPojo.setQuantity(inventoryPojo.getQuantity() - orderItemEditForm.getQuantity());
 		inventoryService.updateById(inventoryPojo.getId(),  inventoryPojo);
 
@@ -134,7 +134,7 @@ public class OrderItemDto {
 	private void updateInventory(OrderItemPojo orderItemPojo, OrderItemEditForm orderItemEditForm) throws ApiException {
 		Integer initialQuantity = orderItemPojo.getQuantity();
 		Integer finalQuantity = orderItemEditForm.getQuantity();
-		InventoryPojo inventoryPojo = inventoryService.getByPid(orderItemPojo.getProductId());
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());
 		if(finalQuantity < initialQuantity){
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
 			inventoryService.updateById(inventoryPojo.getId(), inventoryPojo);
@@ -169,7 +169,7 @@ public class OrderItemDto {
 	}
 	private void checkInventory(OrderItemEditForm orderItemEditForm) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
-		InventoryPojo inventoryPojo = inventoryService.getByPid(productPojo.getId());
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 		Integer requestedQuantity = orderItemEditForm.getQuantity();
 		Integer actualQuantity = inventoryPojo.getQuantity();
 		if(requestedQuantity > actualQuantity){

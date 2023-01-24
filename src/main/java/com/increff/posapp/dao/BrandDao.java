@@ -79,7 +79,7 @@ public class BrandDao extends AbstractDao {
 	}
 
 	public void update(BrandPojo p) {
-		// Handled by Spring
+		// Handled by Spring itself
 	}
 
 }

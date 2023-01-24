@@ -3,6 +3,7 @@ package com.increff.posapp.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +22,9 @@ public class BrandDto {
 	
 	public void add(BrandForm form) throws ApiException {
 		FormValidator.brandFormValidator(form);
+		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo brandPojo = ConverterDto.convertToBrandPojo(form);
 		brandService.add(brandPojo);
-	}
-	
-	public void delete(Integer id) throws ApiException {
-		brandService.deleteById(id);
 	}
 
 	public BrandData get(Integer id) throws ApiException {
@@ -68,6 +66,7 @@ public class BrandDto {
 
 	public void updateById(Integer id, BrandForm form) throws ApiException {
 		FormValidator.brandFormValidator(form);
+		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo p = ConverterDto.convertToBrandPojo(form);
 		brandService.updateById(id, p);
 	}

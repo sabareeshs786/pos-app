@@ -19,6 +19,7 @@
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/service/OrderService.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/MessageData.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/InitApiController.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/SalesReportData.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/flow/OrderItemFlow.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/LoginForm.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/SalesReportController.java
@@ -42,6 +43,7 @@
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/OrderInMemDao.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/BrandReportController.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/BrandController.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/SalesReportForm.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dto/InventoryReportDto.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/service/AboutAppService.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/InventoryDao.java
@@ -62,6 +64,7 @@
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/pojo/OrderPojo.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dao/BrandInMemDao.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/SampleController.java
+/home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/dto/SalesReportDto.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/spring/WebInitializer.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/model/AboutAppData.java
 /home/sabareeshs/Documents/pos-app-master/src/main/java/com/increff/posapp/controller/AdminApiController.java

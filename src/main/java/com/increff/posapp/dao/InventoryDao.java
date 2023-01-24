@@ -2,8 +2,6 @@ package com.increff.posapp.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -57,7 +55,7 @@ public class InventoryDao extends AbstractDao{
 		return getSingle(query);
 	}
 	
-	public InventoryPojo selectByPId(Integer pid) {
+	public InventoryPojo selectByProductId(Integer pid) {
 		TypedQuery<InventoryPojo> query = getQuery(select_productId, InventoryPojo.class);
 		query.setParameter("productId", pid);
 		return getSingle(query);

@@ -41,19 +41,6 @@ public class OrderService {
 		orderDao.insert(p);
 	}
 
-	    
-	public void deleteById(Integer id) throws ApiException {
-		getCheckById(id);
-		orderDao.deleteById(id);
-	}
-	
-	    
-	public void deleteByTime(LocalDateTime time) throws ApiException {
-		getCheckByTime(time);
-		orderDao.deleteByTime(time);
-	}
-	
-	    
 	public OrderPojo getById(Integer id) throws ApiException {
 		return getCheckById(id);
 	}

@@ -2,7 +2,6 @@ package com.increff.posapp.controller;
 
 import java.util.List;
 
-import com.increff.posapp.flow.OrderFlow;
 import com.increff.posapp.model.OrderItemsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,24 +46,15 @@ public class OrderController {
 	
 	@Autowired
 	private OrderDataDto orderDataDto;
-	
-	@Autowired
-	private OrderFlow orderFlow;
-	
+
 	@Autowired
 	private OrderDto orderDto;
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
 	public void add(@RequestBody OrderForm[] forms) throws ApiException {
-		orderFlow.addOrderDataFlow(forms);
+		orderDto.add(forms);
 	}
-
-//	@ApiOperation(value = "Deletes an order with the order id")
-//	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
-//	public void delete(@PathVariable int id) throws ApiException {
-//		orderFlow.deleteOrderDataFlow(id);
-//	}
 
 	@ApiOperation(value = "Gets an order by ID")
 	@RequestMapping(path = "/api/order/{orderId}", method = RequestMethod.GET)
@@ -78,9 +68,4 @@ public class OrderController {
 		return orderDto.getAll();
 	}
 
-	@ApiOperation(value = "Updates a order")
-	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody OrderForm f) {
-
-	}
 }

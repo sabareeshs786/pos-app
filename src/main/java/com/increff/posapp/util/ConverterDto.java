@@ -42,10 +42,10 @@ public class ConverterDto {
 		return productData;
 	}
 
-	public static ProductPojo convertToProductPojo(ProductForm f, Integer brand_category) {
+	public static ProductPojo convertToProductPojo(ProductForm f, Integer brandCategory) {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
-		p.setBrandCategory(brand_category);
+		p.setBrandCategory(brandCategory);
 		System.out.println(f.getMrp());
 		p.setMrp(DoubleUtil.round(Double.parseDouble(f.getMrp()), 2));
 		p.setName(f.getName());
@@ -127,4 +127,12 @@ public class ConverterDto {
 		return inventoryReportData;
 	}
 
+	public static SalesReportData convertToSalesReportData(SalesReportData salesReportData, String key, Double value, Integer quantity){
+		String[] brandCategoryArr = key.split("--");
+		salesReportData.getBrands().add(brandCategoryArr[0]);
+		salesReportData.getCategories().add(brandCategoryArr[1]);
+		salesReportData.getQuantities().add(quantity);
+		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));
+		return null;
+	}
 }

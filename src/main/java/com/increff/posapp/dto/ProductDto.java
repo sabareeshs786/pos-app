@@ -3,6 +3,7 @@ package com.increff.posapp.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,17 +28,13 @@ public class ProductDto {
 	
 	public void add(ProductForm form) throws ApiException {
 		FormValidator.productFormValidator(form);
+		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
-		Integer brand_category = brandPojo.getId();
-		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brand_category);
-		System.out.printf("Double value: "+productPojo.getMrp());
+		Integer brandCategory = brandPojo.getId();
+		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brandCategory);
 		productService.add(productPojo);
 	}
-	
-	public void deleteById(Integer id) throws ApiException {
-		productService.deleteById(id);
-	}
-	
+
 	public ProductData getById(Integer id) throws ApiException {
 		ProductPojo productPojo = productService.getById(id);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -57,6 +54,7 @@ public class ProductDto {
 	
 	public void updateById(Integer id, ProductForm form) throws ApiException {
 		FormValidator.productFormValidator(form);
+		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());
 		productService.updateById(id, p);

@@ -3,6 +3,7 @@ package com.increff.posapp.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,16 +28,13 @@ public class InventoryDto {
 	
 	public void add(InventoryForm form) throws ApiException {
 		FormValidator.inventoryFormValidator(form);
+		FormNormalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);
 		inventoryService.add(inventoryPojo);
 	}
-	
-	public void deleteById(Integer id) throws ApiException {
-		inventoryService.deleteById(id);
-	}
-	
+
 	public InventoryData getById(Integer id) throws ApiException {
 		InventoryPojo inventoryPojo = inventoryService.getById(id);
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
@@ -47,18 +45,16 @@ public class InventoryDto {
 		List<InventoryPojo> listInventoryPojo = inventoryService.getAll();
 		List<InventoryData> list = new ArrayList<InventoryData>();
 		for(InventoryPojo inventoryPojo: listInventoryPojo) {
-			System.out.println("1) Product id = "+inventoryPojo.getProductId());
 			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
-			System.out.println("2) Product id = "+productPojo.getId());
 			String barcode = productPojo.getBarcode();
 			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));
 		}
-		System.out.println(list);
 		return list;
 	}
 	
 	public void updateById(Integer id, InventoryForm form) throws ApiException {
 		FormValidator.inventoryFormValidator(form);
+		FormNormalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);

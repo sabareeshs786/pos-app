@@ -127,5 +127,13 @@ import com.increff.posapp.service.ApiException;
 <span class="nc" id="L127">		return inventoryReportData;</span>
 	}
 
+	public static SalesReportData convertToSalesReportData(SalesReportData salesReportData, String key, Double value, Integer quantity){
+<span class="nc" id="L131">		String[] brandCategoryArr = key.split(&quot;--&quot;);</span>
+<span class="nc" id="L132">		salesReportData.getBrands().add(brandCategoryArr[0]);</span>
+<span class="nc" id="L133">		salesReportData.getCategories().add(brandCategoryArr[1]);</span>
+<span class="nc" id="L134">		salesReportData.getQuantities().add(quantity);</span>
+<span class="nc" id="L135">		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));</span>
+<span class="nc" id="L136">		return null;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -48,6 +48,7 @@ public class UserDao extends AbstractDao {
 	}
 
 	public void update(UserPojo p) {
+		//Implemented by Spring itself
 	}
 
 

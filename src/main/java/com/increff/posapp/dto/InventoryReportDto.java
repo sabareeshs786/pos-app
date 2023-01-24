@@ -23,12 +23,7 @@ public class InventoryReportDto extends InventoryDto{
         List<InventoryData> inventoryDataList = super.getAll();
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
         for(InventoryData inventoryData: inventoryDataList){
-            System.out.println("Barcode"+inventoryData.getBarcode());
-        }
-        for(InventoryData inventoryData: inventoryDataList){
             ProductPojo productPojo = productService().getByBarcode(inventoryData.getBarcode());
-            System.out.println("Barcode --> "+productPojo.getBarcode());
-            System.out.println("Brand_Category: "+productPojo.getBrandCategory());
             BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
             inventoryReportDataList.add(ConverterDto.convertToInventoryReportData(inventoryData, brandPojo));
         }
