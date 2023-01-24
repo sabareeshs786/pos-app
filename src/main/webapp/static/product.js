@@ -74,19 +74,6 @@ function getProductList(){
 	});
 }
 
-function deleteProduct(id){
-	var url = getProductUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getProductList();  
-	   },
-	   error: handleAjaxError
-	});
-}
-
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
@@ -150,8 +137,7 @@ function displayProductList(data){
     var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var buttonHtml = '<button onclick="deleteProduct(' + data[i].id + ')">delete</button>'
-	buttonHtml += ' <button onclick="displayEditProduct(' + data[i].id + ')">edit</button>'
+	var buttonHtml = ' <button onclick="displayEditProduct(' + data[i].id + ')">edit</button>'
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].barcode + "</td><td>"

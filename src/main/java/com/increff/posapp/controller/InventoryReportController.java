@@ -24,7 +24,6 @@ public class InventoryReportController {
     @ApiOperation(value = "Gets all brands")
     @RequestMapping(path = "/api/inventoryreport", method = RequestMethod.GET)
     public List<InventoryReportData> getAll() throws ApiException {
-        System.out.println("Inventory Reports\n\n\nInventory Reports");
         return inventoryReportDto.getall();
     }
 
