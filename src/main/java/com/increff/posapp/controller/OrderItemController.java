@@ -34,10 +34,7 @@ public class OrderItemController {
 	
 	@Autowired
 	private OrderDataDto orderDataDto;
-	
-	@Autowired
-	private OrderFlow orderFlow;
-	
+
 	@Autowired
 	private OrderDto orderDto;
 
