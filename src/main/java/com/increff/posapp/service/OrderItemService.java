@@ -18,58 +18,11 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemDao orderItemDao;
 
-	@Autowired
-	private OrderDao orderDao;
-
-	   
 	public void add(OrderItemPojo p) throws ApiException {
 		normalize(p);
 		orderItemDao.insert(p);
 	}
 
-	   
-	public void deleteById(Integer id) throws ApiException {
-		OrderItemPojo orderItemPojo = getById(id);
-		Integer orderId = orderItemPojo.getOrderId();
-		orderItemDao.deleteById(id);
-		if (orderItemDao.selectByOrderId(orderId) == null) {
-			orderDao.deleteById(orderId);
-		}
-	}
-
-	   
-	public void deleteByOrderId(Integer orderId) throws ApiException {
-		getCheckByOrderId(orderId);
-		orderItemDao.deleteByOrderId(orderId);
-		orderDao.deleteById(orderId);
-	}
-
-	   
-	public void deleteByProductId(Integer productId) throws ApiException {
-		OrderItemPojo orderItemPojo = getCheckByProductId(productId);
-		Integer orderId = orderItemPojo.getOrderId();
-		orderItemDao.deleteByProductId(productId);
-		if (orderItemDao.selectByOrderId(orderId) == null) {
-			orderDao.deleteById(orderId);
-		}
-	}
-
-	   
-	public void deleteByQuantity(Integer quantity) throws ApiException {
-//		List<OrderItemPojo> orderItemList = getCheckByQuantity(quantity);
-//		for(OrderItemPojo orderItemPojo: orderItemList) {
-//			//TODO
-//		}
-//		orderItemDao.deleteByQuantity(quantity);
-	}
-
-	   
-	public void deleteBySellingPrice(Double sellingPrice) throws ApiException {
-//		getCheckBySellingPrice(sellingPrice);
-//		orderItemDao.deleteBySellingPrice(sellingPrice);
-	}
-
-	   
 	public OrderItemPojo getById(Integer id) throws ApiException {
 		return getCheckById(id);
 	}

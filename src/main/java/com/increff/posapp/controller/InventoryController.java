@@ -29,13 +29,6 @@ public class InventoryController {
 		inventoryDto.add(form);
 	}
 
-	
-	@ApiOperation(value = "Deletes an inventory by id")
-	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Integer id) throws ApiException {
-		inventoryDto.deleteById(id);
-	}
-
 	@ApiOperation(value = "Gets a inventory by id")
 	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
 	public InventoryData get(@PathVariable Integer id) throws ApiException {

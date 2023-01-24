@@ -1,5 +1,7 @@
 package com.increff.posapp.pojo;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -25,7 +27,11 @@ public class OrderPojo {
 	@Column(name = "time", nullable = false)
 	private ZonedDateTime time;
 	
-	
+	public OrderPojo(String zone){
+		LocalDateTime localDateTime = LocalDateTime.now();
+		ZoneId india = ZoneId.of(zone);
+		this.time = ZonedDateTime.of(localDateTime, india);
+	}
 	@Override
 	public String toString() {
 		return "OrderPojo [id=" + id + ", time=" + time + "]";

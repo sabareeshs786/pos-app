@@ -29,13 +29,6 @@ public class ProductController {
 		productDto.add(form);
 	}
 
-	
-	@ApiOperation(value = "Deletes a product by product id")
-	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.DELETE)
-	public void deleteById(@PathVariable Integer id) throws ApiException {
-		productDto.deleteById(id);
-	}
-
 	@ApiOperation(value = "Gets a product by product id")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
 	public ProductData getById(@PathVariable Integer id) throws ApiException {

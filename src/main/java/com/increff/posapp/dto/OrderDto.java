@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.util.ConverterDto;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,11 @@ public class OrderDto {
 
 	@Autowired
 	private OrderItemService orderItemService;
-	
+
+	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm[] forms) throws ApiException {
 
-		OrderPojo orderPojo = ConverterDto.convertToOrderPojo();
+		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
 
 		for(OrderForm form: forms) {
@@ -71,9 +73,6 @@ public class OrderDto {
 			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));
 		}
 		return list2;
-	}
-	public void update(Integer id){
-		OrderPojo p = new OrderPojo();
 	}
 
 	private void validateMrp(OrderForm form, Double mrp) throws ApiException {

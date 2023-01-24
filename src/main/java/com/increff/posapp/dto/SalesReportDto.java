@@ -1,7 +1,5 @@
 package com.increff.posapp.dto;
 
-import com.increff.posapp.model.InventoryData;
-import com.increff.posapp.model.InventoryReportData;
 import com.increff.posapp.model.SalesReportData;
 import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.pojo.BrandPojo;
@@ -16,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 @Component
@@ -60,8 +56,8 @@ public class SalesReportDto extends InventoryDto{
             zonedDateTimeSet.add(orderPojo.getTime());
         }
         List<ZonedDateTime> zonedDateTimeList = new ArrayList<>(zonedDateTimeSet);
-        salesReportData.setStartDate(DateTimeUtil.getDateTime(zonedDateTimeList.get(0), "dd/MM/yyyy - hh:mm:ss"));
-        salesReportData.setEndDate(DateTimeUtil.getDateTime(zonedDateTimeList.get(zonedDateTimeList.size() -1), "dd/MM/yyyy - hh:mm:ss"));
+        salesReportData.setStartDate(DateTimeUtil.getDateTimeString(zonedDateTimeList.get(0), "dd/MM/yyyy - hh:mm:ss"));
+        salesReportData.setEndDate(DateTimeUtil.getDateTimeString(zonedDateTimeList.get(zonedDateTimeList.size() -1), "dd/MM/yyyy - hh:mm:ss"));
         salesReportData.setGrandTotal(DoubleUtil.roundToString(grandTotal));
         for(Map.Entry<String, Double> entry: sm1.entrySet()){
             Integer quantity = sm2.get(entry.getKey());

@@ -3,7 +3,6 @@ package com.increff.posapp.util;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 import com.increff.posapp.model.*;
 
@@ -71,7 +70,7 @@ public class ConverterDto {
 		OrderData orderData = new OrderData();
 		orderData.setId(orderPojo.getId());
 		String format = "MM/dd/yyyy - HH:mm:ss";
-		orderData.setTime(DateTimeUtil.getDateTime(orderPojo.getTime(), format));
+		orderData.setTime(DateTimeUtil.getDateTimeString(orderPojo.getTime(), format));
 		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
 		return orderData;
 	}
@@ -83,14 +82,6 @@ public class ConverterDto {
 		orderItemPojo.setQuantity(form.getQuantity());
 		orderItemPojo.setSellingPrice(form.getSellingPrice());
 		return orderItemPojo;
-	}
-	public static OrderPojo convertToOrderPojo() throws ApiException{
-		OrderPojo p = new OrderPojo();
-		LocalDateTime localDateTime = LocalDateTime.now();
-		ZoneId india = ZoneId.of("Asia/Kolkata");
-		ZonedDateTime zone1 = ZonedDateTime.of(localDateTime, india);
-		p.setTime(zone1);
-		return p;
 	}
 
 	public static OrderItemsData convertToOrderItemsData(OrderItemPojo orderItemPojo, ProductPojo productPojo){

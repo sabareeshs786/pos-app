@@ -1,6 +1,7 @@
 package com.increff.posapp.dao;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -46,7 +47,7 @@ public class OrderDao extends AbstractDao{
 		return getSingle(query);
 	}
 	
-	public List<OrderPojo> selectByTime(LocalDateTime time) {
+	public List<OrderPojo> selectByTime(ZonedDateTime time) {
 		TypedQuery<OrderPojo> query = getQuery(select_time, OrderPojo.class);
 		query.setParameter("time", time);
 		return query.getResultList();

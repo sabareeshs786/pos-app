@@ -27,26 +27,8 @@ import io.swagger.annotations.ApiOperation;
 @Api
 @RestController
 public class OrderController {
-
-	@Autowired
-	private ProductService productService;
-
-	@Autowired
-	private InventoryService inventoryService;
-
-	@Autowired
-	private OrderService orderService;
-
-	@Autowired
-	private OrderItemService orderItemService;
-
-
 	@Autowired
 	private OrderItemDto orderItemDto;
-	
-	@Autowired
-	private OrderDataDto orderDataDto;
-
 	@Autowired
 	private OrderDto orderDto;
 

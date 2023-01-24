@@ -1,6 +1,7 @@
 package com.increff.posapp.service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -20,23 +21,10 @@ public class OrderService {
 
 	@Autowired
 	private OrderDao orderDao;
-	
-	@Autowired
-	private OrderItemDao orderItemDao;
 
-	    
 	public void add(OrderPojo p) throws ApiException {
-		if(p.getTime() == null) {
-			throw new ApiException("Date and Time cannot be null");
-		}
-		LocalDateTime currentTime = LocalDateTime.now();
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String formattedDateTime = p.getTime().format(dateTimeFormatter);
-		String formattedCurrentDateTime = currentTime.format(dateTimeFormatter);
-		if(! formattedDateTime.substring(0,16).equals(formattedCurrentDateTime.substring(0, 16))) {
-			throw new ApiException("Order cannot be placed now");
-		}
-		
+		validate(p);
+
 		// Inserting the order
 		orderDao.insert(p);
 	}
@@ -44,13 +32,11 @@ public class OrderService {
 	public OrderPojo getById(Integer id) throws ApiException {
 		return getCheckById(id);
 	}
-	
-	    
-	public List<OrderPojo> getByTime(LocalDateTime time) throws ApiException {
+
+	public List<OrderPojo> getByTime(ZonedDateTime time) throws ApiException {
 		return getCheckByTime(time);
 	}
 
-	    
 	public List<OrderPojo> getAll() {
 		return orderDao.selectAll();
 	}
@@ -61,15 +47,14 @@ public class OrderService {
 		orderDao.update(ex);
 	}
 
-	public void updateByTime(LocalDateTime time, OrderPojo p) throws ApiException {
+	public void updateByTime(ZonedDateTime time, OrderPojo p) throws ApiException {
 		List<OrderPojo> list = getCheckByTime(time);
 		for(OrderPojo ex: list) {
 		ex.setTime(p.getTime());
 		orderDao.update(ex);
 		}
 	}
-	
-	    
+
 	public OrderPojo getCheckById(Integer id) throws ApiException {
 		OrderPojo p = orderDao.selectById(id);
 		if (p == null) {
@@ -77,14 +62,18 @@ public class OrderService {
 		}
 		return p;
 	}
-	
-	    
-	public List<OrderPojo> getCheckByTime(LocalDateTime time) throws ApiException {
+
+	public List<OrderPojo> getCheckByTime(ZonedDateTime time) throws ApiException {
 		List<OrderPojo> list = orderDao.selectByTime(time);
 		if(list.isEmpty()) {
-			throw new ApiException("Order wit the given time doesnot exist");
+			throw new ApiException("Order with the given time doesn't exist");
 		}
 		return list;
 	}
-	
+
+	private void validate(OrderPojo p) throws ApiException {
+		if(p.getTime() == null) {
+			throw new ApiException("Date and Time cannot be null");
+		}
+	}
 }

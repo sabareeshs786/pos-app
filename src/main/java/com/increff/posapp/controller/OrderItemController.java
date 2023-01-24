@@ -17,38 +17,7 @@ import java.util.List;
 public class OrderItemController {
 
 	@Autowired
-	private ProductService productService;
-
-	@Autowired
-	private InventoryService inventoryService;
-
-	@Autowired
-	private OrderService orderService;
-
-	@Autowired
-	private OrderItemService orderItemService;
-
-
-	@Autowired
 	private OrderItemDto orderItemDto;
-	
-	@Autowired
-	private OrderDataDto orderDataDto;
-
-	@Autowired
-	private OrderDto orderDto;
-
-//	@ApiOperation(value = "Adds an order")
-//	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-//	public void add(@RequestBody OrderForm[] forms) throws ApiException {
-//			orderFlow.addOrderDataFlow(forms);
-//	}
-
-//	@ApiOperation(value = "Deletes an order with the order id")
-//	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
-//	public void delete(@PathVariable int id) throws ApiException {
-//		orderFlow.deleteOrderDataFlow(id);
-//	}
 
 	@ApiOperation(value = "Gets an order by ID")
 	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.GET)

@@ -33,11 +33,6 @@ public class OrderItemDto {
 
 	@Autowired
 	private InventoryService inventoryService;
-	
-	public void add(OrderForm form, OrderPojo orderPojo, Integer productId) throws ApiException{
-		OrderItemPojo orderItemPojo = ConverterDto.convertToOrderItemPojo(form, orderPojo, productId);
-		orderItemService.add(orderItemPojo);
-	}
 
 	public List<OrderItemsData> getByOrderId(Integer orderId) throws ApiException {
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
@@ -47,12 +42,6 @@ public class OrderItemDto {
 			list.add(ConverterDto.convertToOrderItemsData(orderItemPojo, productPojo));
 		}
 		return list;
-	}
-
-	public OrderItemsData getById(Integer id) throws ApiException {
-		OrderItemPojo orderItemPojo = orderItemService.getById(id);
-		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-		return ConverterDto.convertToOrderItemsData(orderItemPojo, productPojo);
 	}
 
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
@@ -87,10 +76,9 @@ public class OrderItemDto {
 			isSellingPriceValid(orderItemEditForm);
 			updateSellingPrice(orderItemPojo, orderItemEditForm);
 		}
-		else{
-			return;
-		}
 	}
+
+	// Change detection
 	private boolean isProductChange(OrderItemPojo orderItemPojo, OrderItemEditForm orderItemEditForm) throws ApiException {
 		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 		if(orderItemEditForm.getBarcode().equals(productPojo.getBarcode())){
@@ -111,6 +99,7 @@ public class OrderItemDto {
 		}
 		return false;
 	}
+	// Inundation
 	private void updateProduct(OrderItemPojo orderItemPojo, OrderItemEditForm orderItemEditForm) throws ApiException {
 		//INVENTORY UPDATING
 		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());
@@ -164,7 +153,7 @@ public class OrderItemDto {
 	}
 	private void updateOrderPojo(OrderItemPojo orderItemPojo) throws ApiException {
 		OrderPojo orderPojo = orderService.getById(orderItemPojo.getOrderId());
-		orderPojo.setTime(DateTimeUtil.getZonedDateTimeIndia());
+		orderPojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
 		orderService.updateById(orderPojo.getId(), orderPojo);
 	}
 	private void checkInventory(OrderItemEditForm orderItemEditForm) throws ApiException {
@@ -177,6 +166,7 @@ public class OrderItemDto {
 		}
 	}
 
+	// Validation
 	private void isBarcodeValid(OrderItemEditForm orderItemEditForm) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
 	}
