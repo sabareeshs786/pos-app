@@ -3,6 +3,7 @@ package com.increff.posapp.util;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 import com.increff.posapp.model.*;
 
@@ -12,6 +13,7 @@ import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
+import io.swagger.models.auth.In;
 
 public class ConverterDto {
 	public static BrandData convertToBrandData(BrandPojo p) {
@@ -69,7 +71,7 @@ public class ConverterDto {
 	public static OrderData convertToOrderData(OrderPojo orderPojo, Double totalAmount) {
 		OrderData orderData = new OrderData();
 		orderData.setId(orderPojo.getId());
-		String format = "MM/dd/yyyy - HH:mm:ss";
+		String format = "dd/MM/yyyy - HH:mm:ss";
 		orderData.setTime(DateTimeUtil.getDateTimeString(orderPojo.getTime(), format));
 		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
 		return orderData;
@@ -124,6 +126,6 @@ public class ConverterDto {
 		salesReportData.getCategories().add(brandCategoryArr[1]);
 		salesReportData.getQuantities().add(quantity);
 		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));
-		return null;
+		return salesReportData;
 	}
 }

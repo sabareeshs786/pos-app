@@ -3,7 +3,8 @@ function getBrandReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/brandreport";
 }
-
+//Global variables
+var downloadContent = "";
 //BUTTON ACTIONS
 
 function getBrandList(){
@@ -14,6 +15,7 @@ function getBrandList(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
+			downloadContent = data;
 	   		displayBrandList(data);  
 	   },
 	   error: handleAjaxError
@@ -34,6 +36,7 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
+				downloadContent = data;
 					displayBrandList1(data);  
 			},
 			error: handleAjaxError
@@ -47,7 +50,8 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayBrandList(data);  
+				downloadContent = data;
+				displayBrandList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -60,7 +64,8 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayBrandList(data);  
+				downloadContent = data;
+				displayBrandList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -97,11 +102,48 @@ function displayBrandList(data){
 	}
 	
 }
+function writeBrandReportFileData(arr){
+	var config = {
+		quoteChar: '',
+		escapeChar: '',
+		delimiter: "\t"
+	};
+	
+	var data = Papa.unparse(arr, config);
+    var blob = new Blob([data], {type: 'text/tab-separated-values;charset=utf-8;'});
+    var fileUrl =  null;
+
+    if (navigator.msSaveBlob) {
+        fileUrl = navigator.msSaveBlob(blob, 'brandreport.tsv');
+    } else {
+        fileUrl = window.URL.createObjectURL(blob);
+    }
+    var tempLink = document.createElement('a');
+    tempLink.href = fileUrl;
+    tempLink.setAttribute('download', 'brandreport.tsv');
+    tempLink.click();
+}
+
+function downloadReport(){
+	var url = getBrandReportUrl();
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+	   		writeBrandReportFileData(downloadContent); 
+	   },
+	   error: handleAjaxError
+	});
+	return false;
+}
 
 //INITIALIZATION CODE
 function init(){
 	$('#process-data').click(processData);
-	$('#refresh-data').click(getBrandList)
+	$('#refresh-data').click(getBrandList);
+	$('#download-data').click(downloadReport)
 }
 
 $(document).ready(init);

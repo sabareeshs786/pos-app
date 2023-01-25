@@ -1,9 +1,15 @@
 package com.increff.posapp.controller;
 
 import com.increff.posapp.dto.BrandDto;
+import com.increff.posapp.dto.BrandReportDto;
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.service.ApiException;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Api
@@ -20,6 +29,9 @@ public class BrandReportController {
 
     @Autowired
     private BrandDto brandDto;
+
+    @Autowired
+    private BrandReportDto brandReportDto;
 
     @ApiOperation(value = "Gets all brands")
     @RequestMapping(path = "/api/brandreport", method = RequestMethod.GET)
@@ -44,4 +56,10 @@ public class BrandReportController {
     public BrandData getByBrandAndCategory(@PathVariable String brand, @PathVariable String category) throws ApiException {
         return brandDto.getByBrandandCategory(brand, category);
     }
+
+//    @RequestMapping(value = "/api/brandreport/download", method = RequestMethod.GET)
+//    public ResponseEntity<byte[]> download() throws IOException, ApiException {
+//        return brandReportDto.getAll();
+//    }
+
 }

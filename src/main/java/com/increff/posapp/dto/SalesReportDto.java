@@ -43,7 +43,7 @@ public class SalesReportDto extends InventoryDto{
                 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
                 brandCategory = brandPojo.getBrand() +"--" + brandPojo.getCategory();
-                if(sm1.containsKey(brandCategory) && sm2.containsKey(brandCategory)){
+                if(sm1.containsKey(brandCategory)){
                     sm1.put(brandCategory, sm1.get(brandCategory) + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
                     sm2.put(brandCategory, sm2.get(brandCategory) + orderItemPojo.getQuantity());
                 }
@@ -63,10 +63,14 @@ public class SalesReportDto extends InventoryDto{
             Integer quantity = sm2.get(entry.getKey());
             ConverterDto.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);
         }
+        System.out.println(salesReportData.getTotalAmounts());
         return salesReportData;
     }
 
     public List<SalesReportData> getData(SalesReportForm salesReportForm) throws ApiException {
+        salesReportForm.setStartDate(salesReportForm.getStartDate() + " 00:00:00");
+        salesReportForm.setEndDate(salesReportForm.getEndDate() + " 00:00:00");
+
         return null;
     }
 }

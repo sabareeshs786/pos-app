@@ -8,132 +8,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.InventoryDao;
-import com.increff.posapp.dao.ProductDao;
 import com.increff.posapp.pojo.InventoryPojo;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L16">public class InventoryService {</span>
+<span class="fc" id="L15">public class InventoryService {</span>
 
 	@Autowired
 	private InventoryDao inventoryDao;
 
-	@Autowired
-	private ProductDao productDao;
-
-	@Autowired
-	private ProductService productService;
-
-	 
 	public void add(InventoryPojo inventoryPojo) throws ApiException {
 
-<span class="nc bnc" id="L30" title="All 2 branches missed.">		if (productDao.selectById(inventoryPojo.getProductId()) == null) {</span>
-<span class="nc" id="L31">			throw new ApiException(&quot;Product doesn't exist&quot;);</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">		if (inventoryDao.selectByProductId(inventoryPojo.getProductId()) != null) {</span>
+<span class="nc" id="L23">			InventoryPojo p = inventoryDao.selectByProductId(inventoryPojo.getProductId());</span>
+<span class="nc" id="L24">			Integer q = p.getQuantity();</span>
+<span class="nc" id="L25">			p.setQuantity(q + inventoryPojo.getQuantity());</span>
+<span class="nc" id="L26">			return;</span>
 		}
+<span class="nc" id="L28">		inventoryDao.insert(inventoryPojo);</span>
+<span class="nc" id="L29">	}</span>
 
-<span class="nc bnc" id="L34" title="All 2 branches missed.">		if (inventoryDao.selectByPId(inventoryPojo.getProductId()) != null) {</span>
-<span class="nc" id="L35">			InventoryPojo p = inventoryDao.selectByPId(inventoryPojo.getProductId());</span>
-<span class="nc" id="L36">			Integer q = p.getQuantity();</span>
-<span class="nc" id="L37">			p.setQuantity(q + inventoryPojo.getQuantity());</span>
-<span class="nc" id="L38">			return;</span>
-		}
-
-<span class="nc" id="L41">		inventoryDao.insert(inventoryPojo);</span>
-<span class="nc" id="L42">	}</span>
-
-	// For deletion
-	  
-	public void deleteById(int id) throws ApiException {
-<span class="nc" id="L47">		getCheckId(id);</span>
-<span class="nc" id="L48">		inventoryDao.deleteById(id);</span>
-<span class="nc" id="L49">	}</span>
-
-	  
-	public void deleteByProductId(Integer pId) throws ApiException {
-<span class="nc" id="L53">		productService.getCheckById(pId);</span>
-<span class="nc" id="L54">		getCheckPId(pId);</span>
-<span class="nc" id="L55">		inventoryDao.deleteByProductId(pId);</span>
-<span class="nc" id="L56">	}</span>
-
-	  
-	public void deleteByQuantity(Integer quantity) {
-<span class="nc" id="L60">		inventoryDao.deleteByQuantity(quantity);</span>
-<span class="nc" id="L61">	}</span>
-
-	// For getting data
-	 
 	public InventoryPojo getById(int id) throws ApiException {
-<span class="nc" id="L66">		return getCheckId(id);</span>
+<span class="nc" id="L32">		return getCheckId(id);</span>
 	}
 
 	  
-	public InventoryPojo getByPid(int pid) throws ApiException {
-<span class="nc" id="L71">		return getCheckPId(pid);</span>
+	public InventoryPojo getByProductId(int pid) throws ApiException {
+<span class="nc" id="L37">		return getCheckProductId(pid);</span>
 	}
 
-	 
-	public List&lt;InventoryPojo&gt; getByQuantity(Integer quantity) throws ApiException {
-<span class="nc" id="L76">		return getCheckQuantity(quantity);</span>
-	}
-
-	  
 	public List&lt;InventoryPojo&gt; getAll() {
-<span class="nc" id="L81">		return inventoryDao.selectAll();</span>
+<span class="nc" id="L41">		return inventoryDao.selectAll();</span>
 	}
 
 	 
 	public void updateById(int id, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L86">		InventoryPojo ex = getById(id);</span>
-<span class="nc" id="L87">		ex.setProductId(inventoryPojo.getProductId());</span>
-<span class="nc" id="L88">		ex.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L89">		inventoryDao.update(ex);</span>
-<span class="nc" id="L90">	}</span>
+<span class="nc" id="L46">		InventoryPojo ex = getById(id);</span>
+<span class="nc" id="L47">		ex.setProductId(inventoryPojo.getProductId());</span>
+<span class="nc" id="L48">		ex.setQuantity(inventoryPojo.getQuantity());</span>
+<span class="nc" id="L49">		inventoryDao.update(ex);</span>
+<span class="nc" id="L50">	}</span>
 
 	 
-	public void updateByPid(Integer pid, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L94">		InventoryPojo ex = getByPid(pid);</span>
-<span class="nc" id="L95">		ex.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L96">		inventoryDao.update(ex);</span>
-<span class="nc" id="L97">	}</span>
+	public void updateByProductId(Integer pid, InventoryPojo inventoryPojo) throws ApiException {
+<span class="nc" id="L54">		InventoryPojo ex = getByProductId(pid);</span>
+<span class="nc" id="L55">		ex.setQuantity(inventoryPojo.getQuantity());</span>
+<span class="nc" id="L56">		inventoryDao.update(ex);</span>
+<span class="nc" id="L57">	}</span>
 
-	 
-	public void updateByQuantity(Integer quantity, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L101">		List&lt;InventoryPojo&gt; list = getByQuantity(quantity);</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">		for (InventoryPojo ex : list) {</span>
-<span class="nc" id="L103">			ex.setProductId(inventoryPojo.getProductId());</span>
-<span class="nc" id="L104">			ex.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L105">			inventoryDao.update(ex);</span>
-<span class="nc" id="L106">		}</span>
-<span class="nc" id="L107">	}</span>
-
-	  
-	public InventoryPojo getCheckId(int id) throws ApiException {
-<span class="nc" id="L111">		InventoryPojo inventoryPojo = inventoryDao.selectById(id);</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
-<span class="nc" id="L113">			throw new ApiException(&quot;Item with given ID does not exit in the inventory&quot;);</span>
+	private InventoryPojo getCheckId(int id) throws ApiException {
+<span class="nc" id="L60">		InventoryPojo inventoryPojo = inventoryDao.selectById(id);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
+<span class="nc" id="L62">			throw new ApiException(&quot;Item with given ID does not exit in the inventory&quot;);</span>
 		}
-<span class="nc" id="L115">		return inventoryPojo;</span>
+<span class="nc" id="L64">		return inventoryPojo;</span>
 	}
 
-	  
-	private InventoryPojo getCheckPId(int pid) throws ApiException {
-<span class="nc" id="L120">		InventoryPojo inventoryPojo = inventoryDao.selectByPId(pid);</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
-<span class="nc" id="L122">			throw new ApiException(&quot;Item with given Product ID does not exist in the inventory&quot;);</span>
+	private InventoryPojo getCheckProductId(int productId) throws ApiException {
+<span class="nc" id="L68">		InventoryPojo inventoryPojo = inventoryDao.selectByProductId(productId);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
+<span class="nc" id="L70">			throw new ApiException(&quot;Item with given Product ID does not exist in the inventory&quot;);</span>
 		}
-<span class="nc" id="L124">		return inventoryPojo;</span>
+<span class="nc" id="L72">		return inventoryPojo;</span>
 	}
-
-	  
-	public List&lt;InventoryPojo&gt; getCheckQuantity(Integer quantity) throws ApiException {
-<span class="nc" id="L129">		List&lt;InventoryPojo&gt; list = inventoryDao.selectByQuantity(quantity);</span>
-<span class="nc bnc" id="L130" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
-<span class="nc" id="L131">			throw new ApiException(&quot;Item with given quantity does not exist in the inventory&quot;);</span>
-		}
-<span class="nc" id="L133">		return list;</span>
-	}
-
-	private void validate(){
-<span class="nc" id="L137">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

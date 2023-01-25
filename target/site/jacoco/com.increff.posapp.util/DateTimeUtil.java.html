@@ -6,16 +6,24 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 <span class="nc" id="L8">public class DateTimeUtil {</span>
-    public static String getDateTime(ZonedDateTime zonedDateTime, String pattern){
+    public static String getDateTimeString(ZonedDateTime zonedDateTime, String pattern){
 <span class="nc" id="L10">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);</span>
 <span class="nc" id="L11">        return zonedDateTime.format(formatter);</span>
     }
 
-    public static ZonedDateTime getZonedDateTimeIndia(){
+    public static ZonedDateTime getZonedDateTime(String zone){
 <span class="nc" id="L15">        LocalDateTime localDateTime = LocalDateTime.now();</span>
-<span class="nc" id="L16">        ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
-<span class="nc" id="L17">        ZonedDateTime zoneIndia = ZonedDateTime.of(localDateTime, india);</span>
-<span class="nc" id="L18">        return zoneIndia;</span>
+<span class="nc" id="L16">        ZoneId zoneId = ZoneId.of(zone);</span>
+<span class="nc" id="L17">        return ZonedDateTime.of(localDateTime, zoneId);</span>
     }
+
+    public static String getZonedDateTimeIndiaAsString(){
+<span class="nc" id="L21">        LocalDateTime currentTime = LocalDateTime.now();</span>
+<span class="nc" id="L22">        ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
+<span class="nc" id="L23">        ZonedDateTime zoneIndia = ZonedDateTime.of(currentTime, india);</span>
+<span class="nc" id="L24">        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="nc" id="L25">        return currentTime.format(dateTimeFormatter);</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

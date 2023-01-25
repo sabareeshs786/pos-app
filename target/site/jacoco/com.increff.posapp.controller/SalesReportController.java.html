@@ -27,9 +27,10 @@ import java.util.List;
     }
 
     @ApiOperation(value = &quot;Gets all details of a specific brand&quot;)
-    @RequestMapping(path = &quot;/api/salesreport/brand/{brand}&quot;, method = RequestMethod.GET)
-    public List&lt;SalesReportData&gt; getData(@RequestHeader SalesReportForm salesReportForm) throws ApiException {
-<span class="nc" id="L32">        return salesReportDto.getData(salesReportForm);</span>
+    @RequestMapping(path = &quot;/api/salesreport/filter&quot;, method = RequestMethod.POST)
+    public List&lt;SalesReportData&gt; getData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
+<span class="nc" id="L32">        System.out.println(salesReportForm);</span>
+<span class="nc" id="L33">        return salesReportDto.getData(salesReportForm);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

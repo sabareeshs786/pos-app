@@ -29,30 +29,23 @@ import io.swagger.annotations.ApiOperation;
 <span class="nc" id="L29">		inventoryDto.add(form);</span>
 <span class="nc" id="L30">	}</span>
 
-	
-	@ApiOperation(value = &quot;Deletes an inventory by id&quot;)
-	@RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.DELETE)
-	public void delete(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L36">		inventoryDto.deleteById(id);</span>
-<span class="nc" id="L37">	}</span>
-
 	@ApiOperation(value = &quot;Gets a inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.GET)
 	public InventoryData get(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L42">		return inventoryDto.getById(id);</span>
+<span class="nc" id="L35">		return inventoryDto.getById(id);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets the whole inventory&quot;)
 	@RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.GET)
 	public List&lt;InventoryData&gt; getAll() throws ApiException {
-<span class="nc" id="L48">		return inventoryDto.getAll();</span>
+<span class="nc" id="L41">		return inventoryDto.getAll();</span>
 	}
 
 	@ApiOperation(value = &quot;Updates the inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody InventoryForm f) throws ApiException {
-<span class="nc" id="L54">		inventoryDto.updateById(id, f);</span>
-<span class="nc" id="L55">	}</span>
+<span class="nc" id="L47">		inventoryDto.updateById(id, f);</span>
+<span class="nc" id="L48">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -18,146 +18,99 @@ import com.increff.posapp.util.DoubleUtil;
 	@Autowired
 	private OrderItemDao orderItemDao;
 
-	@Autowired
-	private OrderDao orderDao;
-
-	   
 	public void add(OrderItemPojo p) throws ApiException {
-<span class="nc" id="L26">		normalize(p);</span>
-<span class="nc" id="L27">		orderItemDao.insert(p);</span>
-<span class="nc" id="L28">	}</span>
+<span class="nc" id="L22">		normalize(p);</span>
+<span class="nc" id="L23">		orderItemDao.insert(p);</span>
+<span class="nc" id="L24">	}</span>
 
-	   
-	public void deleteById(Integer id) throws ApiException {
-<span class="nc" id="L32">		OrderItemPojo orderItemPojo = getById(id);</span>
-<span class="nc" id="L33">		Integer orderId = orderItemPojo.getOrderId();</span>
-<span class="nc" id="L34">		orderItemDao.deleteById(id);</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">		if (orderItemDao.selectByOrderId(orderId) == null) {</span>
-<span class="nc" id="L36">			orderDao.deleteById(orderId);</span>
-		}
-<span class="nc" id="L38">	}</span>
-
-	   
-	public void deleteByOrderId(Integer orderId) throws ApiException {
-<span class="nc" id="L42">		getCheckByOrderId(orderId);</span>
-<span class="nc" id="L43">		orderItemDao.deleteByOrderId(orderId);</span>
-<span class="nc" id="L44">		orderDao.deleteById(orderId);</span>
-<span class="nc" id="L45">	}</span>
-
-	   
-	public void deleteByProductId(Integer productId) throws ApiException {
-<span class="nc" id="L49">		OrderItemPojo orderItemPojo = getCheckByProductId(productId);</span>
-<span class="nc" id="L50">		Integer orderId = orderItemPojo.getOrderId();</span>
-<span class="nc" id="L51">		orderItemDao.deleteByProductId(productId);</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">		if (orderItemDao.selectByOrderId(orderId) == null) {</span>
-<span class="nc" id="L53">			orderDao.deleteById(orderId);</span>
-		}
-<span class="nc" id="L55">	}</span>
-
-	   
-	public void deleteByQuantity(Integer quantity) throws ApiException {
-//		List&lt;OrderItemPojo&gt; orderItemList = getCheckByQuantity(quantity);
-//		for(OrderItemPojo orderItemPojo: orderItemList) {
-//			//TODO
-//		}
-//		orderItemDao.deleteByQuantity(quantity);
-<span class="nc" id="L64">	}</span>
-
-	   
-	public void deleteBySellingPrice(Double sellingPrice) throws ApiException {
-//		getCheckBySellingPrice(sellingPrice);
-//		orderItemDao.deleteBySellingPrice(sellingPrice);
-<span class="nc" id="L70">	}</span>
-
-	   
 	public OrderItemPojo getById(Integer id) throws ApiException {
-<span class="nc" id="L74">		return getCheckById(id);</span>
+<span class="nc" id="L27">		return getCheckById(id);</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getByOrderId(Integer orderId) throws ApiException {
-<span class="nc" id="L79">		return getCheckByOrderId(orderId);</span>
+<span class="nc" id="L32">		return getCheckByOrderId(orderId);</span>
 	}
 
 	   
 	public OrderItemPojo getByProductId(Integer productId) throws ApiException {
-<span class="nc" id="L84">		return getCheckByProductId(productId);</span>
+<span class="nc" id="L37">		return getCheckByProductId(productId);</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getByQuantity(Integer quantity) throws ApiException {
-<span class="nc" id="L89">		return getCheckByQuantity(quantity);</span>
+<span class="nc" id="L42">		return getCheckByQuantity(quantity);</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getBySellingPrice(Double sellingPrice) throws ApiException {
-<span class="nc" id="L94">		return getCheckBySellingPrice(sellingPrice);</span>
+<span class="nc" id="L47">		return getCheckBySellingPrice(sellingPrice);</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getAll() {
-<span class="nc" id="L99">		return orderItemDao.selectAll();</span>
+<span class="nc" id="L52">		return orderItemDao.selectAll();</span>
 	}
 
 	// For updation
 	   
 	public void updateById(Integer id, OrderItemPojo p) throws ApiException {
-<span class="nc" id="L105">		normalize(p);</span>
-<span class="nc" id="L106">		OrderItemPojo ex = getCheckById(id);</span>
-<span class="nc" id="L107">		ex.setOrderId(p.getOrderId());</span>
-<span class="nc" id="L108">		ex.setProductId(p.getProductId());</span>
-<span class="nc" id="L109">		ex.setQuantity(p.getQuantity());</span>
-<span class="nc" id="L110">		ex.setSellingPrice(p.getSellingPrice());</span>
-<span class="nc" id="L111">		orderItemDao.update(ex);</span>
-<span class="nc" id="L112">	}</span>
+<span class="nc" id="L58">		normalize(p);</span>
+<span class="nc" id="L59">		OrderItemPojo ex = getCheckById(id);</span>
+<span class="nc" id="L60">		ex.setOrderId(p.getOrderId());</span>
+<span class="nc" id="L61">		ex.setProductId(p.getProductId());</span>
+<span class="nc" id="L62">		ex.setQuantity(p.getQuantity());</span>
+<span class="nc" id="L63">		ex.setSellingPrice(p.getSellingPrice());</span>
+<span class="nc" id="L64">		orderItemDao.update(ex);</span>
+<span class="nc" id="L65">	}</span>
 
 	   
 	public OrderItemPojo getCheckById(Integer id) throws ApiException {
-<span class="nc" id="L116">		OrderItemPojo p = orderItemDao.selectById(id);</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L118">			throw new ApiException(&quot;Band Category combination with given ID does not exit, id: &quot; + id);</span>
+<span class="nc" id="L69">		OrderItemPojo p = orderItemDao.selectById(id);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L71">			throw new ApiException(&quot;Band Category combination with given ID does not exit, id: &quot; + id);</span>
 		}
-<span class="nc" id="L120">		return p;</span>
+<span class="nc" id="L73">		return p;</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getCheckByOrderId(Integer orderId) throws ApiException {
-<span class="nc" id="L125">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectByOrderId(orderId);</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
-<span class="nc" id="L127">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
+<span class="nc" id="L78">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectByOrderId(orderId);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
+<span class="nc" id="L80">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L129">		return list;</span>
+<span class="nc" id="L82">		return list;</span>
 	}
 
 	   
 	public OrderItemPojo getCheckByProductId(Integer productId) throws ApiException {
-<span class="nc" id="L134">		OrderItemPojo p = orderItemDao.selectByProductId(productId);</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L136">			throw new ApiException(&quot;Order with product Id doesnot exist&quot;);</span>
+<span class="nc" id="L87">		OrderItemPojo p = orderItemDao.selectByProductId(productId);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L89">			throw new ApiException(&quot;Order with product Id doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L138">		return p;</span>
+<span class="nc" id="L91">		return p;</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getCheckByQuantity(Integer quantity) throws ApiException {
-<span class="nc" id="L143">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectByQuantity(quantity);</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
-<span class="nc" id="L145">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
+<span class="nc" id="L96">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectByQuantity(quantity);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
+<span class="nc" id="L98">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L147">		return list;</span>
+<span class="nc" id="L100">		return list;</span>
 	}
 
 	   
 	public List&lt;OrderItemPojo&gt; getCheckBySellingPrice(Double sellingPrice) throws ApiException {
-<span class="nc" id="L152">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectBySellingPrice(sellingPrice);</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
-<span class="nc" id="L154">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
+<span class="nc" id="L105">		List&lt;OrderItemPojo&gt; list = orderItemDao.selectBySellingPrice(sellingPrice);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		if (list.isEmpty()) {</span>
+<span class="nc" id="L107">			throw new ApiException(&quot;Order Id doesnot exist&quot;);</span>
 		}
-<span class="nc" id="L156">		return list;</span>
+<span class="nc" id="L109">		return list;</span>
 	}
 
 	protected static void normalize(OrderItemPojo p) {
-<span class="nc" id="L160">		p.setSellingPrice(DoubleUtil.round(p.getSellingPrice(), 2));</span>
-<span class="nc" id="L161">	}</span>
+<span class="nc" id="L113">		p.setSellingPrice(DoubleUtil.round(p.getSellingPrice(), 2));</span>
+<span class="nc" id="L114">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

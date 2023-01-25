@@ -58,19 +58,20 @@ function writeFileData(arr){
 	};
 	
 	var data = Papa.unparse(arr, config);
-    var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
+    var blob = new Blob([data], {type: 'text/tab-separated-values;charset=utf-8;'});
     var fileUrl =  null;
 
     if (navigator.msSaveBlob) {
-        fileUrl = navigator.msSaveBlob(blob, 'download.tsv');
+        fileUrl = navigator.msSaveBlob(blob, 'downloadbrand.tsv');
     } else {
         fileUrl = window.URL.createObjectURL(blob);
     }
     var tempLink = document.createElement('a');
     tempLink.href = fileUrl;
-    tempLink.setAttribute('download', 'download.tsv');
+    tempLink.setAttribute('download', 'downloadbrand.tsv');
     tempLink.click(); 
 }
+
 function loadEmailAndPassword(){
     $("#login-form input[name=email]").val("hari@gmail.com");
     $("#login-form input[name=password]").val("1234");

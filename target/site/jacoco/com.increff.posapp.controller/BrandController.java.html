@@ -29,29 +29,23 @@ import io.swagger.annotations.ApiOperation;
 <span class="nc" id="L29">		brandDto.add(form);</span>
 <span class="nc" id="L30">	}</span>
 
-	@ApiOperation(value = &quot;Deletes a brand or item&quot;)
-	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) throws ApiException {
-<span class="nc" id="L35">		brandDto.delete(id);</span>
-<span class="nc" id="L36">	}</span>
-
 	@ApiOperation(value = &quot;Gets a brand by ID&quot;)
 	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.GET)
 	public BrandData get(@PathVariable int id) throws ApiException {
-<span class="nc" id="L41">		return brandDto.get(id);</span>
+<span class="nc" id="L35">		return brandDto.get(id);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets list of all brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.GET)
 	public List&lt;BrandData&gt; getAll() throws ApiException {
-<span class="nc" id="L47">		return brandDto.getAll();</span>
+<span class="nc" id="L41">		return brandDto.getAll();</span>
 	}
 
 	@ApiOperation(value = &quot;Updates a brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
-<span class="nc" id="L53">		brandDto.updateById(id, form);</span>
-<span class="nc" id="L54">	}</span>
+<span class="nc" id="L47">		brandDto.updateById(id, form);</span>
+<span class="nc" id="L48">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

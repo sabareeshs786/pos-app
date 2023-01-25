@@ -26,7 +26,10 @@ public class OrderPojo {
 	private Integer id;
 	@Column(name = "time", nullable = false)
 	private ZonedDateTime time;
-	
+
+	public OrderPojo(){
+
+	}
 	public OrderPojo(String zone){
 		LocalDateTime localDateTime = LocalDateTime.now();
 		ZoneId india = ZoneId.of(zone);
@@ -36,5 +39,4 @@ public class OrderPojo {
 	public String toString() {
 		return "OrderPojo [id=" + id + ", time=" + time + "]";
 	}
-
 }

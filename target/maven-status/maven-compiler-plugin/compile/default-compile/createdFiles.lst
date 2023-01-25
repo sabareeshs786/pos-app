@@ -12,7 +12,6 @@ com/increff/posapp/model/LoginForm.class
 com/increff/posapp/controller/AdminApiController.class
 com/increff/posapp/controller/InventoryController.class
 com/increff/posapp/model/SalesReportForm.class
-com/increff/posapp/flow/OrderFlow.class
 com/increff/posapp/pojo/OrderItemPojo.class
 com/increff/posapp/pojo/BrandPojo.class
 com/increff/posapp/service/InventoryService.class
@@ -27,6 +26,7 @@ com/increff/posapp/model/BrandData.class
 com/increff/posapp/service/AboutAppService.class
 com/increff/posapp/controller/OrderController.class
 com/increff/posapp/dto/InventoryDto.class
+com/increff/posapp/util/FormNormalizer.class
 com/increff/posapp/dto/ProductDto.class
 com/increff/posapp/service/ProductService.class
 com/increff/posapp/controller/SampleController.class
@@ -54,7 +54,6 @@ com/increff/posapp/controller/OrderItemController.class
 com/increff/posapp/model/OrderItemsData.class
 com/increff/posapp/model/SalesReportData.class
 com/increff/posapp/dto/SalesReportDto.class
-com/increff/posapp/flow/OrderItemFlow.class
 com/increff/posapp/util/UserPrincipal.class
 com/increff/posapp/controller/LoginController.class
 com/increff/posapp/util/StringUtil.class
@@ -63,6 +62,7 @@ com/increff/posapp/model/OrderItemEditForm.class
 com/increff/posapp/dao/ProductInMemDao.class
 com/increff/posapp/service/BrandService.class
 com/increff/posapp/controller/BrandController.class
+com/increff/posapp/dto/BrandReportDto.class
 com/increff/posapp/dto/BrandDto.class
 com/increff/posapp/util/ConverterDto.class
 com/increff/posapp/dto/OrderItemDto.class

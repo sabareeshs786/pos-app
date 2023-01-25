@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import com.increff.posapp.util.ConverterDto;
 import com.increff.posapp.util.FormValidator;
 
 @Component
-<span class="fc" id="L20">public class InventoryDto {</span>
+<span class="fc" id="L21">public class InventoryDto {</span>
 	
 	@Autowired
 	private InventoryService inventoryService;
@@ -26,51 +27,46 @@ import com.increff.posapp.util.FormValidator;
 	private ProductService productService;
 	
 	public void add(InventoryForm form) throws ApiException {
-<span class="nc" id="L29">		FormValidator.inventoryFormValidator(form);</span>
-<span class="nc" id="L30">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
-<span class="nc" id="L31">		Integer productId = productPojo.getId();</span>
-<span class="nc" id="L32">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
-<span class="nc" id="L33">		inventoryService.add(inventoryPojo);</span>
-<span class="nc" id="L34">	}</span>
-	
-	public void deleteById(Integer id) throws ApiException {
-<span class="nc" id="L37">		inventoryService.deleteById(id);</span>
-<span class="nc" id="L38">	}</span>
-	
+<span class="nc" id="L30">		FormValidator.inventoryFormValidator(form);</span>
+<span class="nc" id="L31">		FormNormalizer.inventoryFormNormalizer(form);</span>
+<span class="nc" id="L32">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
+<span class="nc" id="L33">		Integer productId = productPojo.getId();</span>
+<span class="nc" id="L34">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
+<span class="nc" id="L35">		inventoryService.add(inventoryPojo);</span>
+<span class="nc" id="L36">	}</span>
+
 	public InventoryData getById(Integer id) throws ApiException {
-<span class="nc" id="L41">		InventoryPojo inventoryPojo = inventoryService.getById(id);</span>
-<span class="nc" id="L42">		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
-<span class="nc" id="L43">		return ConverterDto.convertToInventoryData(inventoryPojo, productPojo.getBarcode());</span>
+<span class="nc" id="L39">		InventoryPojo inventoryPojo = inventoryService.getById(id);</span>
+<span class="nc" id="L40">		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L41">		return ConverterDto.convertToInventoryData(inventoryPojo, productPojo.getBarcode());</span>
 	}
 	
 	public List&lt;InventoryData&gt; getAll() throws ApiException{
-<span class="nc" id="L47">		List&lt;InventoryPojo&gt; listInventoryPojo = inventoryService.getAll();</span>
-<span class="nc" id="L48">		List&lt;InventoryData&gt; list = new ArrayList&lt;InventoryData&gt;();</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">		for(InventoryPojo inventoryPojo: listInventoryPojo) {</span>
-<span class="nc" id="L50">			System.out.println(&quot;1) Product id = &quot;+inventoryPojo.getProductId());</span>
-<span class="nc" id="L51">			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
-<span class="nc" id="L52">			System.out.println(&quot;2) Product id = &quot;+productPojo.getId());</span>
-<span class="nc" id="L53">			String barcode = productPojo.getBarcode();</span>
-<span class="nc" id="L54">			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));</span>
-<span class="nc" id="L55">		}</span>
-<span class="nc" id="L56">		System.out.println(list);</span>
-<span class="nc" id="L57">		return list;</span>
+<span class="nc" id="L45">		List&lt;InventoryPojo&gt; listInventoryPojo = inventoryService.getAll();</span>
+<span class="nc" id="L46">		List&lt;InventoryData&gt; list = new ArrayList&lt;InventoryData&gt;();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		for(InventoryPojo inventoryPojo: listInventoryPojo) {</span>
+<span class="nc" id="L48">			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L49">			String barcode = productPojo.getBarcode();</span>
+<span class="nc" id="L50">			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));</span>
+<span class="nc" id="L51">		}</span>
+<span class="nc" id="L52">		return list;</span>
 	}
 	
 	public void updateById(Integer id, InventoryForm form) throws ApiException {
-<span class="nc" id="L61">		FormValidator.inventoryFormValidator(form);</span>
-<span class="nc" id="L62">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
-<span class="nc" id="L63">		Integer productId = productPojo.getId();</span>
-<span class="nc" id="L64">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
-<span class="nc" id="L65">		inventoryService.updateById(id, inventoryPojo);</span>
-<span class="nc" id="L66">	}</span>
+<span class="nc" id="L56">		FormValidator.inventoryFormValidator(form);</span>
+<span class="nc" id="L57">		FormNormalizer.inventoryFormNormalizer(form);</span>
+<span class="nc" id="L58">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
+<span class="nc" id="L59">		Integer productId = productPojo.getId();</span>
+<span class="nc" id="L60">		InventoryPojo inventoryPojo = ConverterDto.convertToInventoryPojo(form, productId);</span>
+<span class="nc" id="L61">		inventoryService.updateById(id, inventoryPojo);</span>
+<span class="nc" id="L62">	}</span>
 
 	protected ProductService productService(){
-<span class="nc" id="L69">		return productService;</span>
+<span class="nc" id="L65">		return productService;</span>
 	}
 
 	protected InventoryService inventoryService(){
-<span class="nc" id="L73">		return inventoryService;</span>
+<span class="nc" id="L69">		return inventoryService;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

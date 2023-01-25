@@ -3,6 +3,7 @@ package com.increff.posapp.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,4 +16,11 @@ public class SalesReportData{
 	private List<Integer> quantities;
 	private List<String> totalAmounts;
 	private String grandTotal;
+
+	public SalesReportData(){
+		this.brands = new ArrayList<String>();
+		this.categories = new ArrayList<String>();
+		this.quantities = new ArrayList<Integer>();
+		this.totalAmounts = new ArrayList<String>();
+	}
 }
