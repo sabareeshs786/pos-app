@@ -3,18 +3,22 @@
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-<span class="nc" id="L7">@Setter</span>
-<span class="nc" id="L8">public class SalesReportForm {</span>
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-<span class="nc" id="L10">	private String startDate;</span>
-<span class="nc" id="L11">	private String endDate;</span>
-<span class="nc" id="L12">	private String brand;</span>
-<span class="nc" id="L13">	private String category;</span>
+@Getter
+<span class="nc" id="L11">@Setter</span>
+<span class="nc" id="L12">public class SalesReportForm {</span>
+
+<span class="nc" id="L14">	private LocalDateTime startDate;</span>
+<span class="nc" id="L15">	private LocalDateTime endDate;</span>
+<span class="nc" id="L16">	private String brand;</span>
+<span class="nc" id="L17">	private String category;</span>
 
 	@Override
 	public String toString() {
-<span class="nc" id="L17">		return &quot;SalesReportForm{&quot; +</span>
+<span class="nc" id="L21">		return &quot;SalesReportForm{&quot; +</span>
 				&quot;startDate='&quot; + startDate + '\'' +
 				&quot;, endDate='&quot; + endDate + '\'' +
 				&quot;, brand='&quot; + brand + '\'' +

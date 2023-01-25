@@ -37,7 +37,7 @@ function processData(){
 			contentType : 'application/json',
 			success: function(data) {
 				downloadContent = data;
-					displayBrandList1(data);  
+				displayBrandList1(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -125,18 +125,8 @@ function writeBrandReportFileData(arr){
 }
 
 function downloadReport(){
-	var url = getBrandReportUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   dataType : 'json',
-	   contentType : 'application/json',
-	   success: function(data) {
-	   		writeBrandReportFileData(downloadContent); 
-	   },
-	   error: handleAjaxError
-	});
-	return false;
+	console.log(downloadContent);
+	writeBrandReportFileData(downloadContent);
 }
 
 //INITIALIZATION CODE

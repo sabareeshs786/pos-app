@@ -11,18 +11,27 @@ import java.time.format.DateTimeFormatter;
 <span class="nc" id="L11">        return zonedDateTime.format(formatter);</span>
     }
 
-    public static ZonedDateTime getZonedDateTime(String zone){
-<span class="nc" id="L15">        LocalDateTime localDateTime = LocalDateTime.now();</span>
-<span class="nc" id="L16">        ZoneId zoneId = ZoneId.of(zone);</span>
-<span class="nc" id="L17">        return ZonedDateTime.of(localDateTime, zoneId);</span>
+    public static String getDateTimeString(LocalDateTime localDateTime, String pattern){
+<span class="nc" id="L15">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);</span>
+<span class="nc" id="L16">        return localDateTime.format(formatter);</span>
     }
 
+    public static ZonedDateTime getZonedDateTime(String zone){
+<span class="nc" id="L20">        LocalDateTime localDateTime = LocalDateTime.now();</span>
+<span class="nc" id="L21">        ZoneId zoneId = ZoneId.of(zone);</span>
+<span class="nc" id="L22">        return ZonedDateTime.of(localDateTime, zoneId);</span>
+    }
+
+    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
+<span class="nc" id="L26">        ZoneId zoneId = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
+<span class="nc" id="L27">        return ZonedDateTime.of(localDateTime, zoneId);</span>
+    }
     public static String getZonedDateTimeIndiaAsString(){
-<span class="nc" id="L21">        LocalDateTime currentTime = LocalDateTime.now();</span>
-<span class="nc" id="L22">        ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
-<span class="nc" id="L23">        ZonedDateTime zoneIndia = ZonedDateTime.of(currentTime, india);</span>
-<span class="nc" id="L24">        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
-<span class="nc" id="L25">        return currentTime.format(dateTimeFormatter);</span>
+<span class="nc" id="L30">        LocalDateTime currentTime = LocalDateTime.now();</span>
+<span class="nc" id="L31">        ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
+<span class="nc" id="L32">        ZonedDateTime zoneIndia = ZonedDateTime.of(currentTime, india);</span>
+<span class="nc" id="L33">        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="nc" id="L34">        return currentTime.format(dateTimeFormatter);</span>
     }
 
 }

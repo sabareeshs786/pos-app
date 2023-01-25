@@ -11,12 +11,21 @@ public class DateTimeUtil {
         return zonedDateTime.format(formatter);
     }
 
+    public static String getDateTimeString(LocalDateTime localDateTime, String pattern){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return localDateTime.format(formatter);
+    }
+
     public static ZonedDateTime getZonedDateTime(String zone){
         LocalDateTime localDateTime = LocalDateTime.now();
         ZoneId zoneId = ZoneId.of(zone);
         return ZonedDateTime.of(localDateTime, zoneId);
     }
 
+    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
+        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
+        return ZonedDateTime.of(localDateTime, zoneId);
+    }
     public static String getZonedDateTimeIndiaAsString(){
         LocalDateTime currentTime = LocalDateTime.now();
         ZoneId india = ZoneId.of("Asia/Kolkata");

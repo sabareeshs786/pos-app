@@ -1,8 +1,21 @@
+//Global variables
+var downloadContent = "";
 function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/salesreport";
 }
 
+function toArrayOfJsonObjects(){
+    var arr = [];
+	for(var i=0; i < downloadContent.brands.length; i++){
+		arr.push({});
+		arr.at(-1)['brand'] = downloadContent.brands[i];
+		arr.at(-1)['category'] = downloadContent.categories[i];
+		arr.at(-1)['quantity'] = downloadContent.quantities[i];
+		arr.at(-1)['revenue'] = downloadContent.totalAmounts[i];
+	}
+    return arr;
+}
 //BUTTON ACTIONS
 
 function getSalesReportList(){
@@ -13,6 +26,7 @@ function getSalesReportList(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
+			downloadContent = data;
 	   		displaySalesReportList(data);
 	   },
 	   error: handleAjaxError
@@ -24,15 +38,18 @@ function processData(){
 	var url = getSalesReportUrl() + '/filter';
 	var $form = $('#sales-report-form');
 	var json = toJson($form);
+
 	$.ajax({
 		url: url,
 		type: 'POST',
 		data: json,
+		dataType : 'json',
 		headers: {
 			'Content-Type': 'application/json'
 		},	   
-		success: function(response) {
-				getProductList();
+		success: function(data) {
+				downloadContent = data;
+				displaySalesReportList(data);
 		},
 		error: handleAjaxError
 	 });
@@ -41,17 +58,6 @@ function processData(){
 }
 
 //UI DISPLAY METHODS
-
-function displaySalesList1(data){
-	$("#brand-table-body").empty();
-    var row = "";
-	var sno = 1;
-	row = "<tr><td>" 
-	+ sno + "</td><td>" 
-	+ data.brand + "</td><td>"
-	+ data.category + "</td></tr>";
-	$("#brand-table-body").append(row);
-}
 
 function displaySalesReportList(data){
 	$('#start-date').empty();
@@ -102,15 +108,44 @@ function getDateAsstring(offsetMonths=0){
 		month = '0' + month.toString();
 	}
 	year = year.toString();
-	var dateString = year + "-"+ month + "-" + date;
+	var dateString = year + "-"+ month + "-" + date +"T" + 
+	d.getHours().toString() + ":" + d.getMinutes().toString() + ":" + d.getSeconds();
 	console.log(dateString);
 	return dateString;
+}
+
+function writeSalesReportFileData(arr){
+	var config = {
+		quoteChar: '',
+		escapeChar: '',
+		delimiter: "\t"
+	};
+	
+	var data = Papa.unparse(arr, config);
+    var blob = new Blob([data], {type: 'text/tab-separated-values;charset=utf-8;'});
+	var fileUrl =  null;
+
+    if (navigator.msSaveBlob) {
+        fileUrl = navigator.msSaveBlob(blob, 'salesreport.tsv');
+    } else {
+        fileUrl = window.URL.createObjectURL(blob);
+    }
+    var tempLink = document.createElement('a');
+    tempLink.href = fileUrl;
+    tempLink.setAttribute('download', 'salesreport.tsv');
+    tempLink.click();
+}
+
+function downloadReport(){
+	arr = toArrayOfJsonObjects();
+	writeSalesReportFileData(arr);
 }
 
 //INITIALIZATION CODE
 function init(){
 	$('#process-data').click(processData);
 	$('#refresh-data').click(getSalesReportList);
+	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);

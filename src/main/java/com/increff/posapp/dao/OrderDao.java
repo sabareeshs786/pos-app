@@ -1,6 +1,7 @@
 package com.increff.posapp.dao;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class OrderDao extends AbstractDao{
 	private static String delete_time = "delete from OrderPojo p where time=:time";
 	private static String select_id = "select p from OrderPojo p where id=:id";
 	private static String select_time = "select p from OrderPojo p where time=:time";
+	private static String select_by_start_time = "select p from OrderPojo p where time >= :startTime";
+	private static String select_by_end_time = "select p from OrderPojo p where time <= :endTime";
+	private static String select_by_interval = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
 	private static String select_all = "select p from OrderPojo p";
 
 	public void insert(OrderPojo p) {
@@ -52,7 +56,23 @@ public class OrderDao extends AbstractDao{
 		query.setParameter("time", time);
 		return query.getResultList();
 	}
-	
+
+	public List<OrderPojo> selectByStartTime(String startTime){
+		TypedQuery<OrderPojo> query = getQuery(select_by_start_time, OrderPojo.class);
+		query.setParameter("startTime", startTime);
+		return query.getResultList();
+	}
+	public List<OrderPojo> selectByEndTime(String endTime){
+		TypedQuery<OrderPojo> query = getQuery(select_by_end_time, OrderPojo.class);
+		query.setParameter("endTime", endTime);
+		return query.getResultList();
+	}
+	public List<OrderPojo> selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
+		TypedQuery<OrderPojo> query = getQuery(select_by_interval, OrderPojo.class);
+		query.setParameter("startTime", startTime);
+		query.setParameter("endTime", endTime);
+		return query.getResultList();
+	}
 	public List<OrderPojo> selectAll() {
 		TypedQuery<OrderPojo> query = getQuery(select_all, OrderPojo.class);
 		return query.getResultList();

@@ -28,8 +28,7 @@ public class SalesReportController {
 
     @ApiOperation(value = "Gets all details of a specific brand")
     @RequestMapping(path = "/api/salesreport/filter", method = RequestMethod.POST)
-    public List<SalesReportData> getData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
-        System.out.println(salesReportForm);
+    public SalesReportData getData(@RequestBody SalesReportForm salesReportForm) throws ApiException {
         return salesReportDto.getData(salesReportForm);
     }
 }

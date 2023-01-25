@@ -1,5 +1,6 @@
 package com.increff.posapp.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,17 @@ public class OrderService {
 		return getCheckById(id);
 	}
 
+	public List<OrderPojo> getByStartTime(String startTime) throws ApiException {
+		return getCheckByStartTime(startTime);
+	}
+
+	public List<OrderPojo> getByEndTime(String endTime) throws ApiException {
+		return getCheckByEndTime(endTime);
+	}
+
+	public List<OrderPojo> getByInterval(ZonedDateTime startTime, ZonedDateTime endTime) throws ApiException {
+		return getCheckByInterval(startTime, endTime);
+	}
 	public List<OrderPojo> getByTime(ZonedDateTime time) throws ApiException {
 		return getCheckByTime(time);
 	}
@@ -63,6 +75,29 @@ public class OrderService {
 		return p;
 	}
 
+	public List<OrderPojo> getCheckByStartTime(String startDate) throws ApiException {
+		List<OrderPojo> list = orderDao.selectByStartTime(startDate);
+		if(list.isEmpty()) {
+			throw new ApiException("Order with the given start time doesn't exist");
+		}
+		return list;
+	}
+
+	public List<OrderPojo> getCheckByEndTime(String endDate) throws ApiException {
+		List<OrderPojo> list = orderDao.selectByEndTime(endDate);
+		if(list.isEmpty()) {
+			throw new ApiException("Order before the given end time doesn't exist");
+		}
+		return list;
+	}
+
+	public List<OrderPojo> getCheckByInterval(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
+		List<OrderPojo> list = orderDao.selectByInterval(startDate, endDate);
+		if(list.isEmpty()) {
+			throw new ApiException("Order with the given time interval doesn't exist");
+		}
+		return list;
+	}
 	public List<OrderPojo> getCheckByTime(ZonedDateTime time) throws ApiException {
 		List<OrderPojo> list = orderDao.selectByTime(time);
 		if(list.isEmpty()) {

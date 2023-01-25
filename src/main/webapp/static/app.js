@@ -77,5 +77,4 @@ function loadEmailAndPassword(){
     $("#login-form input[name=password]").val("1234");
 }
 
-
 $(document).ready(loadEmailAndPassword)

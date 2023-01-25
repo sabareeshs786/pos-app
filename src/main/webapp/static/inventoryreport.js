@@ -1,9 +1,10 @@
-
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/inventoryreport";
 }
 
+//Global variables
+var downloadContent = "";
 //BUTTON ACTIONS
 
 function getInventoryList(){
@@ -14,6 +15,7 @@ function getInventoryList(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
+			downloadContent = data;
 	   		displayInventoryList(data);  
 	   },
 	   error: handleAjaxError
@@ -36,7 +38,8 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayInventoryList(data);
+				downloadContent = data;
+				displayInventoryList(data);
 			},
 			error: handleAjaxError
 		 });
@@ -49,7 +52,8 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayInventoryList(data);  
+				downloadContent = data;
+				displayInventoryList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -62,7 +66,8 @@ function processData(){
 			dataType : 'json',
 			contentType : 'application/json',
 			success: function(data) {
-					displayInventoryList(data);  
+				downloadContent = data;
+				displayInventoryList(data);  
 			},
 			error: handleAjaxError
 		 });
@@ -118,11 +123,37 @@ function displayInventoryList(data){
 	$("#inventory-table-body").append('<tr styple="font-size:30px; text-align:right;"><td colspan="3">Total</td><td>' + grandTotalQuantity + '</td></tr>');
 	
 }
+function writeInventoryReportFileData(arr){
+	var config = {
+		quoteChar: '',
+		escapeChar: '',
+		delimiter: "\t"
+	};
+	
+	var data = Papa.unparse(arr, config);
+    var blob = new Blob([data], {type: 'text/tab-separated-values;charset=utf-8;'});
+    var fileUrl =  null;
 
+    if (navigator.msSaveBlob) {
+        fileUrl = navigator.msSaveBlob(blob, 'inventoryreport.tsv');
+    } else {
+        fileUrl = window.URL.createObjectURL(blob);
+    }
+    var tempLink = document.createElement('a');
+    tempLink.href = fileUrl;
+    tempLink.setAttribute('download', 'inventoryreport.tsv');
+    tempLink.click();
+}
+
+function downloadReport(){
+	console.log(downloadContent);
+	writeInventoryReportFileData(downloadContent);
+}
 //INITIALIZATION CODE
 function init(){
 	$('#process-data').click(processData);
-	$('#refresh-data').click(getInventoryList)
+	$('#refresh-data').click(getInventoryList);
+	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
