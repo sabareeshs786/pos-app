@@ -7,6 +7,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.increff.posapp.service.ApiException;
 import org.springframework.stereotype.Repository;
@@ -26,7 +29,8 @@ public class BrandDao extends AbstractDao {
 	private static String select_category = "select p from BrandPojo p where category=:category";
 	private static String select_brand_category = "select p from BrandPojo p where brand=:brand and category=:category";
 	private static String select_all = "select p from BrandPojo p";
-
+	private static String select_all_count = "select count(p) from BrandPojo p";
+	
 	public void insert(BrandPojo p) {
 		em().persist(p);
 	}
@@ -73,9 +77,25 @@ public class BrandDao extends AbstractDao {
 		query.setParameter("category", category);
 		return getSingle(query);
 	}
+	
 	public List<BrandPojo> selectAll() {
 		TypedQuery<BrandPojo> query = getQuery(select_all, BrandPojo.class);
 		return query.getResultList();
+	}
+	
+	public Page<BrandPojo> getAllByPage(Integer page, Integer size){
+		TypedQuery<BrandPojo> query = getQuery(select_all, BrandPojo.class);
+		// apply pagination
+        int pageNumber = page;
+        int pageSize = size;
+        int firstResult = pageNumber * pageSize;
+        query.setFirstResult(firstResult);
+        query.setMaxResults(pageSize);
+
+        // execute the query
+        List<BrandPojo> entities = query.getResultList();
+        Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+        return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 
 	public void update(BrandPojo p) {

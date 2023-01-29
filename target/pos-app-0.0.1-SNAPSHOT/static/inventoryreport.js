@@ -39,7 +39,7 @@ function processData(){
 			contentType : 'application/json',
 			success: function(data) {
 				downloadContent = data;
-					displayInventoryList(data);
+				displayInventoryList(data);
 			},
 			error: handleAjaxError
 		 });
@@ -146,6 +146,7 @@ function writeInventoryReportFileData(arr){
 }
 
 function downloadReport(){
+	console.log(downloadContent);
 	writeInventoryReportFileData(downloadContent);
 }
 //INITIALIZATION CODE

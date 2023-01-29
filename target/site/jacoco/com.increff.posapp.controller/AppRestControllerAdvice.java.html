@@ -7,25 +7,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.increff.posapp.model.MessageData;
 import com.increff.posapp.service.ApiException;
-import javax.persistence.*;
-import org.springframework.dao.DataIntegrityViolationException;
 @RestControllerAdvice
-<span class="fc" id="L13">public class AppRestControllerAdvice {</span>
+<span class="fc" id="L11">public class AppRestControllerAdvice {</span>
 
 	@ExceptionHandler(ApiException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public MessageData handle(ApiException e) {
-<span class="nc" id="L18">		MessageData data = new MessageData();</span>
-<span class="nc" id="L19">		data.setMessage(e.getMessage());</span>
-<span class="nc" id="L20">		return data;</span>
+<span class="nc" id="L16">		MessageData data = new MessageData();</span>
+<span class="nc" id="L17">		data.setMessage(e.getMessage());</span>
+<span class="nc" id="L18">		return data;</span>
 	}
 
 	@ExceptionHandler(Throwable.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public MessageData handle(Throwable e) {
-<span class="nc" id="L26">		MessageData data = new MessageData();</span>
-<span class="nc" id="L27">		data.setMessage(&quot;An unknown error has occurred - :&quot; + e.getMessage());</span>
-<span class="nc" id="L28">		return data;</span>
+<span class="nc" id="L24">		MessageData data = new MessageData();</span>
+<span class="nc" id="L25">		data.setMessage(&quot;An unknown error has occurred - :&quot; + e.getMessage());</span>
+<span class="nc" id="L26">		return data;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

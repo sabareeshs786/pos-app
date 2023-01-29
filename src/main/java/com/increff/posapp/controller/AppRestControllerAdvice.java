@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.increff.posapp.model.MessageData;
 import com.increff.posapp.service.ApiException;
-import javax.persistence.*;
-import org.springframework.dao.DataIntegrityViolationException;
 @RestControllerAdvice
 public class AppRestControllerAdvice {
 

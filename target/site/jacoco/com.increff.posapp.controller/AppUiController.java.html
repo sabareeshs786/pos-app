@@ -38,29 +38,24 @@ import org.springframework.web.servlet.ModelAndView;
 <span class="nc" id="L38">		return mav(&quot;orders.html&quot;);</span>
 	}
 	
-	@RequestMapping(value = &quot;/ui/orderitems/{orderId}&quot;)
-	public ModelAndView orderItem(@PathVariable Integer orderId)
-	{
-<span class="nc" id="L44">		return mav(&quot;orderitems.html&quot;, orderId);</span>
-	}
-
-	@RequestMapping(value = &quot;/ui/orderitemsall&quot;)
-	public ModelAndView orderItems(){
-<span class="nc" id="L49">		return mav(&quot;orderitemsall.html&quot;);</span>
+	@RequestMapping(value = &quot;/ui/orderitems/{orderId}/{mode}&quot;)
+	public ModelAndView orderItem(@PathVariable Integer orderId, @PathVariable String mode)
+	{	
+<span class="nc" id="L44">		return mav(&quot;orderitems.html&quot;, orderId, mode);</span>
 	}
 
 	@RequestMapping(value = &quot;/ui/order-placing&quot;)
 	public ModelAndView orderPlacing() {
-<span class="nc" id="L54">		return mav(&quot;order-placing.html&quot;);</span>
+<span class="nc" id="L49">		return mav(&quot;order-placing.html&quot;);</span>
 	}
 
 	@RequestMapping(value = &quot;/ui/brandreport&quot;)
-<span class="nc" id="L58">	public ModelAndView brandReport(){ return mav(&quot;brandreport.html&quot;); }</span>
+<span class="nc" id="L53">	public ModelAndView brandReport(){ return mav(&quot;brandreport.html&quot;); }</span>
 
 	@RequestMapping(value = &quot;/ui/inventoryreport&quot;)
-<span class="nc" id="L61">	public ModelAndView inventoryReport(){ return mav(&quot;inventoryreport.html&quot;); }</span>
+<span class="nc" id="L56">	public ModelAndView inventoryReport(){ return mav(&quot;inventoryreport.html&quot;); }</span>
 
 	@RequestMapping(value = &quot;/ui/salesreport&quot;)
-<span class="nc" id="L64">	public ModelAndView salesReport(){ return mav(&quot;salesreport.html&quot;); }</span>
+<span class="nc" id="L59">	public ModelAndView salesReport(){ return mav(&quot;salesreport.html&quot;); }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

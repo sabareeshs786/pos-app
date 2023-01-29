@@ -2,7 +2,6 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.model.OrderItemEditForm;
-import com.increff.posapp.model.OrderItemsData;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
@@ -11,7 +10,6 @@ import com.increff.posapp.util.FormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.util.ConverterDto;
@@ -34,12 +32,12 @@ public class OrderItemDto {
 	@Autowired
 	private InventoryService inventoryService;
 
-	public List<OrderItemsData> getByOrderId(Integer orderId) throws ApiException {
+	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
-		List<OrderItemsData> list = new ArrayList<>();
+		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo:orderItemPojoList){
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(ConverterDto.convertToOrderItemsData(orderItemPojo, productPojo));
+			list.add(ConverterDto.convertToOrderItemData(orderItemPojo, productPojo));
 		}
 		return list;
 	}

@@ -3,6 +3,14 @@ function getOrderUrl(){
 	return baseUrl + "/api/order";
 }
 
+function getProductUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/product";
+}
+
+var barcodes = [];
+var quantities = [];
+var sellingPrices = [];
 
 function getOrderList(){
 	var url = getOrderUrl();
@@ -16,10 +24,67 @@ function getOrderList(){
 	   },
 	   error: handleAjaxError
 	});
+	return false;
 }
 
+function getProduct(barcode){
+	var url = getProductUrl() + '/' + barcode;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+	   		return data;
+	   },
+	   error: handleAjaxError
+	});
+	return false;
+}
 
+function addItem(){
+	var barcode = $('#place-order-form input[name=barcode]').val();
+	var quantity = $('#place-order-form input[name=quantity]').val();
+	var sellingPrice = $('#place-order-form input[name=sellingPrice]').val();
+	barcodes.push(barcode);
+	quantities.push(quantity);
+	sellingPrice.push(sellingPrice);
+	$('#place-order-form input[name=barcode]').val().empty();
+	$('#place-order-form input[name=quantity]').val().empty();
+	$('#place-order-form input[name=sellingPrice]').val().empty();
+}
 
+function displayOrderModal(){
+	$('#place-order-modal').modal('toggle');
+	// while($('#place-order-modal').is(':visible')){
+	// 	var barcode = $('#place-order-form input[name=barcode]').val();
+	// 	if(barcode.length == 0){
+
+	// 	}
+	// } 
+}
+
+function placeOrder(){
+	$('#place-order-modal').modal('toggle');
+	var $form = $("#place-order-form");
+	var json = toJsonArray($form);
+	json = JSON.stringify(json);
+	var url = getOrderUrl();
+	console.log(json);
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+		},
+		error: handleAjaxError
+	 });
+ 
+	 return false;
+}
 
 //UI DISPLAY METHODS
 
@@ -29,7 +94,8 @@ function displayOrderList(data){
     var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var buttonHtml = ' <button onclick="displayOrderItems(' + data[i].id + ')">view</button>'
+	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')">View</button>&nbsp;&nbsp;'
+					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')">Edit</button>';
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].id + "</td><td>"
@@ -38,7 +104,7 @@ function displayOrderList(data){
 	+ buttonHtml 
 	+ "</td></tr>";
 	$("#order-table-body").append(row);
-}
+	}
 	
 }
 
@@ -57,13 +123,17 @@ function displayOrderItemsOfanId(data){
 	return rows;
 }
 
-function displayOrderItems(id){
-	window.location.href = "./orderitems/" + id;
+function displayOrderItemsView(id){
+	window.location.href = "./orderitems/" + id + '/' + 'view';
 }
 
+function displayOrderItemsEdit(id){
+	window.location.href = "./orderitems/" + id + '/' + 'edit';
+}
 //INITIALIZATION CODE
 function init(){
-	
+	$('#place-order').click(displayOrderModal);
+	$('#add-item').click(addItem);
 }
 
 $(document).ready(init);

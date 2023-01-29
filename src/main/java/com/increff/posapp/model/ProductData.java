@@ -9,6 +9,7 @@ public class ProductData extends ProductForm {
 
 	Integer id;
 	Integer brand_category;
+	Integer quantity;
 
 	@Override
 	public String toString() {

@@ -12,7 +12,7 @@
 
 <div class="container">
 
-<h3>Orders</h3>
+<h3>Order Items</h3>
 
 <br>
 <br>
@@ -23,13 +23,12 @@
  <div class="col-12">
 	<table class="table table-striped" id="order-items-table">
 	  <thead>
-	    <tr>
+	    <tr id="order-items-table-head">
 	      <th scope="col">SNo.</th>
 	      <th scope="col">Product Name</th>
 	      <th scope="col">Quantity</th>
 	      <th scope="col">Selling Price</th>
 		  <th scope="col">MRP</th>
-		  <th scope="col">Actions</th>
 	    </tr>
 	  </thead>
 	  <tbody id="order-items-table-body">
@@ -38,7 +37,7 @@
 
  </div>
 </div>
-<div class="row">
+<!-- <div class="row">
 	<div class="col-12">
 		   <form class="form-inline" id="place-order-form">
 			<div class="form-group">
@@ -63,7 +62,7 @@
 		   <button type="button" class="btn btn-primary" id="add-row">Add Row</button>
 		   <button type="button" class="btn btn-success" id="place-order-confirm">Place Order</button>
 	</div>	
-</div>
+</div> -->
 <!-- Order Item Edit Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="edit-order-item-modal">
   <div class="modal-dialog" role="document">

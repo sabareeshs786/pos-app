@@ -4,12 +4,7 @@ import com.increff.posapp.dto.BrandDto;
 import com.increff.posapp.dto.BrandReportDto;
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.service.ApiException;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @Api

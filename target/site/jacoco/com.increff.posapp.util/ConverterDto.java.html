@@ -86,47 +86,37 @@ import io.swagger.models.auth.In;
 <span class="nc" id="L86">		return orderItemPojo;</span>
 	}
 
-	public static OrderItemsData convertToOrderItemsData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
-<span class="nc" id="L90">		OrderItemsData orderItemsData = new OrderItemsData();</span>
-<span class="nc" id="L91">		orderItemsData.setId(orderItemPojo.getId());</span>
-<span class="nc" id="L92">		orderItemsData.setOrderId(orderItemPojo.getOrderId());</span>
-<span class="nc" id="L93">		orderItemsData.setProductName(productPojo.getName());</span>
-<span class="nc" id="L94">		orderItemsData.setQuantity(orderItemPojo.getQuantity());</span>
-<span class="nc" id="L95">		orderItemsData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L96">		orderItemsData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L97">		return orderItemsData;</span>
-	}
 
 	public static OrderItemData convertToOrderItemData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
-<span class="nc" id="L101">		OrderItemData orderItemData = new OrderItemData();</span>
-<span class="nc" id="L102">		orderItemData.setId(orderItemPojo.getId());</span>
-<span class="nc" id="L103">		orderItemData.setOrderId(orderItemPojo.getOrderId());</span>
-<span class="nc" id="L104">		orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
-<span class="nc" id="L105">		orderItemData.setBarcode(productPojo.getBarcode());</span>
-<span class="nc" id="L106">		orderItemData.setProductName(productPojo.getName());</span>
-<span class="nc" id="L107">		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L108">		orderItemData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L109">		return orderItemData;</span>
+<span class="nc" id="L91">		OrderItemData orderItemData = new OrderItemData();</span>
+<span class="nc" id="L92">		orderItemData.setId(orderItemPojo.getId());</span>
+<span class="nc" id="L93">		orderItemData.setOrderId(orderItemPojo.getOrderId());</span>
+<span class="nc" id="L94">		orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
+<span class="nc" id="L95">		orderItemData.setBarcode(productPojo.getBarcode());</span>
+<span class="nc" id="L96">		orderItemData.setProductName(productPojo.getName());</span>
+<span class="nc" id="L97">		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L98">		orderItemData.setMrp(productPojo.getMrp());</span>
+<span class="nc" id="L99">		return orderItemData;</span>
 
 	}
 
 	public static InventoryReportData convertToInventoryReportData(InventoryData inventoryData, BrandPojo brandPojo){
-<span class="nc" id="L114">		InventoryReportData inventoryReportData = new InventoryReportData();</span>
-<span class="nc" id="L115">		inventoryReportData.setBrand(brandPojo.getBrand());</span>
-<span class="nc" id="L116">		inventoryReportData.setCategory(brandPojo.getCategory());</span>
-<span class="nc" id="L117">		inventoryReportData.setId(inventoryData.getId());</span>
-<span class="nc" id="L118">		inventoryReportData.setQuantity(inventoryData.getQuantity());</span>
-<span class="nc" id="L119">		inventoryReportData.setBarcode(inventoryData.getBarcode());</span>
-<span class="nc" id="L120">		return inventoryReportData;</span>
+<span class="nc" id="L104">		InventoryReportData inventoryReportData = new InventoryReportData();</span>
+<span class="nc" id="L105">		inventoryReportData.setBrand(brandPojo.getBrand());</span>
+<span class="nc" id="L106">		inventoryReportData.setCategory(brandPojo.getCategory());</span>
+<span class="nc" id="L107">		inventoryReportData.setId(inventoryData.getId());</span>
+<span class="nc" id="L108">		inventoryReportData.setQuantity(inventoryData.getQuantity());</span>
+<span class="nc" id="L109">		inventoryReportData.setBarcode(inventoryData.getBarcode());</span>
+<span class="nc" id="L110">		return inventoryReportData;</span>
 	}
 
 	public static SalesReportData convertToSalesReportData(SalesReportData salesReportData, String key, Double value, Integer quantity){
-<span class="nc" id="L124">		String[] brandCategoryArr = key.split(&quot;--&quot;);</span>
-<span class="nc" id="L125">		salesReportData.getBrands().add(brandCategoryArr[0]);</span>
-<span class="nc" id="L126">		salesReportData.getCategories().add(brandCategoryArr[1]);</span>
-<span class="nc" id="L127">		salesReportData.getQuantities().add(quantity);</span>
-<span class="nc" id="L128">		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));</span>
-<span class="nc" id="L129">		return salesReportData;</span>
+<span class="nc" id="L114">		String[] brandCategoryArr = key.split(&quot;--&quot;);</span>
+<span class="nc" id="L115">		salesReportData.getBrands().add(brandCategoryArr[0]);</span>
+<span class="nc" id="L116">		salesReportData.getCategories().add(brandCategoryArr[1]);</span>
+<span class="nc" id="L117">		salesReportData.getQuantities().add(quantity);</span>
+<span class="nc" id="L118">		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));</span>
+<span class="nc" id="L119">		return salesReportData;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

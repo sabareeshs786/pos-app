@@ -2363,3 +2363,125 @@ Caused by: org.hibernate.AnnotationException: Unable to create unique key constr
 2023-01-25 18:09:27 INFO  SecurityConfig:33 - Configuration complete
 2023-01-25 18:09:38 INFO  SecurityConfig:33 - Configuration complete
 2023-01-25 18:11:55 INFO  SecurityConfig:33 - Configuration complete
+2023-01-25 23:35:59 INFO  SecurityConfig:33 - Configuration complete
+2023-01-25 23:39:12 INFO  SecurityConfig:33 - Configuration complete
+2023-01-25 23:42:29 INFO  SecurityConfig:33 - Configuration complete
+2023-01-25 23:45:18 WARN  SqlExceptionHelper:137 - SQL Error: 1062, SQLState: 23000
+2023-01-25 23:45:18 ERROR SqlExceptionHelper:142 - Duplicate entry 'asdfga' for key 'product.UK_44c6umvphppa3226vhmagmviu'
+2023-01-25 23:53:28 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 17:44:21 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 17:51:27 WARN  AnnotationConfigWebApplicationContext:550 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'orderController' defined in file [D:\Increff\Internship\Projects\pos-app\target\classes\com\increff\posapp\controller\OrderController.class]: Initialization of bean failed; nested exception is java.lang.TypeNotPresentException: Type OrderItemsData not present
+2023-01-29 17:51:27 ERROR DispatcherServlet:502 - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'orderController' defined in file [D:\Increff\Internship\Projects\pos-app\target\classes\com\increff\posapp\controller\OrderController.class]: Initialization of bean failed; nested exception is java.lang.TypeNotPresentException: Type OrderItemsData not present
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:866)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:542)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:668)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:540)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:494)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:136)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:244)
+	at org.eclipse.jetty.servlet.ServletHolder.initServlet(ServletHolder.java:599)
+	at org.eclipse.jetty.servlet.ServletHolder.initialize(ServletHolder.java:425)
+	at org.eclipse.jetty.servlet.ServletHandler.lambda$initialize$0(ServletHandler.java:751)
+	at java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:352)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471)
+	at java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:312)
+	at java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:743)
+	at java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:742)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580)
+	at org.eclipse.jetty.servlet.ServletHandler.initialize(ServletHandler.java:744)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:361)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1443)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:328)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1407)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:821)
+	at org.eclipse.jetty.servlet.ServletContextHandler.doStart(ServletContextHandler.java:276)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:524)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:397)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:72)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.restartWebApp(JettyRunMojo.java:513)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo$1.onPathWatchEvents(JettyRunMojo.java:357)
+	at org.eclipse.jetty.util.PathWatcher.notifyEvents(PathWatcher.java:1342)
+	at org.eclipse.jetty.util.PathWatcher.run(PathWatcher.java:1169)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.TypeNotPresentException: Type OrderItemsData not present
+	at sun.reflect.generics.factory.CoreReflectionFactory.makeNamedType(CoreReflectionFactory.java:117)
+	at sun.reflect.generics.visitor.Reifier.visitClassTypeSignature(Reifier.java:125)
+	at sun.reflect.generics.tree.ClassTypeSignature.accept(ClassTypeSignature.java:49)
+	at sun.reflect.generics.visitor.Reifier.reifyTypeArguments(Reifier.java:68)
+	at sun.reflect.generics.visitor.Reifier.visitClassTypeSignature(Reifier.java:138)
+	at sun.reflect.generics.tree.ClassTypeSignature.accept(ClassTypeSignature.java:49)
+	at sun.reflect.generics.repository.MethodRepository.getReturnType(MethodRepository.java:68)
+	at java.lang.reflect.Method.getGenericReturnType(Method.java:255)
+	at java.beans.FeatureDescriptor.getReturnType(FeatureDescriptor.java:370)
+	at java.beans.IndexedPropertyDescriptor.findIndexedPropertyType(IndexedPropertyDescriptor.java:363)
+	at java.beans.IndexedPropertyDescriptor.<init>(IndexedPropertyDescriptor.java:164)
+	at java.beans.Introspector.getTargetPropertyInfo(Introspector.java:519)
+	at java.beans.Introspector.getBeanInfo(Introspector.java:428)
+	at java.beans.Introspector.getBeanInfo(Introspector.java:173)
+	at org.springframework.beans.CachedIntrospectionResults.<init>(CachedIntrospectionResults.java:279)
+	at org.springframework.beans.CachedIntrospectionResults.forClass(CachedIntrospectionResults.java:189)
+	at org.springframework.beans.BeanWrapperImpl.getCachedIntrospectionResults(BeanWrapperImpl.java:173)
+	at org.springframework.beans.BeanWrapperImpl.getPropertyDescriptors(BeanWrapperImpl.java:248)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.filterPropertyDescriptorsForDependencyCheck(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.filterPropertyDescriptorsForDependencyCheck(AbstractAutowireCapableBeanFactory.java:1397)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1259)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	... 38 more
+Caused by: java.lang.ClassNotFoundException: OrderItemsData
+	at org.codehaus.plexus.classworlds.strategy.SelfFirstStrategy.loadClass(SelfFirstStrategy.java:50)
+	at org.codehaus.plexus.classworlds.realm.ClassRealm.unsynchronizedLoadClass(ClassRealm.java:271)
+	at org.codehaus.plexus.classworlds.realm.ClassRealm.loadClass(ClassRealm.java:247)
+	at org.codehaus.plexus.classworlds.realm.ClassRealm.loadClass(ClassRealm.java:239)
+	at org.eclipse.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:543)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:348)
+	at sun.reflect.generics.factory.CoreReflectionFactory.makeNamedType(CoreReflectionFactory.java:114)
+	... 59 more
+2023-01-29 18:17:13 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:24:49 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:25:26 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:34:14 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:34:21 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:39:58 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:42:58 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:45:17 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:45:56 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:48:53 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:49:23 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:49:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:50:40 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:51:14 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:51:26 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:52:27 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:53:00 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:53:40 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 18:54:09 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:09:49 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:22:34 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:23:05 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:23:10 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:23:53 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:30:08 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:30:14 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:35:50 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:55:40 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 19:58:53 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:01:56 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:02:03 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:22:46 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:23:02 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:31:52 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:37:22 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:41:05 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 20:47:01 INFO  SecurityConfig:33 - Configuration complete
+2023-01-29 21:15:09 INFO  SecurityConfig:33 - Configuration complete

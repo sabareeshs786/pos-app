@@ -30,7 +30,7 @@ import com.increff.posapp.util.UserPrincipal;
 <span class="nc" id="L30">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
 <span class="nc" id="L31">		return mav;</span>
 	}
-	protected ModelAndView mav(String page, Integer orderId) {
+	protected ModelAndView mav(String page, Integer orderId, String mode) {
 		// Get current user
 <span class="nc" id="L35">		UserPrincipal principal = SecurityUtil.getPrincipal();</span>
 
@@ -41,7 +41,8 @@ import com.increff.posapp.util.UserPrincipal;
 <span class="nc" id="L41">		mav.addObject(&quot;info&quot;, info);</span>
 <span class="nc" id="L42">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
 <span class="nc" id="L43">		mav.addObject(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L44">		return mav;</span>
+<span class="nc" id="L44">		mav.addObject(&quot;mode&quot;, mode);</span>
+<span class="nc" id="L45">		return mav;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

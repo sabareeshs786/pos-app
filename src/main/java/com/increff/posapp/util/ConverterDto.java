@@ -86,16 +86,6 @@ public class ConverterDto {
 		return orderItemPojo;
 	}
 
-	public static OrderItemsData convertToOrderItemsData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
-		OrderItemsData orderItemsData = new OrderItemsData();
-		orderItemsData.setId(orderItemPojo.getId());
-		orderItemsData.setOrderId(orderItemPojo.getOrderId());
-		orderItemsData.setProductName(productPojo.getName());
-		orderItemsData.setQuantity(orderItemPojo.getQuantity());
-		orderItemsData.setSellingPrice(orderItemPojo.getSellingPrice());
-		orderItemsData.setMrp(productPojo.getMrp());
-		return orderItemsData;
-	}
 
 	public static OrderItemData convertToOrderItemData(OrderItemPojo orderItemPojo, ProductPojo productPojo){
 		OrderItemData orderItemData = new OrderItemData();

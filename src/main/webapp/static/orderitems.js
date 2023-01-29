@@ -20,6 +20,11 @@ function getOrderId(){
 	return orderId;
 }
 
+function getMode(){
+	var mode = $("meta[name=mode]").attr("content");
+	return mode;
+}
+
 function getOrderItems(){
 	var url = getOrderUrl() + "/" + getOrderId();
 	$.ajax({
@@ -36,6 +41,9 @@ function getOrderItems(){
 
 function displayOrderItems(data){
 	$('#order-items-table-body').empty();
+	if(getMode() == 'edit'){
+		$('#order-items-table-head').append('<th scope="col">Actions</th>');
+	}
 	var row = '';
 	var sno = 0;
 	console.log(data);
@@ -46,8 +54,13 @@ function displayOrderItems(data){
 		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].quantity + '</td>'
 		+ '<td>' + data[i].sellingPrice + '</td>'
-		+ '<td>' + data[i].mrp + '</td>'
-		+ '<td>' + buttonHtml + '</td></tr>'
+		+ '<td>' + data[i].mrp + '</td>';
+		if(getMode() == 'edit'){
+			row += '<td>' + buttonHtml + '</td></tr>';
+		}
+		else{
+			row += '</tr>';
+		}
 		$('#order-items-table-body').append(row);
 	}
 }
