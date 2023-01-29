@@ -57,14 +57,27 @@ function updateBrand(event){
 
 
 function getBrandList(){
-	var url = getBrandUrl();
+	var url = getBrandUrl() + '/' + 0 + '/' + 3;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
-	   contentType : 'application/json',
+	   contentType : 'application/json; charset=utf-8',
 	   success: function(data) {
-	   		displayBrandList(data);  
+			console.log("Response contents= "+data);
+			$.each(data, function(key, value) {
+				console.log("Key: "+key + "\nValue: "+value);
+			 });
+	   		displayBrandList(data.content);
+			   var pagination = "";
+			   for (var i = 0; i < data.totalPages; i++) {
+				  var active = "";
+				  if (i == data.number) {
+					 active = "active";
+				  }
+				  pagination += "<li class='page-item " + active + "'><a class='page-link' href='" + getBrandUrl() +"/" + (i) +"/" +3 +"'"+ "onclick='loadData(" + (i * 3) + ", " + 3 + ")'>" + (i + 1) + "</a></li>";
+			   }
+			   $("#paginationContainer").html(pagination);
 	   },
 	   error: handleAjaxError
 	});

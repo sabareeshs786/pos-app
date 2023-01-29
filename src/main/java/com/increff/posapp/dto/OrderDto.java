@@ -33,29 +33,28 @@ public class OrderDto {
 	private OrderItemService orderItemService;
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(OrderForm[] forms) throws ApiException {
+	public void add(OrderForm form) throws ApiException {
 
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
-
-		for(OrderForm form: forms) {
+		Integer len = form.getBarcodes().size();
+		for(int i=0; i < len; i++) {
 			FormValidator.orderFormValidator(form);
-			FormNormalizer.orderFormNormalizer(form);
 
-			ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
+			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));
 			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 			Integer productId = inventoryPojo.getProductId();
 			Double mrp = productPojo.getMrp();
 			Integer initialQuantity = inventoryPojo.getQuantity();
 
-			validateMrp(form, mrp);
-			validateQuantityRequest(form, initialQuantity);
+			validateMrp(form.getSellingPrices().get(i), mrp);
+			validateQuantityRequest(form.getQuantities().get(i), initialQuantity);
 
-			Integer finalQuantity = initialQuantity - form.getQuantity();
+			Integer finalQuantity = initialQuantity - form.getQuantities().get(i);
 			inventoryPojo.setQuantity(finalQuantity);
 			inventoryService.updateByProductId(productId, inventoryPojo);
 
-			OrderItemPojo orderItemPojo = ConverterDto.convertToOrderItemPojo(form, orderPojo, productId);
+			OrderItemPojo orderItemPojo = ConverterDto.convertToOrderItemPojo(form, i, orderPojo, productId);
 			orderItemService.add(orderItemPojo);
 		}
 
@@ -75,14 +74,14 @@ public class OrderDto {
 		return list2;
 	}
 
-	private void validateMrp(OrderForm form, Double mrp) throws ApiException {
-		if (form.getSellingPrice() > mrp) {
+	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {
+		if (sellingPrice > mrp) {
 			throw new ApiException("Selling price must be less than MRP");
 		}
 	}
 
-	private void validateQuantityRequest(OrderForm form, Integer initialQuantity) throws ApiException {
-		if (initialQuantity < form.getQuantity()) {
+	private void validateQuantityRequest(Integer requestedQuantity, Integer initialQuantity) throws ApiException {
+		if (initialQuantity < requestedQuantity) {
 			throw new ApiException("Entered quantity is greater than quantity present in inventory");
 		}
 	}

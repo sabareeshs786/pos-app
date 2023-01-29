@@ -2,6 +2,7 @@ package com.increff.posapp.controller;
 
 import java.util.List;
 
+import com.increff.posapp.model.OrderItemEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,9 @@ public class OrderController {
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public void add(@RequestBody OrderForm[] forms) throws ApiException {
-		orderDto.add(forms);
+	public void add(@RequestBody OrderForm form) throws ApiException {
+		System.out.println(form);
+		orderDto.add(form);
 	}
 
 	@ApiOperation(value = "Gets list of all ordered items by order id")
@@ -42,6 +44,16 @@ public class OrderController {
 	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
 	public List<OrderData> getAll() throws ApiException {
 		return orderDto.getAll();
+	}
+	@ApiOperation(value = "Edits an order item by id")
+	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.GET)
+	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
+		return orderItemDto.getByOrderItemId(id);
+	}
+	@ApiOperation(value = "Edits an order item by id")
+	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.PUT)
+	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
+		orderItemDto.update(id, orderItemEditForm);
 	}
 
 }

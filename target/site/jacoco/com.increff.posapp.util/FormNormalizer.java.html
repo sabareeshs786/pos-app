@@ -21,14 +21,9 @@ import com.increff.posapp.service.ApiException;
 <span class="nc" id="L21">		form.setBarcode(form.getBarcode().toLowerCase());</span>
 <span class="nc" id="L22">	}</span>
 
-	public static void orderFormNormalizer(OrderForm form) throws ApiException {
+	public static void orderItemEditFormNormalizer(OrderItemEditForm form) throws ApiException {
 <span class="nc" id="L25">		form.setBarcode(form.getBarcode().toLowerCase());</span>
 <span class="nc" id="L26">		form.setSellingPrice(DoubleUtil.round(form.getSellingPrice(), 2));</span>
 <span class="nc" id="L27">	}</span>
-
-	public static void orderItemEditFormNormalizer(OrderItemEditForm form) throws ApiException {
-<span class="nc" id="L30">		form.setBarcode(form.getBarcode().toLowerCase());</span>
-<span class="nc" id="L31">		form.setSellingPrice(DoubleUtil.round(form.getSellingPrice(), 2));</span>
-<span class="nc" id="L32">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

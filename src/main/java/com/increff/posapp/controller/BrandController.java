@@ -3,11 +3,8 @@ package com.increff.posapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.BrandDto;
 import com.increff.posapp.model.BrandData;
@@ -39,6 +36,13 @@ public class BrandController {
 	@RequestMapping(path = "/api/brand", method = RequestMethod.GET)
 	public List<BrandData> getAll() throws ApiException {
 		return brandDto.getAll();
+	}
+
+	@ApiOperation(value = "Gets list of all brand and category")
+	@RequestMapping(path = "/api/brand/{page}/{size}", method = RequestMethod.GET)
+	public Page<BrandData> getAll(@PathVariable Integer page, @PathVariable Integer size) throws ApiException {
+		System.out.println("Page = "+page+"\nSize="+size);
+		return brandDto.getAll(page, size);
 	}
 
 	@ApiOperation(value = "Updates a brand and category")

@@ -41,23 +41,29 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L41">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
 	}
 	
+	public ProductData getByBarcode(String barcode) throws ApiException {
+<span class="nc" id="L45">		ProductPojo productPojo = productService.getByBarcode(barcode);</span>
+<span class="nc" id="L46">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L47">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
+	}
+	
 	public List&lt;ProductData&gt; getAll() throws ApiException{
-<span class="nc" id="L45">		List&lt;ProductPojo&gt; list = productService.getAll();</span>
-<span class="nc" id="L46">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
-<span class="nc" id="L48">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L49">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
-<span class="nc" id="L50">		}</span>
-<span class="nc" id="L51">		System.out.println(list2);</span>
-<span class="nc" id="L52">		return list2;</span>
+<span class="nc" id="L51">		List&lt;ProductPojo&gt; list = productService.getAll();</span>
+<span class="nc" id="L52">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
+<span class="nc" id="L54">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L55">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
+<span class="nc" id="L56">		}</span>
+<span class="nc" id="L57">		System.out.println(list2);</span>
+<span class="nc" id="L58">		return list2;</span>
 	}
 	
 	public void updateById(Integer id, ProductForm form) throws ApiException {
-<span class="nc" id="L56">		FormValidator.productFormValidator(form);</span>
-<span class="nc" id="L57">		FormNormalizer.productFormNormalizer(form);</span>
-<span class="nc" id="L58">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="nc" id="L59">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
-<span class="nc" id="L60">		productService.updateById(id, p);</span>
-<span class="nc" id="L61">	}</span>
+<span class="nc" id="L62">		FormValidator.productFormValidator(form);</span>
+<span class="nc" id="L63">		FormNormalizer.productFormNormalizer(form);</span>
+<span class="nc" id="L64">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="nc" id="L65">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
+<span class="nc" id="L66">		productService.updateById(id, p);</span>
+<span class="nc" id="L67">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -3,11 +3,8 @@
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.BrandDto;
 import com.increff.posapp.model.BrandData;
@@ -18,7 +15,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-<span class="fc" id="L21">public class BrandController {</span>
+<span class="fc" id="L18">public class BrandController {</span>
 
 	@Autowired
 	private BrandDto brandDto;
@@ -26,26 +23,33 @@ import io.swagger.annotations.ApiOperation;
 	@ApiOperation(value = &quot;Adds a new item of a particular brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.POST)
 	public void add(@RequestBody BrandForm form) throws ApiException {
-<span class="nc" id="L29">		brandDto.add(form);</span>
-<span class="nc" id="L30">	}</span>
+<span class="nc" id="L26">		brandDto.add(form);</span>
+<span class="nc" id="L27">	}</span>
 
 	@ApiOperation(value = &quot;Gets a brand by ID&quot;)
 	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.GET)
 	public BrandData get(@PathVariable int id) throws ApiException {
-<span class="nc" id="L35">		return brandDto.get(id);</span>
+<span class="nc" id="L32">		return brandDto.get(id);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets list of all brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.GET)
 	public List&lt;BrandData&gt; getAll() throws ApiException {
-<span class="nc" id="L41">		return brandDto.getAll();</span>
+<span class="nc" id="L38">		return brandDto.getAll();</span>
+	}
+
+	@ApiOperation(value = &quot;Gets list of all brand and category&quot;)
+	@RequestMapping(path = &quot;/api/brand/{page}/{size}&quot;, method = RequestMethod.GET)
+	public Page&lt;BrandData&gt; getAll(@PathVariable Integer page, @PathVariable Integer size) throws ApiException {
+<span class="nc" id="L44">		System.out.println(&quot;Page = &quot;+page+&quot;\nSize=&quot;+size);</span>
+<span class="nc" id="L45">		return brandDto.getAll(page, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates a brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
-<span class="nc" id="L47">		brandDto.updateById(id, form);</span>
-<span class="nc" id="L48">	}</span>
+<span class="nc" id="L51">		brandDto.updateById(id, form);</span>
+<span class="nc" id="L52">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

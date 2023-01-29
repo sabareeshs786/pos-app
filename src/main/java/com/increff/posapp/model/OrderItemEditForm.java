@@ -5,15 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderItemEditForm extends OrderForm{
+public class OrderItemEditForm {
 
 	private Integer id;
-
-	@Override
-	public String toString() {
-		super.toString();
-		return "OrderItemEditForm{" +
-				"id=" + id +
-				'}';
-	}
+	private String barcode;
+	private Integer quantity;
+	private Double sellingPrice;
 }

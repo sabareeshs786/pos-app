@@ -77,12 +77,12 @@ import io.swagger.models.auth.In;
 <span class="nc" id="L77">		return orderData;</span>
 	}
 	
-	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  OrderPojo orderPojo, Integer productId) throws ApiException {
+	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  Integer i, OrderPojo orderPojo, Integer productId) throws ApiException {
 <span class="nc" id="L81">		OrderItemPojo orderItemPojo = new OrderItemPojo();</span>
 <span class="nc" id="L82">		orderItemPojo.setOrderId(orderPojo.getId());</span>
 <span class="nc" id="L83">		orderItemPojo.setProductId(productId);</span>
-<span class="nc" id="L84">		orderItemPojo.setQuantity(form.getQuantity());</span>
-<span class="nc" id="L85">		orderItemPojo.setSellingPrice(form.getSellingPrice());</span>
+<span class="nc" id="L84">		orderItemPojo.setQuantity(form.getQuantities().get(i));</span>
+<span class="nc" id="L85">		orderItemPojo.setSellingPrice(form.getSellingPrices().get(i));</span>
 <span class="nc" id="L86">		return orderItemPojo;</span>
 	}
 

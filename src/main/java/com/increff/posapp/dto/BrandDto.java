@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.posapp.util.FormNormalizer;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.model.BrandData;
@@ -39,6 +43,17 @@ public class BrandDto {
 			listBrandData.add(ConverterDto.convertToBrandData(p));
 		}
 		return listBrandData;
+	}
+
+	public Page<BrandData> getAll(Integer page, Integer size){
+		Page<BrandPojo> pojoPage = brandService.getAllByPage(page, size);
+		List<BrandPojo> brandPojoList = pojoPage.getContent();
+		List<BrandData> listBrandData = new ArrayList<>();
+		for(BrandPojo p: brandPojoList) {
+			listBrandData.add(ConverterDto.convertToBrandData(p));
+		}
+		Page<BrandData> dataPage = new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return dataPage;
 	}
 
 	public List<BrandData> getByBrand(String brand) throws ApiException {

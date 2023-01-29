@@ -34,18 +34,24 @@ import io.swagger.annotations.ApiOperation;
 	public ProductData getById(@PathVariable Integer id) throws ApiException {
 <span class="nc" id="L35">		return productDto.getById(id);</span>
 	}
-
+	
+	@ApiOperation(value = &quot;Gets a product by barcode&quot;)
+	@RequestMapping(path = &quot;/api/product/{barcode}&quot;, method = RequestMethod.GET)
+	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
+<span class="nc" id="L41">		return productDto.getByBarcode(barcode);</span>
+	}
+	
 	@ApiOperation(value = &quot;Gets list of all products&quot;)
 	@RequestMapping(path = &quot;/api/product&quot;, method = RequestMethod.GET)
 	public List&lt;ProductData&gt; getAll() throws ApiException {
-<span class="nc" id="L41">		return productDto.getAll();</span>
+<span class="nc" id="L47">		return productDto.getAll();</span>
 	}
 
 	@ApiOperation(value = &quot;Updates a product&quot;)
 	@RequestMapping(path = &quot;/api/product/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException {
-<span class="nc" id="L47">		productDto.updateById(id, form);</span>
-<span class="nc" id="L48">	}</span>
+<span class="nc" id="L53">		productDto.updateById(id, form);</span>
+<span class="nc" id="L54">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

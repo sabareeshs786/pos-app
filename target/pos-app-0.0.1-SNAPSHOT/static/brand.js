@@ -57,14 +57,15 @@ function updateBrand(event){
 
 
 function getBrandList(){
-	var url = getBrandUrl();
+	var url = getBrandUrl() + '/' + 1 + '/' + 3;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
-	   contentType : 'application/json',
-	   success: function(data) {
-	   		displayBrandList(data);  
+	   contentType : 'application/json; charset=utf-8',
+	   success: function(response) {
+			console.log("Response contents= "+response);
+	   		//displayBrandList(response.contents); 
 	   },
 	   error: handleAjaxError
 	});

@@ -77,12 +77,12 @@ public class ConverterDto {
 		return orderData;
 	}
 	
-	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  OrderPojo orderPojo, Integer productId) throws ApiException {
+	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  Integer i, OrderPojo orderPojo, Integer productId) throws ApiException {
 		OrderItemPojo orderItemPojo = new OrderItemPojo();
 		orderItemPojo.setOrderId(orderPojo.getId());
 		orderItemPojo.setProductId(productId);
-		orderItemPojo.setQuantity(form.getQuantity());
-		orderItemPojo.setSellingPrice(form.getSellingPrice());
+		orderItemPojo.setQuantity(form.getQuantities().get(i));
+		orderItemPojo.setSellingPrice(form.getSellingPrices().get(i));
 		return orderItemPojo;
 	}
 
