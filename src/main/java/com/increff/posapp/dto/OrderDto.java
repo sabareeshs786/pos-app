@@ -2,6 +2,7 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderForm;
+import com.increff.posapp.model.ProductData;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.ProductPojo;
@@ -9,6 +10,9 @@ import com.increff.posapp.service.*;
 import com.increff.posapp.util.FormNormalizer;
 import com.increff.posapp.util.FormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.pojo.OrderPojo;
@@ -72,6 +76,22 @@ public class OrderDto {
 			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));
 		}
 		return list2;
+	}
+
+	public Page<OrderData> getAll(Integer page, Integer size) throws ApiException {
+		Page<OrderPojo> pojoPage = orderService.getAllByPage(page, size);
+		List<OrderPojo> list = pojoPage.getContent();
+		List<OrderData> list2 = new ArrayList<OrderData>();
+		Double totalAmount = 0.0;
+		for (OrderPojo orderPojo : list) {
+			totalAmount = 0.00;
+			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){
+				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
+			}
+			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));
+		}
+		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return dataPage;
 	}
 
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {

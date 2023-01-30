@@ -54,16 +54,41 @@ function updateInventory(event){
 	return false;
 }
 
+function getInventoryListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getInventoryList(0, pageSize);
+}
 
-function getInventoryList(){
-	var url = getInventoryUrl();
+function getInventoryList(pageNumber, pageSize){
+	var url = getInventoryUrl() + '/' + pageNumber + '/' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-	   		displayInventoryList(data);  
+	   		displayInventoryList(data.content, pageNumber*pageSize); 
+			   var pagination = "";
+			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
+				   var active = "";
+				   if (i == data.number) {
+				   active = "active";
+				   }
+				   pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='getInventoryList(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			   }
+			   if (data.number > 0) {
+				   pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			   }
+			   if (data.number < data.totalPages - 1) {
+				   pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			   }
+			   $("#paginationContainer").html(pagination);
+			   $("#previous").click(function() {
+				   getInventoryList(data.number - 1, pageSize);
+			   });
+			   $("#next").click(function() {
+				   getInventoryList(data.number + 1, pageSize);
+			   });
 	   },
 	   error: handleAjaxError
 	});
@@ -128,11 +153,10 @@ function downloadErrors(){
 
 //UI DISPLAY METHODS
 
-function displayInventoryList(data){
+function displayInventoryList(data, sno){
 	console.log(data);
 	$("#inventory-table-body").empty();
     var row = "";
-    var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 		sno += 1;
 		var buttonHtml = ' <button onclick="displayEditInventory(' + data[i].id + ')">edit</button>';
@@ -203,8 +227,9 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#inventoryFile').on('change', updateFileName)
+    $('#inventoryFile').on('change', updateFileName);
+	$('#inputPageSize').on('change', getInventoryListUtil);
 }
 
 $(document).ready(init);
-$(document).ready(getInventoryList);
+$(document).ready(getInventoryListUtil);

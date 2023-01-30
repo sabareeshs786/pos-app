@@ -6,6 +6,10 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.increff.posapp.pojo.ProductPojo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.increff.posapp.pojo.InventoryPojo;
@@ -24,6 +28,7 @@ public class InventoryDao extends AbstractDao{
 	private static String select_quantity = "select p from InventoryPojo p where quantity=:quantity";
 	
 	private static String select_all = "select p from InventoryPojo p";
+	private static String select_all_count = "select count(p) from InventoryPojo p";
 
 
 
@@ -72,6 +77,20 @@ public class InventoryDao extends AbstractDao{
 		return query.getResultList();
 	}
 
+	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
+		TypedQuery<InventoryPojo> query = getQuery(select_all, InventoryPojo.class);
+		// private static String select_all = "select p from ProductPojo p";apply pagination
+		int pageNumber = page;
+		int pageSize = size;
+		int firstResult = pageNumber * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+
+		// execute the query
+		List<InventoryPojo> entities = query.getResultList();
+		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+	}
 	public void update(InventoryPojo inventoryPojo) {
 		// Implemented by Spring itself
 	}

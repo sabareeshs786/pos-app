@@ -11,7 +11,11 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.increff.posapp.pojo.OrderPojo;
@@ -28,6 +32,8 @@ public class OrderDao extends AbstractDao{
 	private static String select_by_end_time = "select p from OrderPojo p where time <= :endTime";
 	private static String select_by_interval = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
 	private static String select_all = "select p from OrderPojo p";
+
+	private static String select_all_count = "select count(p) from OrderPojo p";
 
 	public void insert(OrderPojo p) {
 		em().persist(p);
@@ -78,6 +84,21 @@ public class OrderDao extends AbstractDao{
 		return query.getResultList();
 	}
 
+	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
+		TypedQuery<OrderPojo> query = getQuery(select_all, OrderPojo.class);
+
+		// private static String select_all = "select p from ProductPojo p";apply pagination
+		int pageNumber = page;
+		int pageSize = size;
+		int firstResult = pageNumber * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+
+		// execute the query
+		List<OrderPojo> entities = query.getResultList();
+		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+	}
 	public void update(OrderPojo p) {
 		// Implemented by Spring itself
 	}

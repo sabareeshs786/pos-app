@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-<span class="fc" id="L21">public class ProductController {</span>
+<span class="fc" id="L22">public class ProductController {</span>
 	
 	@Autowired
 	private ProductDto productDto;
@@ -26,32 +27,32 @@ import io.swagger.annotations.ApiOperation;
 	@ApiOperation(value = &quot;Adds a product&quot;)
 	@RequestMapping(path = &quot;/api/product&quot;, method = RequestMethod.POST)
 	public void add(@RequestBody ProductForm form) throws ApiException {
-<span class="nc" id="L29">		productDto.add(form);</span>
-<span class="nc" id="L30">	}</span>
+<span class="nc" id="L30">		productDto.add(form);</span>
+<span class="nc" id="L31">	}</span>
 
 	@ApiOperation(value = &quot;Gets a product by product id&quot;)
 	@RequestMapping(path = &quot;/api/product/{id}&quot;, method = RequestMethod.GET)
 	public ProductData getById(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L35">		return productDto.getById(id);</span>
+<span class="nc" id="L36">		return productDto.getById(id);</span>
 	}
 	
 	@ApiOperation(value = &quot;Gets a product by barcode&quot;)
 	@RequestMapping(path = &quot;/api/product/{barcode}&quot;, method = RequestMethod.GET)
 	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
-<span class="nc" id="L41">		return productDto.getByBarcode(barcode);</span>
+<span class="nc" id="L42">		return productDto.getByBarcode(barcode);</span>
 	}
 	
 	@ApiOperation(value = &quot;Gets list of all products&quot;)
-	@RequestMapping(path = &quot;/api/product&quot;, method = RequestMethod.GET)
-	public List&lt;ProductData&gt; getAll() throws ApiException {
-<span class="nc" id="L47">		return productDto.getAll();</span>
+	@RequestMapping(path = &quot;/api/product/{pageNo}/{size}&quot;, method = RequestMethod.GET)
+	public Page&lt;ProductData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
+<span class="nc" id="L48">		return productDto.getAll(pageNo, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates a product&quot;)
 	@RequestMapping(path = &quot;/api/product/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException {
-<span class="nc" id="L53">		productDto.updateById(id, form);</span>
-<span class="nc" id="L54">	}</span>
+<span class="nc" id="L54">		productDto.updateById(id, form);</span>
+<span class="nc" id="L55">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

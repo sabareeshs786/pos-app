@@ -25,13 +25,39 @@ function getMode(){
 	return mode;
 }
 
-function getOrderItems(){
-	var url = getOrderUrl() + "/" + getOrderId();
+function getOrderItemsUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getOrderItems(0, pageSize);
+}
+
+function getOrderItems(pageNumber, pageSize){
+	var url = getOrderUrl() + "/" + getOrderId() + '/' + pageNumber + '/' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-			displayOrderItems(data);
+			displayOrderItems(data.content, pageNumber*pageSize);
+			var pagination = "";
+			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
+				   var active = "";
+				   if (i == data.number) {
+				   active = "active";
+				   }
+				   pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='getOrderItems(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			   }
+			   if (data.number > 0) {
+				   pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			   }
+			   if (data.number < data.totalPages - 1) {
+				   pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			   }
+			   $("#paginationContainer").html(pagination);
+			   $("#previous").click(function() {
+				   getOrderItems(data.number - 1, pageSize);
+			   });
+			   $("#next").click(function() {
+				   getOrderItems(data.number + 1, pageSize);
+			   }); 
 	   },
 	   error: handleAjaxError
 	});	
@@ -39,13 +65,12 @@ function getOrderItems(){
 
 //UI DISPLAY METHODS
 
-function displayOrderItems(data){
+function displayOrderItems(data, sno){
 	$('#order-items-table-body').empty();
 	if(getMode() == 'edit'){
 		$('#order-items-table-head').append('<th scope="col">Actions</th>');
 	}
 	var row = '';
-	var sno = 0;
 	console.log(data);
 	for(var i = 0; i < data.length; i++){
 		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')">Edit</button>'
@@ -149,8 +174,9 @@ function init(){
 	$('#place-order-confirm').click(addItemToExistingOrder);
 	$('#add-row').click(addRow);
 	$('#update-order-item').click(updateOrderItem);
+	$('#inputPageSize').on('change', getOrderItemsUtil);
 }
 
 $(document).ready(init);
-$(document).ready(getOrderItems);
+$(document).ready(getOrderItemsUtil);
 $(document).ready(getHtmlContent)

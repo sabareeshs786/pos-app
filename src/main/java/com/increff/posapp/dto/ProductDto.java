@@ -3,8 +3,12 @@ package com.increff.posapp.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.model.ProductData;
@@ -47,15 +51,16 @@ public class ProductDto {
 		return ConverterDto.convertToProductData(productPojo, brandPojo);
 	}
 	
-	public List<ProductData> getAll() throws ApiException{
-		List<ProductPojo> list = productService.getAll();
+	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
+		Page<ProductPojo> pojoPage = productService.getAllByPage(page, size);
+		List<ProductPojo> list = pojoPage.getContent();
 		List<ProductData> list2 = new ArrayList<>();
 		for (ProductPojo productPojo : list) {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));
 		}
-		System.out.println(list2);
-		return list2;
+		Page<ProductData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return dataPage;
 	}
 	
 	public void updateById(Integer id, ProductForm form) throws ApiException {

@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-<span class="fc" id="L21">public class InventoryController {</span>
+<span class="fc" id="L22">public class InventoryController {</span>
 	
 	@Autowired
 	private InventoryDto inventoryDto;
@@ -26,26 +27,26 @@ import io.swagger.annotations.ApiOperation;
 	@ApiOperation(value = &quot;Adds a new product and it's quantity&quot;)
 	@RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.POST)
 	public void add(@RequestBody InventoryForm form) throws ApiException {
-<span class="nc" id="L29">		inventoryDto.add(form);</span>
-<span class="nc" id="L30">	}</span>
+<span class="nc" id="L30">		inventoryDto.add(form);</span>
+<span class="nc" id="L31">	}</span>
 
 	@ApiOperation(value = &quot;Gets a inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.GET)
 	public InventoryData get(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L35">		return inventoryDto.getById(id);</span>
+<span class="nc" id="L36">		return inventoryDto.getById(id);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets the whole inventory&quot;)
-	@RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.GET)
-	public List&lt;InventoryData&gt; getAll() throws ApiException {
-<span class="nc" id="L41">		return inventoryDto.getAll();</span>
+	@RequestMapping(path = &quot;/api/inventory/{pageNo}/{size}&quot;, method = RequestMethod.GET)
+	public Page&lt;InventoryData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
+<span class="nc" id="L42">		return inventoryDto.getAll(pageNo, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates the inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody InventoryForm f) throws ApiException {
-<span class="nc" id="L47">		inventoryDto.updateById(id, f);</span>
-<span class="nc" id="L48">	}</span>
+<span class="nc" id="L48">		inventoryDto.updateById(id, f);</span>
+<span class="nc" id="L49">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

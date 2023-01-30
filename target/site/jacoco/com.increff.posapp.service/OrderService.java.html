@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.OrderDao;
@@ -13,98 +14,101 @@ import com.increff.posapp.pojo.OrderPojo;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L16">public class OrderService {</span>
+<span class="fc" id="L17">public class OrderService {</span>
 
 	@Autowired
 	private OrderDao orderDao;
 
 	public void add(OrderPojo p) throws ApiException {
-<span class="nc" id="L22">		validate(p);</span>
+<span class="nc" id="L23">		validate(p);</span>
 
 		// Inserting the order
-<span class="nc" id="L25">		orderDao.insert(p);</span>
-<span class="nc" id="L26">	}</span>
+<span class="nc" id="L26">		orderDao.insert(p);</span>
+<span class="nc" id="L27">	}</span>
 
 	public OrderPojo getById(Integer id) throws ApiException {
-<span class="nc" id="L29">		return getCheckById(id);</span>
+<span class="nc" id="L30">		return getCheckById(id);</span>
 	}
 
 	public List&lt;OrderPojo&gt; getByStartTime(String startTime) throws ApiException {
-<span class="nc" id="L33">		return getCheckByStartTime(startTime);</span>
+<span class="nc" id="L34">		return getCheckByStartTime(startTime);</span>
 	}
 
 	public List&lt;OrderPojo&gt; getByEndTime(String endTime) throws ApiException {
-<span class="nc" id="L37">		return getCheckByEndTime(endTime);</span>
+<span class="nc" id="L38">		return getCheckByEndTime(endTime);</span>
 	}
 
 	public List&lt;OrderPojo&gt; getByInterval(ZonedDateTime startTime, ZonedDateTime endTime) throws ApiException {
-<span class="nc" id="L41">		return getCheckByInterval(startTime, endTime);</span>
+<span class="nc" id="L42">		return getCheckByInterval(startTime, endTime);</span>
 	}
 	public List&lt;OrderPojo&gt; getByTime(ZonedDateTime time) throws ApiException {
-<span class="nc" id="L44">		return getCheckByTime(time);</span>
+<span class="nc" id="L45">		return getCheckByTime(time);</span>
 	}
 
 	public List&lt;OrderPojo&gt; getAll() {
-<span class="nc" id="L48">		return orderDao.selectAll();</span>
+<span class="nc" id="L49">		return orderDao.selectAll();</span>
 	}
 
+	public Page&lt;OrderPojo&gt; getAllByPage(Integer page, Integer size){
+<span class="nc" id="L53">		return orderDao.getAllByPage(page, size);</span>
+	}
 	public void updateById(Integer id, OrderPojo p) throws ApiException {
-<span class="nc" id="L52">		OrderPojo ex = getCheckById(id);</span>
-<span class="nc" id="L53">		ex.setTime(p.getTime());</span>
-<span class="nc" id="L54">		orderDao.update(ex);</span>
-<span class="nc" id="L55">	}</span>
+<span class="nc" id="L56">		OrderPojo ex = getCheckById(id);</span>
+<span class="nc" id="L57">		ex.setTime(p.getTime());</span>
+<span class="nc" id="L58">		orderDao.update(ex);</span>
+<span class="nc" id="L59">	}</span>
 
 	public void updateByTime(ZonedDateTime time, OrderPojo p) throws ApiException {
-<span class="nc" id="L58">		List&lt;OrderPojo&gt; list = getCheckByTime(time);</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">		for(OrderPojo ex: list) {</span>
-<span class="nc" id="L60">		ex.setTime(p.getTime());</span>
-<span class="nc" id="L61">		orderDao.update(ex);</span>
-<span class="nc" id="L62">		}</span>
-<span class="nc" id="L63">	}</span>
+<span class="nc" id="L62">		List&lt;OrderPojo&gt; list = getCheckByTime(time);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		for(OrderPojo ex: list) {</span>
+<span class="nc" id="L64">		ex.setTime(p.getTime());</span>
+<span class="nc" id="L65">		orderDao.update(ex);</span>
+<span class="nc" id="L66">		}</span>
+<span class="nc" id="L67">	}</span>
 
 	public OrderPojo getCheckById(Integer id) throws ApiException {
-<span class="nc" id="L66">		OrderPojo p = orderDao.selectById(id);</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L68">			throw new ApiException(&quot;Brand Category combination with given ID does not exit, id: &quot; + id);</span>
+<span class="nc" id="L70">		OrderPojo p = orderDao.selectById(id);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L72">			throw new ApiException(&quot;Brand Category combination with given ID does not exit, id: &quot; + id);</span>
 		}
-<span class="nc" id="L70">		return p;</span>
+<span class="nc" id="L74">		return p;</span>
 	}
 
 	public List&lt;OrderPojo&gt; getCheckByStartTime(String startDate) throws ApiException {
-<span class="nc" id="L74">		List&lt;OrderPojo&gt; list = orderDao.selectByStartTime(startDate);</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
-<span class="nc" id="L76">			throw new ApiException(&quot;Order with the given start time doesn't exist&quot;);</span>
+<span class="nc" id="L78">		List&lt;OrderPojo&gt; list = orderDao.selectByStartTime(startDate);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
+<span class="nc" id="L80">			throw new ApiException(&quot;Order with the given start time doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L78">		return list;</span>
+<span class="nc" id="L82">		return list;</span>
 	}
 
 	public List&lt;OrderPojo&gt; getCheckByEndTime(String endDate) throws ApiException {
-<span class="nc" id="L82">		List&lt;OrderPojo&gt; list = orderDao.selectByEndTime(endDate);</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
-<span class="nc" id="L84">			throw new ApiException(&quot;Order before the given end time doesn't exist&quot;);</span>
+<span class="nc" id="L86">		List&lt;OrderPojo&gt; list = orderDao.selectByEndTime(endDate);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
+<span class="nc" id="L88">			throw new ApiException(&quot;Order before the given end time doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L86">		return list;</span>
+<span class="nc" id="L90">		return list;</span>
 	}
 
 	public List&lt;OrderPojo&gt; getCheckByInterval(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
-<span class="nc" id="L90">		List&lt;OrderPojo&gt; list = orderDao.selectByInterval(startDate, endDate);</span>
-<span class="nc bnc" id="L91" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
-<span class="nc" id="L92">			throw new ApiException(&quot;Order with the given time interval doesn't exist&quot;);</span>
+<span class="nc" id="L94">		List&lt;OrderPojo&gt; list = orderDao.selectByInterval(startDate, endDate);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
+<span class="nc" id="L96">			throw new ApiException(&quot;Order with the given time interval doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L94">		return list;</span>
+<span class="nc" id="L98">		return list;</span>
 	}
 	public List&lt;OrderPojo&gt; getCheckByTime(ZonedDateTime time) throws ApiException {
-<span class="nc" id="L97">		List&lt;OrderPojo&gt; list = orderDao.selectByTime(time);</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
-<span class="nc" id="L99">			throw new ApiException(&quot;Order with the given time doesn't exist&quot;);</span>
+<span class="nc" id="L101">		List&lt;OrderPojo&gt; list = orderDao.selectByTime(time);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">		if(list.isEmpty()) {</span>
+<span class="nc" id="L103">			throw new ApiException(&quot;Order with the given time doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L101">		return list;</span>
+<span class="nc" id="L105">		return list;</span>
 	}
 
 	private void validate(OrderPojo p) throws ApiException {
-<span class="nc bnc" id="L105" title="All 2 branches missed.">		if(p.getTime() == null) {</span>
-<span class="nc" id="L106">			throw new ApiException(&quot;Date and Time cannot be null&quot;);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		if(p.getTime() == null) {</span>
+<span class="nc" id="L110">			throw new ApiException(&quot;Date and Time cannot be null&quot;);</span>
 		}
-<span class="nc" id="L108">	}</span>
+<span class="nc" id="L112">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

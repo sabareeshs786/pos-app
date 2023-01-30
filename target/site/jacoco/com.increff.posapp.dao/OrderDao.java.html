@@ -11,75 +11,96 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.increff.posapp.pojo.OrderPojo;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L21">public class OrderDao extends AbstractDao{</span>
+<span class="fc" id="L25">public class OrderDao extends AbstractDao{</span>
 	
-<span class="fc" id="L23">	private static String delete_id = &quot;delete from OrderPojo p where id=:id&quot;;</span>
-<span class="fc" id="L24">	private static String delete_time = &quot;delete from OrderPojo p where time=:time&quot;;</span>
-<span class="fc" id="L25">	private static String select_id = &quot;select p from OrderPojo p where id=:id&quot;;</span>
-<span class="fc" id="L26">	private static String select_time = &quot;select p from OrderPojo p where time=:time&quot;;</span>
-<span class="fc" id="L27">	private static String select_by_start_time = &quot;select p from OrderPojo p where time &gt;= :startTime&quot;;</span>
-<span class="fc" id="L28">	private static String select_by_end_time = &quot;select p from OrderPojo p where time &lt;= :endTime&quot;;</span>
-<span class="fc" id="L29">	private static String select_by_interval = &quot;select p from OrderPojo p where time &gt;= :startTime and time &lt;=:endTime&quot;;</span>
-<span class="fc" id="L30">	private static String select_all = &quot;select p from OrderPojo p&quot;;</span>
+<span class="fc" id="L27">	private static String delete_id = &quot;delete from OrderPojo p where id=:id&quot;;</span>
+<span class="fc" id="L28">	private static String delete_time = &quot;delete from OrderPojo p where time=:time&quot;;</span>
+<span class="fc" id="L29">	private static String select_id = &quot;select p from OrderPojo p where id=:id&quot;;</span>
+<span class="fc" id="L30">	private static String select_time = &quot;select p from OrderPojo p where time=:time&quot;;</span>
+<span class="fc" id="L31">	private static String select_by_start_time = &quot;select p from OrderPojo p where time &gt;= :startTime&quot;;</span>
+<span class="fc" id="L32">	private static String select_by_end_time = &quot;select p from OrderPojo p where time &lt;= :endTime&quot;;</span>
+<span class="fc" id="L33">	private static String select_by_interval = &quot;select p from OrderPojo p where time &gt;= :startTime and time &lt;=:endTime&quot;;</span>
+<span class="fc" id="L34">	private static String select_all = &quot;select p from OrderPojo p&quot;;</span>
+
+<span class="fc" id="L36">	private static String select_all_count = &quot;select count(p) from OrderPojo p&quot;;</span>
 
 	public void insert(OrderPojo p) {
-<span class="nc" id="L33">		em().persist(p);</span>
-<span class="nc" id="L34">	}</span>
+<span class="nc" id="L39">		em().persist(p);</span>
+<span class="nc" id="L40">	}</span>
 
 	public Integer deleteById(Integer id) {
-<span class="nc" id="L37">		Query query = em().createQuery(delete_id);</span>
-<span class="nc" id="L38">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L39">		return query.executeUpdate();</span>
+<span class="nc" id="L43">		Query query = em().createQuery(delete_id);</span>
+<span class="nc" id="L44">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L45">		return query.executeUpdate();</span>
 	}
 	
 	public Integer deleteByTime(LocalDateTime time) {
-<span class="nc" id="L43">		Query query = em().createQuery(delete_time);</span>
-<span class="nc" id="L44">		query.setParameter(&quot;time&quot;,time);</span>
-<span class="nc" id="L45">		return query.executeUpdate();</span>
+<span class="nc" id="L49">		Query query = em().createQuery(delete_time);</span>
+<span class="nc" id="L50">		query.setParameter(&quot;time&quot;,time);</span>
+<span class="nc" id="L51">		return query.executeUpdate();</span>
 	}
 
 	public OrderPojo selectById(Integer id) {
-<span class="nc" id="L49">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_id, OrderPojo.class);</span>
-<span class="nc" id="L50">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L51">		return getSingle(query);</span>
+<span class="nc" id="L55">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_id, OrderPojo.class);</span>
+<span class="nc" id="L56">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L57">		return getSingle(query);</span>
 	}
 	
 	public List&lt;OrderPojo&gt; selectByTime(ZonedDateTime time) {
-<span class="nc" id="L55">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_time, OrderPojo.class);</span>
-<span class="nc" id="L56">		query.setParameter(&quot;time&quot;, time);</span>
-<span class="nc" id="L57">		return query.getResultList();</span>
+<span class="nc" id="L61">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_time, OrderPojo.class);</span>
+<span class="nc" id="L62">		query.setParameter(&quot;time&quot;, time);</span>
+<span class="nc" id="L63">		return query.getResultList();</span>
 	}
 
 	public List&lt;OrderPojo&gt; selectByStartTime(String startTime){
-<span class="nc" id="L61">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_start_time, OrderPojo.class);</span>
-<span class="nc" id="L62">		query.setParameter(&quot;startTime&quot;, startTime);</span>
-<span class="nc" id="L63">		return query.getResultList();</span>
+<span class="nc" id="L67">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_start_time, OrderPojo.class);</span>
+<span class="nc" id="L68">		query.setParameter(&quot;startTime&quot;, startTime);</span>
+<span class="nc" id="L69">		return query.getResultList();</span>
 	}
 	public List&lt;OrderPojo&gt; selectByEndTime(String endTime){
-<span class="nc" id="L66">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_end_time, OrderPojo.class);</span>
-<span class="nc" id="L67">		query.setParameter(&quot;endTime&quot;, endTime);</span>
-<span class="nc" id="L68">		return query.getResultList();</span>
-	}
-	public List&lt;OrderPojo&gt; selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
-<span class="nc" id="L71">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_interval, OrderPojo.class);</span>
-<span class="nc" id="L72">		query.setParameter(&quot;startTime&quot;, startTime);</span>
+<span class="nc" id="L72">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_end_time, OrderPojo.class);</span>
 <span class="nc" id="L73">		query.setParameter(&quot;endTime&quot;, endTime);</span>
 <span class="nc" id="L74">		return query.getResultList();</span>
 	}
+	public List&lt;OrderPojo&gt; selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
+<span class="nc" id="L77">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_by_interval, OrderPojo.class);</span>
+<span class="nc" id="L78">		query.setParameter(&quot;startTime&quot;, startTime);</span>
+<span class="nc" id="L79">		query.setParameter(&quot;endTime&quot;, endTime);</span>
+<span class="nc" id="L80">		return query.getResultList();</span>
+	}
 	public List&lt;OrderPojo&gt; selectAll() {
-<span class="nc" id="L77">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_all, OrderPojo.class);</span>
-<span class="nc" id="L78">		return query.getResultList();</span>
+<span class="nc" id="L83">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_all, OrderPojo.class);</span>
+<span class="nc" id="L84">		return query.getResultList();</span>
 	}
 
+	public Page&lt;OrderPojo&gt; getAllByPage(Integer page, Integer size){
+<span class="nc" id="L88">		TypedQuery&lt;OrderPojo&gt; query = getQuery(select_all, OrderPojo.class);</span>
+
+		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
+<span class="nc" id="L91">		int pageNumber = page;</span>
+<span class="nc" id="L92">		int pageSize = size;</span>
+<span class="nc" id="L93">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L94">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L95">		query.setMaxResults(pageSize);</span>
+
+		// execute the query
+<span class="nc" id="L98">		List&lt;OrderPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L99">		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();</span>
+<span class="nc" id="L100">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+	}
 	public void update(OrderPojo p) {
 		// Implemented by Spring itself
-<span class="nc" id="L83">	}</span>
+<span class="nc" id="L104">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

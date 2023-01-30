@@ -104,8 +104,27 @@
         
   </div>
 </nav>
-
+<div class="row" th:fragment="pos_app_select_page_size">
+	<div class="col-3">
+		<h5>Select</h5>
+		<select class="custom-select mr-sm-2" id="inputPageSize" name="category">
+      <option value="1">1</option>
+			<option value="5" selected>5</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</select>
+	</div>
+</div>
 <footer class="footer  mt-1" th:fragment="name_footer">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" id="paginationContainer">
+       <li class="page-item">
+          <a class="page-link" href="#" id="previous">Previous</a>
+       </li>
+    </ul>
+ </nav>
 	&copy;Copyright Increff 2019
 	&nbsp;
   <script th:src="@{/static/jquery-3.4.1.min.js}"></script>

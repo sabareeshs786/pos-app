@@ -1,5 +1,6 @@
 package com.increff.posapp.dto;
 
+import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.model.OrderItemEditForm;
 import com.increff.posapp.pojo.InventoryPojo;
@@ -8,6 +9,9 @@ import com.increff.posapp.service.*;
 import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.FormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.pojo.OrderItemPojo;
@@ -42,6 +46,17 @@ public class OrderItemDto {
 		return list;
 	}
 
+	public Page<OrderItemData> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
+		Page<OrderItemPojo> pojoPage = orderItemService.getPageByOrderId(orderId, page, size);
+		List<OrderItemPojo> orderItemPojoList = pojoPage.getContent();
+		List<OrderItemData> list = new ArrayList<>();
+		for(OrderItemPojo orderItemPojo:orderItemPojoList){
+			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+			list.add(ConverterDto.convertToOrderItemData(orderItemPojo, productPojo));
+		}
+		Page<OrderItemData> dataPage = new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return dataPage;
+	}
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.increff.posapp.model.OrderItemEditForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,12 +41,23 @@ public class OrderController {
 		return orderItemDto.getByOrderId(orderId);
 	}
 
+	@ApiOperation(value = "Gets list of all ordered items by order id")
+	@RequestMapping(path = "/api/order/{orderId}/{page}/{size}", method = RequestMethod.GET)
+	public Page<OrderItemData> getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
+		return orderItemDto.getPageByOrderId(orderId, page, size);
+	}
+
 	@ApiOperation(value = "Gets list of all orders")
 	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
 	public List<OrderData> getAll() throws ApiException {
 		return orderDto.getAll();
 	}
-	@ApiOperation(value = "Edits an order item by id")
+	@ApiOperation(value = "Gets list of all orders")
+	@RequestMapping(path = "/api/order/{pageNo}/{size}", method = RequestMethod.GET)
+	public Page<OrderData> getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
+		return orderDto.getAll(pageNo, size);
+	}
+	@ApiOperation(value = "Gets an order item by id")
 	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
 		return orderItemDto.getByOrderItemId(id);

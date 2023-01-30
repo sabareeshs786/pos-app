@@ -1,7 +1,11 @@
 package com.increff.posapp.dao;
 
 import com.increff.posapp.pojo.OrderItemPojo;
+import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.service.ApiException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -26,7 +30,7 @@ public class OrderItemDao extends AbstractDao{
 	private static String select_selling_price = "select p from OrderItemPojo p where sellingPrice=:sellingPrice";
 
 	private static String select_all = "select p from OrderItemPojo p";
-
+	private static String select_all_count = "select count(p) from OrderItemPojo p";
 	public void insert(OrderItemPojo p) {
 		em().persist(p);
 	}
@@ -71,6 +75,21 @@ public class OrderItemDao extends AbstractDao{
 		TypedQuery<OrderItemPojo> query = getQuery(select_orderId, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		return query.getResultList();
+	}
+
+	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {
+		TypedQuery<OrderItemPojo> query = getQuery(select_all, OrderItemPojo.class);
+		query.setParameter("orderId", orderId);
+		int pageNumber = page;
+		int pageSize = size;
+		int firstResult = pageNumber * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+
+		// execute the query
+		List<OrderItemPojo> entities = query.getResultList();
+		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 
 	public OrderItemPojo selectByProductId(Integer productId) {

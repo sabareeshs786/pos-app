@@ -8,7 +8,11 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.increff.posapp.pojo.ProductPojo;
@@ -24,11 +28,13 @@ public class ProductDao extends AbstractDao{
 	private static String delete_mrp = "delete from ProductPojo p where mrp=:mrp";
 	
 	private static String select_id = "select p from ProductPojo p where id=:id";
+	private static String select_id_count = "select count(p) from ProductPojo p where id=:id";
 	private static String select_barcode = "select p from ProductPojo p where barcode=:barcode";
 	private static String select_brand_catecory = "select p from ProductPojo p where brand_category=:brand_category";
 	private static String select_name = "select p from ProductPojo p where name=:name";
 	private static String select_mrp = "select p from ProductPojo p where mrp=:mrp";
 	private static String select_all = "select p from ProductPojo p";
+	private static String select_all_count = "select count(p) from ProductPojo p";
 
 
 	@Transactional
@@ -99,7 +105,20 @@ public class ProductDao extends AbstractDao{
 		TypedQuery<ProductPojo> query = getQuery(select_all, ProductPojo.class);
 		return query.getResultList();
 	}
+	public Page<ProductPojo> getAllByPage(Integer page, Integer size){
+		TypedQuery<ProductPojo> query = getQuery(select_all, ProductPojo.class);
+		// private static String select_all = "select p from ProductPojo p";apply pagination
+		int pageNumber = page;
+		int pageSize = size;
+		int firstResult = pageNumber * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
 
+		// execute the query
+		List<ProductPojo> entities = query.getResultList();
+		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+	}
 	public void update(ProductPojo productPojo) {
 		// Implemented by Spring itself
 	}

@@ -3,8 +3,12 @@ package com.increff.posapp.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.model.ProductData;
 import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.model.InventoryData;
@@ -41,15 +45,17 @@ public class InventoryDto {
 		return ConverterDto.convertToInventoryData(inventoryPojo, productPojo.getBarcode());
 	}
 	
-	public List<InventoryData> getAll() throws ApiException{
-		List<InventoryPojo> listInventoryPojo = inventoryService.getAll();
+	public Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
+		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
+		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();
 		List<InventoryData> list = new ArrayList<InventoryData>();
 		for(InventoryPojo inventoryPojo: listInventoryPojo) {
 			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 			String barcode = productPojo.getBarcode();
 			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));
 		}
-		return list;
+		Page<InventoryData> dataPage = new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return dataPage;
 	}
 	
 	public void updateById(Integer id, InventoryForm form) throws ApiException {

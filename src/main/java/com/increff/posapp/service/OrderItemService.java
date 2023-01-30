@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import com.increff.posapp.dao.OrderItemDao;
 import com.increff.posapp.pojo.OrderItemPojo;
@@ -31,7 +32,11 @@ public class OrderItemService {
 		return getCheckByOrderId(orderId);
 	}
 
-	   
+	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
+		getCheckByOrderId(orderId);
+		return orderItemDao.getPageByOrderId(orderId, page, size);
+	}
+
 	public OrderItemPojo getByProductId(Integer productId) throws ApiException {
 		return getCheckByProductId(productId);
 	}
@@ -50,6 +55,7 @@ public class OrderItemService {
 	public List<OrderItemPojo> getAll() {
 		return orderItemDao.selectAll();
 	}
+
 
 	// For updation
 	   
@@ -76,7 +82,7 @@ public class OrderItemService {
 	public List<OrderItemPojo> getCheckByOrderId(Integer orderId) throws ApiException {
 		List<OrderItemPojo> list = orderItemDao.selectByOrderId(orderId);
 		if (list.isEmpty()) {
-			throw new ApiException("Order Id doesnot exist");
+			throw new ApiException("Order Id doesn't exist");
 		}
 		return list;
 	}

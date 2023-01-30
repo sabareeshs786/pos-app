@@ -16,9 +16,10 @@
 
 <br>
 <br>
-<p id="p1">Order List</p>
+<p id="p1">Ordered Items List</p>
 <div class="row">
-
+<div class="row" th:replace="snippets.html :: pos_app_select_page_size">
+</div>
  <!-- Table -->
  <div class="col-12">
 	<table class="table table-striped" id="order-items-table">

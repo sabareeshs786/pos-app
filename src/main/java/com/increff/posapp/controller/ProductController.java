@@ -3,6 +3,7 @@ package com.increff.posapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,9 +43,9 @@ public class ProductController {
 	}
 	
 	@ApiOperation(value = "Gets list of all products")
-	@RequestMapping(path = "/api/product", method = RequestMethod.GET)
-	public List<ProductData> getAll() throws ApiException {
-		return productDto.getAll();
+	@RequestMapping(path = "/api/product/{pageNo}/{size}", method = RequestMethod.GET)
+	public Page<ProductData> getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
+		return productDto.getAll(pageNo, size);
 	}
 
 	@ApiOperation(value = "Updates a product")

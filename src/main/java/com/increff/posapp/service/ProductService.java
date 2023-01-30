@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.increff.posapp.pojo.BrandPojo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.BrandDao;
@@ -51,6 +53,9 @@ public class ProductService {
 		return productDao.selectAll();
 	}
 
+	public Page<ProductPojo> getAllByPage(Integer page, Integer size){
+		return productDao.getAllByPage(page, size);
+	}
 	public void updateById(int id, ProductPojo p) throws ApiException {
 		normalize(p);
 		ProductPojo ex = getCheckById(id);

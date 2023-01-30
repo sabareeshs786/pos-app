@@ -12,15 +12,41 @@ var barcodes = [];
 var quantities = [];
 var sellingPrices = [];
 
-function getOrderList(){
-	var url = getOrderUrl();
+function getOrderListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getOrderList(0, pageSize);
+}
+
+function getOrderList(pageNumber, pageSize){
+	var url = getOrderUrl()  + '/' + pageNumber + '/' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-	   		displayOrderList(data);  
+	   		displayOrderList(data.content, pageNumber*pageSize);
+			   var pagination = "";
+			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
+				   var active = "";
+				   if (i == data.number) {
+				   active = "active";
+				   }
+				   pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='getOrderList(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			   }
+			   if (data.number > 0) {
+				   pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			   }
+			   if (data.number < data.totalPages - 1) {
+				   pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			   }
+			   $("#paginationContainer").html(pagination);
+			   $("#previous").click(function() {
+				   getOrderList(data.number - 1, pageSize);
+			   });
+			   $("#next").click(function() {
+				   getOrderList(data.number + 1, pageSize);
+			   }); 
 	   },
 	   error: handleAjaxError
 	});
@@ -67,7 +93,6 @@ function displayOrderModal(){
 }
 
 function placeOrder(){
-	console.log("clicked");
 	$('#place-order-modal').modal('toggle');
 	var json = { 'barcodes':barcodes, 
 				'quantities': quantities, 
@@ -94,10 +119,9 @@ function placeOrder(){
 
 //UI DISPLAY METHODS
 
-function displayOrderList(data){
+function displayOrderList(data, sno){
 	$("#order-table-body").empty();
     var row = "";
-    var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')">View</button>&nbsp;&nbsp;'
@@ -148,7 +172,8 @@ function init(){
 	$('#cancle1').click(clearValues);
 	$('#cancel2').click(clearValues);
 	$('#place-order-confirm').click(placeOrder);
+	$('#inputPageSize').on('change', getOrderListUtil);
 }
 
 $(document).ready(init);
-$(document).ready(getOrderList);
+$(document).ready(getOrderListUtil);

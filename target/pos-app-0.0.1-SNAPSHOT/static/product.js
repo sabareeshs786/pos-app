@@ -59,16 +59,41 @@ function updateProduct(event){
 	return false;
 }
 
+function getProductListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getProductList(0, pageSize);
+}
 
-function getProductList(){
-	var url = getProductUrl();
+function getProductList(pageNumber, pageSize){
+	var url = getProductUrl() + '/' + pageNumber + '/' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-	   		displayProductList(data);
+	   		displayProductList(data.content, pageNumber*pageSize);
+			   var pagination = "";
+			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
+				   var active = "";
+				   if (i == data.number) {
+				   active = "active";
+				   }
+				   pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='getProductList(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			   }
+			   if (data.number > 0) {
+				   pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			   }
+			   if (data.number < data.totalPages - 1) {
+				   pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			   }
+			   $("#paginationContainer").html(pagination);
+			   $("#previous").click(function() {
+				   getProductList(data.number - 1, pageSize);
+			   });
+			   $("#next").click(function() {
+				   getProductList(data.number + 1, pageSize);
+			   });
 	   },
 	   error: handleAjaxError
 	});
@@ -131,10 +156,9 @@ function downloadErrors(){
 
 //UI DISPLAY METHODS
 
-function displayProductList(data){
+function displayProductList(data, sno){
 	$("#product-table-body").empty();
     var row = "";
-    var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var buttonHtml = ' <button onclick="displayEditProduct(' + data[i].id + ')">edit</button>'
@@ -278,10 +302,11 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#productFile').on('change', updateFileName)
+    $('#productFile').on('change', updateFileName);
+	$('#inputPageSize').on('change', getProductListUtil);
 }
 
 $(document).ready(init);
-$(document).ready(getProductList);
+$(document).ready(getProductListUtil);
 $(document).ready(getBrandList)
 

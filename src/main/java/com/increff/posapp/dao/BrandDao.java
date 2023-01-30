@@ -85,7 +85,7 @@ public class BrandDao extends AbstractDao {
 	
 	public Page<BrandPojo> getAllByPage(Integer page, Integer size){
 		TypedQuery<BrandPojo> query = getQuery(select_all, BrandPojo.class);
-		// apply pagination
+		// private static String select_all = "select p from ProductPojo p";apply pagination
         int pageNumber = page;
         int pageSize = size;
         int firstResult = pageNumber * pageSize;

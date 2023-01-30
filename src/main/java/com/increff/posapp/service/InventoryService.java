@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.InventoryDao;
@@ -40,7 +41,9 @@ public class InventoryService {
 	public List<InventoryPojo> getAll() {
 		return inventoryDao.selectAll();
 	}
-
+	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
+		return inventoryDao.getAllByPage(page, size);
+	}
 	 
 	public void updateById(int id, InventoryPojo inventoryPojo) throws ApiException {
 		InventoryPojo ex = getById(id);

@@ -3,8 +3,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.increff.posapp.model.ProductData;
@@ -18,7 +22,7 @@ import com.increff.posapp.util.ConverterDto;
 import com.increff.posapp.util.FormValidator;
 
 @Component
-<span class="fc" id="L21">public class ProductDto {</span>
+<span class="fc" id="L25">public class ProductDto {</span>
 	
 	@Autowired
 	private ProductService productService;
@@ -27,43 +31,44 @@ import com.increff.posapp.util.FormValidator;
 	private BrandService brandService;
 	
 	public void add(ProductForm form) throws ApiException {
-<span class="nc" id="L30">		FormValidator.productFormValidator(form);</span>
-<span class="nc" id="L31">		FormNormalizer.productFormNormalizer(form);</span>
-<span class="nc" id="L32">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="nc" id="L33">		Integer brandCategory = brandPojo.getId();</span>
-<span class="nc" id="L34">		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brandCategory);</span>
-<span class="nc" id="L35">		productService.add(productPojo);</span>
-<span class="nc" id="L36">	}</span>
+<span class="nc" id="L34">		FormValidator.productFormValidator(form);</span>
+<span class="nc" id="L35">		FormNormalizer.productFormNormalizer(form);</span>
+<span class="nc" id="L36">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="nc" id="L37">		Integer brandCategory = brandPojo.getId();</span>
+<span class="nc" id="L38">		ProductPojo productPojo = ConverterDto.convertToProductPojo(form, brandCategory);</span>
+<span class="nc" id="L39">		productService.add(productPojo);</span>
+<span class="nc" id="L40">	}</span>
 
 	public ProductData getById(Integer id) throws ApiException {
-<span class="nc" id="L39">		ProductPojo productPojo = productService.getById(id);</span>
-<span class="nc" id="L40">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L41">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
+<span class="nc" id="L43">		ProductPojo productPojo = productService.getById(id);</span>
+<span class="nc" id="L44">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L45">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
 	}
 	
 	public ProductData getByBarcode(String barcode) throws ApiException {
-<span class="nc" id="L45">		ProductPojo productPojo = productService.getByBarcode(barcode);</span>
-<span class="nc" id="L46">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L47">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
+<span class="nc" id="L49">		ProductPojo productPojo = productService.getByBarcode(barcode);</span>
+<span class="nc" id="L50">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L51">		return ConverterDto.convertToProductData(productPojo, brandPojo);</span>
 	}
 	
-	public List&lt;ProductData&gt; getAll() throws ApiException{
-<span class="nc" id="L51">		List&lt;ProductPojo&gt; list = productService.getAll();</span>
-<span class="nc" id="L52">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
-<span class="nc" id="L54">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L55">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
-<span class="nc" id="L56">		}</span>
-<span class="nc" id="L57">		System.out.println(list2);</span>
-<span class="nc" id="L58">		return list2;</span>
+	public Page&lt;ProductData&gt; getAll(Integer page, Integer size) throws ApiException{
+<span class="nc" id="L55">		Page&lt;ProductPojo&gt; pojoPage = productService.getAllByPage(page, size);</span>
+<span class="nc" id="L56">		List&lt;ProductPojo&gt; list = pojoPage.getContent();</span>
+<span class="nc" id="L57">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">		for (ProductPojo productPojo : list) {</span>
+<span class="nc" id="L59">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L60">			list2.add(ConverterDto.convertToProductData(productPojo, brandPojo));</span>
+<span class="nc" id="L61">		}</span>
+<span class="nc" id="L62">		Page&lt;ProductData&gt; dataPage = new PageImpl&lt;&gt;(list2, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
+<span class="nc" id="L63">		return dataPage;</span>
 	}
 	
 	public void updateById(Integer id, ProductForm form) throws ApiException {
-<span class="nc" id="L62">		FormValidator.productFormValidator(form);</span>
-<span class="nc" id="L63">		FormNormalizer.productFormNormalizer(form);</span>
-<span class="nc" id="L64">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="nc" id="L65">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
-<span class="nc" id="L66">		productService.updateById(id, p);</span>
-<span class="nc" id="L67">	}</span>
+<span class="nc" id="L67">		FormValidator.productFormValidator(form);</span>
+<span class="nc" id="L68">		FormNormalizer.productFormNormalizer(form);</span>
+<span class="nc" id="L69">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="nc" id="L70">		ProductPojo p = ConverterDto.convertToProductPojo(form, brandPojo.getId());</span>
+<span class="nc" id="L71">		productService.updateById(id, p);</span>
+<span class="nc" id="L72">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

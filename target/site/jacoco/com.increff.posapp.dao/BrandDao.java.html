@@ -85,7 +85,7 @@ import com.increff.posapp.pojo.BrandPojo;
 	
 	public Page&lt;BrandPojo&gt; getAllByPage(Integer page, Integer size){
 <span class="nc" id="L87">		TypedQuery&lt;BrandPojo&gt; query = getQuery(select_all, BrandPojo.class);</span>
-		// apply pagination
+		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
 <span class="nc" id="L89">        int pageNumber = page;</span>
 <span class="nc" id="L90">        int pageSize = size;</span>
 <span class="nc" id="L91">        int firstResult = pageNumber * pageSize;</span>

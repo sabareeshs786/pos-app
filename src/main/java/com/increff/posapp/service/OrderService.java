@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.OrderDao;
@@ -48,6 +49,9 @@ public class OrderService {
 		return orderDao.selectAll();
 	}
 
+	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
+		return orderDao.getAllByPage(page, size);
+	}
 	public void updateById(Integer id, OrderPojo p) throws ApiException {
 		OrderPojo ex = getCheckById(id);
 		ex.setTime(p.getTime());
