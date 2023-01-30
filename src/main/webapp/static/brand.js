@@ -164,8 +164,8 @@ function displayBrandList(data, sno){
 	+ buttonHtml 
 	+ "</td></tr>";
 	$("#brand-table-body").append(row);
-}
-	
+	}
+	enableOrDisable();
 }
 
 function displayEditBrand(id){
@@ -217,7 +217,6 @@ function displayBrand(data){
 	$('#edit-brand-modal').modal('toggle');
 }
 
-
 //INITIALIZATION CODE
 function init(){
 	$('#add-brand').click(addBrand);
@@ -231,3 +230,4 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getBrandListUtil);
+$(document).ready(enableOrDisable);

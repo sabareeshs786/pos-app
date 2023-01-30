@@ -68,6 +68,7 @@ public class LoginController {
 		// Create principal
 		UserPrincipal principal = new UserPrincipal();
 		principal.setEmail(p.getEmail());
+		principal.setRole(p.getRole());
 		principal.setId(p.getId());
 
 		// Create Authorities

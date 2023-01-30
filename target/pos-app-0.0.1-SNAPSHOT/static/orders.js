@@ -109,7 +109,7 @@ function placeOrder(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			getOrderList();
+			getOrderListUtil();
 		},
 		error: handleAjaxError
 	 });
@@ -135,7 +135,7 @@ function displayOrderList(data, sno){
 	+ "</td></tr>";
 	$("#order-table-body").append(row);
 	}
-	
+	enableOrDisable();
 }
 
 function displayOrderItemsOfanId(data){
@@ -165,6 +165,7 @@ function clearValues(){
 	quantities = [];
 	sellingPrices = [];
 }
+
 //INITIALIZATION CODE
 function init(){
 	$('#place-order').click(displayOrderModal);
@@ -177,3 +178,4 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getOrderListUtil);
+$(document).ready(enableOrDisable);

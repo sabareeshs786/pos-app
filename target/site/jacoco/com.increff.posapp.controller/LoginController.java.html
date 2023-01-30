@@ -68,17 +68,18 @@ import io.swagger.annotations.ApiOperation;
 		// Create principal
 <span class="nc" id="L69">		UserPrincipal principal = new UserPrincipal();</span>
 <span class="nc" id="L70">		principal.setEmail(p.getEmail());</span>
-<span class="nc" id="L71">		principal.setId(p.getId());</span>
+<span class="nc" id="L71">		principal.setRole(p.getRole());</span>
+<span class="nc" id="L72">		principal.setId(p.getId());</span>
 
 		// Create Authorities
-<span class="nc" id="L74">		ArrayList&lt;SimpleGrantedAuthority&gt; authorities = new ArrayList&lt;SimpleGrantedAuthority&gt;();</span>
-<span class="nc" id="L75">		authorities.add(new SimpleGrantedAuthority(p.getRole()));</span>
+<span class="nc" id="L75">		ArrayList&lt;SimpleGrantedAuthority&gt; authorities = new ArrayList&lt;SimpleGrantedAuthority&gt;();</span>
+<span class="nc" id="L76">		authorities.add(new SimpleGrantedAuthority(p.getRole()));</span>
 		// you can add more roles if required
 
 		// Create Authentication
-<span class="nc" id="L79">		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,</span>
+<span class="nc" id="L80">		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,</span>
 				authorities);
-<span class="nc" id="L81">		return token;</span>
+<span class="nc" id="L82">		return token;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

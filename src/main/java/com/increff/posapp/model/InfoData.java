@@ -19,10 +19,17 @@ public class InfoData implements Serializable {
 
 	private String message;
 	private String email;
+	private String role;
 
 	public InfoData() {
 		message = "No message";
 		email = "No email";
 	}
-	
+
+	@Override
+	public String toString() {
+		return "{\"message\": \"" + message + "\", " +
+				"\"email\" : \"" + email + "\", " +
+				"\"role\": \""+ role + "\"}";
+	}
 }

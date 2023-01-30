@@ -44,29 +44,30 @@ import io.swagger.annotations.ApiOperation;
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
 	@RequestMapping(path = &quot;/api/order/{orderId}/{page}/{size}&quot;, method = RequestMethod.GET)
 	public Page&lt;OrderItemData&gt; getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L47">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
+<span class="nc" id="L47">		System.out.println(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
+<span class="nc" id="L48">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets list of all orders&quot;)
 	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
 	public List&lt;OrderData&gt; getAll() throws ApiException {
-<span class="nc" id="L53">		return orderDto.getAll();</span>
+<span class="nc" id="L54">		return orderDto.getAll();</span>
 	}
 	@ApiOperation(value = &quot;Gets list of all orders&quot;)
 	@RequestMapping(path = &quot;/api/order/{pageNo}/{size}&quot;, method = RequestMethod.GET)
 	public Page&lt;OrderData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L58">		return orderDto.getAll(pageNo, size);</span>
+<span class="nc" id="L59">		return orderDto.getAll(pageNo, size);</span>
 	}
 	@ApiOperation(value = &quot;Gets an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L63">		return orderItemDto.getByOrderItemId(id);</span>
+<span class="nc" id="L64">		return orderItemDto.getByOrderItemId(id);</span>
 	}
 	@ApiOperation(value = &quot;Edits an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.PUT)
 	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-<span class="nc" id="L68">		orderItemDto.update(id, orderItemEditForm);</span>
-<span class="nc" id="L69">	}</span>
+<span class="nc" id="L69">		orderItemDto.update(id, orderItemEditForm);</span>
+<span class="nc" id="L70">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

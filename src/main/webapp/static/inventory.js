@@ -67,6 +67,7 @@ function getInventoryList(pageNumber, pageSize){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
+			console.log(data);
 	   		displayInventoryList(data.content, pageNumber*pageSize);
 			   var pagination = "";
 			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
@@ -168,6 +169,7 @@ function displayInventoryList(data, sno){
 		+ "</td></tr>";
 		$("#inventory-table-body").append(row);
 	}
+	enableOrDisable();
 }
 
 function displayEditInventory(id){
@@ -233,3 +235,4 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getInventoryListUtil);
+$(document).ready(enableOrDisable);

@@ -1,9 +1,10 @@
 package com.increff.posapp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLOutput;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,21 @@ public class AdminApiController {
 
 	@Autowired
 	private UserService service;
+	@Value("${app.supervisors}")
+	private String emails;
+
 
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
+		System.out.println("Emails>>"+emails);
+		String[] emailArray = emails.split(",");
+		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convert(form);
+		if(emailSet.contains(form.getEmail()))
+			p.setRole("supervisor");
+		else
+			p.setRole("operator");
 		service.add(p);
 	}
 
@@ -61,9 +72,7 @@ public class AdminApiController {
 	private static UserPojo convert(UserForm f) {
 		UserPojo p = new UserPojo();
 		p.setEmail(f.getEmail());
-		p.setRole(f.getRole());
 		p.setPassword(f.getPassword());
 		return p;
 	}
-
 }

@@ -4,22 +4,32 @@
 
 	private int id;
 	private String email;
+	private String role;
 
 	public String getEmail() {
-<span class="nc" id="L9">		return email;</span>
+<span class="nc" id="L10">		return email;</span>
 	}
 
 	public int getId() {
-<span class="nc" id="L13">		return id;</span>
+<span class="nc" id="L14">		return id;</span>
 	}
-
+<span class="nc" id="L16">	public String getRole() { return role; }</span>
 	public void setId(int id) {
-<span class="nc" id="L17">		this.id = id;</span>
-<span class="nc" id="L18">	}</span>
+<span class="nc" id="L18">		this.id = id;</span>
+<span class="nc" id="L19">	}</span>
 
 	public void setEmail(String email) {
-<span class="nc" id="L21">		this.email = email;</span>
-<span class="nc" id="L22">	}</span>
+<span class="nc" id="L22">		this.email = email;</span>
+<span class="nc" id="L23">	}</span>
+<span class="nc" id="L24">	public void setRole(String role) {this.role = role; }</span>
 
+	@Override
+	public String toString() {
+<span class="nc" id="L28">		return &quot;UserPrincipal{&quot; +</span>
+				&quot;id=&quot; + id +
+				&quot;, email='&quot; + email + '\'' +
+				&quot;, role='&quot; + role + '\'' +
+				'}';
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

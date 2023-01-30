@@ -9,8 +9,9 @@ function addUser(event){
 	//Set the values to update
 	var $form = $("#user-form");
 	var json = toJson($form);
+	console.log(json);
 	var url = getUserUrl();
-
+	
 	$.ajax({
 	   url: url,
 	   type: 'POST',
@@ -19,7 +20,7 @@ function addUser(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getUserList();    
+	   		getUserList();   
 	   },
 	   error: handleAjaxError
 	});
@@ -71,6 +72,7 @@ function displayUserList(data){
 		+ '</tr>';
         $tbody.append(row);
 	}
+	enableOrDisable();
 }
 
 
@@ -82,4 +84,4 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getUserList);
-
+$(document).ready(enableOrDisable);

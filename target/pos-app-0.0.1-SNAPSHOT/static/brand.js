@@ -20,7 +20,7 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getBrandList();
+	   		getBrandListUtil();
 	   },
 	   error: handleAjaxError
 	});
@@ -47,7 +47,7 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getBrandList();   
+	   		getBrandListUtil();   
 	   },
 	   error: handleAjaxError
 	});
@@ -115,7 +115,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		getBrandList();
+		getBrandListUtil();
 		return;
 	}
 	
@@ -164,8 +164,8 @@ function displayBrandList(data, sno){
 	+ buttonHtml 
 	+ "</td></tr>";
 	$("#brand-table-body").append(row);
-}
-	
+	}
+	enableOrDisable();
 }
 
 function displayEditBrand(id){
@@ -217,7 +217,6 @@ function displayBrand(data){
 	$('#edit-brand-modal').modal('toggle');
 }
 
-
 //INITIALIZATION CODE
 function init(){
 	$('#add-brand').click(addBrand);
@@ -231,3 +230,4 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getBrandListUtil);
+$(document).ready(enableOrDisable);

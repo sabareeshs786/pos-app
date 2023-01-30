@@ -21,28 +21,29 @@ import com.increff.posapp.util.UserPrincipal;
 	protected ModelAndView mav(String page) {
 		// Get current user
 <span class="nc" id="L23">		UserPrincipal principal = SecurityUtil.getPrincipal();</span>
-
+<span class="nc" id="L24">		System.out.println(principal);</span>
 <span class="nc bnc" id="L25" title="All 2 branches missed.">		info.setEmail(principal == null ? &quot;&quot; : principal.getEmail());</span>
-
+<span class="nc bnc" id="L26" title="All 2 branches missed.">		info.setRole(principal == null ? &quot;&quot; : principal.getRole());</span>
+<span class="nc" id="L27">		System.out.println(&quot;Info: &quot;+info);</span>
 		// Set info
-<span class="nc" id="L28">		ModelAndView mav = new ModelAndView(page);</span>
-<span class="nc" id="L29">		mav.addObject(&quot;info&quot;, info);</span>
-<span class="nc" id="L30">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
-<span class="nc" id="L31">		return mav;</span>
+<span class="nc" id="L29">		ModelAndView mav = new ModelAndView(page);</span>
+<span class="nc" id="L30">		mav.addObject(&quot;info&quot;, info);</span>
+<span class="nc" id="L31">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
+<span class="nc" id="L32">		return mav;</span>
 	}
 	protected ModelAndView mav(String page, Integer orderId, String mode) {
 		// Get current user
-<span class="nc" id="L35">		UserPrincipal principal = SecurityUtil.getPrincipal();</span>
+<span class="nc" id="L36">		UserPrincipal principal = SecurityUtil.getPrincipal();</span>
 
-<span class="nc bnc" id="L37" title="All 2 branches missed.">		info.setEmail(principal == null ? &quot;&quot; : principal.getEmail());</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		info.setEmail(principal == null ? &quot;&quot; : principal.getEmail());</span>
 
 		// Set info
-<span class="nc" id="L40">		ModelAndView mav = new ModelAndView(page);</span>
-<span class="nc" id="L41">		mav.addObject(&quot;info&quot;, info);</span>
-<span class="nc" id="L42">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
-<span class="nc" id="L43">		mav.addObject(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L44">		mav.addObject(&quot;mode&quot;, mode);</span>
-<span class="nc" id="L45">		return mav;</span>
+<span class="nc" id="L41">		ModelAndView mav = new ModelAndView(page);</span>
+<span class="nc" id="L42">		mav.addObject(&quot;info&quot;, info);</span>
+<span class="nc" id="L43">		mav.addObject(&quot;baseUrl&quot;, baseUrl);</span>
+<span class="nc" id="L44">		mav.addObject(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L45">		mav.addObject(&quot;mode&quot;, mode);</span>
+<span class="nc" id="L46">		return mav;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

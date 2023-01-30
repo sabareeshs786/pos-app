@@ -78,7 +78,7 @@ import java.util.List;
 	}
 
 	public Page&lt;OrderItemPojo&gt; getPageByOrderId(Integer orderId, Integer page, Integer size) {
-<span class="nc" id="L81">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_all, OrderItemPojo.class);</span>
+<span class="nc" id="L81">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_orderId, OrderItemPojo.class);</span>
 <span class="nc" id="L82">		query.setParameter(&quot;orderId&quot;, orderId);</span>
 <span class="nc" id="L83">		int pageNumber = page;</span>
 <span class="nc" id="L84">		int pageSize = size;</span>

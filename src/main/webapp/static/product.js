@@ -174,6 +174,7 @@ function displayProductList(data, sno){
 	+ "</td></tr>";
 	$("#product-table-body").append(row);
 	}
+	enableOrDisable();
 }
 
 function displayEditProduct(id){
@@ -308,5 +309,6 @@ function init(){
 
 $(document).ready(init);
 $(document).ready(getProductListUtil);
-$(document).ready(getBrandList)
+$(document).ready(getBrandList);
+$(document).ready(enableOrDisable);
 

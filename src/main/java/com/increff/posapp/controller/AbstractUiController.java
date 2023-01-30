@@ -21,9 +21,10 @@ public abstract class AbstractUiController {
 	protected ModelAndView mav(String page) {
 		// Get current user
 		UserPrincipal principal = SecurityUtil.getPrincipal();
-
+		System.out.println(principal);
 		info.setEmail(principal == null ? "" : principal.getEmail());
-
+		info.setRole(principal == null ? "" : principal.getRole());
+		System.out.println("Info: "+info);
 		// Set info
 		ModelAndView mav = new ModelAndView(page);
 		mav.addObject("info", info);

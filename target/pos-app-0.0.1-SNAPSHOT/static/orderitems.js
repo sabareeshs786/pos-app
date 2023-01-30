@@ -32,6 +32,7 @@ function getOrderItemsUtil(){
 
 function getOrderItems(pageNumber, pageSize){
 	var url = getOrderUrl() + "/" + getOrderId() + '/' + pageNumber + '/' + pageSize;
+	console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -129,7 +130,7 @@ function updateOrderItem(){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
-	   		getOrderItems();   
+	   		getOrderItemsUtil();   
 	   },
 	   error: handleAjaxError
 	});

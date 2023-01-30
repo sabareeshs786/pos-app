@@ -1,3 +1,20 @@
+function getRole(){
+	var info = $("meta[name=info]").attr("content");
+	var json = JSON.parse(info);
+	var role = json.role;
+	return role;
+}
+
+function enableOrDisable(){
+	if(getRole() != 'supervisor'){
+		$('input').attr('disabled', true)
+		$('button').attr('disabled', true);
+	}
+	else{
+		$('input').attr('disabled', false)
+		$('button').attr('disabled', false);
+	}
+}
 
 //HELPER METHOD
 function toJson($form){

@@ -2541,3 +2541,70 @@ Caused by: java.lang.ClassNotFoundException: OrderItemsData
 2023-01-30 14:36:24 INFO  SecurityConfig:33 - Configuration complete
 2023-01-30 14:57:15 INFO  SecurityConfig:33 - Configuration complete
 2023-01-30 14:57:27 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:20:48 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:25:14 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:28:00 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:29:20 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:30:25 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:34:20 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:35:36 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:39:44 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:39:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:47:48 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 15:59:04 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:00:20 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:02:07 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:08:38 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:12:49 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:15:59 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:35:15 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:41:58 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:42:07 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 16:43:36 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:07:20 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:11:29 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:20:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:26:38 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:37:50 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:37:51 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:37:52 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:39:17 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:39:17 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:39:18 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:42:48 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:42:48 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:42:50 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:46:18 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:46:18 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:46:19 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:49:10 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:49:10 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:49:11 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:51:57 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:51:57 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:51:58 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 17:53:51 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 17:53:51 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.Set com.increff.posapp.controller.InitApiController.emails
+2023-01-30 17:53:52 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:10:52 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.lang.String com.increff.posapp.controller.AdminApiController.emails
+2023-01-30 21:10:52 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.InitApiController.emails
+2023-01-30 21:10:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:16:53 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.InitApiController.emails
+2023-01-30 21:16:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:22:17 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.InitApiController.emails
+2023-01-30 21:22:18 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:24:06 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.InitApiController.emails
+2023-01-30 21:24:07 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:30:41 WARN  AutowiredAnnotationBeanPostProcessor:440 - Autowired annotation is not supported on static fields: private static java.util.List com.increff.posapp.controller.InitApiController.emails
+2023-01-30 21:30:42 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:50:25 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:50:42 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 21:53:24 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:00:28 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:02:13 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:06:22 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:08:30 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:13:36 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:13:52 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:23:08 INFO  SecurityConfig:33 - Configuration complete
+2023-01-30 22:27:27 INFO  SecurityConfig:33 - Configuration complete
