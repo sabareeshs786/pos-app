@@ -44,6 +44,7 @@ public class OrderController {
 	@ApiOperation(value = "Gets list of all ordered items by order id")
 	@RequestMapping(path = "/api/order/{orderId}/{page}/{size}", method = RequestMethod.GET)
 	public Page<OrderItemData> getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
+		System.out.println("OrderId: "+orderId+"\nPage: "+page+"\nSize: "+size);
 		return orderItemDto.getPageByOrderId(orderId, page, size);
 	}
 

@@ -21,9 +21,9 @@ public class InventoryReportDto extends InventoryDto{
     private BrandService brandService;
 
     public List<InventoryReportData> getall() throws ApiException {
-        Page<InventoryData> inventoryDataList = super.getAll(0, 10);
+        List<InventoryData> inventoryDataList = super.getAll();
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
-        for(InventoryData inventoryData: inventoryDataList.getContent()){
+        for(InventoryData inventoryData: inventoryDataList){
             ProductPojo productPojo = productService().getByBarcode(inventoryData.getBarcode());
             BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
             inventoryReportDataList.add(ConverterDto.convertToInventoryReportData(inventoryData, brandPojo));
@@ -32,9 +32,9 @@ public class InventoryReportDto extends InventoryDto{
     }
 
     public List<InventoryReportData> getByBrand(String brand) throws ApiException {
-        Page<InventoryData> inventoryDataList = super.getAll(0, 10);
+        List<InventoryData> inventoryDataList = super.getAll();
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
-        for(InventoryData inventoryData: inventoryDataList.getContent()){
+        for(InventoryData inventoryData: inventoryDataList){
             ProductPojo productPojo = productService().getByBarcode(inventoryData.getBarcode());
             BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
             if(brandPojo.getBrand().equals(brand)) {
@@ -45,9 +45,9 @@ public class InventoryReportDto extends InventoryDto{
     }
 
     public List<InventoryReportData> getByCategory(String category) throws ApiException {
-        Page<InventoryData> inventoryDataList = super.getAll(0, 10);
+        List<InventoryData> inventoryDataList = super.getAll();
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
-        for(InventoryData inventoryData: inventoryDataList.getContent()){
+        for(InventoryData inventoryData: inventoryDataList){
             ProductPojo productPojo = productService().getByBarcode(inventoryData.getBarcode());
             BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
             if(brandPojo.getCategory().equals(category)) {
@@ -58,9 +58,9 @@ public class InventoryReportDto extends InventoryDto{
     }
 
     public List<InventoryReportData> getByBrandAndCategory(String brand, String category) throws ApiException {
-        Page<InventoryData> inventoryDataList = super.getAll(0,10);
+        List<InventoryData> inventoryDataList = super.getAll();
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
-        for(InventoryData inventoryData: inventoryDataList.getContent()){
+        for(InventoryData inventoryData: inventoryDataList){
             ProductPojo productPojo = productService().getByBarcode(inventoryData.getBarcode());
             BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
             if(brandPojo.getBrand().equals(brand) && brandPojo.getCategory().equals(category)) {

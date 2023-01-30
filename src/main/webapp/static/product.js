@@ -24,7 +24,7 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getProductList();
+	   		getProductListUtil();
 	   },
 	   error: handleAjaxError
 	});
@@ -51,7 +51,7 @@ function updateProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getProductList();   
+	   		getProductListUtil();   
 	   },
 	   error: handleAjaxError
 	});
@@ -120,6 +120,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+		getProductListUtil();
 		return;
 	}
 	
@@ -298,7 +299,6 @@ function displayBrandList(data){
 function init(){
 	$('#add-product').click(addProduct);
 	$('#update-product').click(updateProduct);
-	//$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);

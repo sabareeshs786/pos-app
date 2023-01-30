@@ -88,6 +88,7 @@ public class InventoryDao extends AbstractDao{
 
 		// execute the query
 		List<InventoryPojo> entities = query.getResultList();
+
 		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}

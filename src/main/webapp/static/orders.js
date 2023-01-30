@@ -109,7 +109,7 @@ function placeOrder(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			getOrderList();
+			getOrderListUtil();
 		},
 		error: handleAjaxError
 	 });

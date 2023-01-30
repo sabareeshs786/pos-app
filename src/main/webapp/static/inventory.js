@@ -19,7 +19,7 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getInventoryList();  
+	   		getInventoryListUtil();  
 	   },
 	   error: handleAjaxError
 	});
@@ -46,7 +46,7 @@ function updateInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getInventoryList();   
+	   		getInventoryListUtil();   
 	   },
 	   error: handleAjaxError
 	});
@@ -67,7 +67,7 @@ function getInventoryList(pageNumber, pageSize){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-	   		displayInventoryList(data.content, pageNumber*pageSize); 
+	   		displayInventoryList(data.content, pageNumber*pageSize);
 			   var pagination = "";
 			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
 				   var active = "";
@@ -115,7 +115,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		getInventoryList();
+		getInventoryListUtil();
 		return;
 	}
 	
@@ -136,7 +136,7 @@ function uploadRows(){
        },	   
 	   success: function(response) {
 	   		uploadRows();
-			getInventoryList();
+			getInventoryListUtil();
 	   },
 	   error: function(response){
 	   		row.error=response.responseText

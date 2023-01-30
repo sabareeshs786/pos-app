@@ -44,7 +44,18 @@ public class InventoryDto {
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 		return ConverterDto.convertToInventoryData(inventoryPojo, productPojo.getBarcode());
 	}
-	
+
+	public List<InventoryData> getAll() throws ApiException{
+		List<InventoryPojo> listInventoryPojo = inventoryService.getAll();
+		List<InventoryData> list = new ArrayList<InventoryData>();
+		for(InventoryPojo inventoryPojo: listInventoryPojo) {
+			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
+			String barcode = productPojo.getBarcode();
+			list.add(ConverterDto.convertToInventoryData(inventoryPojo, barcode));
+		}
+		return list;
+	}
+
 	public Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
 		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
 		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();

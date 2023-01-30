@@ -20,7 +20,7 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getBrandList();
+	   		getBrandListUtil();
 	   },
 	   error: handleAjaxError
 	});
@@ -47,7 +47,7 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getBrandList();   
+	   		getBrandListUtil();   
 	   },
 	   error: handleAjaxError
 	});
@@ -115,7 +115,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		getBrandList();
+		getBrandListUtil();
 		return;
 	}
 	

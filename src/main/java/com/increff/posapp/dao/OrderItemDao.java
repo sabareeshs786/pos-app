@@ -78,7 +78,7 @@ public class OrderItemDao extends AbstractDao{
 	}
 
 	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_all, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(select_orderId, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		int pageNumber = page;
 		int pageSize = size;
