@@ -38,6 +38,7 @@ function getOrderItems(pageNumber, pageSize){
 	   type: 'GET',
 	   success: function(data) {
 			displayOrderItems(data.content, pageNumber*pageSize);
+			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
 			var pagination = "";
 			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
 				   var active = "";

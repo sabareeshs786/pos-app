@@ -68,8 +68,11 @@ function getBrandList(pageNumber, pageSize){
 	   contentType : 'application/json; charset=utf-8',
 	   success: function(data) {
 	   		displayBrandList(data.content,pageNumber*pageSize);
-			var pagination = "";
-			for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
+			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			var pagination = '';
+			for (var i = data.number - 2; i < data.number + 5 && i < data.totalPages; i++) {
+				if(i < 0)
+					continue;
 				var active = "";
 				if (i == data.number) {
 				active = "active";

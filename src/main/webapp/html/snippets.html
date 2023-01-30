@@ -107,7 +107,7 @@
 </nav>
 <div class="row" th:fragment="pos_app_select_page_size">
 	<div class="col-3">
-		<h5>Select</h5>
+		<h5>Select rows</h5>
 		<select class="custom-select mr-sm-2" id="inputPageSize" name="category">
       <option value="1">1</option>
 			<option value="5" selected>5</option>
@@ -118,11 +118,14 @@
 		</select>
 	</div>
 </div>
+<div class="row" th:fragment="pos_app_selected_rows">
+	<div class="col-6" id="selected-rows">
+	</div>
+</div>
 <footer class="footer  mt-1" th:fragment="name_footer">
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center" id="paginationContainer">
        <li class="page-item">
-          <a class="page-link" href="#" id="previous">Previous</a>
        </li>
     </ul>
  </nav>

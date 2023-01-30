@@ -20,6 +20,8 @@
 <br>
 <div class="row" th:replace="snippets.html :: pos_app_select_page_size">
 </div>
+<div class="row" th:replace="snippets.html :: pos_app_selected_rows">
+</div>
 <div class="row">
 
  <!-- Table -->
@@ -93,7 +95,7 @@
 			  <div class="form-group">
 				  <label for="inputSellingPrice" class="col-sm-2 col-form-label">Selling Price</label>
 				  <div class="col-lg-12">
-					<input type="number" class="form-control" name="sellingPrice" placeholder="Enter selling price">
+					<input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter selling price">
 				  </div>
 			  </div>
 			<input type="hidden" name="id">

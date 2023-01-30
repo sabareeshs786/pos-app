@@ -93,5 +93,24 @@ function loadEmailAndPassword(){
     $("#login-form input[name=email]").val("hari@gmail.com");
     $("#login-form input[name=password]").val("1234");
 }
+function onlyNonNegativeInt() {
+    $('input[type="number"]').keypress(function(event) {
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+      if (!(keycode >= 48 && keycode <= 57)) {
+        event.preventDefault();
+      }
+    });
+  }
 
-$(document).ready(loadEmailAndPassword)
+function decimalNumber(){
+    var asciiValueOfDot = ".".charCodeAt(0);
+    $('.decimal-number').keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (!(keycode >= 48 && keycode <= 57) && (keycode != 46 || $(this).val().indexOf('.') != -1) && keycode != 8) {
+      event.preventDefault();
+    }
+    });
+}
+$(document).ready(loadEmailAndPassword);
+$(document).ready(onlyNonNegativeInt);
+$(document).ready(decimalNumber);

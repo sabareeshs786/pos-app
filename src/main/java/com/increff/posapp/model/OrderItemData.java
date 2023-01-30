@@ -11,8 +11,8 @@ public class OrderItemData {
 	private String barcode;
 	private String productName;
 	private Integer quantity;
-	private Double sellingPrice;
-	private Double mrp;
+	private String sellingPrice;
+	private String mrp;
 
 
 }

@@ -60,7 +60,7 @@ pos-app,com.increff.posapp.model,ProductForm,70,0,0,0,8,0,12,0,12,0
 pos-app,com.increff.posapp.model,UserForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,OrderItemEditForm,31,0,0,0,6,0,9,0,9,0
 pos-app,com.increff.posapp.model,InventoryForm,34,0,0,0,5,0,6,0,6,0
-pos-app,com.increff.posapp.util,ConverterDto,272,0,0,0,69,0,12,0,12,0
+pos-app,com.increff.posapp.util,ConverterDto,274,0,0,0,69,0,12,0,12,0
 pos-app,com.increff.posapp.util,DoubleUtil,33,0,2,0,6,0,4,0,3,0
 pos-app,com.increff.posapp.util,IOUtil,11,0,2,0,7,0,3,0,2,0
 pos-app,com.increff.posapp.util,CookieUtil,36,0,6,0,8,0,5,0,2,0
@@ -81,7 +81,7 @@ pos-app,com.increff.posapp.dto,BrandDto,167,3,8,0,40,1,12,1,8,1
 pos-app,com.increff.posapp.dto,InventoryDto,161,3,4,0,37,1,9,1,7,1
 pos-app,com.increff.posapp.dto,ProductDto,132,3,2,0,28,1,6,1,5,1
 pos-app,com.increff.posapp.dto,OrderDataDto,7,3,0,0,2,1,1,1,1,1
-pos-app,com.increff.posapp.dto,SalesReportDto,596,3,42,0,87,1,26,1,5,1
+pos-app,com.increff.posapp.dto,SalesReportDto,606,3,42,0,88,1,26,1,5,1
 pos-app,com.increff.posapp.dto,InventoryReportDto,176,3,16,0,35,1,12,1,4,1
 pos-app,com.increff.posapp.dto,OrderDto,258,3,14,0,48,1,12,1,5,1
 pos-app,com.increff.posapp.dto,BrandReportDto,181,3,8,0,46,1,11,1,7,1

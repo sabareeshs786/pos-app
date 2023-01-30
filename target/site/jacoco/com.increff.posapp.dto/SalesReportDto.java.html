@@ -55,8 +55,8 @@ import java.util.*;
 <span class="nc" id="L55">            }</span>
 <span class="nc" id="L56">            zonedDateTimeSet.add(orderPojo.getTime());</span>
 <span class="nc" id="L57">        }</span>
-<span class="nc" id="L58">        List&lt;ZonedDateTime&gt; zonedDateTimeList = new ArrayList&lt;&gt;(zonedDateTimeSet);</span>
 
+<span class="nc" id="L59">        List&lt;ZonedDateTime&gt; zonedDateTimeList = new ArrayList&lt;&gt;(zonedDateTimeSet);</span>
 <span class="nc" id="L60">        salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));</span>
 
 <span class="nc bnc" id="L62" title="All 2 branches missed.">        for (Map.Entry&lt;String, Double&gt; entry : sm1.entrySet()) {</span>
@@ -124,40 +124,41 @@ import java.util.*;
 <span class="nc" id="L124">        salesReportData.setStartDate(DateTimeUtil.getDateTimeString(salesReportForm.getStartDate(),&quot;dd/MM/yyyy&quot;));</span>
 <span class="nc" id="L125">        salesReportData.setEndDate(DateTimeUtil.getDateTimeString(salesReportForm.getEndDate(), &quot;dd/MM/yyyy&quot;));</span>
 <span class="nc" id="L126">        salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        for(Map.Entry&lt;String, Double&gt; entry: sm1.entrySet()){</span>
-<span class="nc" id="L128">            Integer quantity = sm2.get(entry.getKey());</span>
-<span class="nc" id="L129">            ConverterDto.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);</span>
-<span class="nc" id="L130">        }</span>
-<span class="nc" id="L131">        System.out.println(salesReportData);</span>
-<span class="nc" id="L132">        return salesReportData;</span>
+<span class="nc" id="L127">        System.out.println(&quot;\n\nTotal revenue=&quot;+totalRevenue);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        for(Map.Entry&lt;String, Double&gt; entry: sm1.entrySet()){</span>
+<span class="nc" id="L129">            Integer quantity = sm2.get(entry.getKey());</span>
+<span class="nc" id="L130">            ConverterDto.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);</span>
+<span class="nc" id="L131">        }</span>
+<span class="nc" id="L132">        System.out.println(salesReportData);</span>
+<span class="nc" id="L133">        return salesReportData;</span>
     }
 
     private void setSortedMap1(SortedMap&lt;String, Double&gt; sm, OrderItemPojo orderItemPojo, String brand, String category){
-<span class="nc" id="L136">        String brandCategory = brand + &quot;--&quot; + category;</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">        if(sm.containsKey(brandCategory)){</span>
-<span class="nc" id="L138">            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L137">        String brandCategory = brand + &quot;--&quot; + category;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if(sm.containsKey(brandCategory)){</span>
+<span class="nc" id="L139">            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</span>
         }
         else{
-<span class="nc" id="L141">            sm.put(brandCategory, orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L142">            sm.put(brandCategory, orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</span>
         }
-<span class="nc" id="L143">    }</span>
+<span class="nc" id="L144">    }</span>
     private void setSortedMap2(SortedMap&lt;String, Integer&gt; sm, OrderItemPojo orderItemPojo, String brand, String category){
-<span class="nc" id="L145">        String brandCategory = brand + &quot;--&quot; + category;</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        if(sm.containsKey(brandCategory)){</span>
-<span class="nc" id="L147">            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity());</span>
+<span class="nc" id="L146">        String brandCategory = brand + &quot;--&quot; + category;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if(sm.containsKey(brandCategory)){</span>
+<span class="nc" id="L148">            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity());</span>
         }
         else{
-<span class="nc" id="L150">            sm.put(brandCategory, orderItemPojo.getQuantity());</span>
+<span class="nc" id="L151">            sm.put(brandCategory, orderItemPojo.getQuantity());</span>
         }
-<span class="nc" id="L152">    }</span>
+<span class="nc" id="L153">    }</span>
 
     private void validate(SalesReportForm salesReportForm) throws ApiException {
-<span class="nc bnc" id="L155" title="All 2 branches missed.">        if(!salesReportForm.getBrand().isEmpty()){</span>
-<span class="nc" id="L156">            brandService.getByBrand(salesReportForm.getBrand());</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if(!salesReportForm.getBrand().isEmpty()){</span>
+<span class="nc" id="L157">            brandService.getByBrand(salesReportForm.getBrand());</span>
         }
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        if(!salesReportForm.getCategory().isEmpty()){</span>
-<span class="nc" id="L159">            brandService.getByCategory(salesReportForm.getCategory());</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if(!salesReportForm.getCategory().isEmpty()){</span>
+<span class="nc" id="L160">            brandService.getByCategory(salesReportForm.getCategory());</span>
         }
-<span class="nc" id="L161">    }</span>
+<span class="nc" id="L162">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

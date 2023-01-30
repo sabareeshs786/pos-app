@@ -55,8 +55,8 @@ public class SalesReportDto extends InventoryDto {
             }
             zonedDateTimeSet.add(orderPojo.getTime());
         }
-        List<ZonedDateTime> zonedDateTimeList = new ArrayList<>(zonedDateTimeSet);
 
+        List<ZonedDateTime> zonedDateTimeList = new ArrayList<>(zonedDateTimeSet);
         salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));
 
         for (Map.Entry<String, Double> entry : sm1.entrySet()) {
@@ -124,6 +124,7 @@ public class SalesReportDto extends InventoryDto {
         salesReportData.setStartDate(DateTimeUtil.getDateTimeString(salesReportForm.getStartDate(),"dd/MM/yyyy"));
         salesReportData.setEndDate(DateTimeUtil.getDateTimeString(salesReportForm.getEndDate(), "dd/MM/yyyy"));
         salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));
+        System.out.println("\n\nTotal revenue="+totalRevenue);
         for(Map.Entry<String, Double> entry: sm1.entrySet()){
             Integer quantity = sm2.get(entry.getKey());
             ConverterDto.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);

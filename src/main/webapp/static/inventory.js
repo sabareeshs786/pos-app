@@ -69,6 +69,7 @@ function getInventoryList(pageNumber, pageSize){
 	   success: function(data) {
 			console.log(data);
 	   		displayInventoryList(data.content, pageNumber*pageSize);
+			   $('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
 			   var pagination = "";
 			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
 				   var active = "";

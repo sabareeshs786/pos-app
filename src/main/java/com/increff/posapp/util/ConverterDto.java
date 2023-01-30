@@ -94,8 +94,8 @@ public class ConverterDto {
 		orderItemData.setQuantity(orderItemPojo.getQuantity());
 		orderItemData.setBarcode(productPojo.getBarcode());
 		orderItemData.setProductName(productPojo.getName());
-		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());
-		orderItemData.setMrp(productPojo.getMrp());
+		orderItemData.setSellingPrice(DoubleUtil.roundToString(orderItemPojo.getSellingPrice()));
+		orderItemData.setMrp(DoubleUtil.roundToString(productPojo.getMrp()));
 		return orderItemData;
 
 	}

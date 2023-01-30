@@ -94,8 +94,8 @@ import io.swagger.models.auth.In;
 <span class="nc" id="L94">		orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
 <span class="nc" id="L95">		orderItemData.setBarcode(productPojo.getBarcode());</span>
 <span class="nc" id="L96">		orderItemData.setProductName(productPojo.getName());</span>
-<span class="nc" id="L97">		orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L98">		orderItemData.setMrp(productPojo.getMrp());</span>
+<span class="nc" id="L97">		orderItemData.setSellingPrice(DoubleUtil.roundToString(orderItemPojo.getSellingPrice()));</span>
+<span class="nc" id="L98">		orderItemData.setMrp(DoubleUtil.roundToString(productPojo.getMrp()));</span>
 <span class="nc" id="L99">		return orderItemData;</span>
 
 	}
