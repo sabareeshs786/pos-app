@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminApiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.controller</a> &gt; <span class="el_source">AdminApiController.java</span></div><h1>AdminApiController.java</h1><pre class="source lang-java linenums">package com.increff.posapp.controller;
+
+import java.sql.SQLOutput;
+import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.increff.posapp.model.UserData;
+import com.increff.posapp.model.UserForm;
+import com.increff.posapp.pojo.UserPojo;
+import com.increff.posapp.service.ApiException;
+import com.increff.posapp.service.UserService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api
+@RestController
+<span class="fc" id="L25">public class AdminApiController {</span>
+
+	@Autowired
+	private UserService service;
+	@Value(&quot;${app.supervisors}&quot;)
+	private String emails;
+
+
+	@ApiOperation(value = &quot;Adds a user&quot;)
+	@RequestMapping(path = &quot;/api/supervisor/user&quot;, method = RequestMethod.POST)
+	public void addUser(@RequestBody UserForm form) throws ApiException {
+<span class="nc" id="L36">		System.out.println(&quot;Emails&gt;&gt;&quot;+emails);</span>
+<span class="nc" id="L37">		String[] emailArray = emails.split(&quot;,&quot;);</span>
+<span class="nc" id="L38">		Set&lt;String&gt; emailSet = new HashSet&lt;&gt;(Arrays.asList(emailArray));</span>
+<span class="nc" id="L39">		UserPojo p = convert(form);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		if(emailSet.contains(form.getEmail()))</span>
+<span class="nc" id="L41">			p.setRole(&quot;supervisor&quot;);</span>
+		else
+<span class="nc" id="L43">			p.setRole(&quot;operator&quot;);</span>
+<span class="nc" id="L44">		service.add(p);</span>
+<span class="nc" id="L45">	}</span>
+
+	@ApiOperation(value = &quot;Deletes a user&quot;)
+	@RequestMapping(path = &quot;/api/supervisor/user/{id}&quot;, method = RequestMethod.DELETE)
+	public void deleteUser(@PathVariable int id) {
+<span class="nc" id="L50">		service.delete(id);</span>
+<span class="nc" id="L51">	}</span>
+
+	@ApiOperation(value = &quot;Gets list of all users&quot;)
+	@RequestMapping(path = &quot;/api/supervisor/user&quot;, method = RequestMethod.GET)
+	public List&lt;UserData&gt; getAllUser() {
+<span class="nc" id="L56">		List&lt;UserPojo&gt; list = service.getAll();</span>
+<span class="nc" id="L57">		List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">		for (UserPojo p : list) {</span>
+<span class="nc" id="L59">			list2.add(convert(p));</span>
+<span class="nc" id="L60">		}</span>
+<span class="nc" id="L61">		return list2;</span>
+	}
+
+	private static UserData convert(UserPojo p) {
+<span class="nc" id="L65">		UserData d = new UserData();</span>
+<span class="nc" id="L66">		d.setEmail(p.getEmail());</span>
+<span class="nc" id="L67">		d.setRole(p.getRole());</span>
+<span class="nc" id="L68">		d.setId(p.getId());</span>
+<span class="nc" id="L69">		return d;</span>
+	}
+
+	private static UserPojo convert(UserForm f) {
+<span class="nc" id="L73">		UserPojo p = new UserPojo();</span>
+<span class="nc" id="L74">		p.setEmail(f.getEmail());</span>
+<span class="nc" id="L75">		p.setPassword(f.getPassword());</span>
+<span class="nc" id="L76">		return p;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

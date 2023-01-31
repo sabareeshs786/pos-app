@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductPojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.pojo</a> &gt; <span class="el_source">ProductPojo.java</span></div><h1>ProductPojo.java</h1><pre class="source lang-java linenums">package com.increff.posapp.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = &quot;product&quot;)
+@Getter
+<span class="nc" id="L16">@Setter</span>
+<span class="fc" id="L17">public class ProductPojo {</span>
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="nc" id="L21">	private Integer id;</span>
+	@Column(name = &quot;barcode&quot;, unique = true, nullable = false)
+<span class="nc" id="L23">	private String barcode;</span>
+	@Column(name = &quot;brand_category&quot;, nullable = false)
+<span class="nc" id="L25">	private Integer brandCategory;</span>
+	@Column(name = &quot;product_name&quot;, nullable = false)
+<span class="nc" id="L27">	private String name;</span>
+	@Column(name = &quot;mrp&quot;, nullable = false)
+<span class="nc" id="L29">	private Double mrp;</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L33">		return &quot;ProductPojo [id=&quot; + id + &quot;, barcode=&quot; + barcode + &quot;, brand_category=&quot; + brandCategory + &quot;, name=&quot;</span>
+				+ name + &quot;, mrp=&quot; + mrp + &quot;]&quot;;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

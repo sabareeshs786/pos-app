@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.dao</a> &gt; <span class="el_source">OrderItemDao.java</span></div><h1>OrderItemDao.java</h1><pre class="source lang-java linenums">package com.increff.posapp.dao;
+
+import com.increff.posapp.pojo.OrderItemPojo;
+import com.increff.posapp.pojo.OrderPojo;
+import com.increff.posapp.service.ApiException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Repository
+@Transactional(rollbackOn = ApiException.class)
+<span class="fc" id="L18">public class OrderItemDao extends AbstractDao{</span>
+
+<span class="fc" id="L20">	private static String delete_id = &quot;delete from OrderItemPojo p where id=:id&quot;;</span>
+<span class="fc" id="L21">	private static String delete_orderId = &quot;delete from OrderItemPojo p where orderId=:orderId&quot;;</span>
+<span class="fc" id="L22">	private static String delete_productId = &quot;delete from OrderItemPojo p where productId=:productId&quot;;</span>
+<span class="fc" id="L23">	private static String delete_quantity = &quot;delete from OrderItemPojo p where quantity=:quantity&quot;;</span>
+<span class="fc" id="L24">	private static String delete_selling_price = &quot;delete from OrderItemPojo p where sellingPrice=:sellingPrice&quot;;</span>
+
+<span class="fc" id="L26">	private static String select_id = &quot;select p from OrderItemPojo p where id=:id&quot;;</span>
+<span class="fc" id="L27">	private static String select_orderId = &quot;select p from OrderItemPojo p where orderId=:orderId&quot;;</span>
+<span class="fc" id="L28">	private static String select_productId = &quot;select p from OrderItemPojo p where productId=:productId&quot;;</span>
+<span class="fc" id="L29">	private static String select_quantity = &quot;select p from OrderItemPojo p where quantity=:quantity&quot;;</span>
+<span class="fc" id="L30">	private static String select_selling_price = &quot;select p from OrderItemPojo p where sellingPrice=:sellingPrice&quot;;</span>
+
+<span class="fc" id="L32">	private static String select_all = &quot;select p from OrderItemPojo p&quot;;</span>
+<span class="fc" id="L33">	private static String select_all_count = &quot;select count(p) from OrderItemPojo p&quot;;</span>
+	public void insert(OrderItemPojo p) {
+<span class="nc" id="L35">		em().persist(p);</span>
+<span class="nc" id="L36">	}</span>
+
+	public Integer deleteById(Integer id) {
+<span class="nc" id="L39">		Query query = em().createQuery(delete_id);</span>
+<span class="nc" id="L40">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L41">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByOrderId(Integer orderId) {
+<span class="nc" id="L45">		Query query = em().createQuery(delete_orderId);</span>
+<span class="nc" id="L46">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L47">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByProductId(Integer productId) {
+<span class="nc" id="L51">		Query query = em().createQuery(delete_productId);</span>
+<span class="nc" id="L52">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L53">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteByQuantity(Integer quantity) {
+<span class="nc" id="L57">		Query query = em().createQuery(delete_quantity);</span>
+<span class="nc" id="L58">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L59">		return query.executeUpdate();</span>
+	}
+
+	public Integer deleteBySellingPrice(Double sellingPrice) {
+<span class="nc" id="L63">		Query query = em().createQuery(delete_selling_price);</span>
+<span class="nc" id="L64">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L65">		return query.executeUpdate();</span>
+	}
+
+	public OrderItemPojo selectById(Integer id) {
+<span class="nc" id="L69">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_id, OrderItemPojo.class);</span>
+<span class="nc" id="L70">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L71">		return getSingle(query);</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectByOrderId(Integer orderId) {
+<span class="nc" id="L75">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_orderId, OrderItemPojo.class);</span>
+<span class="nc" id="L76">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L77">		return query.getResultList();</span>
+	}
+
+	public Page&lt;OrderItemPojo&gt; getPageByOrderId(Integer orderId, Integer page, Integer size) {
+<span class="nc" id="L81">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_orderId, OrderItemPojo.class);</span>
+<span class="nc" id="L82">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L83">		int pageNumber = page;</span>
+<span class="nc" id="L84">		int pageSize = size;</span>
+<span class="nc" id="L85">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L86">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L87">		query.setMaxResults(pageSize);</span>
+
+		// execute the query
+<span class="nc" id="L90">		List&lt;OrderItemPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L91">		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();</span>
+<span class="nc" id="L92">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+	}
+
+	public OrderItemPojo selectByProductId(Integer productId) {
+<span class="nc" id="L96">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_productId, OrderItemPojo.class);</span>
+<span class="nc" id="L97">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L98">		return getSingle(query);</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectByQuantity(Integer quantity) {
+<span class="nc" id="L102">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_quantity, OrderItemPojo.class);</span>
+<span class="nc" id="L103">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L104">		return query.getResultList();</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectBySellingPrice(Double sellingPrice) {
+<span class="nc" id="L108">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_selling_price, OrderItemPojo.class);</span>
+<span class="nc" id="L109">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L110">		return query.getResultList();</span>
+	}
+
+	public List&lt;OrderItemPojo&gt; selectAll() {
+<span class="nc" id="L114">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(select_all, OrderItemPojo.class);</span>
+<span class="nc" id="L115">		return query.getResultList();</span>
+	}
+
+	public void update(OrderItemPojo p) {
+		// Implemented by Spring itself
+<span class="nc" id="L120">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
