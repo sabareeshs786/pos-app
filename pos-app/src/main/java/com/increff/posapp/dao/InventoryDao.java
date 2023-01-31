@@ -6,7 +6,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import com.increff.posapp.pojo.ProductPojo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,16 +18,16 @@ import com.increff.posapp.service.ApiException;
 @Transactional(rollbackOn = ApiException.class)
 public class InventoryDao extends AbstractDao{
 	
-	private static String delete_id = "delete from InventoryPojo p where id=:id";
-	private static String delete_productId = "delete from InventoryPojo p where productId=:productId";
-	private static String delete_quantity = "delete from InventoryPojo p where quantity=:quantity";
+	private static final String DELETE_BY_ID = "delete from InventoryPojo p where id=:id";
+	private static final String DELETE_BY_PRODUCT_ID = "delete from InventoryPojo p where productId=:productId";
+	private static final String DELETE_BY_QUANTITY = "delete from InventoryPojo p where quantity=:quantity";
 	
-	private static String select_id = "select p from InventoryPojo p where id=:id";
-	private static String select_productId = "select p from InventoryPojo p where productId=:productId";
-	private static String select_quantity = "select p from InventoryPojo p where quantity=:quantity";
+	private static final String SELECT_BY_ID = "select p from InventoryPojo p where id=:id";
+	private static final String SELECT_BY_PRODUCT_ID = "select p from InventoryPojo p where productId=:productId";
+	private static final String SELECT_BY_QUANTITY = "select p from InventoryPojo p where quantity=:quantity";
 	
-	private static String select_all = "select p from InventoryPojo p";
-	private static String select_all_count = "select count(p) from InventoryPojo p";
+	private static final String SELECT_ALL = "select p from InventoryPojo p";
+	private static final String SELECT_ALL_COUNT = "select count(p) from InventoryPojo p";
 
 
 
@@ -37,48 +36,48 @@ public class InventoryDao extends AbstractDao{
 	}
 
 	public Integer deleteById(Integer id) {
-		Query query = em().createQuery(delete_id);
+		Query query = em().createQuery(DELETE_BY_ID);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}
 	
 	public Integer deleteByProductId(Integer pId) {
-		Query query = em().createQuery(delete_productId);
+		Query query = em().createQuery(DELETE_BY_PRODUCT_ID);
 		query.setParameter("productId",pId);
 		return query.executeUpdate();
 	}
 
 	public Integer deleteByQuantity(Integer quantity) {
-		Query query = em().createQuery(delete_quantity);
+		Query query = em().createQuery(DELETE_BY_QUANTITY);
 		query.setParameter("quantity", quantity);
 		return query.executeUpdate();
 	}
 	
 	public InventoryPojo selectById(Integer id) {
-		TypedQuery<InventoryPojo> query = getQuery(select_id, InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_ID, InventoryPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 	
 	public InventoryPojo selectByProductId(Integer pid) {
-		TypedQuery<InventoryPojo> query = getQuery(select_productId, InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_PRODUCT_ID, InventoryPojo.class);
 		query.setParameter("productId", pid);
 		return getSingle(query);
 	}
 	
 	public List<InventoryPojo> selectByQuantity(Integer quantity) {
-		TypedQuery<InventoryPojo> query = getQuery(select_quantity, InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_QUANTITY, InventoryPojo.class);
 		query.setParameter("quantity", quantity);
 		return query.getResultList();
 	}
 	
 	public List<InventoryPojo> selectAll() {
-		TypedQuery<InventoryPojo> query = getQuery(select_all, InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);
 		return query.getResultList();
 	}
 
 	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
-		TypedQuery<InventoryPojo> query = getQuery(select_all, InventoryPojo.class);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);
 		// private static String select_all = "select p from ProductPojo p";apply pagination
 		int pageNumber = page;
 		int pageSize = size;
@@ -89,7 +88,7 @@ public class InventoryDao extends AbstractDao{
 		// execute the query
 		List<InventoryPojo> entities = query.getResultList();
 
-		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 	public void update(InventoryPojo inventoryPojo) {

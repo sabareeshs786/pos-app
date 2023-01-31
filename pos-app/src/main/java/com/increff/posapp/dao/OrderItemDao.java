@@ -1,7 +1,6 @@
 package com.increff.posapp.dao;
 
 import com.increff.posapp.pojo.OrderItemPojo;
-import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.service.ApiException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,68 +16,69 @@ import java.util.List;
 @Transactional(rollbackOn = ApiException.class)
 public class OrderItemDao extends AbstractDao{
 
-	private static String delete_id = "delete from OrderItemPojo p where id=:id";
-	private static String delete_orderId = "delete from OrderItemPojo p where orderId=:orderId";
-	private static String delete_productId = "delete from OrderItemPojo p where productId=:productId";
-	private static String delete_quantity = "delete from OrderItemPojo p where quantity=:quantity";
-	private static String delete_selling_price = "delete from OrderItemPojo p where sellingPrice=:sellingPrice";
+	private static final String DELETE_ID = "delete from OrderItemPojo p where id=:id";
+	private static final String DELETE_ORDER_ID = "delete from OrderItemPojo p where orderId=:orderId";
+	private static final String DELETE_PRODUCT_ID = "delete from OrderItemPojo p where productId=:productId";
+	private static final String DELETE_QUANTITY = "delete from OrderItemPojo p where quantity=:quantity";
+	private static final String DELETE_SELLING_PRICE = "delete from OrderItemPojo p where sellingPrice=:sellingPrice";
 
-	private static String select_id = "select p from OrderItemPojo p where id=:id";
-	private static String select_orderId = "select p from OrderItemPojo p where orderId=:orderId";
-	private static String select_productId = "select p from OrderItemPojo p where productId=:productId";
-	private static String select_quantity = "select p from OrderItemPojo p where quantity=:quantity";
-	private static String select_selling_price = "select p from OrderItemPojo p where sellingPrice=:sellingPrice";
+	private static final String SELECT_BY_ID = "select p from OrderItemPojo p where id=:id";
+	private static final String SELECT_BY_ORDER_ID = "select p from OrderItemPojo p where orderId=:orderId";
+	private static final String SELECT_BY_PRODUCT_ID = "select p from OrderItemPojo p where productId=:productId";
+	private static final String SELECT_BY_QUANTITY = "select p from OrderItemPojo p where quantity=:quantity";
+	private static final String SELECT_BY_SELLING_PRICE = "select p from OrderItemPojo p where sellingPrice=:sellingPrice";
 
-	private static String select_all = "select p from OrderItemPojo p";
-	private static String select_all_count = "select count(p) from OrderItemPojo p";
+	private static final String SELECT_ALL = "select p from OrderItemPojo p";
+	private static final String SELECT_ALL_COUNT = "select count(p) from OrderItemPojo p";
+
 	public void insert(OrderItemPojo p) {
 		em().persist(p);
 	}
 
 	public Integer deleteById(Integer id) {
-		Query query = em().createQuery(delete_id);
+		Query query = em().createQuery(DELETE_ID);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}
 
 	public Integer deleteByOrderId(Integer orderId) {
-		Query query = em().createQuery(delete_orderId);
+		Query query = em().createQuery(DELETE_ORDER_ID);
 		query.setParameter("orderId", orderId);
 		return query.executeUpdate();
 	}
 
 	public Integer deleteByProductId(Integer productId) {
-		Query query = em().createQuery(delete_productId);
+		Query query = em().createQuery(DELETE_PRODUCT_ID);
 		query.setParameter("productId", productId);
 		return query.executeUpdate();
 	}
 
 	public Integer deleteByQuantity(Integer quantity) {
-		Query query = em().createQuery(delete_quantity);
+		Query query = em().createQuery(DELETE_QUANTITY);
 		query.setParameter("quantity", quantity);
 		return query.executeUpdate();
 	}
 
 	public Integer deleteBySellingPrice(Double sellingPrice) {
-		Query query = em().createQuery(delete_selling_price);
+		Query query = em().createQuery(DELETE_SELLING_PRICE);
 		query.setParameter("sellingPrice", sellingPrice);
 		return query.executeUpdate();
 	}
 
 	public OrderItemPojo selectById(Integer id) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_id, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ID, OrderItemPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 
 	public List<OrderItemPojo> selectByOrderId(Integer orderId) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_orderId, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		return query.getResultList();
 	}
 
 	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_orderId, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		int pageNumber = page;
 		int pageSize = size;
@@ -88,30 +88,30 @@ public class OrderItemDao extends AbstractDao{
 
 		// execute the query
 		List<OrderItemPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 
 	public OrderItemPojo selectByProductId(Integer productId) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_productId, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_PRODUCT_ID, OrderItemPojo.class);
 		query.setParameter("productId", productId);
 		return getSingle(query);
 	}
 
 	public List<OrderItemPojo> selectByQuantity(Integer quantity) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_quantity, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_QUANTITY, OrderItemPojo.class);
 		query.setParameter("quantity", quantity);
 		return query.getResultList();
 	}
 
 	public List<OrderItemPojo> selectBySellingPrice(Double sellingPrice) {
-		TypedQuery<OrderItemPojo> query = getQuery(select_selling_price, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_SELLING_PRICE, OrderItemPojo.class);
 		query.setParameter("sellingPrice", sellingPrice);
 		return query.getResultList();
 	}
 
 	public List<OrderItemPojo> selectAll() {
-		TypedQuery<OrderItemPojo> query = getQuery(select_all, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_ALL, OrderItemPojo.class);
 		return query.getResultList();
 	}
 
