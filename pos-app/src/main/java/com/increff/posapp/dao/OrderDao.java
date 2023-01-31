@@ -1,17 +1,13 @@
 package com.increff.posapp.dao;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,68 +20,68 @@ import com.increff.posapp.pojo.OrderPojo;
 @Transactional(rollbackOn = ApiException.class)
 public class OrderDao extends AbstractDao{
 	
-	private static String delete_id = "delete from OrderPojo p where id=:id";
-	private static String delete_time = "delete from OrderPojo p where time=:time";
-	private static String select_id = "select p from OrderPojo p where id=:id";
-	private static String select_time = "select p from OrderPojo p where time=:time";
-	private static String select_by_start_time = "select p from OrderPojo p where time >= :startTime";
-	private static String select_by_end_time = "select p from OrderPojo p where time <= :endTime";
-	private static String select_by_interval = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
-	private static String select_all = "select p from OrderPojo p";
+	private static final String DELETE_BY_ID = "delete from OrderPojo p where id=:id";
+	private static final String DELETE_BY_TIME = "delete from OrderPojo p where time=:time";
+	private static final String SELECT_BY_ID = "select p from OrderPojo p where id=:id";
+	private static final String SELECT_BY_TIME = "select p from OrderPojo p where time=:time";
+	private static final String SELECT_BY_START_TIME = "select p from OrderPojo p where time >= :startTime";
+	private static final String SELECT_BY_END_TIME = "select p from OrderPojo p where time <= :endTime";
+	private static final String SELECT_BY_INTERVAL = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
+	private static final String SELECT_ALL = "select p from OrderPojo p";
 
-	private static String select_all_count = "select count(p) from OrderPojo p";
+	private static String SELECT_ALL_COUNT = "select count(p) from OrderPojo p";
 
 	public void insert(OrderPojo p) {
 		em().persist(p);
 	}
 
 	public Integer deleteById(Integer id) {
-		Query query = em().createQuery(delete_id);
+		Query query = em().createQuery(DELETE_BY_ID);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}
 	
 	public Integer deleteByTime(LocalDateTime time) {
-		Query query = em().createQuery(delete_time);
+		Query query = em().createQuery(DELETE_BY_TIME);
 		query.setParameter("time",time);
 		return query.executeUpdate();
 	}
 
 	public OrderPojo selectById(Integer id) {
-		TypedQuery<OrderPojo> query = getQuery(select_id, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_ID, OrderPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 	
 	public List<OrderPojo> selectByTime(ZonedDateTime time) {
-		TypedQuery<OrderPojo> query = getQuery(select_time, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_TIME, OrderPojo.class);
 		query.setParameter("time", time);
 		return query.getResultList();
 	}
 
 	public List<OrderPojo> selectByStartTime(String startTime){
-		TypedQuery<OrderPojo> query = getQuery(select_by_start_time, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_START_TIME, OrderPojo.class);
 		query.setParameter("startTime", startTime);
 		return query.getResultList();
 	}
 	public List<OrderPojo> selectByEndTime(String endTime){
-		TypedQuery<OrderPojo> query = getQuery(select_by_end_time, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_END_TIME, OrderPojo.class);
 		query.setParameter("endTime", endTime);
 		return query.getResultList();
 	}
 	public List<OrderPojo> selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
-		TypedQuery<OrderPojo> query = getQuery(select_by_interval, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_INTERVAL, OrderPojo.class);
 		query.setParameter("startTime", startTime);
 		query.setParameter("endTime", endTime);
 		return query.getResultList();
 	}
 	public List<OrderPojo> selectAll() {
-		TypedQuery<OrderPojo> query = getQuery(select_all, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL, OrderPojo.class);
 		return query.getResultList();
 	}
 
 	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
-		TypedQuery<OrderPojo> query = getQuery(select_all, OrderPojo.class);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL, OrderPojo.class);
 
 		// private static String select_all = "select p from ProductPojo p";apply pagination
 		int pageNumber = page;
@@ -96,7 +92,7 @@ public class OrderDao extends AbstractDao{
 
 		// execute the query
 		List<OrderPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();
+		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 	public void update(OrderPojo p) {
