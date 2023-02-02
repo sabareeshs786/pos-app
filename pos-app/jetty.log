@@ -2641,3 +2641,298 @@ Caused by: java.lang.ClassNotFoundException: OrderItemsData
 2023-01-31 11:43:33 INFO  SecurityConfig:33 - Configuration complete
 2023-01-31 11:46:11 INFO  SecurityConfig:33 - Configuration complete
 2023-01-31 12:20:08 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 13:20:38 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 13:28:06 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 14:28:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 14:44:43 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 15:10:54 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 15:22:55 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 17:56:25 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 18:15:11 WARN  JdbcEnvironmentInitiator:132 - HHH000342: Could not obtain connection to query metadata : Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+2023-01-31 18:15:11 WARN  SqlExceptionHelper:137 - SQL Error: 0, SQLState: null
+2023-01-31 18:15:11 ERROR SqlExceptionHelper:142 - Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+2023-01-31 18:15:11 WARN  AnnotationConfigWebApplicationContext:550 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/increff/posapp/spring/DbConfig.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
+2023-01-31 18:15:11 ERROR DispatcherServlet:502 - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [com/increff/posapp/spring/DbConfig.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1081)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:856)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:542)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:668)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:540)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:494)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:136)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:244)
+	at org.eclipse.jetty.servlet.ServletHolder.initServlet(ServletHolder.java:599)
+	at org.eclipse.jetty.servlet.ServletHolder.initialize(ServletHolder.java:425)
+	at org.eclipse.jetty.servlet.ServletHandler.lambda$initialize$0(ServletHandler.java:751)
+	at java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:357)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:483)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+	at java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:313)
+	at java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:743)
+	at java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:742)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:647)
+	at org.eclipse.jetty.servlet.ServletHandler.initialize(ServletHandler.java:744)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:361)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1443)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:328)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1407)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:821)
+	at org.eclipse.jetty.servlet.ServletContextHandler.doStart(ServletContextHandler.java:276)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:524)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:397)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:72)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:169)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:117)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:106)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:72)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:169)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:117)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:106)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:72)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:169)
+	at org.eclipse.jetty.server.Server.start(Server.java:407)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:110)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:106)
+	at org.eclipse.jetty.server.Server.doStart(Server.java:371)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:72)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.startJetty(AbstractJettyMojo.java:449)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.execute(AbstractJettyMojo.java:310)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.execute(JettyRunMojo.java:155)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:137)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:210)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:117)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:81)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:56)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:305)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:192)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:105)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:957)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:289)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:193)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:282)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:225)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:406)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:347)
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.persistenceException(EntityManagerFactoryBuilderImpl.java:1015)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:941)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:60)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:353)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:373)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:362)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	... 73 more
+Caused by: org.hibernate.exception.GenericJDBCException: Unable to open JDBC Connection for DDL execution
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:69)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:60)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcDatabaseMetaData(ImprovedExtractionContextImpl.java:67)
+	at org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl.getTables(InformationExtractorJdbcDatabaseMetaDataImpl.java:329)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.getTablesInformation(DatabaseInformationImpl.java:120)
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:65)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:207)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:309)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:938)
+	... 79 more
+Caused by: org.apache.commons.dbcp.SQLNestedException: Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+	at org.apache.commons.dbcp.BasicDataSource.createPoolableConnectionFactory(BasicDataSource.java:1549)
+	at org.apache.commons.dbcp.BasicDataSource.createDataSource(BasicDataSource.java:1388)
+	at org.apache.commons.dbcp.BasicDataSource.getConnection(BasicDataSource.java:1044)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:43)
+	... 91 more
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:828)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:448)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:241)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at org.apache.commons.dbcp.DriverConnectionFactory.createConnection(DriverConnectionFactory.java:38)
+	at org.apache.commons.dbcp.PoolableConnectionFactory.makeObject(PoolableConnectionFactory.java:582)
+	at org.apache.commons.dbcp.BasicDataSource.validateConnectionFactory(BasicDataSource.java:1556)
+	at org.apache.commons.dbcp.BasicDataSource.createPoolableConnectionFactory(BasicDataSource.java:1545)
+	... 96 more
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:89)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:120)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:948)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:818)
+	... 103 more
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:607)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	... 106 more
+2023-01-31 18:18:39 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 18:26:17 INFO  SecurityConfig:33 - Configuration complete
+2023-01-31 18:30:05 INFO  SecurityConfig:33 - Configuration complete
+2023-02-01 10:03:58 INFO  SecurityConfig:33 - Configuration complete
+2023-02-01 10:21:06 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:22:51 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:30:36 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:34:08 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:39:59 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:42:51 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:45:31 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 10:58:18 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 11:07:02 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 11:18:00 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 11:20:19 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 11:21:50 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:01:24 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:05:57 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:11:09 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:26:45 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:29:51 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:40:35 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:43:23 INFO  SecurityConfig:32 - Configuration complete
+2023-02-01 18:55:58 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:15:26 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:19:40 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:31:08 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:39:22 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:43:38 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 10:43:51 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 10:43:51 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 10:43:51 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 10:43:51 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 11:13:28 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 11:21:27 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 11:21:42 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 11:21:42 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 11:21:42 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 11:21:42 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 11:45:27 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 11:45:40 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 11:45:40 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 11:45:40 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 11:45:40 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 11:52:05 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 11:52:14 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 11:52:14 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 11:52:14 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 11:52:14 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 11:53:44 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 11:53:58 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 11:53:58 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 11:53:58 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 11:53:58 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:01:47 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:01:59 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:01:59 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:01:59 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:01:59 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:03:44 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:03:44 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:03:44 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:03:44 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:06:43 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:06:57 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:06:57 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:06:57 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:06:57 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:13:14 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:15:35 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:16:31 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:16:31 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:16:31 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:16:31 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:16:50 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:16:50 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:16:50 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:16:50 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:24:51 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:25:17 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:25:17 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:25:17 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:25:17 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:36:03 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:36:17 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:36:17 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:36:17 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:36:17 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 12:59:22 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 12:59:39 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 12:59:39 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 12:59:39 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 12:59:39 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 13:01:40 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 13:01:51 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 13:02:14 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 13:02:30 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 13:02:30 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 13:02:30 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 13:02:30 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 13:12:06 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 13:12:29 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 13:12:29 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 13:12:29 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 13:12:29 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 13:50:19 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 13:50:27 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 13:50:27 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 13:50:27 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 13:50:27 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 14:13:30 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 14:13:43 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 14:13:43 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 14:13:43 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 14:13:43 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 14:26:07 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 14:26:32 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 14:26:32 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 14:26:32 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 14:26:32 INFO  FOUserAgent:83 - Rendered page #1.
+2023-02-02 14:45:22 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 15:23:22 INFO  SecurityConfig:32 - Configuration complete
+2023-02-02 15:23:49 INFO  FOUserAgent:83 - An fo:table  (No context info available) is wider than the available room in inline-progression-dimension. Adjusting end-indent based on overconstrained geometry rules (XSL 1.1, ch. 5.3.4)
+2023-02-02 15:23:49 WARN  FOUserAgent:94 - Font "Symbol,normal,700" not found. Substituting with "Symbol,normal,400".
+2023-02-02 15:23:49 WARN  FOUserAgent:94 - Font "ZapfDingbats,normal,700" not found. Substituting with "ZapfDingbats,normal,400".
+2023-02-02 15:23:49 INFO  FOUserAgent:83 - Rendered page #1.

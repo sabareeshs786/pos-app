@@ -5,6 +5,18 @@ function getRole(){
 	return role;
 }
 
+function validator(jsonStr){
+    jsonObj = JSON.parse(jsonStr);
+    for (var [key, value] of Object.entries(jsonObj)) {
+        value = value.trim();
+        if(value == null || value == undefined || value == ''){
+            alert("Value for "+ key + " is not entered or can't be interpreted");
+            return false
+        }
+    }
+    return true;
+}
+
 function enableOrDisable(){
 	if(getRole() != 'supervisor'){
 		$('input').attr('disabled', true);

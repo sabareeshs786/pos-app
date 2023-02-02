@@ -9,22 +9,22 @@ function addBrand(event){
 	//Set the values to update
 	var $form = $("#brand-form");
 	var json = toJson($form);
-	console.log(json);
-	var url = getBrandUrl();
-
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getBrandListUtil();
-	   },
-	   error: handleAjaxError
-	});
-
+	if(validator(json)){
+		var url = getBrandUrl();
+		
+		$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getBrandListUtil();
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 
@@ -38,20 +38,21 @@ function updateBrand(event){
 	//Set the values to update
 	var $form = $("#brand-edit-form");
 	var json = toJson($form);
-
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getBrandListUtil();   
-	   },
-	   error: handleAjaxError
-	});
-
+	if(validator(json)){
+		$.ajax({
+		url: url,
+		type: 'PUT',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getBrandListUtil();   
+		},
+		error: handleAjaxError
+		});
+	}
+	
 	return false;
 }
 
