@@ -15,6 +15,7 @@ import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
 import io.swagger.models.auth.In;
 
+
 public class ConverterDto {
 	public static BrandData convertToBrandData(BrandPojo p) {
 		BrandData d = new BrandData();

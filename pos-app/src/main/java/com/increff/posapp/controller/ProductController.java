@@ -1,5 +1,8 @@
 package com.increff.posapp.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +35,22 @@ public class ProductController {
 
 	@ApiOperation(value = "Gets a product by product id")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
-	public ProductData getById(@PathVariable Integer id) throws ApiException {
+	public ProductData getById(@PathVariable Integer id) throws ApiException, UnsupportedEncodingException {
+//		Integer id = null;
+//		String decodedPath = URLDecoder.decode(query, StandardCharsets.UTF_8.toString());
+//		String[] querySplit = decodedPath.split("\\?(?!\\?)");
+//		String[] queries = querySplit[1].split("=");
+//		if(queries[0].equals("id")){
+//			id = Integer.parseInt(queries[1]);
+//		}
 		return productDto.getById(id);
 	}
 	
-	@ApiOperation(value = "Gets a product by barcode")
-	@RequestMapping(path = "/api/product/{barcode}", method = RequestMethod.GET)
-	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
-		return productDto.getByBarcode(barcode);
-	}
+//	@ApiOperation(value = "Gets a product by barcode")
+//	@RequestMapping(path = "/api/product?barcode={barcode}", method = RequestMethod.GET)
+//	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
+//		return productDto.getByBarcode(barcode);
+//	}
 	
 	@ApiOperation(value = "Gets list of all products")
 	@RequestMapping(path = "/api/product/{pageNo}/{size}", method = RequestMethod.GET)

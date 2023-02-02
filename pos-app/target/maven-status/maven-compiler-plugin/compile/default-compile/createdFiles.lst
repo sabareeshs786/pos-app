@@ -1,5 +1,6 @@
 com/increff/posapp/model/OrderData.class
 com/increff/posapp/pojo/OrderPojo.class
+com/increff/posapp/model/InvoiceData.class
 com/increff/posapp/util/FormValidator.class
 com/increff/posapp/dao/UserDao.class
 com/increff/posapp/controller/SalesReportController.class

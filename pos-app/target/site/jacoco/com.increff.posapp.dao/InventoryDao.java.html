@@ -6,7 +6,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import com.increff.posapp.pojo.ProductPojo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -17,84 +16,84 @@ import com.increff.posapp.service.ApiException;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L20">public class InventoryDao extends AbstractDao{</span>
+<span class="fc" id="L19">public class InventoryDao extends AbstractDao{</span>
 	
-<span class="fc" id="L22">	private static String delete_id = &quot;delete from InventoryPojo p where id=:id&quot;;</span>
-<span class="fc" id="L23">	private static String delete_productId = &quot;delete from InventoryPojo p where productId=:productId&quot;;</span>
-<span class="fc" id="L24">	private static String delete_quantity = &quot;delete from InventoryPojo p where quantity=:quantity&quot;;</span>
+	private static final String DELETE_BY_ID = &quot;delete from InventoryPojo p where id=:id&quot;;
+	private static final String DELETE_BY_PRODUCT_ID = &quot;delete from InventoryPojo p where productId=:productId&quot;;
+	private static final String DELETE_BY_QUANTITY = &quot;delete from InventoryPojo p where quantity=:quantity&quot;;
 	
-<span class="fc" id="L26">	private static String select_id = &quot;select p from InventoryPojo p where id=:id&quot;;</span>
-<span class="fc" id="L27">	private static String select_productId = &quot;select p from InventoryPojo p where productId=:productId&quot;;</span>
-<span class="fc" id="L28">	private static String select_quantity = &quot;select p from InventoryPojo p where quantity=:quantity&quot;;</span>
+	private static final String SELECT_BY_ID = &quot;select p from InventoryPojo p where id=:id&quot;;
+	private static final String SELECT_BY_PRODUCT_ID = &quot;select p from InventoryPojo p where productId=:productId&quot;;
+	private static final String SELECT_BY_QUANTITY = &quot;select p from InventoryPojo p where quantity=:quantity&quot;;
 	
-<span class="fc" id="L30">	private static String select_all = &quot;select p from InventoryPojo p&quot;;</span>
-<span class="fc" id="L31">	private static String select_all_count = &quot;select count(p) from InventoryPojo p&quot;;</span>
+	private static final String SELECT_ALL = &quot;select p from InventoryPojo p&quot;;
+	private static final String SELECT_ALL_COUNT = &quot;select count(p) from InventoryPojo p&quot;;
 
 
 
 	public void insert(InventoryPojo inventoryPojo) {
-<span class="nc" id="L36">		em().persist(inventoryPojo);</span>
-<span class="nc" id="L37">	}</span>
+<span class="nc" id="L35">		em().persist(inventoryPojo);</span>
+<span class="nc" id="L36">	}</span>
 
 	public Integer deleteById(Integer id) {
-<span class="nc" id="L40">		Query query = em().createQuery(delete_id);</span>
-<span class="nc" id="L41">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L42">		return query.executeUpdate();</span>
+<span class="nc" id="L39">		Query query = em().createQuery(DELETE_BY_ID);</span>
+<span class="nc" id="L40">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L41">		return query.executeUpdate();</span>
 	}
 	
 	public Integer deleteByProductId(Integer pId) {
-<span class="nc" id="L46">		Query query = em().createQuery(delete_productId);</span>
-<span class="nc" id="L47">		query.setParameter(&quot;productId&quot;,pId);</span>
-<span class="nc" id="L48">		return query.executeUpdate();</span>
+<span class="nc" id="L45">		Query query = em().createQuery(DELETE_BY_PRODUCT_ID);</span>
+<span class="nc" id="L46">		query.setParameter(&quot;productId&quot;,pId);</span>
+<span class="nc" id="L47">		return query.executeUpdate();</span>
 	}
 
 	public Integer deleteByQuantity(Integer quantity) {
-<span class="nc" id="L52">		Query query = em().createQuery(delete_quantity);</span>
-<span class="nc" id="L53">		query.setParameter(&quot;quantity&quot;, quantity);</span>
-<span class="nc" id="L54">		return query.executeUpdate();</span>
+<span class="nc" id="L51">		Query query = em().createQuery(DELETE_BY_QUANTITY);</span>
+<span class="nc" id="L52">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L53">		return query.executeUpdate();</span>
 	}
 	
 	public InventoryPojo selectById(Integer id) {
-<span class="nc" id="L58">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(select_id, InventoryPojo.class);</span>
-<span class="nc" id="L59">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L60">		return getSingle(query);</span>
+<span class="nc" id="L57">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_BY_ID, InventoryPojo.class);</span>
+<span class="nc" id="L58">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L59">		return getSingle(query);</span>
 	}
 	
 	public InventoryPojo selectByProductId(Integer pid) {
-<span class="nc" id="L64">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(select_productId, InventoryPojo.class);</span>
-<span class="nc" id="L65">		query.setParameter(&quot;productId&quot;, pid);</span>
-<span class="nc" id="L66">		return getSingle(query);</span>
+<span class="nc" id="L63">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_BY_PRODUCT_ID, InventoryPojo.class);</span>
+<span class="nc" id="L64">		query.setParameter(&quot;productId&quot;, pid);</span>
+<span class="nc" id="L65">		return getSingle(query);</span>
 	}
 	
 	public List&lt;InventoryPojo&gt; selectByQuantity(Integer quantity) {
-<span class="nc" id="L70">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(select_quantity, InventoryPojo.class);</span>
-<span class="nc" id="L71">		query.setParameter(&quot;quantity&quot;, quantity);</span>
-<span class="nc" id="L72">		return query.getResultList();</span>
+<span class="nc" id="L69">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_BY_QUANTITY, InventoryPojo.class);</span>
+<span class="nc" id="L70">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L71">		return query.getResultList();</span>
 	}
 	
 	public List&lt;InventoryPojo&gt; selectAll() {
-<span class="nc" id="L76">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(select_all, InventoryPojo.class);</span>
-<span class="nc" id="L77">		return query.getResultList();</span>
+<span class="nc" id="L75">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
+<span class="nc" id="L76">		return query.getResultList();</span>
 	}
 
 	public Page&lt;InventoryPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L81">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(select_all, InventoryPojo.class);</span>
+<span class="nc" id="L80">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
 		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="nc" id="L83">		int pageNumber = page;</span>
-<span class="nc" id="L84">		int pageSize = size;</span>
-<span class="nc" id="L85">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L86">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L87">		query.setMaxResults(pageSize);</span>
+<span class="nc" id="L82">		int pageNumber = page;</span>
+<span class="nc" id="L83">		int pageSize = size;</span>
+<span class="nc" id="L84">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L85">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L86">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="nc" id="L90">		List&lt;InventoryPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L89">		List&lt;InventoryPojo&gt; entities = query.getResultList();</span>
 
-<span class="nc" id="L92">		Long totalElements = em().createQuery(select_all_count, Long.class).getSingleResult();</span>
-<span class="nc" id="L93">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L91">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="nc" id="L92">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(InventoryPojo inventoryPojo) {
 		// Implemented by Spring itself
-<span class="nc" id="L97">	}</span>
+<span class="nc" id="L96">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -2,6 +2,7 @@ package com.increff.posapp.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderForm {
-
 	private List<String> barcodes;
 	private List<Integer> quantities;
 	private List<Double> sellingPrices;

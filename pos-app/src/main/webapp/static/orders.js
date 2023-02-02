@@ -1,13 +1,31 @@
 function getOrderUrl(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	var baseUrl = $("meta[name=baseUrl]").attr("content");
 	return baseUrl + "/api/order";
 }
 
+function getInvoiceUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content");
+	return baseUrl + "/api/invoice/download";
+}
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/product";
 }
 
+function generateInvoicePdf(id){
+	var url = getInvoiceUrl() + "/" + id;
+	$.ajax({
+		url: url,
+		type: 'GET',
+		dataType : 'json',
+		contentType : 'application/pdf',
+		success: function(data) {
+				alert("Invoice pdf generated");
+		},
+		error: handleAjaxError
+	 });
+	 return false;
+}
 var barcodes = [];
 var quantities = [];
 var sellingPrices = [];
@@ -70,27 +88,26 @@ function getProduct(barcode){
 }
 
 function addItem(){
-	console.log("clicked");
 	var barcode = $('#place-order-form input[name=barcode]').val();
 	var quantity = $('#place-order-form input[name=quantity]').val();
 	var sellingPrice = $('#place-order-form input[name=sellingPrice]').val();
-	barcodes.push(barcode);
-	quantities.push(quantity);
-	sellingPrices.push(sellingPrice);
-
-	$('#place-order-form input[name=barcode]').val('');
-	$('#place-order-form input[name=quantity]').val(1);
-	$('#place-order-form input[name=sellingPrice]').val(0.00);
+	var json = {'barcode': barcode, 
+				'quantity': quantity, 
+				'sellingPrice': sellingPrice
+			   };
+	json = JSON.stringify(json);
+	if(validator(json)){
+		barcodes.push(barcode);
+		quantities.push(quantity);
+		sellingPrices.push(sellingPrice);
+		$('#place-order-form input[name=barcode]').val('');
+		$('#place-order-form input[name=quantity]').val(1);
+		$('#place-order-form input[name=sellingPrice]').val(0.00);
+	}
 }
 
 function displayOrderModal(){
 	$('#place-order-modal').modal('toggle');
-	// while($('#place-order-modal').is(':visible')){
-	// 	var barcode = $('#place-order-form input[name=barcode]').val();
-	// 	if(barcode.length == 0){
-
-	// 	}
-	// } 
 }
 
 function placeOrder(){
@@ -100,21 +117,22 @@ function placeOrder(){
 				'sellingPrices':sellingPrices
 			};
 	var json = JSON.stringify(json);
-	var url = getOrderUrl();
-	console.log(json);
-	$.ajax({
-		url: url,
-		type: 'POST',
-		data: json,
-		headers: {
-			'Content-Type': 'application/json'
-		},	   
-		success: function(response) {
-			getOrderListUtil();
-		},
-		error: handleAjaxError
+	if(validator(json)){
+		var url = getOrderUrl();
+		console.log(json);
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: json,
+			headers: {
+				'Content-Type': 'application/json'
+			},	   
+			success: function(response) {
+				getOrderListUtil();
+			},
+			error: handleAjaxError
 	 });
- 
+	}
 	 return false;
 }
 
@@ -126,13 +144,14 @@ function displayOrderList(data, sno){
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')">View</button>&nbsp;&nbsp;'
-					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')">Edit</button>';
+					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')">Edit</button>&nbsp;&nbsp;'
+					 + '<button onclick="generateInvoicePdf(' + data[i].id + ')">Download Invoice</button>';
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].id + "</td><td>"
 	+ data[i].time + "</td><td>" 
 	+ data[i].totalAmount + "</td><td>"
-	+ buttonHtml 
+	+ buttonHtml
 	+ "</td></tr>";
 	$("#order-table-body").append(row);
 	}

@@ -1,5 +1,6 @@
 package com.increff.posapp.controller;
 
+import java.io.File;
 import java.util.List;
 
 import com.increff.posapp.model.OrderItemEditForm;
@@ -19,6 +20,26 @@ import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.MimeConstants;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api
 @RestController
@@ -69,4 +90,10 @@ public class OrderController {
 		orderItemDto.update(id, orderItemEditForm);
 	}
 
+	@ApiOperation(value = "Used to download invoice")
+	@RequestMapping(path = "/api/invoice/download/{orderId}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> convertToPdf(@PathVariable Integer orderId)
+			throws IOException, FOPException, TransformerException, ApiException {
+			return orderDto.convertToPdf(orderId);
+	}
 }

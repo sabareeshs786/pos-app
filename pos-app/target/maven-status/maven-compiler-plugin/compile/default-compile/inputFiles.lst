@@ -10,6 +10,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/SecurityConfig.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/BrandService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/InventoryForm.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/InvoiceData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderItemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/CookieUtil.java

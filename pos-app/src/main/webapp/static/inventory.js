@@ -9,21 +9,22 @@ function addInventory(event){
 	//Set the values to update
 	var $form = $("#inventory-form");
 	var json = toJson($form);
-	var url = getInventoryUrl();
+	if(validator(json)){
+		var url = getInventoryUrl();
 
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getInventoryListUtil();  
-	   },
-	   error: handleAjaxError
-	});
-
+		$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getInventoryListUtil();  
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 
@@ -37,20 +38,20 @@ function updateInventory(event){
 	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
-	console.log(json)
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getInventoryListUtil();   
-	   },
-	   error: handleAjaxError
-	});
-
+	if(validator(json)){
+		$.ajax({
+		url: url,
+		type: 'PUT',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getInventoryListUtil();   
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 

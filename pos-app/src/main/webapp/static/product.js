@@ -13,22 +13,22 @@ function addProduct(event){
 	//Set the values to update
 	var $form = $("#product-form");
 	var json = toJson($form);
-	console.log(json);
-	var url = getProductUrl();
+	if(validator(json)){
+		var url = getProductUrl();
 
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getProductListUtil();
-	   },
-	   error: handleAjaxError
-	});
-
+		$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getProductListUtil();
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 
@@ -42,20 +42,20 @@ function updateProduct(event){
 	//Set the values to update
 	var $form = $("#product-edit-form");
 	var json = toJson($form);
-
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	   		getProductListUtil();   
-	   },
-	   error: handleAjaxError
-	});
-
+	if(validator(json)){
+		$.ajax({
+		url: url,
+		type: 'PUT',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+				getProductListUtil();   
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 

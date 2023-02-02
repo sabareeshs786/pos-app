@@ -122,20 +122,20 @@ function updateOrderItem(){
 	//Set the values to update
 	var $form = $("#edit-order-item-form");
 	var json = toJson($form);
-
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	   		getOrderItemsUtil();   
-	   },
-	   error: handleAjaxError
-	});
-
+	if(validator(json)){
+		$.ajax({
+		url: url,
+		type: 'PUT',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(response) {
+				getOrderItemsUtil();   
+		},
+		error: handleAjaxError
+		});
+	}
 	return false;
 }
 

@@ -211,6 +211,29 @@
 			<type>maven-plugin</type>
 		</dependency>
 
+		<!-- For PDF creation -->
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/fop -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.8</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/xmlgraphics-commons -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>xmlgraphics-commons</artifactId>
+			<version>2.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.increff.training</groupId>
+			<artifactId>invoice-app</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
