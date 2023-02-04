@@ -6,6 +6,7 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.increff.posapp.util.IOUtil;
 
 @Controller
 public class SampleController {
-
+	private static Logger logger = Logger.getLogger(SampleController.class);
 	//Spring ignores . (dot) in the path. So we need fileName:.+
 	//See https://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
 	@RequestMapping(value = "/sample/{fileName:.+}", method = RequestMethod.GET)
@@ -24,7 +25,7 @@ public class SampleController {
 		response.setContentType("text/csv");
 		response.addHeader("Content-disposition:", "attachment; filename=" + fileName);
 		String fileClasspath = "/com/increff/posapp/" + fileName;
-		System.out.println(fileClasspath);
+		logger.info(fileClasspath);
 		InputStream is = SampleController.class.getResourceAsStream(fileClasspath);
 		// copy it to response's OutputStream
 		try {

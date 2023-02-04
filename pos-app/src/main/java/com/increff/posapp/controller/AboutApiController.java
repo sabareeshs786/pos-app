@@ -24,9 +24,8 @@ public class AboutApiController {
 		AboutAppData d = new AboutAppData();
 		d.setName(service.getName());
 		d.setVersion(service.getVersion());
+
 		return d;
 	}
-
-
 
 }

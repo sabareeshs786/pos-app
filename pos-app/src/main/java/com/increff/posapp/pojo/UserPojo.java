@@ -9,26 +9,22 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
+@ToString
 public class UserPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String email;
-	@Column(name = "password")
+	@Column(nullable = false)
 	private String password;
-	@Column(name = "role")
+	@Column(nullable = false)
 	private String role;
-
-	@Override
-	public String toString() {
-		return "UserPojo [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
-	}
-
 }

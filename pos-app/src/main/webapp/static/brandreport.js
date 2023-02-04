@@ -1,106 +1,63 @@
 
 function getBrandReportUrl(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brandreport";
+	var baseUrl = $("meta[name=baseUrl]").attr("content");
+	return baseUrl + "/api/reports/brandreport";
 }
 //Global variables
 var downloadContent = "";
 //BUTTON ACTIONS
 
-function getBrandList(){
-	var url = getBrandReportUrl();
+function getBrandListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	var brand = $('#brand-report-form input[name=brand]').val();
+	var category = $('#brand-report-form input[name=category]').val();
+	if(brand == undefined)
+		brand = '';
+	if(category == undefined)
+		category = '';
+	getBrandList(brand, category, 0, pageSize);
+}
+
+function getBrandList(brand, category, pageNumber, pageSize){
+	var url = getBrandReportUrl() + 
+	'?brand=' + brand + 
+	'&category=' + category + 
+	'&pagenumber=' + pageNumber + 
+	'&size=' + pageSize;
+	console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			downloadContent = data;
-	   		displayBrandList(data);  
+			downloadContent = data.content;
+	   		displayBrandList(data.content,pageNumber*pageSize);
+			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			paginatorForReport(data, "getBrandList", brand, category, pageSize);
 	   },
-	   error: handleAjaxError
+	   error: function(response){
+			handleAjaxError(response);
+			$('#brand-report-form input[name=brand]').val('');
+			$('#brand-report-form input[name=category]').val('');
+	   }
 	});
 	return false;
 }
 
-function processData(){
-	var $form = $('#brand-report-form');
-	var brand = $('#brand-report-form input[name=brand]').val();
-	var category = $('#brand-report-form input[name=category]').val();
-	if(brand.length != 0 && category.length != 0){
-		var url = getBrandReportUrl() + '/brand/' + brand + '/category/' + category;
-		console.log(url);
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType : 'json',
-			contentType : 'application/json',
-			success: function(data) {
-				downloadContent = data;
-				displayBrandList1(data);  
-			},
-			error: handleAjaxError
-		 });
-	}
-	else if(brand.length != 0 && category.length == 0){
-		var url = getBrandReportUrl() + '/brand/' + brand;
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType : 'json',
-			contentType : 'application/json',
-			success: function(data) {
-				downloadContent = data;
-				displayBrandList(data);  
-			},
-			error: handleAjaxError
-		 });
-	}
-	else if(brand.length == 0 && category.length != 0){
-		var url = getBrandReportUrl() + '/category/' + category;
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType : 'json',
-			contentType : 'application/json',
-			success: function(data) {
-				downloadContent = data;
-				displayBrandList(data);  
-			},
-			error: handleAjaxError
-		 });
-	}
-	else{
-		alert("Enter brand or category");
-	}
-}
-
 //UI DISPLAY METHODS
 
-function displayBrandList1(data){
-	$("#brand-table-body").empty();
+function displayBrandList(data, sno){
+	$("#brand-report-table-body").empty();
     var row = "";
-	var sno = 1;
-	row = "<tr><td>" 
-	+ sno + "</td><td>" 
-	+ data.brand + "</td><td>"
-	+ data.category + "</td></tr>";
-	$("#brand-table-body").append(row);
-}
-
-function displayBrandList(data){
-	$("#brand-table-body").empty();
-    var row = "";
-    var sno = 0;
 	for (var i = 0; i < data.length; i++) {
 		sno += 1;
 		row = "<tr><td>" 
 		+ sno + "</td><td>" 
 		+ data[i].brand + "</td><td>"
 		+ data[i].category + "</td></tr>";
-		$("#brand-table-body").append(row);
+		$("#brand-report-table-body").append(row);
 	}
-	
 }
 function writeBrandReportFileData(arr){
 	var config = {
@@ -124,17 +81,34 @@ function writeBrandReportFileData(arr){
     tempLink.click();
 }
 
+function rearrange(downloadContent){
+	var keys = ['id', 'brand', 'category'];
+	var downloadContentRearranged = [];
+	for(var i=0; i < downloadContent.length; i++){
+		var rearrangedObj = {};
+		rearrangedObj.id = downloadContent[i].id;
+		rearrangedObj.brand = downloadContent[i].brand;
+		rearrangedObj.category = downloadContent[i].category;
+		downloadContentRearranged.push(rearrangedObj);
+	}
+	return downloadContentRearranged;
+}
+
 function downloadReport(){
 	console.log(downloadContent);
-	writeBrandReportFileData(downloadContent);
+	downloadContentRearranged = rearrange(downloadContent);
+	downloadContentRearranged.sort(function(a, b){
+		return a.id - b.id;
+	})
+	writeBrandReportFileData(downloadContentRearranged);
 }
 
 //INITIALIZATION CODE
 function init(){
-	$('#process-data').click(processData);
-	$('#refresh-data').click(getBrandList);
-	$('#download-data').click(downloadReport)
+	$('#process-data').click(getBrandListUtil);
+	$('#reset-data').click(getBrandListUtil);
+	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
-$(document).ready(getBrandList);
+$(document).ready(getBrandListUtil);

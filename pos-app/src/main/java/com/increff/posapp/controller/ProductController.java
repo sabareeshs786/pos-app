@@ -1,17 +1,11 @@
 package com.increff.posapp.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.ProductDto;
 import com.increff.posapp.model.ProductData;
@@ -26,6 +20,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductDto productDto;
+	private static Logger logger = Logger.getLogger(ProductController.class);
+
 
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)
@@ -33,17 +29,23 @@ public class ProductController {
 		productDto.add(form);
 	}
 
-	@ApiOperation(value = "Gets a product by product id")
-	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
-	public ProductData getById(@PathVariable Integer id) throws ApiException, UnsupportedEncodingException {
-//		Integer id = null;
-//		String decodedPath = URLDecoder.decode(query, StandardCharsets.UTF_8.toString());
-//		String[] querySplit = decodedPath.split("\\?(?!\\?)");
-//		String[] queries = querySplit[1].split("=");
-//		if(queries[0].equals("id")){
-//			id = Integer.parseInt(queries[1]);
-//		}
-		return productDto.getById(id);
+	@ApiOperation(value = "Gets the requested product data")
+	@RequestMapping(path = "/api/product", method = RequestMethod.GET)
+	public Page<ProductData> getData(
+			@RequestParam(required = false) Integer id,
+			@RequestParam(name = "pagenumber", required = false) Integer page,
+			@RequestParam(required = false) Integer size
+	) throws ApiException, UnsupportedEncodingException {
+		logger.info("Id="+id+"Page number="+page+"Size="+size);
+		if(id == null && page != null && size != null){
+			return productDto.getAll(page, size);
+		}
+		else if (id != null){
+			return productDto.getById(id);
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
 	}
 	
 //	@ApiOperation(value = "Gets a product by barcode")
@@ -51,12 +53,7 @@ public class ProductController {
 //	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
 //		return productDto.getByBarcode(barcode);
 //	}
-	
-	@ApiOperation(value = "Gets list of all products")
-	@RequestMapping(path = "/api/product/{pageNo}/{size}", method = RequestMethod.GET)
-	public Page<ProductData> getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-		return productDto.getAll(pageNo, size);
-	}
+
 
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.PUT)

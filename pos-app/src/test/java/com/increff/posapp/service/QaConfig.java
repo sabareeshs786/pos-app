@@ -16,7 +16,7 @@ import org.springframework.context.annotation.PropertySources;
 		excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, value = { SpringConfig.class })//
 )
 @PropertySources({ //
-		@PropertySource(value = "classpath:./com/increff/posapp/test.properties", ignoreResourceNotFound = true) //
+		@PropertySource(value = "classpath:./com/increff/posapp/test.properties", ignoreResourceNotFound = false) //
 })
 public class QaConfig {
 

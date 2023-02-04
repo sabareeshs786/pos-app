@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.increff.posapp.model.OrderItemEditForm;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,11 +49,11 @@ public class OrderController {
 	private OrderItemDto orderItemDto;
 	@Autowired
 	private OrderDto orderDto;
-
+	private static Logger logger = Logger.getLogger(OrderController.class);
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
 	public void add(@RequestBody OrderForm form) throws ApiException {
-		System.out.println(form);
+		logger.info(form);
 		orderDto.add(form);
 	}
 
@@ -65,7 +66,7 @@ public class OrderController {
 	@ApiOperation(value = "Gets list of all ordered items by order id")
 	@RequestMapping(path = "/api/order/{orderId}/{page}/{size}", method = RequestMethod.GET)
 	public Page<OrderItemData> getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
-		System.out.println("OrderId: "+orderId+"\nPage: "+page+"\nSize: "+size);
+		logger.info("OrderId: "+orderId+"\nPage: "+page+"\nSize: "+size);
 		return orderItemDto.getPageByOrderId(orderId, page, size);
 	}
 

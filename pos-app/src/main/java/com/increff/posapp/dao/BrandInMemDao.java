@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -12,7 +14,8 @@ import com.increff.posapp.pojo.BrandPojo;
 
 @Repository
 public class BrandInMemDao{
-	
+
+	private static Logger logger = Logger.getLogger(BrandInMemDao.class);
 	private HashMap<Integer, BrandPojo> rows;
 	private Integer lastId;
 
@@ -27,7 +30,7 @@ public class BrandInMemDao{
 		try {
 		rows.put(lastId, p);
 		} catch(ConstraintViolationException e) {
-			System.out.println(e);
+			logger.info(e);
 		}
 	}
 

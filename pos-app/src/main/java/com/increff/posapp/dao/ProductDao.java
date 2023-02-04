@@ -32,6 +32,7 @@ public class ProductDao extends AbstractDao{
 	private static final String SELECT_BY_MRP = "select p from ProductPojo p where mrp=:mrp";
 	private static final String SELECT_ALL = "select p from ProductPojo p";
 	private static final String SELECT_ALL_COUNT = "select count(p) from ProductPojo p";
+	private static final String SELECT_BY_BRAND_CATEGORY_COUNT = "select count(p) from ProductPojo p where brand_category=:brandCategory";
 
 
 	@Transactional
@@ -80,10 +81,20 @@ public class ProductDao extends AbstractDao{
 		return getSingle(query);
 	}
 	
-	public List<ProductPojo> selectByBrandCategory(Integer brand_category) {
+	public Page<ProductPojo> selectByBrandCategory(Integer brandCategory, Integer page, Integer size) {
 		TypedQuery<ProductPojo> query = getQuery(SELECT_BY_BRAND_CATEGORY, ProductPojo.class);
-		query.setParameter("brand_category", brand_category);
-		return query.getResultList();
+		query.setParameter("brandCategory", brandCategory);
+
+		int pageNumber = page;
+		int pageSize = size;
+		int firstResult = pageNumber * pageSize;
+		query.setFirstResult(firstResult);
+		query.setMaxResults(pageSize);
+
+		// execute the query
+		List<ProductPojo> entities = query.getResultList();
+		Long totalElements = em().createQuery(SELECT_BY_BRAND_CATEGORY_COUNT, Long.class).setParameter("brandCategory", brandCategory).getSingleResult();
+		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 	
 	public ProductPojo selectByName(String name) {

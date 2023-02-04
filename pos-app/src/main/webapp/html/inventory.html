@@ -5,7 +5,7 @@
 <head th:replace="snippets.html :: name_head"></head>
 
 <body>
-
+<div th:replace="snippets.html :: pos_app_messages"></div>
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 
 <div class="container">
@@ -83,7 +83,7 @@
 			      <input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
 			    </div>
 			  </div>
-			  <input type="hidden" name="id" >
+			  <input type="hidden" name="productId" >
 			</form>        
       </div>
       <div class="modal-footer">

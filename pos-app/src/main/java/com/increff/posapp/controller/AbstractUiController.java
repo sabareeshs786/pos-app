@@ -1,5 +1,6 @@
 package com.increff.posapp.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,14 +18,15 @@ public abstract class AbstractUiController {
 
 	@Value("${app.baseUrl}")
 	private String baseUrl;
+	private static Logger logger = Logger.getLogger(AbstractUiController.class);
 
 	protected ModelAndView mav(String page) {
 		// Get current user
 		UserPrincipal principal = SecurityUtil.getPrincipal();
-		System.out.println(principal);
+		logger.info(principal);
 		info.setEmail(principal == null ? "" : principal.getEmail());
 		info.setRole(principal == null ? "" : principal.getRole());
-		System.out.println("Info: "+info);
+		logger.info("Info: "+info);
 		// Set info
 		ModelAndView mav = new ModelAndView(page);
 		mav.addObject("info", info);

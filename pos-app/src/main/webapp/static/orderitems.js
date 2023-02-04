@@ -131,7 +131,8 @@ function updateOrderItem(){
 			'Content-Type': 'application/json'
 		},
 		success: function(response) {
-				getOrderItemsUtil();   
+			handleAjaxSuccess(response);
+			getOrderItemsUtil();   
 		},
 		error: handleAjaxError
 		});

@@ -8,10 +8,12 @@ function getRole(){
 function validator(jsonStr){
     jsonObj = JSON.parse(jsonStr);
     for (var [key, value] of Object.entries(jsonObj)) {
-        value = value.trim();
+        if(typeof(value) == "string"){
+            value = value.trim();
+        }
         if(value == null || value == undefined || value == ''){
-            alert("Value for "+ key + " is not entered or can't be interpreted");
-            return false
+            $("#error-message").notify("Value for "+ key + " is not entered or can't be interpreted");
+            return false;
         }
     }
     return true;
@@ -63,14 +65,26 @@ function toJsonArray($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	alert(response.message);
+    $("#error-message").notify(response.message, "error");
 }
 
+function handleAjaxSuccess(response){
+ $("#success-message").notify("Success!!!!", "success");
+}
 function readFileData(file, callback){
+    var linesParsed = 0;
 	var config = {
 		header: true,
 		delimiter: "\t",
 		skipEmptyLines: "greedy",
+        dynamicTyping: true,
+        worker: true,
+        step: function(row) {
+            linesParsed++;
+            if (linesParsed > 500) {
+            this.abort();
+            }
+        },
 		complete: function(results) {
 			callback(results);
 	  	}	
@@ -112,7 +126,22 @@ function onlyNonNegativeInt() {
         event.preventDefault();
       }
     });
-  }
+}
+
+function noOfCharLimiter(){
+    $('input[type="text"]').keypress(function(event) {
+        var len = $(this).val().length;
+        if (len >= 20) {
+            event.preventDefault();
+        }
+      });
+      $('input[type="password"]').keypress(function(event) {
+        var len = $(this).val().length;
+        if (len >= 20) {
+            event.preventDefault();
+        }
+      });
+}
 
 function decimalNumber(){
     var asciiValueOfDot = ".".charCodeAt(0);
@@ -123,6 +152,72 @@ function decimalNumber(){
     }
     });
 }
+
+function paginator(data, func, pageSize){
+    var pagination = '';
+			for (var i = data.number - 2; i < data.number + 5 && i < data.totalPages; i++) {
+				if(i < 0)
+					continue;
+				var active = "";
+				if (i == data.number) {
+				active = "active";
+				}
+				pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='" + func +"(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			}
+			if (data.number > 0) {
+				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			}
+			if (data.number < data.totalPages - 1) {
+				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			}
+			$("#paginationContainer").html(pagination);
+			$("#previous").click(function() {
+				eval(func)(data.number - 1, pageSize);
+			});
+			$("#next").click(function() {
+				eval(func)(data.number + 1, pageSize);
+			});
+}
+
+function paginatorForReport(data, func, brand, category, pageSize){
+    var pagination = '';
+			for (var i = data.number - 2; i < data.number + 5 && i < data.totalPages; i++) {
+				if(i < 0)
+					continue;
+				var active = "";
+				if (i == data.number) {
+				active = "active";
+				}
+				pagination += "<li class='page-item " + active 
+                + "'><a class='page-link' href='#pageNumber=" + (i+1) 
+                +"' onclick='" + func +"(\"" + brand +"\", \"" + category + "\", " + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
+			}
+			if (data.number > 0) {
+				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+			}
+			if (data.number < data.totalPages - 1) {
+				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+			}
+			$("#paginationContainer").html(pagination);
+			$("#previous").click(function() {
+				eval(func)(brand, category, data.number - 1, pageSize);
+			});
+			$("#next").click(function() {
+				eval(func)(brand, category, data.number + 1, pageSize);
+			});
+}
+
+function init(){
+    $("#close-button").click(function() {
+        $("#error-message").hide();
+    });
+    $("#close-button").click(function() {
+        $("#success-message").hide();
+    });
+}
+
+$(document).ready(init);
 $(document).ready(loadEmailAndPassword);
 $(document).ready(onlyNonNegativeInt);
 $(document).ready(decimalNumber);
+$(document).ready(noOfCharLimiter);
