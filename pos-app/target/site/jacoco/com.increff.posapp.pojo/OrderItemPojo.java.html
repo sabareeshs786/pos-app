@@ -4,31 +4,25 @@ import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name = &quot;orderitem&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;order_id&quot;, &quot;product_id&quot; }) })
+@Table(name = &quot;orderitems&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;order_id&quot;, &quot;product_id&quot; }) })
 @Getter
-<span class="nc" id="L11">@Setter</span>
-<span class="fc" id="L12">public class OrderItemPojo {</span>
+<span class="nc" id="L12">@Setter</span>
+<span class="nc" id="L13">@ToString</span>
+<span class="fc" id="L14">public class OrderItemPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = &quot;id&quot;)
-<span class="nc" id="L17">	private Integer id;</span>
+<span class="nc" id="L18">	private Integer id;</span>
 	@Column(name = &quot;order_id&quot;, nullable = false)
-<span class="nc" id="L19">	private Integer orderId;</span>
+<span class="nc" id="L20">	private Integer orderId;</span>
 	@Column(name = &quot;product_id&quot;, nullable = false)
-<span class="nc" id="L21">	private Integer productId;</span>
-	@Column(name = &quot;quantity&quot;, nullable = false)
-<span class="nc" id="L23">	private Integer quantity;</span>
+<span class="nc" id="L22">	private Integer productId;</span>
+	@Column(nullable = false)
+<span class="nc" id="L24">	private Integer quantity;</span>
 	@Column(name = &quot;selling_price&quot;, nullable = false)
-<span class="nc" id="L25">	private Double sellingPrice;</span>
-
-	@Override
-	public String toString() {
-<span class="nc" id="L29">		return &quot;OrderItemPojo [id=&quot; + id + &quot;, orderId=&quot; + orderId + &quot;, productId=&quot; + productId + &quot;, quantity=&quot;</span>
-				+ quantity + &quot;, sellingPrice=&quot; + sellingPrice + &quot;]&quot;;
-	}
-
+<span class="nc" id="L26">	private Double sellingPrice;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

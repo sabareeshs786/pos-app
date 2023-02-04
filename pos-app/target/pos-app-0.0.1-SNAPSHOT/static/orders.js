@@ -128,6 +128,7 @@ function placeOrder(){
 				'Content-Type': 'application/json'
 			},	   
 			success: function(response) {
+				handleAjaxSuccess(response);
 				getOrderListUtil();
 			},
 			error: handleAjaxError

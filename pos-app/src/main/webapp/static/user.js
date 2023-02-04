@@ -9,7 +9,7 @@ function addUser(event){
 	//Set the values to update
 	var $form = $("#user-form");
 	var json = toJson($form);
-	console.log(json);
+	if(validator(json)){
 	var url = getUserUrl();
 	
 	$.ajax({
@@ -24,7 +24,7 @@ function addUser(event){
 	   },
 	   error: handleAjaxError
 	});
-
+	}
 	return false;
 }
 

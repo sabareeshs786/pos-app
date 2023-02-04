@@ -14,6 +14,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +29,7 @@ public class PdfService {
         try {
 
             // Create the XML file
-            writeInvoiceToXml(orderItemsIds,productNames, quantities, sellingPrices, mrps, "invoice.xml");
+            writeInvoiceToXml(orderItemsIds, productNames, quantities, sellingPrices, mrps, "invoice.xml");
 //            convertToUtf8("invoice.xsl", "invoiceutf-8.xsl");
 //            convertToUtf8("invoice.xml", "invoiceutf-8.xml");
             // Setup FOP
@@ -68,15 +69,14 @@ public class PdfService {
         }
     }
 
-    public static void writeInvoiceToXml(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException {
+    public static void writeInvoiceToXml(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
         JAXBContext jaxbContext = JAXBContext.newInstance(InvoiceList.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
         InvoiceList invoiceList = new InvoiceList();
         Integer size = orderItemsIds.size();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             InvoiceItem invoiceItem = new InvoiceItem();
             invoiceItem.setId(orderItemsIds.get(i));
             invoiceItem.setProductName(productNames.get(i));
@@ -85,10 +85,26 @@ public class PdfService {
             invoiceItem.setSellingPrice(sellingPrices.get(i));
             invoiceList.getItems().add(invoiceItem);
         }
+
         invoiceList.setTotal(getTotal(sellingPrices));
 
-        jaxbMarshaller.marshal(invoiceList, new File(fileName));
+        StringWriter sw = new StringWriter();
+
+        jaxbMarshaller.marshal(invoiceList, sw);
+        String xmlContent = sw.toString();
+        System.out.println("XML Content: " + xmlContent);
+            File file = new File(fileName);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+//            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            Source source = new StreamSource(new StringReader(xmlContent));
+            Result result = new StreamResult(file);
+            transformer.transform(source, result);
     }
+
     private static Double getTotal(List<String> sellingPrices){
         Double total = 0.0;
         for(String sellingPrice: sellingPrices){

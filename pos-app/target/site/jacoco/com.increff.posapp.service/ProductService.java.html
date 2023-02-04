@@ -37,8 +37,8 @@ import com.increff.posapp.util.StringUtil;
 <span class="nc" id="L37">		return getCheckByBarcode(barcode);</span>
 	}
 
-	public List&lt;ProductPojo&gt; getByBrandCategory(Integer brand_category) throws ApiException {
-<span class="nc" id="L41">		return getCheckByBrandCategory(brand_category);</span>
+	public Page&lt;ProductPojo&gt; getByBrandCategory(Integer brand_category, Integer page, Integer size) throws ApiException {
+<span class="nc" id="L41">		return getCheckByBrandCategory(brand_category, page, size);</span>
 	}
 
 	public ProductPojo getByName(String name) throws ApiException {
@@ -82,9 +82,9 @@ import com.increff.posapp.util.StringUtil;
 <span class="nc" id="L82">		return p;</span>
 	}
 
-	public List&lt;ProductPojo&gt; getCheckByBrandCategory(Integer brandCategory) throws ApiException {
-<span class="nc" id="L86">		List&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brandCategory);</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (p == null) {</span>
+	public Page&lt;ProductPojo&gt; getCheckByBrandCategory(Integer brandCategory, Integer page, Integer size) throws ApiException {
+<span class="nc" id="L86">		Page&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brandCategory, page, size);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (p.getTotalElements() == 0) {</span>
 <span class="nc" id="L88">			throw new ApiException(&quot;Item with given brand-category doesn't exist&quot;);</span>
 		}
 <span class="nc" id="L90">		return p;</span>

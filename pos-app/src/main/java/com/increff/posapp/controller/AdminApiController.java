@@ -3,6 +3,7 @@ package com.increff.posapp.controller;
 import java.sql.SQLOutput;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +29,12 @@ public class AdminApiController {
 	private UserService service;
 	@Value("${app.supervisors}")
 	private String emails;
-
+	private static Logger logger = Logger.getLogger(AdminApiController.class);
 
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
-		System.out.println("Emails>>"+emails);
+		logger.info("Emails>>"+emails);
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convert(form);

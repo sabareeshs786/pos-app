@@ -9,25 +9,21 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "inventory")
 @Getter
 @Setter
+@ToString
 public class InventoryPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Integer id;
-	@Column(name = "quantity", nullable = false)
+	@Column(nullable = false)
 	private Integer quantity;
 	@Column(name = "product_id", nullable = false, unique = true)
 	private Integer productId;
-	
-	@Override
-	public String toString() {
-		return "InventoryPojo [id=" + id + ", quantity=" + quantity + ", productId=" + productId + "]";
-	}
-	
+
 }

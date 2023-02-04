@@ -10,25 +10,22 @@ import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
-<span class="pc" id="L15">@Setter</span>
+<span class="pc" id="L16">@Setter</span>
+<span class="nc" id="L17">@ToString</span>
 @Entity
-@Table(name = &quot;brand&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;brand&quot;, &quot;category&quot; }) })
-<span class="fc" id="L18">public class BrandPojo {</span>
+@Table(name = &quot;brands&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;brand&quot;, &quot;category&quot; }) })
+<span class="fc" id="L20">public class BrandPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = &quot;id&quot;)
-<span class="nc" id="L23">	private Integer id;</span>
-	@Column(name = &quot;brand&quot;, nullable = false)
-<span class="fc" id="L25">	private String brand;</span>
-	@Column(name = &quot;category&quot;, nullable = false)
-<span class="fc" id="L27">	private String category;</span>
+<span class="nc" id="L24">	private Integer id;</span>
+	@Column(nullable = false)
+<span class="fc" id="L26">	private String brand;</span>
+	@Column(nullable = false)
+<span class="fc" id="L28">	private String category;</span>
 
-	@Override
-	public String toString() {
-<span class="nc" id="L31">		return &quot;BrandPojo [id=&quot; + id + &quot;, brand=&quot; + brand + &quot;, category=&quot; + category + &quot;]&quot;;</span>
-	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

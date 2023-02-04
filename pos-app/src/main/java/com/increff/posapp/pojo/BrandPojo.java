@@ -10,24 +10,21 @@ import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity
-@Table(name = "brand", uniqueConstraints = { @UniqueConstraint(columnNames = { "brand", "category" }) })
+@Table(name = "brands", uniqueConstraints = { @UniqueConstraint(columnNames = { "brand", "category" }) })
 public class BrandPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Integer id;
-	@Column(name = "brand", nullable = false)
+	@Column(nullable = false)
 	private String brand;
-	@Column(name = "category", nullable = false)
+	@Column(nullable = false)
 	private String category;
 
-	@Override
-	public String toString() {
-		return "BrandPojo [id=" + id + ", brand=" + brand + ", category=" + category + "]";
-	}
 }

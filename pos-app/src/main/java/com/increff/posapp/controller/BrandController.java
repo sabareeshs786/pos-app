@@ -1,7 +1,7 @@
 package com.increff.posapp.controller;
 
-import java.util.List;
-
+import com.increff.posapp.util.StringUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -16,33 +16,31 @@ import io.swagger.annotations.ApiOperation;
 @Api
 @RestController
 public class BrandController {
-
+	private static final Logger logger = Logger.getLogger(BrandController.class);
 	@Autowired
 	private BrandDto brandDto;
 
 	@ApiOperation(value = "Adds a new item of a particular brand and category")
 	@RequestMapping(path = "/api/brand", method = RequestMethod.POST)
 	public void add(@RequestBody BrandForm form) throws ApiException {
+		StringUtil.checkValid(form.getBrand());
+		StringUtil.checkValid(form.getCategory());
 		brandDto.add(form);
 	}
 
-	@ApiOperation(value = "Gets a brand by ID")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
-	public BrandData get(@PathVariable int id) throws ApiException {
-		return brandDto.get(id);
-	}
-
-	@ApiOperation(value = "Gets list of all brand and category")
+	@ApiOperation(value = "Gets the requested brand data")
 	@RequestMapping(path = "/api/brand", method = RequestMethod.GET)
-	public List<BrandData> getAll() throws ApiException {
-		return brandDto.getAll();
-	}
-
-	@ApiOperation(value = "Gets list of all brand and category")
-	@RequestMapping(path = "/api/brand/{page}/{size}", method = RequestMethod.GET)
-	public Page<BrandData> getAll(@PathVariable Integer page, @PathVariable Integer size) throws ApiException {
-		System.out.println("Page = "+page+"\nSize="+size);
-		return brandDto.getAll(page, size);
+	public Page<BrandData> getData(@RequestParam(required = false) Integer id, @RequestParam(name = "pagenumber", required = false) Integer page, @RequestParam(required = false) Integer size) throws ApiException {
+		logger.info("Id="+id+"Page number="+page+"Size="+size);
+		if(id == null && page != null && size != null){
+			return brandDto.getAll(page, size);
+		}
+		else if (id != null){
+			return brandDto.get(id);
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
 	}
 
 	@ApiOperation(value = "Updates a brand and category")

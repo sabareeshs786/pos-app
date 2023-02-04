@@ -2,19 +2,13 @@
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
-<span class="nc" id="L7">@Setter</span>
-<span class="nc" id="L8">public class InventoryData extends InventoryForm{</span>
+<span class="nc" id="L8">@Setter</span>
+<span class="nc" id="L9">@ToString</span>
+<span class="nc" id="L10">public class InventoryData extends InventoryForm{</span>
 
-<span class="nc" id="L10">	private Integer id;</span>
-
-	@Override
-	public String toString() {
-<span class="nc" id="L14">		return &quot;InventoryData [id=&quot; + id + &quot;, toString()=&quot; + super.toString() + &quot;, getBarcode()=&quot; + getBarcode()</span>
-<span class="nc" id="L15">				+ &quot;, getQuantity()=&quot; + getQuantity() + &quot;, getClass()=&quot; + getClass() + &quot;, hashCode()=&quot; + hashCode()</span>
-				+ &quot;]&quot;;
-	}
-	
+<span class="nc" id="L12">	private Integer productId;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

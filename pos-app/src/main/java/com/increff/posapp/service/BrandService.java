@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.BrandDao;
@@ -31,12 +32,12 @@ public class BrandService {
 		return getCheckById(id);
 	}
 
-	public List<BrandPojo> getByBrand(String brand) throws ApiException {
-		return getCheckByBrand(brand);
+	public Page<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
+		return getCheckByBrand(brand, page, size);
 	}
 
-	public List<BrandPojo> getByCategory(String category) throws ApiException {
-		return getCheckByCategory(category);
+	public Page<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
+		return getCheckByCategory(category, page, size);
 	}
 
 	public BrandPojo getByBrandAndCategory(String brand, String category) throws ApiException {
@@ -67,17 +68,17 @@ public class BrandService {
 		return p;
 	}
 
-	public List<BrandPojo> getCheckByBrand(String brand) throws ApiException {
-		List<BrandPojo> p = brandDao.selectByBrand(brand);
-		if (p == null) {
+	public Page<BrandPojo> getCheckByBrand(String brand, Integer page, Integer size) throws ApiException {
+		Page<BrandPojo> p = brandDao.selectByBrand(brand, page, size);
+		if (p.getTotalElements() == 0) {
 			throw new ApiException("The given brand doesn't exist");
 		}
 		return p;
 	}
 
-	public List<BrandPojo> getCheckByCategory(String category) throws ApiException {
-		List<BrandPojo> p = brandDao.selectByCategory(category);
-		if (p == null) {
+	public Page<BrandPojo> getCheckByCategory(String category, Integer page, Integer size) throws ApiException {
+		Page<BrandPojo> p = brandDao.selectByCategory(category, page, size);
+		if (p.getTotalElements() == 0) {
 			throw new ApiException("The given category doesn't exist");
 		}
 		return p;

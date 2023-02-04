@@ -2,18 +2,12 @@ package com.increff.posapp.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class InventoryData extends InventoryForm{
 
-	private Integer id;
-
-	@Override
-	public String toString() {
-		return "InventoryData [id=" + id + ", toString()=" + super.toString() + ", getBarcode()=" + getBarcode()
-				+ ", getQuantity()=" + getQuantity() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ "]";
-	}
-	
+	private Integer productId;
 }

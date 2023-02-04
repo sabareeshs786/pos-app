@@ -9,30 +9,25 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name = &quot;product&quot;)
+@Table(name = &quot;products&quot;)
 @Getter
-<span class="nc" id="L16">@Setter</span>
-<span class="fc" id="L17">public class ProductPojo {</span>
+<span class="nc" id="L17">@Setter</span>
+<span class="nc" id="L18">@ToString</span>
+<span class="fc" id="L19">public class ProductPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L21">	private Integer id;</span>
-	@Column(name = &quot;barcode&quot;, unique = true, nullable = false)
-<span class="nc" id="L23">	private String barcode;</span>
+<span class="nc" id="L23">	private Integer id;</span>
+	@Column(unique = true, nullable = false)
+<span class="nc" id="L25">	private String barcode;</span>
 	@Column(name = &quot;brand_category&quot;, nullable = false)
-<span class="nc" id="L25">	private Integer brandCategory;</span>
+<span class="nc" id="L27">	private Integer brandCategory;</span>
 	@Column(name = &quot;product_name&quot;, nullable = false)
-<span class="nc" id="L27">	private String name;</span>
-	@Column(name = &quot;mrp&quot;, nullable = false)
-<span class="nc" id="L29">	private Double mrp;</span>
-
-	@Override
-	public String toString() {
-<span class="nc" id="L33">		return &quot;ProductPojo [id=&quot; + id + &quot;, barcode=&quot; + barcode + &quot;, brand_category=&quot; + brandCategory + &quot;, name=&quot;</span>
-				+ name + &quot;, mrp=&quot; + mrp + &quot;]&quot;;
-	}
-
+<span class="nc" id="L29">	private String name;</span>
+	@Column(nullable = false)
+<span class="nc" id="L31">	private Double mrp;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

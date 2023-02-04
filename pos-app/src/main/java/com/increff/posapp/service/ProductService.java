@@ -37,8 +37,8 @@ public class ProductService {
 		return getCheckByBarcode(barcode);
 	}
 
-	public List<ProductPojo> getByBrandCategory(Integer brand_category) throws ApiException {
-		return getCheckByBrandCategory(brand_category);
+	public Page<ProductPojo> getByBrandCategory(Integer brand_category, Integer page, Integer size) throws ApiException {
+		return getCheckByBrandCategory(brand_category, page, size);
 	}
 
 	public ProductPojo getByName(String name) throws ApiException {
@@ -82,9 +82,9 @@ public class ProductService {
 		return p;
 	}
 
-	public List<ProductPojo> getCheckByBrandCategory(Integer brandCategory) throws ApiException {
-		List<ProductPojo> p = productDao.selectByBrandCategory(brandCategory);
-		if (p == null) {
+	public Page<ProductPojo> getCheckByBrandCategory(Integer brandCategory, Integer page, Integer size) throws ApiException {
+		Page<ProductPojo> p = productDao.selectByBrandCategory(brandCategory, page, size);
+		if (p.getTotalElements() == 0) {
 			throw new ApiException("Item with given brand-category doesn't exist");
 		}
 		return p;

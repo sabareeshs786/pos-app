@@ -1,11 +1,11 @@
 package com.increff.posapp.dto;
 
-import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.model.OrderItemEditForm;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
+import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.FormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.OrderPojo;
-import com.increff.posapp.util.ConverterDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ public class OrderItemDto {
 		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo:orderItemPojoList){
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(ConverterDto.convertToOrderItemData(orderItemPojo, productPojo));
+			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		}
 		return list;
 	}
@@ -52,7 +51,7 @@ public class OrderItemDto {
 		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo:orderItemPojoList){
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(ConverterDto.convertToOrderItemData(orderItemPojo, productPojo));
+			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		}
 		Page<OrderItemData> dataPage = new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
@@ -60,7 +59,7 @@ public class OrderItemDto {
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-		return ConverterDto.convertToOrderItemData(orderItemPojo, productPojo);
+		return Converter.convertToOrderItemData(orderItemPojo, productPojo);
 	}
 
 	public List<OrderItemData> getAll() throws ApiException {
@@ -68,7 +67,7 @@ public class OrderItemDto {
 		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo : orderItemPojoList){
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(ConverterDto.convertToOrderItemData(orderItemPojo, productPojo));
+			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		}
 		return list;
 	}

@@ -26,3 +26,26 @@ body {
 	border: 2px solid blue;
 	background-color: #ffffaa;
 }
+
+/* #error-message {
+	background-color: #ff6666;
+	color: #fff;
+	padding: 10px;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	border-radius: 5px;
+	z-index: 1;
+}
+
+#success-message {
+	background-color: #66ff99;
+	color: #fff;
+	padding: 10px;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	border-radius: 5px;
+	z-index: 1;
+}
+   */

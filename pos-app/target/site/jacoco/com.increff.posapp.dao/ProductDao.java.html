@@ -32,93 +32,104 @@ import com.increff.posapp.pojo.ProductPojo;
 	private static final String SELECT_BY_MRP = &quot;select p from ProductPojo p where mrp=:mrp&quot;;
 	private static final String SELECT_ALL = &quot;select p from ProductPojo p&quot;;
 	private static final String SELECT_ALL_COUNT = &quot;select count(p) from ProductPojo p&quot;;
+	private static final String SELECT_BY_BRAND_CATEGORY_COUNT = &quot;select count(p) from ProductPojo p where brand_category=:brandCategory&quot;;
 
 
 	@Transactional
 	public void insert(ProductPojo productPojo) {
-<span class="nc" id="L39">		em().persist(productPojo);</span>
-<span class="nc" id="L40">	}</span>
+<span class="nc" id="L40">		em().persist(productPojo);</span>
+<span class="nc" id="L41">	}</span>
 
 	public Integer deleteById(Integer id) {
-<span class="nc" id="L43">		Query query = em().createQuery(DELETE_BY_ID);</span>
-<span class="nc" id="L44">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L45">		return query.executeUpdate();</span>
+<span class="nc" id="L44">		Query query = em().createQuery(DELETE_BY_ID);</span>
+<span class="nc" id="L45">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L46">		return query.executeUpdate();</span>
 	}
 	public Integer deleteByBarcode(String barcode) {
-<span class="nc" id="L48">		Query query = em().createQuery(DELETE_BY_BARCODE);</span>
-<span class="nc" id="L49">		query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="nc" id="L50">		return query.executeUpdate();</span>
+<span class="nc" id="L49">		Query query = em().createQuery(DELETE_BY_BARCODE);</span>
+<span class="nc" id="L50">		query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="nc" id="L51">		return query.executeUpdate();</span>
 	}
 	
 	public Integer deleteByBrandCategory(Integer brand_category) {
-<span class="nc" id="L54">		Query query = em().createQuery(DELETE_BY_BRAND_AND_CATEGORY);</span>
-<span class="nc" id="L55">		query.setParameter(&quot;brand_category&quot;, brand_category);</span>
-<span class="nc" id="L56">		return query.executeUpdate();</span>
+<span class="nc" id="L55">		Query query = em().createQuery(DELETE_BY_BRAND_AND_CATEGORY);</span>
+<span class="nc" id="L56">		query.setParameter(&quot;brand_category&quot;, brand_category);</span>
+<span class="nc" id="L57">		return query.executeUpdate();</span>
 	}
 	
 	public Integer deleteByName(String name) {
-<span class="nc" id="L60">		Query query = em().createQuery(DELETE_BY_NAME);</span>
-<span class="nc" id="L61">		query.setParameter(&quot;name&quot;, name);</span>
-<span class="nc" id="L62">		return query.executeUpdate();</span>
+<span class="nc" id="L61">		Query query = em().createQuery(DELETE_BY_NAME);</span>
+<span class="nc" id="L62">		query.setParameter(&quot;name&quot;, name);</span>
+<span class="nc" id="L63">		return query.executeUpdate();</span>
 	}
 	
 	public Integer deleteByMrp(Double mrp) {
-<span class="nc" id="L66">		Query query = em().createQuery(DELETE_BY_MRP);</span>
-<span class="nc" id="L67">		query.setParameter(&quot;mrp&quot;, mrp);</span>
-<span class="nc" id="L68">		return query.executeUpdate();</span>
+<span class="nc" id="L67">		Query query = em().createQuery(DELETE_BY_MRP);</span>
+<span class="nc" id="L68">		query.setParameter(&quot;mrp&quot;, mrp);</span>
+<span class="nc" id="L69">		return query.executeUpdate();</span>
 	}
 	
 	public ProductPojo selectById(Integer id) {
-<span class="nc" id="L72">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
-<span class="nc" id="L73">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L74">		return getSingle(query);</span>
+<span class="nc" id="L73">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
+<span class="nc" id="L74">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L75">		return getSingle(query);</span>
 	}
 	
 	public ProductPojo selectByBarcode(String barcode) {
-<span class="nc" id="L78">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
-<span class="nc" id="L79">		query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="nc" id="L80">		return getSingle(query);</span>
+<span class="nc" id="L79">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
+<span class="nc" id="L80">		query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="nc" id="L81">		return getSingle(query);</span>
 	}
 	
-	public List&lt;ProductPojo&gt; selectByBrandCategory(Integer brand_category) {
-<span class="nc" id="L84">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BRAND_CATEGORY, ProductPojo.class);</span>
-<span class="nc" id="L85">		query.setParameter(&quot;brand_category&quot;, brand_category);</span>
-<span class="nc" id="L86">		return query.getResultList();</span>
+	public Page&lt;ProductPojo&gt; selectByBrandCategory(Integer brandCategory, Integer page, Integer size) {
+<span class="nc" id="L85">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BRAND_CATEGORY, ProductPojo.class);</span>
+<span class="nc" id="L86">		query.setParameter(&quot;brandCategory&quot;, brandCategory);</span>
+
+<span class="nc" id="L88">		int pageNumber = page;</span>
+<span class="nc" id="L89">		int pageSize = size;</span>
+<span class="nc" id="L90">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L91">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L92">		query.setMaxResults(pageSize);</span>
+
+		// execute the query
+<span class="nc" id="L95">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L96">		Long totalElements = em().createQuery(SELECT_BY_BRAND_CATEGORY_COUNT, Long.class).setParameter(&quot;brandCategory&quot;, brandCategory).getSingleResult();</span>
+<span class="nc" id="L97">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	
 	public ProductPojo selectByName(String name) {
-<span class="nc" id="L90">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_NAME, ProductPojo.class);</span>
-<span class="nc" id="L91">		query.setParameter(&quot;name&quot;, name);</span>
-<span class="nc" id="L92">		return getSingle(query);</span>
+<span class="nc" id="L101">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_NAME, ProductPojo.class);</span>
+<span class="nc" id="L102">		query.setParameter(&quot;name&quot;, name);</span>
+<span class="nc" id="L103">		return getSingle(query);</span>
 	}
 	
 	public List&lt;ProductPojo&gt; selectByMrp(Double mrp) {
-<span class="nc" id="L96">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_MRP, ProductPojo.class);</span>
-<span class="nc" id="L97">		query.setParameter(&quot;mrp&quot;, mrp);</span>
-<span class="nc" id="L98">		return query.getResultList();</span>
+<span class="nc" id="L107">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_MRP, ProductPojo.class);</span>
+<span class="nc" id="L108">		query.setParameter(&quot;mrp&quot;, mrp);</span>
+<span class="nc" id="L109">		return query.getResultList();</span>
 	}
 	
 	public List&lt;ProductPojo&gt; selectAll() {
-<span class="nc" id="L102">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
-<span class="nc" id="L103">		return query.getResultList();</span>
+<span class="nc" id="L113">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="nc" id="L114">		return query.getResultList();</span>
 	}
 	public Page&lt;ProductPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L106">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="nc" id="L117">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
 		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="nc" id="L108">		int pageNumber = page;</span>
-<span class="nc" id="L109">		int pageSize = size;</span>
-<span class="nc" id="L110">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L111">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L112">		query.setMaxResults(pageSize);</span>
+<span class="nc" id="L119">		int pageNumber = page;</span>
+<span class="nc" id="L120">		int pageSize = size;</span>
+<span class="nc" id="L121">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L122">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L123">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="nc" id="L115">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L116">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="nc" id="L117">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L126">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L127">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="nc" id="L128">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(ProductPojo productPojo) {
 		// Implemented by Spring itself
-<span class="nc" id="L121">	}</span>
+<span class="nc" id="L132">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

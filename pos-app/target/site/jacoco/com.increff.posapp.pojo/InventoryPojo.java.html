@@ -9,26 +9,22 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = &quot;inventory&quot;)
 @Getter
-<span class="nc" id="L16">@Setter</span>
-<span class="fc" id="L17">public class InventoryPojo {</span>
+<span class="nc" id="L17">@Setter</span>
+<span class="nc" id="L18">@ToString</span>
+<span class="fc" id="L19">public class InventoryPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = &quot;id&quot;)
-<span class="nc" id="L22">	private Integer id;</span>
-	@Column(name = &quot;quantity&quot;, nullable = false)
-<span class="nc" id="L24">	private Integer quantity;</span>
+<span class="nc" id="L23">	private Integer id;</span>
+	@Column(nullable = false)
+<span class="nc" id="L25">	private Integer quantity;</span>
 	@Column(name = &quot;product_id&quot;, nullable = false, unique = true)
-<span class="nc" id="L26">	private Integer productId;</span>
-	
-	@Override
-	public String toString() {
-<span class="nc" id="L30">		return &quot;InventoryPojo [id=&quot; + id + &quot;, quantity=&quot; + quantity + &quot;, productId=&quot; + productId + &quot;]&quot;;</span>
-	}
-	
+<span class="nc" id="L27">	private Integer productId;</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

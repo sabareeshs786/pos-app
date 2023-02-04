@@ -10,12 +10,13 @@ import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
-import com.increff.posapp.util.ConverterDto;
+import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.FormValidator;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +31,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,7 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.springframework.util.Base64Utils;
-import java.util.Collections;
+
 import java.util.List;
 
 @Component
@@ -56,6 +56,7 @@ public class OrderDto {
 	private OrderItemService orderItemService;
 	@Autowired
 	private OrderItemDto orderItemDto;
+	private static Logger logger = Logger.getLogger(OrderDto.class);
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
@@ -79,7 +80,7 @@ public class OrderDto {
 			inventoryPojo.setQuantity(finalQuantity);
 			inventoryService.updateByProductId(productId, inventoryPojo);
 
-			OrderItemPojo orderItemPojo = ConverterDto.convertToOrderItemPojo(form, i, orderPojo, productId);
+			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, productId);
 			orderItemService.add(orderItemPojo);
 		}
 
@@ -94,7 +95,7 @@ public class OrderDto {
 			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){
 				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
 			}
-			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));
+			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
 		}
 		return list2;
 	}
@@ -109,7 +110,7 @@ public class OrderDto {
 			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){
 				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
 			}
-			list2.add(ConverterDto.convertToOrderData(orderPojo, totalAmount));
+			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
 		}
 		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
@@ -135,7 +136,7 @@ public class OrderDto {
 				sellingPrices,
 				mrps
 		);
-		 System.out.println();
+		 logger.info("Got encoded string");
 		 byte[] decodedBytes = Base64Utils.decodeFromString(base64EncodedString);
 
 		 assert decodedBytes != null;

@@ -13,30 +13,25 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
+@ToString
 public class OrderPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Integer id;
-	@Column(name = "time", nullable = false)
+	@Column(nullable = false)
 	private ZonedDateTime time;
 
-	public OrderPojo(){
-
-	}
+	public OrderPojo(){}
 	public OrderPojo(String zone){
 		LocalDateTime localDateTime = LocalDateTime.now();
 		ZoneId india = ZoneId.of(zone);
 		this.time = ZonedDateTime.of(localDateTime, india);
-	}
-	@Override
-	public String toString() {
-		return "OrderPojo [id=" + id + ", time=" + time + "]";
 	}
 }

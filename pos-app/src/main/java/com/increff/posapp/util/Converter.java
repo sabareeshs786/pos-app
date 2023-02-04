@@ -1,10 +1,5 @@
 package com.increff.posapp.util;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-
 import com.increff.posapp.model.*;
 
 import com.increff.posapp.pojo.BrandPojo;
@@ -13,10 +8,17 @@ import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
-import io.swagger.models.auth.In;
+import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class ConverterDto {
+public class Converter {
+	private static Logger logger = Logger.getLogger(Converter.class);
 	public static BrandData convertToBrandData(BrandPojo p) {
 		BrandData d = new BrandData();
 		d.setBrand(p.getBrand());
@@ -24,7 +26,11 @@ public class ConverterDto {
 		d.setId(p.getId());
 		return d;
 	}
-
+	public static Page<BrandPojo> convertToBrandPojoPage(BrandPojo p){
+		List<BrandPojo> brandPojoList = new ArrayList<>();
+		brandPojoList.add(p);
+		return new PageImpl<>(brandPojoList, PageRequest.of(0, 1), 1);
+	}
 	public static BrandPojo convertToBrandPojo(BrandForm f) {
 		BrandPojo p = new BrandPojo();
 		p.setBrand(f.getBrand());
@@ -48,7 +54,7 @@ public class ConverterDto {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
 		p.setBrandCategory(brandCategory);
-		System.out.println(f.getMrp());
+		logger.info(f.getMrp());
 		p.setMrp(DoubleUtil.round(Double.parseDouble(f.getMrp()), 2));
 		p.setName(f.getName());
 		return p;
@@ -63,7 +69,7 @@ public class ConverterDto {
 	
 	public static InventoryData convertToInventoryData(InventoryPojo p, String barcode) {
 		InventoryData d = new InventoryData();
-		d.setId(p.getId());
+		d.setProductId(p.getProductId());
 		d.setBarcode(barcode);
 		d.setQuantity(p.getQuantity());
 		return d;
@@ -101,13 +107,13 @@ public class ConverterDto {
 
 	}
 
-	public static InventoryReportData convertToInventoryReportData(InventoryData inventoryData, BrandPojo brandPojo){
+	public static InventoryReportData convertToInventoryReportData(InventoryPojo inventoryPojo, ProductPojo productPojo, BrandPojo brandPojo){
 		InventoryReportData inventoryReportData = new InventoryReportData();
 		inventoryReportData.setBrand(brandPojo.getBrand());
 		inventoryReportData.setCategory(brandPojo.getCategory());
-		inventoryReportData.setId(inventoryData.getId());
-		inventoryReportData.setQuantity(inventoryData.getQuantity());
-		inventoryReportData.setBarcode(inventoryData.getBarcode());
+		inventoryReportData.setProductId(productPojo.getId());
+		inventoryReportData.setQuantity(inventoryPojo.getQuantity());
+		inventoryReportData.setBarcode(productPojo.getBarcode());
 		return inventoryReportData;
 	}
 

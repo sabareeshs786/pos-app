@@ -13,31 +13,26 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = &quot;orders&quot;)
 @Getter
-<span class="nc" id="L20">@Setter</span>
+<span class="nc" id="L21">@Setter</span>
+<span class="nc" id="L22">@ToString</span>
 public class OrderPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = &quot;id&quot;)
-<span class="nc" id="L26">	private Integer id;</span>
-	@Column(name = &quot;time&quot;, nullable = false)
-<span class="nc" id="L28">	private ZonedDateTime time;</span>
+<span class="nc" id="L27">	private Integer id;</span>
+	@Column(nullable = false)
+<span class="nc" id="L29">	private ZonedDateTime time;</span>
 
-<span class="fc" id="L30">	public OrderPojo(){</span>
-
-<span class="fc" id="L32">	}</span>
-<span class="nc" id="L33">	public OrderPojo(String zone){</span>
-<span class="nc" id="L34">		LocalDateTime localDateTime = LocalDateTime.now();</span>
-<span class="nc" id="L35">		ZoneId india = ZoneId.of(zone);</span>
-<span class="nc" id="L36">		this.time = ZonedDateTime.of(localDateTime, india);</span>
-<span class="nc" id="L37">	}</span>
-	@Override
-	public String toString() {
-<span class="nc" id="L40">		return &quot;OrderPojo [id=&quot; + id + &quot;, time=&quot; + time + &quot;]&quot;;</span>
-	}
+<span class="fc" id="L31">	public OrderPojo(){}</span>
+<span class="nc" id="L32">	public OrderPojo(String zone){</span>
+<span class="nc" id="L33">		LocalDateTime localDateTime = LocalDateTime.now();</span>
+<span class="nc" id="L34">		ZoneId india = ZoneId.of(zone);</span>
+<span class="nc" id="L35">		this.time = ZonedDateTime.of(localDateTime, india);</span>
+<span class="nc" id="L36">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

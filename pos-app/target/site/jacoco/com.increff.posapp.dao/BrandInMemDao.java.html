@@ -5,49 +5,52 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.increff.posapp.pojo.BrandPojo;
 
 @Repository
-<span class="fc" id="L14">public class BrandInMemDao{</span>
-	
+<span class="fc" id="L16">public class BrandInMemDao{</span>
+
+<span class="fc" id="L18">	private static Logger logger = Logger.getLogger(BrandInMemDao.class);</span>
 	private HashMap&lt;Integer, BrandPojo&gt; rows;
 	private Integer lastId;
 
 	@PostConstruct
 	public void init() {
-<span class="fc" id="L21">		rows = new HashMap&lt;Integer, BrandPojo&gt;();</span>
-<span class="fc" id="L22">	}</span>
+<span class="fc" id="L24">		rows = new HashMap&lt;Integer, BrandPojo&gt;();</span>
+<span class="fc" id="L25">	}</span>
 	
 	public void insert(BrandPojo p) {
-<span class="nc" id="L25">		lastId++;</span>
-<span class="nc" id="L26">		p.setId(lastId);</span>
+<span class="nc" id="L28">		lastId++;</span>
+<span class="nc" id="L29">		p.setId(lastId);</span>
 		try {
-<span class="nc" id="L28">		rows.put(lastId, p);</span>
-<span class="nc" id="L29">		} catch(ConstraintViolationException e) {</span>
-<span class="nc" id="L30">			System.out.println(e);</span>
-<span class="nc" id="L31">		}</span>
-<span class="nc" id="L32">	}</span>
+<span class="nc" id="L31">		rows.put(lastId, p);</span>
+<span class="nc" id="L32">		} catch(ConstraintViolationException e) {</span>
+<span class="nc" id="L33">			logger.info(e);</span>
+<span class="nc" id="L34">		}</span>
+<span class="nc" id="L35">	}</span>
 
 	public void delete(Integer id) {
-<span class="nc" id="L35">		rows.remove(id);</span>
-<span class="nc" id="L36">	}</span>
+<span class="nc" id="L38">		rows.remove(id);</span>
+<span class="nc" id="L39">	}</span>
 
 	public BrandPojo select(Integer id) {
-<span class="nc" id="L39">		return rows.get(id);</span>
+<span class="nc" id="L42">		return rows.get(id);</span>
 	}
 	
 	public List&lt;BrandPojo&gt; selectAll() {
-<span class="nc" id="L43">		ArrayList&lt;BrandPojo&gt; list = new ArrayList&lt;BrandPojo&gt;();</span>
-<span class="nc" id="L44">		list.addAll(rows.values());</span>
-<span class="nc" id="L45">		return list;</span>
+<span class="nc" id="L46">		ArrayList&lt;BrandPojo&gt; list = new ArrayList&lt;BrandPojo&gt;();</span>
+<span class="nc" id="L47">		list.addAll(rows.values());</span>
+<span class="nc" id="L48">		return list;</span>
 	}
 
 	public void update(Integer id, BrandPojo p) {
-<span class="nc" id="L49">		rows.put(id, p);</span>
-<span class="nc" id="L50">	}</span>
+<span class="nc" id="L52">		rows.put(id, p);</span>
+<span class="nc" id="L53">	}</span>
 
 
 }

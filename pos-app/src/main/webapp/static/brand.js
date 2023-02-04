@@ -1,4 +1,3 @@
-
 function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/brand";
@@ -20,7 +19,8 @@ function addBrand(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-				getBrandListUtil();
+			handleAjaxSuccess();
+			getBrandListUtil();
 		},
 		error: handleAjaxError
 		});
@@ -47,7 +47,8 @@ function updateBrand(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-				getBrandListUtil();   
+			
+			getBrandListUtil();   
 		},
 		error: handleAjaxError
 		});
@@ -60,8 +61,9 @@ function getBrandListUtil(){
 	var pageSize = $('#inputPageSize').val();
 	getBrandList(0, pageSize);
 }
+
 function getBrandList(pageNumber, pageSize){
-	var url = getBrandUrl() + '/' + pageNumber + '/' + pageSize;
+	var url = getBrandUrl() + '?pagenumber=' + pageNumber + '&size=' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -70,29 +72,7 @@ function getBrandList(pageNumber, pageSize){
 	   success: function(data) {
 	   		displayBrandList(data.content,pageNumber*pageSize);
 			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
-			var pagination = '';
-			for (var i = data.number - 2; i < data.number + 5 && i < data.totalPages; i++) {
-				if(i < 0)
-					continue;
-				var active = "";
-				if (i == data.number) {
-				active = "active";
-				}
-				pagination += "<li class='page-item " + active + "'><a class='page-link' href='#pageNumber=" + (i+1) +"' onclick='getBrandList(" + i + ", " + pageSize + ")'>" + (i + 1) + "</a></li>";
-			}
-			if (data.number > 0) {
-				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
-			}
-			if (data.number < data.totalPages - 1) {
-				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
-			}
-			$("#paginationContainer").html(pagination);
-			$("#previous").click(function() {
-				getBrandList(data.number - 1, pageSize);
-			});
-			$("#next").click(function() {
-				getBrandList(data.number + 1, pageSize);
-			});
+			paginator(data, "getBrandList", pageSize);
 	   },
 	   error: handleAjaxError
 	});
@@ -119,6 +99,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+		$.notify(response, "success");
 		getBrandListUtil();
 		return;
 	}
@@ -144,7 +125,8 @@ function uploadRows(){
 	   error: function(response){
 	   		row.error=response.responseText
 	   		errorData.push(row);
-	   		uploadRows();
+	   		updateUploadDialog();
+			return;
 	   }
 	});
 }
@@ -173,12 +155,12 @@ function displayBrandList(data, sno){
 }
 
 function displayEditBrand(id){
-	var url = getBrandUrl() + "/" + id;
+	var url = getBrandUrl() + "?id=" + id;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayBrand(data);   
+	   		displayBrand(data.content);   
 	   },
 	   error: handleAjaxError
 	});	
@@ -215,9 +197,9 @@ function displayUploadData(){
 }
 
 function displayBrand(data){
-	$("#brand-edit-form input[name=brand]").val(data.brand);	
-	$("#brand-edit-form input[name=category]").val(data.category);	
-	$("#brand-edit-form input[name=id]").val(data.id);
+	$("#brand-edit-form input[name=brand]").val(data[0].brand);	
+	$("#brand-edit-form input[name=category]").val(data[0].category);
+	$("#brand-edit-form input[name=id]").val(data[0].id);
 	$('#edit-brand-modal').modal('toggle');
 }
 
