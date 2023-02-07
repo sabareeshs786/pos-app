@@ -19,7 +19,7 @@ public class InventoryService {
 	private InventoryDao inventoryDao;
 
 	public void add(InventoryPojo inventoryPojo) throws ApiException {
-
+		validate(inventoryPojo);
 		if (inventoryDao.selectByProductId(inventoryPojo.getProductId()) != null) {
 			InventoryPojo p = inventoryDao.selectByProductId(inventoryPojo.getProductId());
 			Integer q = p.getQuantity();
@@ -53,8 +53,9 @@ public class InventoryService {
 	}
 
 	 
-	public void updateByProductId(Integer pid, InventoryPojo inventoryPojo) throws ApiException {
-		InventoryPojo ex = getByProductId(pid);
+	public void updateByProductId(Integer productId, InventoryPojo inventoryPojo) throws ApiException {
+		validate(inventoryPojo);
+		InventoryPojo ex = getByProductId(productId);
 		ex.setQuantity(inventoryPojo.getQuantity());
 		inventoryDao.update(ex);
 	}
@@ -73,5 +74,17 @@ public class InventoryService {
 			throw new ApiException("Item with given Product ID does not exist in the inventory");
 		}
 		return inventoryPojo;
+	}
+
+	private void validate(InventoryPojo p) throws ApiException {
+		if(p.getProductId().toString().isEmpty()){
+			throw new ApiException("Product id can't be empty");
+		}
+		if(p.getQuantity().toString().isEmpty()){
+			throw new ApiException("Quantity can't be empty");
+		}
+		if(p.getQuantity() <= 0){
+			throw new ApiException("Quantity must be greater than zero");
+		}
 	}
 }

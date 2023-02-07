@@ -37,29 +37,14 @@ import io.swagger.annotations.ApiOperation;
 			@RequestParam(required = false) Integer size
 	) throws ApiException, UnsupportedEncodingException {
 <span class="nc" id="L39">		logger.info(&quot;Id=&quot;+id+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
-<span class="nc bnc" id="L40" title="All 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
-<span class="nc" id="L41">			return productDto.getAll(page, size);</span>
-		}
-<span class="nc bnc" id="L43" title="All 2 branches missed.">		else if (id != null){</span>
-<span class="nc" id="L44">			return productDto.getById(id);</span>
-		}
-		else {
-<span class="nc" id="L47">			throw new ApiException(&quot;Invalid request&quot;);</span>
-		}
+<span class="nc" id="L40">		return productDto.getData(id, page, size);</span>
 	}
-	
-//	@ApiOperation(value = &quot;Gets a product by barcode&quot;)
-//	@RequestMapping(path = &quot;/api/product?barcode={barcode}&quot;, method = RequestMethod.GET)
-//	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
-//		return productDto.getByBarcode(barcode);
-//	}
-
 
 	@ApiOperation(value = &quot;Updates a product&quot;)
 	@RequestMapping(path = &quot;/api/product/{id}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException {
-<span class="nc" id="L61">		productDto.updateById(id, form);</span>
-<span class="nc" id="L62">	}</span>
+<span class="nc" id="L46">		productDto.updateById(id, form);</span>
+<span class="nc" id="L47">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

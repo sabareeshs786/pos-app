@@ -30,63 +30,52 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L30">		brandService.add(brandPojo);</span>
 <span class="nc" id="L31">	}</span>
 
-	public Page&lt;BrandData&gt; get(Integer id) throws ApiException {
-<span class="nc" id="L34">		BrandPojo brandPojo = brandService.getById(id);</span>
-<span class="nc" id="L35">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L36">		listBrandData.add(Converter.convertToBrandData(brandPojo));</span>
-<span class="nc" id="L37">		Page&lt;BrandData&gt; dataPage = new PageImpl&lt;&gt;(listBrandData, PageRequest.of(0,1), 1);</span>
-<span class="nc" id="L38">		return dataPage;</span>
+	public Page&lt;BrandData&gt; getData(Integer id, Integer page, Integer size) throws ApiException {
+<span class="nc bnc" id="L34" title="All 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
+<span class="nc" id="L35">			return getAll(page, size);</span>
+		}
+<span class="nc bnc" id="L37" title="All 2 branches missed.">		else if (id != null){</span>
+<span class="nc" id="L38">			return get(id);</span>
+		}
+		else {
+<span class="nc" id="L41">			throw new ApiException(&quot;Invalid request&quot;);</span>
+		}
+	}
+
+	private Page&lt;BrandData&gt; get(Integer id) throws ApiException {
+<span class="nc" id="L46">		BrandPojo brandPojo = brandService.getById(id);</span>
+<span class="nc" id="L47">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L48">		listBrandData.add(Converter.convertToBrandData(brandPojo));</span>
+<span class="nc" id="L49">		Page&lt;BrandData&gt; dataPage = new PageImpl&lt;&gt;(listBrandData, PageRequest.of(0,1), 1);</span>
+<span class="nc" id="L50">		return dataPage;</span>
 	}
 	
 	public List&lt;BrandData&gt; getAll() throws ApiException{
-<span class="nc" id="L42">		List&lt;BrandPojo&gt; listBrandPojo = brandService.getAll();</span>
-<span class="nc" id="L43">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">		for(BrandPojo p: listBrandPojo) {</span>
-<span class="nc" id="L45">			listBrandData.add(Converter.convertToBrandData(p));</span>
-<span class="nc" id="L46">		}</span>
-<span class="nc" id="L47">		return listBrandData;</span>
+<span class="nc" id="L54">		List&lt;BrandPojo&gt; listBrandPojo = brandService.getAll();</span>
+<span class="nc" id="L55">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		for(BrandPojo p: listBrandPojo) {</span>
+<span class="nc" id="L57">			listBrandData.add(Converter.convertToBrandData(p));</span>
+<span class="nc" id="L58">		}</span>
+<span class="nc" id="L59">		return listBrandData;</span>
 	}
 
 
-	public Page&lt;BrandData&gt; getAll(Integer page, Integer size){
-<span class="nc" id="L52">		Page&lt;BrandPojo&gt; pojoPage = brandService.getAllByPage(page, size);</span>
-<span class="nc" id="L53">		List&lt;BrandPojo&gt; brandPojoList = pojoPage.getContent();</span>
-<span class="nc" id="L54">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">		for(BrandPojo p: brandPojoList) {</span>
-<span class="nc" id="L56">			listBrandData.add(Converter.convertToBrandData(p));</span>
-<span class="nc" id="L57">		}</span>
-<span class="nc" id="L58">		Page&lt;BrandData&gt; dataPage = new PageImpl&lt;&gt;(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
-<span class="nc" id="L59">		return dataPage;</span>
-	}
-
-//	public List&lt;BrandData&gt; getByBrand(String brand) throws ApiException {
-//		List&lt;BrandPojo&gt; listBrandPojo = brandService.getByBrand(brand);
-//		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();
-//		for (BrandPojo p : listBrandPojo) {
-//			listBrandData.add(Converter.convertToBrandData(p));
-//		}
-//		return listBrandData;
-//	}
-
-//	public List&lt;BrandData&gt; getByCategory(String category) throws ApiException {
-//		List&lt;BrandPojo&gt; listBrandPojo = brandService.getByCategory(category);
-//		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();
-//		for (BrandPojo p : listBrandPojo) {
-//			listBrandData.add(Converter.convertToBrandData(p));
-//		}
-//		return listBrandData;
-//	}
-
-	public BrandData getByBrandandCategory(String brand, String category) throws ApiException {
-<span class="nc" id="L81">		BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);</span>
-<span class="nc" id="L82">		return Converter.convertToBrandData(brandPojo);</span>
+	private Page&lt;BrandData&gt; getAll(Integer page, Integer size){
+<span class="nc" id="L64">		Page&lt;BrandPojo&gt; pojoPage = brandService.getAllByPage(page, size);</span>
+<span class="nc" id="L65">		List&lt;BrandPojo&gt; brandPojoList = pojoPage.getContent();</span>
+<span class="nc" id="L66">		List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for(BrandPojo p: brandPojoList) {</span>
+<span class="nc" id="L68">			listBrandData.add(Converter.convertToBrandData(p));</span>
+<span class="nc" id="L69">		}</span>
+<span class="nc" id="L70">		Page&lt;BrandData&gt; dataPage = new PageImpl&lt;&gt;(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
+<span class="nc" id="L71">		return dataPage;</span>
 	}
 
 	public void updateById(Integer id, BrandForm form) throws ApiException {
-<span class="nc" id="L86">		FormValidator.brandFormValidator(form);</span>
-<span class="nc" id="L87">		FormNormalizer.brandFormNormalizer(form);</span>
-<span class="nc" id="L88">		BrandPojo p = Converter.convertToBrandPojo(form);</span>
-<span class="nc" id="L89">		brandService.updateById(id, p);</span>
-<span class="nc" id="L90">	}</span>
+<span class="nc" id="L75">		FormValidator.brandFormValidator(form);</span>
+<span class="nc" id="L76">		FormNormalizer.brandFormNormalizer(form);</span>
+<span class="nc" id="L77">		BrandPojo p = Converter.convertToBrandPojo(form);</span>
+<span class="nc" id="L78">		brandService.updateById(id, p);</span>
+<span class="nc" id="L79">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

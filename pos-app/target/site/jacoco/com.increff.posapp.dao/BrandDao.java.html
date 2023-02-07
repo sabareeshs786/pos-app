@@ -78,52 +78,69 @@ import com.increff.posapp.pojo.BrandPojo;
 <span class="nc" id="L78">		Long totalElements = em().createQuery(SELECT_BY_BRAND_COUNT, Long.class).setParameter(&quot;brand&quot;, brand).getSingleResult();</span>
 <span class="nc" id="L79">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
+
+	public List&lt;BrandPojo&gt; selectByBrand(String brand) {
+
+<span class="nc" id="L84">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_BRAND, BrandPojo.class);</span>
+<span class="nc" id="L85">		query.setParameter(&quot;brand&quot;, brand);</span>
+
+<span class="nc" id="L87">		logger.info(&quot;From BrandDao  brand=&quot;+brand);</span>
+
+<span class="nc" id="L89">		return query.getResultList();</span>
+	}
 	
 	public Page&lt;BrandPojo&gt; selectByCategory(String category, Integer page, Integer size) {
-<span class="nc" id="L83">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);</span>
-<span class="nc" id="L84">		query.setParameter(&quot;category&quot;, category);</span>
+<span class="nc" id="L93">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);</span>
+<span class="nc" id="L94">		query.setParameter(&quot;category&quot;, category);</span>
 
-<span class="nc" id="L86">		int pageNumber = page;</span>
-<span class="nc" id="L87">		int pageSize = size;</span>
-<span class="nc" id="L88">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L89">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L90">		query.setMaxResults(pageSize);</span>
+<span class="nc" id="L96">		int pageNumber = page;</span>
+<span class="nc" id="L97">		int pageSize = size;</span>
+<span class="nc" id="L98">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L99">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L100">		query.setMaxResults(pageSize);</span>
 
-<span class="nc" id="L92">		List&lt;BrandPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L93">		Long totalElements = em().createQuery(SELECT_BY_CATEGORY_COUNT, Long.class).setParameter(&quot;category&quot;, category).getSingleResult();</span>
-<span class="nc" id="L94">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L102">		List&lt;BrandPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L103">		Long totalElements = em().createQuery(SELECT_BY_CATEGORY_COUNT, Long.class).setParameter(&quot;category&quot;, category).getSingleResult();</span>
+<span class="nc" id="L104">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+	}
+
+	public List&lt;BrandPojo&gt; selectByCategory(String category) {
+<span class="nc" id="L108">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);</span>
+<span class="nc" id="L109">		query.setParameter(&quot;category&quot;, category);</span>
+
+<span class="nc" id="L111">		return query.getResultList();</span>
 	}
 	
 	public BrandPojo selectByBrandAndCategory(String brand, String category) {
-<span class="fc" id="L98">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_BRAND_AND_CATEGORY, BrandPojo.class);</span>
-<span class="fc" id="L99">		query.setParameter(&quot;brand&quot;, brand);</span>
-<span class="fc" id="L100">		query.setParameter(&quot;category&quot;, category);</span>
-<span class="fc" id="L101">		return getSingle(query);</span>
+<span class="fc" id="L115">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_BRAND_AND_CATEGORY, BrandPojo.class);</span>
+<span class="fc" id="L116">		query.setParameter(&quot;brand&quot;, brand);</span>
+<span class="fc" id="L117">		query.setParameter(&quot;category&quot;, category);</span>
+<span class="fc" id="L118">		return getSingle(query);</span>
 	}
 	
 	public List&lt;BrandPojo&gt; selectAll() {
-<span class="nc" id="L105">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
-<span class="nc" id="L106">		return query.getResultList();</span>
+<span class="nc" id="L122">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
+<span class="nc" id="L123">		return query.getResultList();</span>
 	}
 	
 	public Page&lt;BrandPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L110">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
+<span class="nc" id="L127">		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
 		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="nc" id="L112">        int pageNumber = page;</span>
-<span class="nc" id="L113">        int pageSize = size;</span>
-<span class="nc" id="L114">        int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L115">        query.setFirstResult(firstResult);</span>
-<span class="nc" id="L116">        query.setMaxResults(pageSize);</span>
+<span class="nc" id="L129">        int pageNumber = page;</span>
+<span class="nc" id="L130">        int pageSize = size;</span>
+<span class="nc" id="L131">        int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L132">        query.setFirstResult(firstResult);</span>
+<span class="nc" id="L133">        query.setMaxResults(pageSize);</span>
 
         // execute the query
-<span class="nc" id="L119">        List&lt;BrandPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L120">        Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="nc" id="L121">        return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L136">        List&lt;BrandPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L137">        Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="nc" id="L138">        return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 
 	public void update(BrandPojo p) {
 		// Handled by Spring itself
-<span class="nc" id="L126">	}</span>
+<span class="nc" id="L143">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

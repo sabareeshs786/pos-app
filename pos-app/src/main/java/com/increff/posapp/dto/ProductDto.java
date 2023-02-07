@@ -82,4 +82,16 @@ public class ProductDto {
 		ProductPojo p = Converter.convertToProductPojo(form, brandPojo.getId());
 		productService.updateById(id, p);
 	}
+
+	public Page<ProductData> getData(Integer id, Integer page, Integer size) throws ApiException {
+		if(id == null && page != null && size != null){
+			return getAll(page, size);
+		}
+		else if (id != null){
+			return getById(id);
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
+	}
 }

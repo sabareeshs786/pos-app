@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.controller</a> &gt; <span class="el_source">OrderController.java</span></div><h1>OrderController.java</h1><pre class="source lang-java linenums">package com.increff.posapp.controller;
 
-import java.io.File;
 import java.util.List;
 
 import com.increff.posapp.model.OrderItemEditForm;
@@ -26,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -64,38 +64,40 @@ import org.springframework.web.bind.annotation.RestController;
 	}
 
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
-	@RequestMapping(path = &quot;/api/order/{orderId}/{page}/{size}&quot;, method = RequestMethod.GET)
-	public Page&lt;OrderItemData&gt; getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L69">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
-<span class="nc" id="L70">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
+	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
+	public Page&lt;OrderItemData&gt; getPageByOrderId(@RequestParam Integer orderId,
+												@RequestParam(name = &quot;pagenumber&quot;) Integer page,
+												@RequestParam Integer size) throws ApiException {
+<span class="nc" id="L71">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
+<span class="nc" id="L72">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
 	}
 
-	@ApiOperation(value = &quot;Gets list of all orders&quot;)
-	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
-	public List&lt;OrderData&gt; getAll() throws ApiException {
-<span class="nc" id="L76">		return orderDto.getAll();</span>
-	}
+//	@ApiOperation(value = &quot;Gets list of all orders&quot;)
+//	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
+//	public List&lt;OrderData&gt; getAll() throws ApiException {
+//		return orderDto.getAll();
+//	}
 	@ApiOperation(value = &quot;Gets list of all orders&quot;)
 	@RequestMapping(path = &quot;/api/order/{pageNo}/{size}&quot;, method = RequestMethod.GET)
 	public Page&lt;OrderData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L81">		return orderDto.getAll(pageNo, size);</span>
+<span class="nc" id="L83">		return orderDto.getAll(pageNo, size);</span>
 	}
 	@ApiOperation(value = &quot;Gets an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L86">		return orderItemDto.getByOrderItemId(id);</span>
+<span class="nc" id="L88">		return orderItemDto.getByOrderItemId(id);</span>
 	}
 	@ApiOperation(value = &quot;Edits an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.PUT)
 	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-<span class="nc" id="L91">		orderItemDto.update(id, orderItemEditForm);</span>
-<span class="nc" id="L92">	}</span>
+<span class="nc" id="L93">		orderItemDto.update(id, orderItemEditForm);</span>
+<span class="nc" id="L94">	}</span>
 
 	@ApiOperation(value = &quot;Used to download invoice&quot;)
 	@RequestMapping(path = &quot;/api/invoice/download/{orderId}&quot;, method = RequestMethod.GET)
-	public ResponseEntity&lt;byte[]&gt; convertToPdf(@PathVariable Integer orderId)
+	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
 			throws IOException, FOPException, TransformerException, ApiException {
-<span class="nc" id="L98">			return orderDto.convertToPdf(orderId);</span>
-	}
+<span class="nc" id="L100">			orderDto.convertToPdf(orderId, response);</span>
+<span class="nc" id="L101">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

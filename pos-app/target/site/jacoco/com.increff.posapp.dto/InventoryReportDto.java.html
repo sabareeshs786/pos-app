@@ -29,46 +29,127 @@ import java.util.List;
     @Autowired
     private InventoryService inventoryService;
 <span class="fc" id="L31">    private static final Logger logger = Logger.getLogger(InventoryReportDto.class);</span>
-    public Page&lt;InventoryReportData&gt; getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
-
-<span class="nc" id="L34">        List&lt;InventoryReportData&gt; inventoryReportDataList = new ArrayList&lt;&gt;();</span>
-
-<span class="nc bnc" id="L36" title="All 4 branches missed.">        if(brand.isEmpty() &amp;&amp; category.isEmpty()){</span>
-<span class="nc" id="L37">            Page&lt;InventoryPojo&gt; inventoryPojoPage = inventoryService.getAllByPage(page, size);</span>
-<span class="nc" id="L38">            List&lt;InventoryPojo&gt; inventoryPojoList = inventoryPojoPage.getContent();</span>
-
-<span class="nc bnc" id="L40" title="All 2 branches missed.">            for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
-<span class="nc" id="L41">                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
-<span class="nc" id="L42">                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="nc" id="L43">                inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
-<span class="nc" id="L44">            }</span>
-
-<span class="nc" id="L46">            return new PageImpl&lt;&gt;(inventoryReportDataList, PageRequest.of(page, size), inventoryPojoPage.getTotalElements());</span>
+    public &lt;T&gt; T getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
+<span class="nc" id="L33">        brand = brand.toLowerCase();</span>
+<span class="nc" id="L34">        category = category.toLowerCase();</span>
+<span class="nc" id="L35">        logger.info(&quot;Brand = &quot;+brand+&quot; Category = &quot;+category);</span>
+<span class="nc" id="L36">        List&lt;InventoryReportData&gt; inventoryReportDataList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L37">        List&lt;InventoryPojo&gt; inventoryPojoList = inventoryService.getAll();</span>
+<span class="nc bnc" id="L38" title="All 4 branches missed.">        if(page == null &amp;&amp; size == null){</span>
+<span class="nc" id="L39">            logger.info(&quot;Page&gt;&gt;&quot;+page+&quot; Size=&quot;+size);</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">            if(brand.isEmpty() &amp;&amp; category.isEmpty()){</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L42">                    ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L43">                    BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L44">                    inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
+<span class="nc" id="L45">                }</span>
+<span class="nc" id="L46">                validate(inventoryReportDataList);</span>
+            }
+<span class="nc bnc" id="L48" title="All 4 branches missed.">            else if(!brand.isEmpty() &amp;&amp; !category.isEmpty()){</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L50">                    ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L51">                    BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">                    if(brandPojo.getBrand().equals(brand) &amp;&amp; brandPojo.getCategory().equals(category)){</span>
+<span class="nc" id="L53">                        inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
+                    }
+<span class="nc" id="L55">                }</span>
+<span class="nc" id="L56">                validate(inventoryReportDataList);</span>
+            }
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            else if(!brand.isEmpty()){</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L60">                    ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L61">                    BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L62">                    logger.info(&quot;Brand&gt;&gt;&quot;+brand+ &quot; Category&gt;&gt;&quot;+category);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                    if(brandPojo.getBrand().equals(brand)){</span>
+<span class="nc" id="L64">                        inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
+                    }
+<span class="nc" id="L66">                }</span>
+<span class="nc" id="L67">                validate(inventoryReportDataList);</span>
+            }
+            else {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L71">                    ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L72">                    BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                    if(brandPojo.getCategory().equals(category)){</span>
+<span class="nc" id="L74">                        inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
+                    }
+<span class="nc" id="L76">                }</span>
+<span class="nc" id="L77">                validate(inventoryReportDataList);</span>
+            }
+<span class="nc" id="L79">            return (T) inventoryReportDataList;</span>
+        }
+<span class="nc bnc" id="L81" title="All 4 branches missed.">        else if(brand.isEmpty() &amp;&amp; category.isEmpty()){</span>
+<span class="nc" id="L82">            logger.info(&quot;Page=&quot;+page+&quot; Size=&quot;+size);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L84">                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L85">                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc" id="L86">                inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));</span>
+<span class="nc" id="L87">            }</span>
+<span class="nc" id="L88">            validate(inventoryReportDataList);</span>
+<span class="nc" id="L89">            return (T) getPage(inventoryReportDataList, page, size);</span>
         }
 
-<span class="nc bnc" id="L49" title="All 4 branches missed.">        else if(!brand.isEmpty() &amp;&amp; !category.isEmpty()){</span>
-//            BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);
-//
-//            return
+<span class="nc bnc" id="L92" title="All 4 branches missed.">        else if(!brand.isEmpty() &amp;&amp; !category.isEmpty()){</span>
+<span class="nc" id="L93">            logger.info(&quot;Page=&quot;+page+&quot; Size=&quot;+size);</span>
+<span class="nc" id="L94">            logger.info(&quot;No of elements in the list&quot;+inventoryPojoList.size());</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L96">                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L97">                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">                if(brandPojo.getBrand().equals(brand) &amp;&amp; brandPojo.getCategory().equals(category)){</span>
+<span class="nc" id="L99">                    inventoryReportDataList.add(</span>
+<span class="nc" id="L100">                            Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)</span>
+                    );
+                }
+<span class="nc" id="L103">            }</span>
+<span class="nc" id="L104">            validate(inventoryReportDataList);</span>
+<span class="nc" id="L105">            return (T) getPage(inventoryReportDataList, page, size);</span>
         }
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        else if(!brand.isEmpty()){</span>
-//            Page&lt;BrandPojo&gt; brandPojoPage = brandService.getByBrand(brand, page, size);
-//            return
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        else if(!brand.isEmpty()){</span>
+<span class="nc" id="L108">            logger.info(&quot;Page=&quot;+page+&quot; Size=&quot;+size);</span>
+<span class="nc" id="L109">            logger.info(&quot;No of elements in the list &quot;+inventoryPojoList.size());</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L111">                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L112">                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                if(brandPojo.getBrand().equals(brand)){</span>
+<span class="nc" id="L114">                    inventoryReportDataList.add(</span>
+<span class="nc" id="L115">                            Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)</span>
+                    );
+                }
+<span class="nc" id="L118">            }</span>
+<span class="nc" id="L119">            validate(inventoryReportDataList);</span>
+<span class="nc" id="L120">            return (T) getPage(inventoryReportDataList, page, size);</span>
         }
         else {
-//            Page&lt;BrandPojo&gt; brandPojoPage = brandService.getByCategory(category, page, size);
-//            return
+<span class="nc" id="L123">            logger.info(&quot;Page=&quot;+page+&quot; Size=&quot;+size);</span>
+<span class="nc" id="L124">            logger.info(&quot;No of elements in the list&quot;+inventoryPojoList.size());</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            for(InventoryPojo inventoryPojo: inventoryPojoList){</span>
+<span class="nc" id="L126">                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</span>
+<span class="nc" id="L127">                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                if(brandPojo.getCategory().equals(category)){</span>
+<span class="nc" id="L129">                    inventoryReportDataList.add(</span>
+<span class="nc" id="L130">                            Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)</span>
+                    );
+                }
+<span class="nc" id="L133">            }</span>
+<span class="nc" id="L134">            validate(inventoryReportDataList);</span>
+<span class="nc" id="L135">            return (T) getPage(inventoryReportDataList, page, size);</span>
         }
-<span class="nc" id="L62">        return null;</span>
+    }
+    private &lt;T&gt; T getPage(List&lt;InventoryReportData&gt; inventoryReportDataList, Integer page, Integer size){
+<span class="nc" id="L139">        List&lt;InventoryReportData&gt; inventoryReportDataList1 = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L140">        Long totalElements = (long) inventoryReportDataList.size();</span>
+<span class="nc" id="L141">        Integer start = page*size;</span>
+<span class="nc" id="L142">        Integer end = start + size - 1;</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">        for(int i=start; i &lt;= end &amp;&amp; i &lt; inventoryReportDataList.size(); i++){</span>
+<span class="nc" id="L144">            inventoryReportDataList1.add(inventoryReportDataList.get(i));</span>
+        }
+<span class="nc" id="L146">        return (T) new PageImpl&lt;&gt;(inventoryReportDataList1, PageRequest.of(page, size), inventoryReportDataList.size());</span>
     }
 
-//    private Page&lt;InventoryReportData&gt; getPage(Page&lt;BrandPojo&gt; brandPojoPage, Integer page, Integer size){
-//        List&lt;BrandData&gt; listBrandData = new ArrayList&lt;&gt;();
-//        List&lt;BrandPojo&gt; brandPojoList = brandPojoPage.getContent();
-//        for(BrandPojo p: brandPojoList) {
-//            listBrandData.add(Converter.convertToBrandData(p));
-//        }
-//        return new PageImpl&lt;&gt;(listBrandData, PageRequest.of(page, size), brandPojoPage.getTotalElements());
-//    }
+    private void validate(List&lt;InventoryReportData&gt; list) throws ApiException {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if(list.isEmpty()){</span>
+<span class="nc" id="L151">            throw new ApiException(&quot;No items available with the given details&quot;);</span>
+        }
+<span class="nc" id="L153">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

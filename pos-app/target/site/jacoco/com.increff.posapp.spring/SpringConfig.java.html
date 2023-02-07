@@ -4,14 +4,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @ComponentScan(&quot;com.increff.posapp&quot;)
 @PropertySources({ //
 		@PropertySource(value = &quot;file:./posapp.properties&quot;, ignoreResourceNotFound = false)
 })
-<span class="nc" id="L13">public class SpringConfig {</span>
-
-
-}
+@EnableScheduling
+<span class="nc" id="L15">public class SpringConfig {}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

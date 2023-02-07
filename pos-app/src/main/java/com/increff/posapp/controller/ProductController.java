@@ -37,23 +37,8 @@ public class ProductController {
 			@RequestParam(required = false) Integer size
 	) throws ApiException, UnsupportedEncodingException {
 		logger.info("Id="+id+"Page number="+page+"Size="+size);
-		if(id == null && page != null && size != null){
-			return productDto.getAll(page, size);
-		}
-		else if (id != null){
-			return productDto.getById(id);
-		}
-		else {
-			throw new ApiException("Invalid request");
-		}
+		return productDto.getData(id, page, size);
 	}
-	
-//	@ApiOperation(value = "Gets a product by barcode")
-//	@RequestMapping(path = "/api/product?barcode={barcode}", method = RequestMethod.GET)
-//	public ProductData getByBarcode(@PathVariable String barcode) throws ApiException {
-//		return productDto.getByBarcode(barcode);
-//	}
-
 
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.PUT)

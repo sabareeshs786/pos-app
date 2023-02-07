@@ -27,7 +27,7 @@ import com.increff.posapp.pojo.OrderPojo;
 	private static final String SELECT_BY_START_TIME = &quot;select p from OrderPojo p where time &gt;= :startTime&quot;;
 	private static final String SELECT_BY_END_TIME = &quot;select p from OrderPojo p where time &lt;= :endTime&quot;;
 	private static final String SELECT_BY_INTERVAL = &quot;select p from OrderPojo p where time &gt;= :startTime and time &lt;=:endTime&quot;;
-	private static final String SELECT_ALL = &quot;select p from OrderPojo p&quot;;
+	private static final String SELECT_ALL = &quot;select p from OrderPojo p order by time&quot;;
 
 <span class="fc" id="L32">	private static String SELECT_ALL_COUNT = &quot;select count(p) from OrderPojo p&quot;;</span>
 

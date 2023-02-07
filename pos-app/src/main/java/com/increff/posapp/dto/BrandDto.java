@@ -30,7 +30,19 @@ public class BrandDto {
 		brandService.add(brandPojo);
 	}
 
-	public Page<BrandData> get(Integer id) throws ApiException {
+	public Page<BrandData> getData(Integer id, Integer page, Integer size) throws ApiException {
+		if(id == null && page != null && size != null){
+			return getAll(page, size);
+		}
+		else if (id != null){
+			return get(id);
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
+	}
+
+	private Page<BrandData> get(Integer id) throws ApiException {
 		BrandPojo brandPojo = brandService.getById(id);
 		List<BrandData> listBrandData = new ArrayList<>();
 		listBrandData.add(Converter.convertToBrandData(brandPojo));
@@ -48,7 +60,7 @@ public class BrandDto {
 	}
 
 
-	public Page<BrandData> getAll(Integer page, Integer size){
+	private Page<BrandData> getAll(Integer page, Integer size){
 		Page<BrandPojo> pojoPage = brandService.getAllByPage(page, size);
 		List<BrandPojo> brandPojoList = pojoPage.getContent();
 		List<BrandData> listBrandData = new ArrayList<>();
@@ -57,29 +69,6 @@ public class BrandDto {
 		}
 		Page<BrandData> dataPage = new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
-	}
-
-//	public List<BrandData> getByBrand(String brand) throws ApiException {
-//		List<BrandPojo> listBrandPojo = brandService.getByBrand(brand);
-//		List<BrandData> listBrandData = new ArrayList<>();
-//		for (BrandPojo p : listBrandPojo) {
-//			listBrandData.add(Converter.convertToBrandData(p));
-//		}
-//		return listBrandData;
-//	}
-
-//	public List<BrandData> getByCategory(String category) throws ApiException {
-//		List<BrandPojo> listBrandPojo = brandService.getByCategory(category);
-//		List<BrandData> listBrandData = new ArrayList<>();
-//		for (BrandPojo p : listBrandPojo) {
-//			listBrandData.add(Converter.convertToBrandData(p));
-//		}
-//		return listBrandData;
-//	}
-
-	public BrandData getByBrandandCategory(String brand, String category) throws ApiException {
-		BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);
-		return Converter.convertToBrandData(brandPojo);
 	}
 
 	public void updateById(Integer id, BrandForm form) throws ApiException {

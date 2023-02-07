@@ -26,5 +26,4 @@ public class BrandPojo {
 	private String brand;
 	@Column(nullable = false)
 	private String category;
-
 }

@@ -38,7 +38,7 @@ public class InventoryDto {
 		inventoryService.add(inventoryPojo);
 	}
 
-	public Page<InventoryData> getByProductId(Integer productId) throws ApiException {
+	private Page<InventoryData> getByProductId(Integer productId) throws ApiException {
 		InventoryPojo inventoryPojo = inventoryService.getByProductId(productId);
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 		List<InventoryData> list = new ArrayList<InventoryData>();
@@ -57,7 +57,7 @@ public class InventoryDto {
 		return list;
 	}
 
-	public Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
+	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
 		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
 		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();
 		List<InventoryData> list = new ArrayList<InventoryData>();
@@ -85,5 +85,17 @@ public class InventoryDto {
 
 	protected InventoryService inventoryService(){
 		return inventoryService;
+	}
+
+	public Page<InventoryData> getData(Integer productId, Integer page, Integer size) throws ApiException {
+		if(productId == null && page != null && size != null){
+			return getAll(page, size);
+		}
+		else if (productId != null){
+			return getByProductId(productId);
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
 	}
 }

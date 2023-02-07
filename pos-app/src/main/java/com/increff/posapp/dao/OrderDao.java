@@ -27,7 +27,7 @@ public class OrderDao extends AbstractDao{
 	private static final String SELECT_BY_START_TIME = "select p from OrderPojo p where time >= :startTime";
 	private static final String SELECT_BY_END_TIME = "select p from OrderPojo p where time <= :endTime";
 	private static final String SELECT_BY_INTERVAL = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
-	private static final String SELECT_ALL = "select p from OrderPojo p";
+	private static final String SELECT_ALL = "select p from OrderPojo p order by time";
 
 	private static String SELECT_ALL_COUNT = "select count(p) from OrderPojo p";
 

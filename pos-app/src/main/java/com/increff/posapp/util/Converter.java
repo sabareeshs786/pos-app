@@ -2,11 +2,7 @@ package com.increff.posapp.util;
 
 import com.increff.posapp.model.*;
 
-import com.increff.posapp.pojo.BrandPojo;
-import com.increff.posapp.pojo.InventoryPojo;
-import com.increff.posapp.pojo.OrderItemPojo;
-import com.increff.posapp.pojo.OrderPojo;
-import com.increff.posapp.pojo.ProductPojo;
+import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
@@ -112,6 +108,7 @@ public class Converter {
 		inventoryReportData.setBrand(brandPojo.getBrand());
 		inventoryReportData.setCategory(brandPojo.getCategory());
 		inventoryReportData.setProductId(productPojo.getId());
+		inventoryReportData.setProductName(productPojo.getName());
 		inventoryReportData.setQuantity(inventoryPojo.getQuantity());
 		inventoryReportData.setBarcode(productPojo.getBarcode());
 		return inventoryReportData;
@@ -124,5 +121,14 @@ public class Converter {
 		salesReportData.getQuantities().add(quantity);
 		salesReportData.getTotalAmounts().add(DoubleUtil.roundToString(value));
 		return salesReportData;
+	}
+
+	public static SchedulerData convertToSchedulerData(PosDaySalesPojo pojo){
+		SchedulerData schedulerData = new SchedulerData();
+		schedulerData.setDate(pojo.getZonedDateTime());
+		schedulerData.setInvoicedOrdersCount(pojo.getInvoicedOrdersCount());
+		schedulerData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
+		schedulerData.setTotalRevenue(pojo.getTotalRevenue());
+		return schedulerData;
 	}
 }

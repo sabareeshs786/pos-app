@@ -31,7 +31,7 @@ function getOrderItemsUtil(){
 }
 
 function getOrderItems(pageNumber, pageSize){
-	var url = getOrderUrl() + "/" + getOrderId() + '/' + pageNumber + '/' + pageSize;
+	var url = getOrderUrl() + "?orderId=" + getOrderId() + '&pagenumber=' + pageNumber + '&size=' + pageSize;
 	console.log(url);
 	$.ajax({
 	   url: url,
@@ -78,6 +78,7 @@ function displayOrderItems(data, sno){
 		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')">Edit</button>'
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
+		+ '<td>' + data[i].barcode + '</td>'
 		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].quantity + '</td>'
 		+ '<td>' + data[i].sellingPrice + '</td>'
@@ -132,16 +133,12 @@ function updateOrderItem(){
 		},
 		success: function(response) {
 			handleAjaxSuccess(response);
-			getOrderItemsUtil();   
+			getOrderItemsUtil();
 		},
 		error: handleAjaxError
 		});
 	}
 	return false;
-}
-
-function addRow(){
-	$('#place-order-form').append(htmlContent);
 }
 
 //BUTTON ACTIONS
@@ -174,12 +171,11 @@ function addItemToExistingOrder(event){
 
 //INITIALIZATION CODE
 function init(){
-	$('#place-order-confirm').click(addItemToExistingOrder);
-	$('#add-row').click(addRow);
+	// $('#place-order-confirm').click(addItemToExistingOrder);
+	// $('#add-row').click(addRow);
 	$('#update-order-item').click(updateOrderItem);
 	$('#inputPageSize').on('change', getOrderItemsUtil);
 }
 
 $(document).ready(init);
 $(document).ready(getOrderItemsUtil);
-$(document).ready(getHtmlContent)

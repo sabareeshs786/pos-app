@@ -30,7 +30,9 @@ public class OrderItemDao extends AbstractDao{
 
 	private static final String SELECT_ALL = "select p from OrderItemPojo p";
 	private static final String SELECT_ALL_COUNT = "select count(p) from OrderItemPojo p";
-
+	private static final String SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID = "select sum(quantity) from OrderItemPojo p where orderId=:orderId";
+	private static final String TOTAL_COST_BY_ORDER_ID = "select sum(quantity*sellingPrice) from OrderItemPojo p where orderId=:orderId";
+	private static final String SELECT_BY_ORDER_ID_COUNT = "select count(p) from OrderItemPojo p where orderId=:orderId";
 	public void insert(OrderItemPojo p) {
 		em().persist(p);
 	}
@@ -88,7 +90,7 @@ public class OrderItemDao extends AbstractDao{
 
 		// execute the query
 		List<OrderItemPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
+		Long totalElements = em().createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class).setParameter("orderId", orderId).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 
@@ -113,6 +115,14 @@ public class OrderItemDao extends AbstractDao{
 	public List<OrderItemPojo> selectAll() {
 		TypedQuery<OrderItemPojo> query = getQuery(SELECT_ALL, OrderItemPojo.class);
 		return query.getResultList();
+	}
+
+	public Long getInvoicedQuantityByOrderId(Integer orderId){
+		return em().createQuery(SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID, Long.class).setParameter("orderId", orderId).getSingleResult();
+	}
+
+	public Double getTotalCostByOrderId(Integer orderId){
+		return em().createQuery(TOTAL_COST_BY_ORDER_ID, Double.class).setParameter("orderId", orderId).getSingleResult();
 	}
 
 	public void update(OrderItemPojo p) {

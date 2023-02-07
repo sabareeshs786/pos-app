@@ -18,14 +18,36 @@ function generateInvoicePdf(id){
 		url: url,
 		type: 'GET',
 		dataType : 'json',
-		contentType : 'application/pdf',
+		contentType : 'application/json',
 		success: function(data) {
-				alert("Invoice pdf generated");
+			let binaryString = window.atob(data);
+			let binaryLen = binaryString.length;
+			let bytes = new Uint8Array(binaryLen);                    
+			for(let i = 0; i < binaryLen; i++){
+				let ascii = binaryString.charCodeAt(i);
+				bytes[i] = ascii;
+			}                    // // download pdf
+			let blob = new Blob([bytes], {type: "application/pdf"});
+			downloadBillPdf(blob);
 		},
 		error: handleAjaxError
 	 });
 	 return false;
 }
+
+function downloadInvoicePdf(blob){
+    let link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    var currentdate = new Date();
+    link.download = "bill_" + currentdate.getDate() + "/"
+                            + (currentdate.getMonth()+1) + "/"
+                            + currentdate.getFullYear() + "@"
+                            + currentdate.getHours() + "h:"
+                            + currentdate.getMinutes() + "m:"
+                            + currentdate.getSeconds() + "s.pdf";
+    link.click();
+}
+
 var barcodes = [];
 var quantities = [];
 var sellingPrices = [];

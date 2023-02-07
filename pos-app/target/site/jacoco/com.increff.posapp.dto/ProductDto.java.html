@@ -82,5 +82,17 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L82">		ProductPojo p = Converter.convertToProductPojo(form, brandPojo.getId());</span>
 <span class="nc" id="L83">		productService.updateById(id, p);</span>
 <span class="nc" id="L84">	}</span>
+
+	public Page&lt;ProductData&gt; getData(Integer id, Integer page, Integer size) throws ApiException {
+<span class="nc bnc" id="L87" title="All 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
+<span class="nc" id="L88">			return getAll(page, size);</span>
+		}
+<span class="nc bnc" id="L90" title="All 2 branches missed.">		else if (id != null){</span>
+<span class="nc" id="L91">			return getById(id);</span>
+		}
+		else {
+<span class="nc" id="L94">			throw new ApiException(&quot;Invalid request&quot;);</span>
+		}
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

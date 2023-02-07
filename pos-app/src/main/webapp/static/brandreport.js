@@ -1,11 +1,7 @@
-
 function getBrandReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
 	return baseUrl + "/api/reports/brandreport";
 }
-//Global variables
-var downloadContent = "";
-//BUTTON ACTIONS
 
 function getBrandListUtil(){
 	var pageSize = $('#inputPageSize').val();
@@ -31,7 +27,6 @@ function getBrandList(brand, category, pageNumber, pageSize){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			downloadContent = data.content;
 	   		displayBrandList(data.content,pageNumber*pageSize);
 			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
 			paginatorForReport(data, "getBrandList", brand, category, pageSize);
@@ -59,6 +54,7 @@ function displayBrandList(data, sno){
 		$("#brand-report-table-body").append(row);
 	}
 }
+
 function writeBrandReportFileData(arr){
 	var config = {
 		quoteChar: '',
@@ -82,7 +78,6 @@ function writeBrandReportFileData(arr){
 }
 
 function rearrange(downloadContent){
-	var keys = ['id', 'brand', 'category'];
 	var downloadContentRearranged = [];
 	for(var i=0; i < downloadContent.length; i++){
 		var rearrangedObj = {};
@@ -95,12 +90,38 @@ function rearrange(downloadContent){
 }
 
 function downloadReport(){
-	console.log(downloadContent);
-	downloadContentRearranged = rearrange(downloadContent);
-	downloadContentRearranged.sort(function(a, b){
-		return a.id - b.id;
-	})
-	writeBrandReportFileData(downloadContentRearranged);
+	var brand = $('#brand-report-form input[name=brand]').val();
+	var category = $('#brand-report-form input[name=category]').val();
+	if(brand == undefined)
+		brand = '';
+	if(category == undefined)
+		category = '';
+	var url = getBrandReportUrl() + 
+	'?brand=' + brand + 
+	'&category=' + category + 
+	'&pagenumber='+ 
+	'&size=';
+
+	console.log(url);
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+		downloadContent = rearrange(data);
+		downloadContent.sort(function(a, b){
+			return a.id - b.id;
+		})
+		writeBrandReportFileData(downloadContent);
+	   },
+	   error: function(response){
+			handleAjaxError(response);
+			$('#brand-report-form input[name=brand]').val('');
+			$('#brand-report-form input[name=category]').val('');
+	   }
+	});
+	return false;
 }
 
 //INITIALIZATION CODE

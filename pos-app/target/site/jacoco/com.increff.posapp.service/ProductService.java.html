@@ -25,91 +25,118 @@ import com.increff.posapp.util.StringUtil;
 
 	public void add(ProductPojo p) throws ApiException {
 <span class="nc" id="L27">		normalize(p);</span>
+<span class="nc" id="L28">		validate(p);</span>
 		//Inserting
-<span class="nc" id="L29">		productDao.insert(p);</span>
-<span class="nc" id="L30">	}</span>
+<span class="nc" id="L30">		productDao.insert(p);</span>
+<span class="nc" id="L31">	}</span>
 
 	public ProductPojo getById(int id) throws ApiException {
-<span class="nc" id="L33">		return getCheckById(id);</span>
+<span class="nc" id="L34">		return getCheckById(id);</span>
 	}
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException {
-<span class="nc" id="L37">		return getCheckByBarcode(barcode);</span>
+<span class="nc" id="L38">		return getCheckByBarcode(barcode);</span>
 	}
 
 	public Page&lt;ProductPojo&gt; getByBrandCategory(Integer brand_category, Integer page, Integer size) throws ApiException {
-<span class="nc" id="L41">		return getCheckByBrandCategory(brand_category, page, size);</span>
+<span class="nc" id="L42">		return getCheckByBrandCategory(brand_category, page, size);</span>
 	}
 
 	public ProductPojo getByName(String name) throws ApiException {
-<span class="nc" id="L45">		return getCheckByName(name);</span>
+<span class="nc" id="L46">		name = name.toLowerCase();</span>
+<span class="nc" id="L47">		return getCheckByName(name);</span>
 	}
 
 	public List&lt;ProductPojo&gt; getByMrp(Double mrp) throws ApiException {
-<span class="nc" id="L49">		return getCheckByMrp(mrp);</span>
+<span class="nc" id="L51">		return getCheckByMrp(mrp);</span>
 	}
 
 	public List&lt;ProductPojo&gt; getAll() {
-<span class="nc" id="L53">		return productDao.selectAll();</span>
+<span class="nc" id="L55">		return productDao.selectAll();</span>
 	}
 
 	public Page&lt;ProductPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L57">		return productDao.getAllByPage(page, size);</span>
+<span class="nc" id="L59">		return productDao.getAllByPage(page, size);</span>
 	}
 	public void updateById(int id, ProductPojo p) throws ApiException {
-<span class="nc" id="L60">		normalize(p);</span>
-<span class="nc" id="L61">		ProductPojo ex = getCheckById(id);</span>
-<span class="nc" id="L62">		ex.setBarcode(p.getBarcode());</span>
-<span class="nc" id="L63">		ex.setBrandCategory(p.getBrandCategory());</span>
-<span class="nc" id="L64">		ex.setName(p.getName());</span>
-<span class="nc" id="L65">		ex.setMrp(p.getMrp());</span>
-<span class="nc" id="L66">		productDao.update(ex);</span>
-<span class="nc" id="L67">	}</span>
+<span class="nc" id="L62">		normalize(p);</span>
+<span class="nc" id="L63">		validate(p);</span>
+<span class="nc" id="L64">		ProductPojo ex = getCheckById(id);</span>
+<span class="nc" id="L65">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L66">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L67">		ex.setName(p.getName());</span>
+<span class="nc" id="L68">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L69">		productDao.update(ex);</span>
+<span class="nc" id="L70">	}</span>
 
 	public ProductPojo getCheckById(Integer id) throws ApiException {
-<span class="nc" id="L70">		ProductPojo p = productDao.selectById(id);</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L72">			throw new ApiException(&quot;Product with given ID does not exist&quot;);</span>
+<span class="nc" id="L73">		ProductPojo p = productDao.selectById(id);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L75">			throw new ApiException(&quot;Product with given ID does not exist&quot;);</span>
 		}
-<span class="nc" id="L74">		return p;</span>
+<span class="nc" id="L77">		return p;</span>
 	}
 
 	public ProductPojo getCheckByBarcode(String barcode) throws ApiException {
-<span class="nc" id="L78">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L80">			throw new ApiException(&quot;Product with given barcode doesn't exist&quot;);</span>
+<span class="nc" id="L81">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L83">			throw new ApiException(&quot;Product with given barcode doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L82">		return p;</span>
+<span class="nc" id="L85">		return p;</span>
 	}
 
 	public Page&lt;ProductPojo&gt; getCheckByBrandCategory(Integer brandCategory, Integer page, Integer size) throws ApiException {
-<span class="nc" id="L86">		Page&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brandCategory, page, size);</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (p.getTotalElements() == 0) {</span>
-<span class="nc" id="L88">			throw new ApiException(&quot;Item with given brand-category doesn't exist&quot;);</span>
+<span class="nc" id="L89">		Page&lt;ProductPojo&gt; p = productDao.selectByBrandCategory(brandCategory, page, size);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">		if (p.getTotalElements() == 0) {</span>
+<span class="nc" id="L91">			throw new ApiException(&quot;Item with given brand-category doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L90">		return p;</span>
+<span class="nc" id="L93">		return p;</span>
 	}
 
 	public ProductPojo getCheckByName(String name) throws ApiException {
-<span class="nc" id="L94">		ProductPojo p = productDao.selectByName(name);</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L96">			throw new ApiException(&quot;Item with given name doesn't exist&quot;);</span>
+<span class="nc" id="L97">		ProductPojo p = productDao.selectByName(name);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L99">			throw new ApiException(&quot;Item with given name doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L98">		return p;</span>
+<span class="nc" id="L101">		return p;</span>
 	}
 
 	public List&lt;ProductPojo&gt; getCheckByMrp(Double mrp) throws ApiException {
-<span class="nc" id="L102">		List&lt;ProductPojo&gt; p = productDao.selectByMrp(mrp);</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (p == null) {</span>
-<span class="nc" id="L104">			throw new ApiException(&quot;Item with given mrp doesn't exist&quot;);</span>
+<span class="nc" id="L105">		List&lt;ProductPojo&gt; p = productDao.selectByMrp(mrp);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L107">			throw new ApiException(&quot;Item with given mrp doesn't exist&quot;);</span>
 		}
-<span class="nc" id="L106">		return p;</span>
+<span class="nc" id="L109">		return p;</span>
 	}
 	
 	protected static void normalize(ProductPojo p) {
-<span class="nc" id="L110">		p.setBarcode(p.getBarcode().toLowerCase());</span>
-<span class="nc" id="L111">		p.setName(p.getName().toLowerCase());</span>
-<span class="nc" id="L112">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
-<span class="nc" id="L113">	}</span>
+<span class="nc" id="L113">		p.setBarcode(p.getBarcode().toLowerCase());</span>
+<span class="nc" id="L114">		p.setName(p.getName().toLowerCase());</span>
+<span class="nc" id="L115">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
+<span class="nc" id="L116">	}</span>
+
+	protected void validate(ProductPojo p) throws ApiException {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		if(p.getName().isEmpty()){</span>
+<span class="nc" id="L120">			throw new ApiException(&quot;Product name can't be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if(p.getBarcode().isEmpty()){</span>
+<span class="nc" id="L123">			throw new ApiException(&quot;Barcode can't be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		if(p.getBrandCategory().toString().isEmpty()){</span>
+<span class="nc" id="L126">			throw new ApiException(&quot;Brand-Category number can't be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L128" title="All 2 branches missed.">		if(p.getMrp().toString().isEmpty()){</span>
+<span class="nc" id="L129">			throw new ApiException(&quot;MRP can't be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L131" title="All 4 branches missed.">		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {</span>
+<span class="nc" id="L132">			throw new ApiException(&quot;MRP is invalid&quot;);</span>
+		}
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		if(p.getBrandCategory() &lt;= 0){</span>
+<span class="nc" id="L135">			throw new ApiException(&quot;Brand-Category must be greater than zero&quot;);</span>
+		}
+<span class="nc bnc" id="L137" title="All 2 branches missed.">		if(p.getMrp() &lt;= 0.0){</span>
+<span class="nc" id="L138">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
+		}
+<span class="nc" id="L140">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

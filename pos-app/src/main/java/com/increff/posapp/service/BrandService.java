@@ -32,15 +32,29 @@ public class BrandService {
 		return getCheckById(id);
 	}
 
+	public List<BrandPojo> getByBrand(String brand) throws ApiException {
+		brand = brand.toLowerCase();
+		return getCheckByBrand(brand);
+	}
+
+	public List<BrandPojo> getByCategory(String category) throws ApiException {
+		category = category.toLowerCase();
+		return getCheckByCategory(category);
+	}
+
 	public Page<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
+		brand = brand.toLowerCase();
 		return getCheckByBrand(brand, page, size);
 	}
 
 	public Page<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
+		category = category.toLowerCase();
 		return getCheckByCategory(category, page, size);
 	}
 
 	public BrandPojo getByBrandAndCategory(String brand, String category) throws ApiException {
+		brand = brand.toLowerCase();
+		category = category.toLowerCase();
 		return getCheckByBrandAndCategory(brand, category);
 	}
 
@@ -76,12 +90,28 @@ public class BrandService {
 		return p;
 	}
 
+	public List<BrandPojo> getCheckByBrand(String brand) throws ApiException {
+		List<BrandPojo> pojos = brandDao.selectByBrand(brand);
+		if(pojos.size() == 0){
+			throw new ApiException("No such brand");
+		}
+		return pojos;
+	}
+
 	public Page<BrandPojo> getCheckByCategory(String category, Integer page, Integer size) throws ApiException {
 		Page<BrandPojo> p = brandDao.selectByCategory(category, page, size);
 		if (p.getTotalElements() == 0) {
 			throw new ApiException("The given category doesn't exist");
 		}
 		return p;
+	}
+
+	public List<BrandPojo> getCheckByCategory(String category) throws ApiException {
+		List<BrandPojo> pojos = brandDao.selectByCategory(category);
+		if(pojos.size() == 0){
+			throw new ApiException("No such category");
+		}
+		return pojos;
 	}
 
 	public BrandPojo getCheckByBrandAndCategory(String brand, String category) throws ApiException {
@@ -98,6 +128,12 @@ public class BrandService {
 	}
 
 	protected void validate(BrandPojo p) throws ApiException {
+		if(p.getBrand().isEmpty()){
+			throw new ApiException("Brand can't be empty");
+		}
+		if(p.getCategory().isEmpty()){
+			throw new ApiException("Category can't be empty");
+		}
 		if(brandDao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {
 			throw new ApiException("The entered brand and category combination already exists\nEnter a different brand or category");
 		}

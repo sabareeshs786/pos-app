@@ -20,12 +20,4 @@ public class OrderForm {
 		this.sellingPrices = new ArrayList<Double>();
 	}
 
-	@Override
-	public String toString() {
-		return "OrderForm{" +
-				"barcodes=" + barcodes +
-				", quantities=" + quantities +
-				", sellingPrices=" + sellingPrices +
-				'}';
-	}
 }

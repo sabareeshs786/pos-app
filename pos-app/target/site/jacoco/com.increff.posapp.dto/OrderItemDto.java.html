@@ -165,7 +165,7 @@ import java.util.Objects;
 <span class="nc" id="L165">	}</span>
 	private void updateOrderPojo(OrderItemPojo orderItemPojo) throws ApiException {
 <span class="nc" id="L167">		OrderPojo orderPojo = orderService.getById(orderItemPojo.getOrderId());</span>
-<span class="nc" id="L168">		orderPojo.setTime(DateTimeUtil.getZonedDateTime(&quot;Asia/Kolkata&quot;));</span>
+<span class="nc" id="L168">		orderPojo.setTime(DateTimeUtil.getZonedDateTimeStart(&quot;Asia/Kolkata&quot;));</span>
 <span class="nc" id="L169">		orderService.updateById(orderPojo.getId(), orderPojo);</span>
 <span class="nc" id="L170">	}</span>
 	private void checkInventory(OrderItemEditForm orderItemEditForm) throws ApiException {

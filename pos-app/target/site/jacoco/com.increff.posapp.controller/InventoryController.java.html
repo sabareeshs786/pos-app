@@ -34,22 +34,14 @@ import io.swagger.annotations.ApiOperation;
 			@RequestParam(required = false) Integer size
 	) throws ApiException {
 <span class="nc" id="L36">		logger.info(&quot;ProductId=&quot;+productId+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
-<span class="nc bnc" id="L37" title="All 6 branches missed.">		if(productId == null &amp;&amp; page != null &amp;&amp; size != null){</span>
-<span class="nc" id="L38">			return inventoryDto.getAll(page, size);</span>
-		}
-<span class="nc bnc" id="L40" title="All 2 branches missed.">		else if (productId != null){</span>
-<span class="nc" id="L41">			return inventoryDto.getByProductId(productId);</span>
-		}
-		else {
-<span class="nc" id="L44">			throw new ApiException(&quot;Invalid request&quot;);</span>
-		}
+<span class="nc" id="L37">		return inventoryDto.getData(productId, page, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates the inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{productId}&quot;, method = RequestMethod.PUT)
 	public void update(@PathVariable Integer productId, @RequestBody InventoryForm f) throws ApiException {
-<span class="nc" id="L51">		inventoryDto.updateByProductId(productId, f);</span>
-<span class="nc" id="L52">	}</span>
+<span class="nc" id="L43">		inventoryDto.updateByProductId(productId, f);</span>
+<span class="nc" id="L44">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

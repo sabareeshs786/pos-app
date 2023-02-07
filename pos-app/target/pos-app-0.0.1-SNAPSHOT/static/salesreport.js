@@ -2,7 +2,7 @@
 var downloadContent = "";
 function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/salesreport";
+	return baseUrl + "/api/reports/salesreport";
 }
 
 function toArrayOfJsonObjects(){
@@ -17,16 +17,27 @@ function toArrayOfJsonObjects(){
     return arr;
 }
 //BUTTON ACTIONS
+function getSalesReportListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getSalesReportList(0, pageSize);
+}
+function getSalesReportList(pageNumber, pageSize){
+	var url = getSalesReportUrl() 
+	+ '?pagenumber='
+	+ '&size=';
 
-function getSalesReportList(){
-	var url = getSalesReportUrl();
+	var $form = $('#sales-report-form');
+	var json = toJson($form);
+	console.log("JSON >> "+json);
 	$.ajax({
 	   url: url,
-	   type: 'GET',
+	   type: 'POST',
+	   data: json,
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
 			downloadContent = data;
+			console.log(data);
 	   		displaySalesReportList(data);
 	   },
 	   error: handleAjaxError
@@ -35,10 +46,10 @@ function getSalesReportList(){
 }
 
 function processData(){
-	var url = getSalesReportUrl() + '/filter';
+	var url = getSalesReportUrl() + '?pagenumber=&size=';
 	var $form = $('#sales-report-form');
 	var json = toJson($form);
-
+	console.log(json);
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -90,6 +101,9 @@ function getDateAsstring(offsetMonths=0){
 	var date = d.getDate();
 	var month = d.getMonth();
 	var year = d.getFullYear();
+	var hour = d.getHours();
+	var minute = d.getMinutes();
+	var second = d.getSeconds();
 
 	month += 1;
 	month -= offsetMonths;
@@ -107,9 +121,19 @@ function getDateAsstring(offsetMonths=0){
 	if(month.toString().length == 1){
 		month = '0' + month.toString();
 	}
+	if(hour.toString().length == 1){
+		hour = '0' + hour.toString();
+	}
+	if(minute.toString().length == 1){
+		minute = '0' + minute.toString();
+	}
+	if(second.toString().length == 1){
+		second = '0' + second.toString();
+	}
+
 	year = year.toString();
 	var dateString = year + "-"+ month + "-" + date +"T" + 
-	d.getHours().toString() + ":" + d.getMinutes().toString() + ":" + d.getSeconds();
+	hour + ":" + minute + ":" + second;
 	console.log(dateString);
 	return dateString;
 }
@@ -149,5 +173,5 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(getSalesReportList);
 $(document).ready(setdates);
+$(document).ready(getSalesReportListUtil);

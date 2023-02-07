@@ -2,7 +2,7 @@ package com.increff.invoiceapp.base64encoder;
 
 import com.increff.invoiceapp.models.InvoiceItem;
 import com.increff.invoiceapp.models.InvoiceList;
-import lombok.Setter;
+
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
@@ -25,47 +25,42 @@ import java.util.List;
 
 public class PdfService {
 
-    public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) {
+    public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException {
+        ByteArrayOutputStream out = null;
+        byte[] bytes = new byte[0];
         try {
 
             // Create the XML file
             writeInvoiceToXml(orderItemsIds, productNames, quantities, sellingPrices, mrps, "invoice.xml");
-//            convertToUtf8("invoice.xsl", "invoiceutf-8.xsl");
-//            convertToUtf8("invoice.xml", "invoiceutf-8.xml");
+
             // Setup FOP
             FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            //Set up a buffer to obtain the content length
+            out = new ByteArrayOutputStream();
+
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
-
-            // Setup XSLT
             TransformerFactory factory = TransformerFactory.newInstance();
-            Source xslt = new StreamSource(new File("invoice.xsl"));
+            Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
 
-            Transformer transformer = factory.newTransformer(xslt);
-//            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-//            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            // Setup input for XSLT transformation
-            Source xml = new StreamSource(new File("invoice.xml"));
+            //Make sure the XSL transformation's result is piped through to FOP
+            Result res = new SAXResult(fop.getDefaultHandler());
 
-            // Resulting SAX events
-            Result result = new SAXResult(fop.getDefaultHandler());
+            //Setup input
+            Source src = new StreamSource(new File("invoice.xml"));
 
-            // Start XSLT transformation and FOP processing
-            transformer.transform(xml, result);
+            //Start the transformation and rendering process
+            transformer.transform(src, res);
 
-            byte[] bytes = out.toByteArray();
-
-            out.close();
-            out.flush();
-
-            // Return the result as a Base64-encoded string
-            return Base64Utils.encodeToString(bytes);
+            bytes = out.toByteArray();
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+        } finally {
+                assert out != null;
+                out.flush();
+                out.close();
+            return Base64Utils.encodeToString(bytes);
         }
     }
 
@@ -92,17 +87,26 @@ public class PdfService {
 
         jaxbMarshaller.marshal(invoiceList, sw);
         String xmlContent = sw.toString();
-        System.out.println("XML Content: " + xmlContent);
-            File file = new File(fileName);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-//            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            Source source = new StreamSource(new StringReader(xmlContent));
-            Result result = new StreamResult(file);
-            transformer.transform(source, result);
+
+        System.out.println("XML Content >>> "+ xmlContent);
+
+        File path = new File("invoice.xml");
+
+        //passing file instance in filewriter
+        FileWriter wr = new FileWriter(path);
+
+        //calling writer.write() method with the string
+        wr.write(xmlContent);
+
+        //flushing the writer
+        wr.flush();
+
+        //closing the writer
+        wr.close();
+
+        sw.flush();
+
+        sw.close();
     }
 
     private static Double getTotal(List<String> sellingPrices){

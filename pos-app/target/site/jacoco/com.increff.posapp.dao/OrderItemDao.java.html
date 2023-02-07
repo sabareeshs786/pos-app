@@ -30,94 +30,104 @@ import java.util.List;
 
 	private static final String SELECT_ALL = &quot;select p from OrderItemPojo p&quot;;
 	private static final String SELECT_ALL_COUNT = &quot;select count(p) from OrderItemPojo p&quot;;
-
+	private static final String SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID = &quot;select sum(quantity) from OrderItemPojo p where orderId=:orderId&quot;;
+	private static final String TOTAL_COST_BY_ORDER_ID = &quot;select sum(quantity*sellingPrice) from OrderItemPojo p where orderId=:orderId&quot;;
+	private static final String SELECT_BY_ORDER_ID_COUNT = &quot;select count(p) from OrderItemPojo p where orderId=:orderId&quot;;
 	public void insert(OrderItemPojo p) {
-<span class="nc" id="L35">		em().persist(p);</span>
-<span class="nc" id="L36">	}</span>
+<span class="nc" id="L37">		em().persist(p);</span>
+<span class="nc" id="L38">	}</span>
 
 	public Integer deleteById(Integer id) {
-<span class="nc" id="L39">		Query query = em().createQuery(DELETE_ID);</span>
-<span class="nc" id="L40">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L41">		return query.executeUpdate();</span>
+<span class="nc" id="L41">		Query query = em().createQuery(DELETE_ID);</span>
+<span class="nc" id="L42">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L43">		return query.executeUpdate();</span>
 	}
 
 	public Integer deleteByOrderId(Integer orderId) {
-<span class="nc" id="L45">		Query query = em().createQuery(DELETE_ORDER_ID);</span>
-<span class="nc" id="L46">		query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L47">		return query.executeUpdate();</span>
+<span class="nc" id="L47">		Query query = em().createQuery(DELETE_ORDER_ID);</span>
+<span class="nc" id="L48">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L49">		return query.executeUpdate();</span>
 	}
 
 	public Integer deleteByProductId(Integer productId) {
-<span class="nc" id="L51">		Query query = em().createQuery(DELETE_PRODUCT_ID);</span>
-<span class="nc" id="L52">		query.setParameter(&quot;productId&quot;, productId);</span>
-<span class="nc" id="L53">		return query.executeUpdate();</span>
+<span class="nc" id="L53">		Query query = em().createQuery(DELETE_PRODUCT_ID);</span>
+<span class="nc" id="L54">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L55">		return query.executeUpdate();</span>
 	}
 
 	public Integer deleteByQuantity(Integer quantity) {
-<span class="nc" id="L57">		Query query = em().createQuery(DELETE_QUANTITY);</span>
-<span class="nc" id="L58">		query.setParameter(&quot;quantity&quot;, quantity);</span>
-<span class="nc" id="L59">		return query.executeUpdate();</span>
+<span class="nc" id="L59">		Query query = em().createQuery(DELETE_QUANTITY);</span>
+<span class="nc" id="L60">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L61">		return query.executeUpdate();</span>
 	}
 
 	public Integer deleteBySellingPrice(Double sellingPrice) {
-<span class="nc" id="L63">		Query query = em().createQuery(DELETE_SELLING_PRICE);</span>
-<span class="nc" id="L64">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
-<span class="nc" id="L65">		return query.executeUpdate();</span>
+<span class="nc" id="L65">		Query query = em().createQuery(DELETE_SELLING_PRICE);</span>
+<span class="nc" id="L66">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L67">		return query.executeUpdate();</span>
 	}
 
 	public OrderItemPojo selectById(Integer id) {
-<span class="nc" id="L69">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L70">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L71">		return getSingle(query);</span>
+<span class="nc" id="L71">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ID, OrderItemPojo.class);</span>
+<span class="nc" id="L72">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L73">		return getSingle(query);</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectByOrderId(Integer orderId) {
-<span class="nc" id="L75">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L76">		query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L77">		return query.getResultList();</span>
+<span class="nc" id="L77">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
+<span class="nc" id="L78">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L79">		return query.getResultList();</span>
 	}
 
 	public Page&lt;OrderItemPojo&gt; getPageByOrderId(Integer orderId, Integer page, Integer size) {
-<span class="nc" id="L81">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L82">		query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L83">		int pageNumber = page;</span>
-<span class="nc" id="L84">		int pageSize = size;</span>
-<span class="nc" id="L85">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L86">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L87">		query.setMaxResults(pageSize);</span>
+<span class="nc" id="L83">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
+<span class="nc" id="L84">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="nc" id="L85">		int pageNumber = page;</span>
+<span class="nc" id="L86">		int pageSize = size;</span>
+<span class="nc" id="L87">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L88">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L89">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="nc" id="L90">		List&lt;OrderItemPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L91">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="nc" id="L92">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L92">		List&lt;OrderItemPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L93">		Long totalElements = em().createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
+<span class="nc" id="L94">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 
 	public OrderItemPojo selectByProductId(Integer productId) {
-<span class="nc" id="L96">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_PRODUCT_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L97">		query.setParameter(&quot;productId&quot;, productId);</span>
-<span class="nc" id="L98">		return getSingle(query);</span>
+<span class="nc" id="L98">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_PRODUCT_ID, OrderItemPojo.class);</span>
+<span class="nc" id="L99">		query.setParameter(&quot;productId&quot;, productId);</span>
+<span class="nc" id="L100">		return getSingle(query);</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectByQuantity(Integer quantity) {
-<span class="nc" id="L102">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_QUANTITY, OrderItemPojo.class);</span>
-<span class="nc" id="L103">		query.setParameter(&quot;quantity&quot;, quantity);</span>
-<span class="nc" id="L104">		return query.getResultList();</span>
+<span class="nc" id="L104">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_QUANTITY, OrderItemPojo.class);</span>
+<span class="nc" id="L105">		query.setParameter(&quot;quantity&quot;, quantity);</span>
+<span class="nc" id="L106">		return query.getResultList();</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectBySellingPrice(Double sellingPrice) {
-<span class="nc" id="L108">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_SELLING_PRICE, OrderItemPojo.class);</span>
-<span class="nc" id="L109">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
-<span class="nc" id="L110">		return query.getResultList();</span>
+<span class="nc" id="L110">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_SELLING_PRICE, OrderItemPojo.class);</span>
+<span class="nc" id="L111">		query.setParameter(&quot;sellingPrice&quot;, sellingPrice);</span>
+<span class="nc" id="L112">		return query.getResultList();</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectAll() {
-<span class="nc" id="L114">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL, OrderItemPojo.class);</span>
-<span class="nc" id="L115">		return query.getResultList();</span>
+<span class="nc" id="L116">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL, OrderItemPojo.class);</span>
+<span class="nc" id="L117">		return query.getResultList();</span>
+	}
+
+	public Long getInvoicedQuantityByOrderId(Integer orderId){
+<span class="nc" id="L121">		return em().createQuery(SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
+	}
+
+	public Double getTotalCostByOrderId(Integer orderId){
+<span class="nc" id="L125">		return em().createQuery(TOTAL_COST_BY_ORDER_ID, Double.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
 	}
 
 	public void update(OrderItemPojo p) {
 		// Implemented by Spring itself
-<span class="nc" id="L120">	}</span>
+<span class="nc" id="L130">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
