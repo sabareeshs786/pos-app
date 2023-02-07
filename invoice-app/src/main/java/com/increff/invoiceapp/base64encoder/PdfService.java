@@ -6,6 +6,7 @@ import com.increff.invoiceapp.models.InvoiceList;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 
@@ -25,6 +26,8 @@ import java.util.List;
 
 public class PdfService {
 
+    private static final Logger logger = Logger.getLogger(PdfService.class);
+    private static final String resourcesDir = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
     public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException {
         ByteArrayOutputStream out = null;
         byte[] bytes = new byte[0];
@@ -41,13 +44,13 @@ public class PdfService {
 
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
             TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
+            Transformer transformer = factory.newTransformer(new StreamSource(new File(resourcesDir + "/invoice.xsl")));
 
             //Make sure the XSL transformation's result is piped through to FOP
             Result res = new SAXResult(fop.getDefaultHandler());
 
             //Setup input
-            Source src = new StreamSource(new File("invoice.xml"));
+            Source src = new StreamSource(new File(resourcesDir + "/invoice.xml"));
 
             //Start the transformation and rendering process
             transformer.transform(src, res);
@@ -60,15 +63,17 @@ public class PdfService {
                 assert out != null;
                 out.flush();
                 out.close();
-            return Base64Utils.encodeToString(bytes);
         }
+        return Base64Utils.encodeToString(bytes);
     }
 
     public static void writeInvoiceToXml(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
         JAXBContext jaxbContext = JAXBContext.newInstance(InvoiceList.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
+        // Writing the data
         InvoiceList invoiceList = new InvoiceList();
         Integer size = orderItemsIds.size();
         for (int i = 0; i < size; i++) {
@@ -80,7 +85,6 @@ public class PdfService {
             invoiceItem.setSellingPrice(sellingPrices.get(i));
             invoiceList.getItems().add(invoiceItem);
         }
-
         invoiceList.setTotal(getTotal(sellingPrices));
 
         StringWriter sw = new StringWriter();
@@ -88,9 +92,9 @@ public class PdfService {
         jaxbMarshaller.marshal(invoiceList, sw);
         String xmlContent = sw.toString();
 
-        System.out.println("XML Content >>> "+ xmlContent);
+        logger.info("XML Content >>> "+ xmlContent);
 
-        File path = new File("invoice.xml");
+        File path = new File(resourcesDir +"/invoice.xml");
 
         //passing file instance in filewriter
         FileWriter wr = new FileWriter(path);

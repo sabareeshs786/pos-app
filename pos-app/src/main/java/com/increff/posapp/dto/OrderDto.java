@@ -21,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletOutputStream;
@@ -54,7 +51,7 @@ public class OrderDto {
 	@Autowired
 	private OrderItemService orderItemService;
 	private static final Logger logger = Logger.getLogger(OrderDto.class);
-
+	private static final String resourcesDir = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
 
@@ -119,11 +116,14 @@ public class OrderDto {
 			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		 }
-		List<Integer> orderItemsIds = new ArrayList<>();
-		List<String> productNames = new ArrayList<>();
-		List<Integer> quantities = new ArrayList<>();
-		List<String> sellingPrices = new ArrayList<>();
-		List<String> mrps = new ArrayList<>();
+
+		 logger.info("OrderItemPojoList Size: "+orderItemPojoList.size());
+
+		 List<Integer> orderItemsIds = new ArrayList<>();
+		 List<String> productNames = new ArrayList<>();
+		 List<Integer> quantities = new ArrayList<>();
+		 List<String> sellingPrices = new ArrayList<>();
+		 List<String> mrps = new ArrayList<>();
 		for(OrderItemData orderItemData: orderItemDataList){
 			orderItemsIds.add(orderItemData.getId());
 			productNames.add(orderItemData.getProductName());
@@ -131,6 +131,8 @@ public class OrderDto {
 			sellingPrices.add(orderItemData.getSellingPrice());
 			mrps.add(orderItemData.getMrp());
 		}
+
+		// invoice-app is called
 		String base64EncodedString = PdfService.getBase64String(
 				orderItemsIds,
 				productNames,
@@ -152,27 +154,34 @@ public class OrderDto {
 		 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
 
 		 TransformerFactory factory = TransformerFactory.newInstance();
-		 Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
-		 transformer.transform(new StreamSource(new File("invoice.xml")), new SAXResult(fop.getDefaultHandler()));
+		 Transformer transformer = factory.newTransformer(new StreamSource(new File(resourcesDir + "/invoice.xsl")));
+		 transformer.transform(new StreamSource(new File(resourcesDir + "/invoice.xml")), new SAXResult(fop.getDefaultHandler()));
 
 //		 byte[] pdfBytes = outputStream.toByteArray();
 //		 HttpHeaders headers = new HttpHeaders();
 //		 headers.setContentType(MediaType.APPLICATION_PDF);
 //		 headers.setContentLength(pdfBytes.length);
 //		 headers.setContentDispositionFormData("attachment", "invoice.pdf");
-		 String pdfFileName = "output.pdf";
-		 response.reset();
-		 response.addHeader("Pragma", "public");
-		 response.addHeader("Cache-Control", "max-age=0");
-		 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
+//		 String pdfFileName = "output.pdf";
+//		 response.reset();
+//		 response.addHeader("Pragma", "public");
+//		 response.addHeader("Cache-Control", "max-age=0");
+//		 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
+//		 response.setContentType("application/pdf");
+//
+//		 // avoid "byte shaving" by specifying precise length of transferred data
+//		 response.setContentLength(outputStream.size());
+//		 ServletOutputStream servletOutputStream = response.getOutputStream();
+//		 servletOutputStream.write(outputStream.toByteArray());
+//		 servletOutputStream.flush();
+//		 servletOutputStream.close();
+		 //Prepare response
 		 response.setContentType("application/pdf");
-
-		 // avoid "byte shaving" by specifying precise length of transferred data
 		 response.setContentLength(outputStream.size());
-		 ServletOutputStream servletOutputStream = response.getOutputStream();
-		 servletOutputStream.write(outputStream.toByteArray());
-		 servletOutputStream.flush();
-		 servletOutputStream.close();
+
+		 //Send content to Browser
+		 response.getOutputStream().write(outputStream.toByteArray());
+		 response.getOutputStream().flush();
 		 logger.info("PDF generated");
 
 	 }
