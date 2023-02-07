@@ -78,8 +78,8 @@ function displayOrderItems(data, sno){
 		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')">Edit</button>'
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
-		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].barcode + '</td>'
+		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].quantity + '</td>'
 		+ '<td>' + data[i].sellingPrice + '</td>'
 		+ '<td>' + data[i].mrp + '</td>';

@@ -168,7 +168,7 @@ function downloadReport(){
 //INITIALIZATION CODE
 function init(){
 	$('#process-data').click(processData);
-	$('#refresh-data').click(getSalesReportList);
+	$('#refresh-data').click(getSalesReportListUtil);
 	$('#download-data').click(downloadReport);
 }
 
