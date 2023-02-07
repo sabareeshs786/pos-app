@@ -17,12 +17,11 @@ function generateInvoicePdf(id){
 	$.ajax({
 		url: url,
 		type: 'GET',
-		dataType : 'json',
-		contentType : 'application/json',
 		xhrFields: {
 			responseType: 'blob'
 		 },
 		success: function(blob) {
+			console.log(blob.length);
 			var link=document.createElement('a');
 			link.href=window.URL.createObjectURL(blob);
 			link.download="Invoice" + new Date() + ".pdf";

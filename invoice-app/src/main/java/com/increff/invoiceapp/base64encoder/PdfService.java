@@ -3,11 +3,10 @@ package com.increff.invoiceapp.base64encoder;
 import com.increff.invoiceapp.models.InvoiceItem;
 import com.increff.invoiceapp.models.InvoiceList;
 
+import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 
 import javax.xml.bind.JAXBContext;
@@ -15,55 +14,47 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.util.List;
 
 
 public class PdfService {
 
-    private static final Logger logger = Logger.getLogger(PdfService.class);
-    private static final String resourcesDir = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
-    public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException {
-        ByteArrayOutputStream out = null;
-        byte[] bytes = new byte[0];
-        try {
+//    private static final Logger logger = Logger.getLogger(PdfService.class);
+//    private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
+    public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException, TransformerException, JAXBException, FOPException {
 
-            // Create the XML file
+
+//             Create the XML file
             writeInvoiceToXml(orderItemsIds, productNames, quantities, sellingPrices, mrps, "invoice.xml");
 
-            // Setup FOP
+//             Setup FOP
             FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
 
             //Set up a buffer to obtain the content length
-            out = new ByteArrayOutputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
 
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
             TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(new File(resourcesDir + "/invoice.xsl")));
+            Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
 
             //Make sure the XSL transformation's result is piped through to FOP
             Result res = new SAXResult(fop.getDefaultHandler());
 
             //Setup input
-            Source src = new StreamSource(new File(resourcesDir + "/invoice.xml"));
+            Source src = new StreamSource(new File("invoice.xml"));
 
             //Start the transformation and rendering process
             transformer.transform(src, res);
 
-            bytes = out.toByteArray();
+            byte[] bytes = out.toByteArray();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-                assert out != null;
-                out.flush();
-                out.close();
-        }
+            out.flush();
+            out.close();
+
         return Base64Utils.encodeToString(bytes);
     }
 
@@ -92,9 +83,10 @@ public class PdfService {
         jaxbMarshaller.marshal(invoiceList, sw);
         String xmlContent = sw.toString();
 
-        logger.info("XML Content >>> "+ xmlContent);
+//        logger.info("XML Content >>> "+ xmlContent);
+        System.out.println("XML Content: >>" + xmlContent);
 
-        File path = new File(resourcesDir +"/invoice.xml");
+        File path = new File("invoice.xml");
 
         //passing file instance in filewriter
         FileWriter wr = new FileWriter(path);
@@ -108,9 +100,9 @@ public class PdfService {
         //closing the writer
         wr.close();
 
-        sw.flush();
-
-        sw.close();
+//        sw.flush();
+//
+//        sw.close();
     }
 
     private static Double getTotal(List<String> sellingPrices){
@@ -121,23 +113,4 @@ public class PdfService {
         return total;
     }
 
-    private static void convertToUtf8(String infile, String outfile) throws IOException {
-        File inputFile = new File(infile);
-        File outputFile = new File(outfile);
-
-        // Read the input file using US-ASCII encoding
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.US_ASCII);
-
-        // Write the output file using UTF-8 encoding
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
-
-        // Copy the contents from the input to the output file
-        int c;
-        while ((c = reader.read()) != -1) {
-            writer.write(c);
-        }
-
-        reader.close();
-        writer.close();
-    }
 }

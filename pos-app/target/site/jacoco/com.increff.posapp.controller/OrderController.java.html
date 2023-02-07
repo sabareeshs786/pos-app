@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -44,23 +45,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api
 @RestController
-<span class="fc" id="L47">public class OrderController {</span>
+<span class="fc" id="L48">public class OrderController {</span>
 	@Autowired
 	private OrderItemDto orderItemDto;
 	@Autowired
 	private OrderDto orderDto;
-<span class="fc" id="L52">	private static Logger logger = Logger.getLogger(OrderController.class);</span>
+<span class="fc" id="L53">	private static Logger logger = Logger.getLogger(OrderController.class);</span>
 	@ApiOperation(value = &quot;Adds an order&quot;)
 	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.POST)
 	public void add(@RequestBody OrderForm form) throws ApiException {
-<span class="nc" id="L56">		logger.info(form);</span>
-<span class="nc" id="L57">		orderDto.add(form);</span>
-<span class="nc" id="L58">	}</span>
+<span class="nc" id="L57">		logger.info(form);</span>
+<span class="nc" id="L58">		orderDto.add(form);</span>
+<span class="nc" id="L59">	}</span>
 
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
 	@RequestMapping(path = &quot;/api/order/{orderId}&quot;, method = RequestMethod.GET)
 	public List&lt;OrderItemData&gt; getByOrderId(@PathVariable Integer orderId) throws ApiException {
-<span class="nc" id="L63">		return orderItemDto.getByOrderId(orderId);</span>
+<span class="nc" id="L64">		return orderItemDto.getByOrderId(orderId);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
@@ -68,8 +69,8 @@ import org.springframework.web.bind.annotation.RestController;
 	public Page&lt;OrderItemData&gt; getPageByOrderId(@RequestParam Integer orderId,
 												@RequestParam(name = &quot;pagenumber&quot;) Integer page,
 												@RequestParam Integer size) throws ApiException {
-<span class="nc" id="L71">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
-<span class="nc" id="L72">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
+<span class="nc" id="L72">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
+<span class="nc" id="L73">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
 	}
 
 //	@ApiOperation(value = &quot;Gets list of all orders&quot;)
@@ -80,24 +81,29 @@ import org.springframework.web.bind.annotation.RestController;
 	@ApiOperation(value = &quot;Gets list of all orders&quot;)
 	@RequestMapping(path = &quot;/api/order/{pageNo}/{size}&quot;, method = RequestMethod.GET)
 	public Page&lt;OrderData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L83">		return orderDto.getAll(pageNo, size);</span>
+<span class="nc" id="L84">		return orderDto.getAll(pageNo, size);</span>
 	}
 	@ApiOperation(value = &quot;Gets an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L88">		return orderItemDto.getByOrderItemId(id);</span>
+<span class="nc" id="L89">		return orderItemDto.getByOrderItemId(id);</span>
 	}
 	@ApiOperation(value = &quot;Edits an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.PUT)
 	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-<span class="nc" id="L93">		orderItemDto.update(id, orderItemEditForm);</span>
-<span class="nc" id="L94">	}</span>
+<span class="nc" id="L94">		orderItemDto.update(id, orderItemEditForm);</span>
+<span class="nc" id="L95">	}</span>
 
 	@ApiOperation(value = &quot;Used to download invoice&quot;)
 	@RequestMapping(path = &quot;/api/invoice/download/{orderId}&quot;, method = RequestMethod.GET)
 	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
-			throws IOException, FOPException, TransformerException, ApiException {
-<span class="nc" id="L100">			orderDto.convertToPdf(orderId, response);</span>
-<span class="nc" id="L101">	}</span>
+			throws IOException, FOPException, TransformerException, ApiException, JAXBException {
+<span class="nc" id="L101">		logger.info(&quot;OrderId = &quot;+orderId);</span>
+<span class="nc" id="L102">		orderDto.convertToPdf(orderId, response);</span>
+<span class="nc" id="L103">		logger.info(&quot;Response character encoding: &quot;+response.getCharacterEncoding());</span>
+<span class="nc" id="L104">		logger.info(&quot;Response content type: &quot;+response.getContentType());</span>
+<span class="nc" id="L105">		logger.info(&quot;Response status: &quot;+response.getStatus());</span>
+<span class="nc" id="L106">		logger.info(&quot;Response content length: &quot;+response.getOutputStream().toString().length());</span>
+<span class="nc" id="L107">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<invoice>
+    <item>
+        <id>1</id>
+        <productName>xl men's t-shirt</productName>
+        <quantity>6</quantity>
+        <mrp>1000.98</mrp>
+        <sellingPrice>1000.00</sellingPrice>
+    </item>
+    <total>1000.0</total>
+</invoice>

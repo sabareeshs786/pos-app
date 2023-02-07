@@ -38,7 +38,7 @@ pos-app,com.increff.posapp.controller,ReportsController,61,7,0,0,6,2,3,2,3,2
 pos-app,com.increff.posapp.controller,AppRestControllerAdvice,24,7,0,0,7,2,2,1,2,1
 pos-app,com.increff.posapp.controller,LoginController,91,3,6,0,20,1,6,1,3,1
 pos-app,com.increff.posapp.controller,InventoryController,36,7,0,0,6,2,3,2,3,2
-pos-app,com.increff.posapp.controller,OrderController,61,7,0,0,12,2,7,2,7,2
+pos-app,com.increff.posapp.controller,OrderController,117,7,0,0,17,2,7,2,7,2
 pos-app,com.increff.posapp.controller,SampleController,43,7,0,0,11,2,1,2,1,2
 pos-app,com.increff.posapp.controller,ProductController,36,7,0,0,6,2,3,2,3,2
 pos-app,com.increff.posapp.controller,BrandController,43,7,0,0,8,2,3,2,3,2
@@ -87,6 +87,6 @@ pos-app,com.increff.posapp.dto,InventoryDto,197,3,12,0,44,1,14,1,8,1
 pos-app,com.increff.posapp.dto,ProductDto,191,7,10,0,41,2,11,2,6,2
 pos-app,com.increff.posapp.dto,SalesReportDto,692,7,42,0,98,2,27,2,6,2
 pos-app,com.increff.posapp.dto,InventoryReportDto,594,7,62,0,93,2,34,2,3,2
-pos-app,com.increff.posapp.dto,OrderDto,478,12,23,1,91,3,18,2,6,2
+pos-app,com.increff.posapp.dto,OrderDto,466,12,23,1,86,3,18,2,6,2
 pos-app,com.increff.posapp.dto,BrandReportDto,235,7,28,0,42,2,16,2,2,2
 pos-app,com.increff.posapp.dto,SchedulerDto,282,7,14,0,54,2,11,2,4,2

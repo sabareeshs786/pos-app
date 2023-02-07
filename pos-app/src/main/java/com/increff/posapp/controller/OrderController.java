@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -96,7 +97,12 @@ public class OrderController {
 	@ApiOperation(value = "Used to download invoice")
 	@RequestMapping(path = "/api/invoice/download/{orderId}", method = RequestMethod.GET)
 	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
-			throws IOException, FOPException, TransformerException, ApiException {
-			orderDto.convertToPdf(orderId, response);
+			throws IOException, FOPException, TransformerException, ApiException, JAXBException {
+		logger.info("OrderId = "+orderId);
+		orderDto.convertToPdf(orderId, response);
+		logger.info("Response character encoding: "+response.getCharacterEncoding());
+		logger.info("Response content type: "+response.getContentType());
+		logger.info("Response status: "+response.getStatus());
+		logger.info("Response content length: "+response.getOutputStream().toString().length());
 	}
 }
