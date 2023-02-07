@@ -25,6 +25,7 @@ public class ProductService {
 
 	public void add(ProductPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		//Inserting
 		productDao.insert(p);
 	}
@@ -42,6 +43,7 @@ public class ProductService {
 	}
 
 	public ProductPojo getByName(String name) throws ApiException {
+		name = name.toLowerCase();
 		return getCheckByName(name);
 	}
 
@@ -58,6 +60,7 @@ public class ProductService {
 	}
 	public void updateById(int id, ProductPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		ProductPojo ex = getCheckById(id);
 		ex.setBarcode(p.getBarcode());
 		ex.setBrandCategory(p.getBrandCategory());
@@ -110,5 +113,29 @@ public class ProductService {
 		p.setBarcode(p.getBarcode().toLowerCase());
 		p.setName(p.getName().toLowerCase());
 		p.setMrp(DoubleUtil.round(p.getMrp(), 2));
+	}
+
+	protected void validate(ProductPojo p) throws ApiException {
+		if(p.getName().isEmpty()){
+			throw new ApiException("Product name can't be empty");
+		}
+		if(p.getBarcode().isEmpty()){
+			throw new ApiException("Barcode can't be empty");
+		}
+		if(p.getBrandCategory().toString().isEmpty()){
+			throw new ApiException("Brand-Category number can't be empty");
+		}
+		if(p.getMrp().toString().isEmpty()){
+			throw new ApiException("MRP can't be empty");
+		}
+		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {
+			throw new ApiException("MRP is invalid");
+		}
+		if(p.getBrandCategory() <= 0){
+			throw new ApiException("Brand-Category must be greater than zero");
+		}
+		if(p.getMrp() <= 0.0){
+			throw new ApiException("MRP must be greater than zero");
+		}
 	}
 }

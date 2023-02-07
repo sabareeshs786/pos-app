@@ -1,5 +1,6 @@
 package com.increff.posapp.service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -91,11 +92,7 @@ public class OrderService {
 	}
 
 	public List<OrderPojo> getCheckByInterval(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
-		List<OrderPojo> list = orderDao.selectByInterval(startDate, endDate);
-		if(list.isEmpty()) {
-			throw new ApiException("Order with the given time interval doesn't exist");
-		}
-		return list;
+		return orderDao.selectByInterval(startDate, endDate);
 	}
 	public List<OrderPojo> getCheckByTime(ZonedDateTime time) throws ApiException {
 		List<OrderPojo> list = orderDao.selectByTime(time);
@@ -109,5 +106,8 @@ public class OrderService {
 		if(p.getTime() == null) {
 			throw new ApiException("Date and Time cannot be null");
 		}
+//		if(p.getTime().getZone().equals(ZoneId.systemDefault())){
+//			throw new ApiException("Both the zones are different");
+//		}
 	}
 }

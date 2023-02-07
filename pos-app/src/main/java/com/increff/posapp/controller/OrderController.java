@@ -1,6 +1,5 @@
 package com.increff.posapp.controller;
 
-import java.io.File;
 import java.util.List;
 
 import com.increff.posapp.model.OrderItemEditForm;
@@ -26,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -64,17 +64,19 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "Gets list of all ordered items by order id")
-	@RequestMapping(path = "/api/order/{orderId}/{page}/{size}", method = RequestMethod.GET)
-	public Page<OrderItemData> getPageByOrderId(@PathVariable Integer orderId, @PathVariable Integer page, @PathVariable Integer size) throws ApiException {
+	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
+	public Page<OrderItemData> getPageByOrderId(@RequestParam Integer orderId,
+												@RequestParam(name = "pagenumber") Integer page,
+												@RequestParam Integer size) throws ApiException {
 		logger.info("OrderId: "+orderId+"\nPage: "+page+"\nSize: "+size);
 		return orderItemDto.getPageByOrderId(orderId, page, size);
 	}
 
-	@ApiOperation(value = "Gets list of all orders")
-	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
-	public List<OrderData> getAll() throws ApiException {
-		return orderDto.getAll();
-	}
+//	@ApiOperation(value = "Gets list of all orders")
+//	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
+//	public List<OrderData> getAll() throws ApiException {
+//		return orderDto.getAll();
+//	}
 	@ApiOperation(value = "Gets list of all orders")
 	@RequestMapping(path = "/api/order/{pageNo}/{size}", method = RequestMethod.GET)
 	public Page<OrderData> getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
@@ -93,8 +95,8 @@ public class OrderController {
 
 	@ApiOperation(value = "Used to download invoice")
 	@RequestMapping(path = "/api/invoice/download/{orderId}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> convertToPdf(@PathVariable Integer orderId)
+	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
 			throws IOException, FOPException, TransformerException, ApiException {
-			return orderDto.convertToPdf(orderId);
+			orderDto.convertToPdf(orderId, response);
 	}
 }

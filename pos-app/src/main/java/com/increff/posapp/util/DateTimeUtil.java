@@ -1,5 +1,6 @@
 package com.increff.posapp.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -16,15 +17,29 @@ public class DateTimeUtil {
         return localDateTime.format(formatter);
     }
 
-    public static ZonedDateTime getZonedDateTime(String zone){
+    public static ZonedDateTime getZonedDateTimeStart(String zone){
         LocalDateTime localDateTime = LocalDateTime.now();
         ZoneId zoneId = ZoneId.of(zone);
         return ZonedDateTime.of(localDateTime, zoneId);
     }
 
-    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
-        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
-        return ZonedDateTime.of(localDateTime, zoneId);
+//    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
+//        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
+//        return ZonedDateTime.of(localDateTime, zoneId);
+//    }
+
+    public static ZonedDateTime getZonedDateTimeStart(LocalDate localDate, String zone){
+        ZoneId zoneId = ZoneId.of(zone);
+        LocalDateTime localDateTime = localDate.atTime(0, 0, 0);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+        return zonedDateTime;
+    }
+
+    public static ZonedDateTime getZonedDateTimeEnd(LocalDate localDate, String zone){
+        ZoneId zoneId = ZoneId.of(zone);
+        LocalDateTime localDateTime = localDate.atTime(23, 59, 59);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+        return zonedDateTime;
     }
     public static String getZonedDateTimeIndiaAsString(){
         LocalDateTime currentTime = LocalDateTime.now();

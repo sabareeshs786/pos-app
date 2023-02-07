@@ -30,17 +30,13 @@ public class BrandController {
 
 	@ApiOperation(value = "Gets the requested brand data")
 	@RequestMapping(path = "/api/brand", method = RequestMethod.GET)
-	public Page<BrandData> getData(@RequestParam(required = false) Integer id, @RequestParam(name = "pagenumber", required = false) Integer page, @RequestParam(required = false) Integer size) throws ApiException {
+	public Page<BrandData> getData(
+			@RequestParam(required = false) Integer id,
+			@RequestParam(name = "pagenumber", required = false) Integer page,
+			@RequestParam(required = false) Integer size
+	) throws ApiException {
 		logger.info("Id="+id+"Page number="+page+"Size="+size);
-		if(id == null && page != null && size != null){
-			return brandDto.getAll(page, size);
-		}
-		else if (id != null){
-			return brandDto.get(id);
-		}
-		else {
-			throw new ApiException("Invalid request");
-		}
+		return brandDto.getData(id, page, size);
 	}
 
 	@ApiOperation(value = "Updates a brand and category")

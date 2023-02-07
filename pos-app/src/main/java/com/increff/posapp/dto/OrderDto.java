@@ -26,16 +26,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import org.springframework.util.Base64Utils;
 
@@ -54,9 +53,7 @@ public class OrderDto {
 
 	@Autowired
 	private OrderItemService orderItemService;
-	@Autowired
-	private OrderItemDto orderItemDto;
-	private static Logger logger = Logger.getLogger(OrderDto.class);
+	private static final Logger logger = Logger.getLogger(OrderDto.class);
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
@@ -115,13 +112,18 @@ public class OrderDto {
 		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
 	}
-	 public ResponseEntity<byte[]> convertToPdf(Integer orderId) throws TransformerException, FOPException, ApiException, IOException {
-		 List<OrderItemData> orderItemDataList = orderItemDto.getByOrderId(orderId);
-		 List<Integer> orderItemsIds = new ArrayList<>();
-		 List<String> productNames = new ArrayList<>();
-		 List<Integer> quantities = new ArrayList<>();
-		 List<String> sellingPrices = new ArrayList<>();
-		 List<String> mrps = new ArrayList<>();
+	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException {
+		 List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
+		 List<OrderItemData> orderItemDataList = new ArrayList<>();
+		 for(OrderItemPojo orderItemPojo:orderItemPojoList){
+			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+		 }
+		List<Integer> orderItemsIds = new ArrayList<>();
+		List<String> productNames = new ArrayList<>();
+		List<Integer> quantities = new ArrayList<>();
+		List<String> sellingPrices = new ArrayList<>();
+		List<String> mrps = new ArrayList<>();
 		for(OrderItemData orderItemData: orderItemDataList){
 			orderItemsIds.add(orderItemData.getId());
 			productNames.add(orderItemData.getProductName());
@@ -136,29 +138,42 @@ public class OrderDto {
 				sellingPrices,
 				mrps
 		);
-		 logger.info("Got encoded string");
-		 byte[] decodedBytes = Base64Utils.decodeFromString(base64EncodedString);
 
+		 logger.info("Got encoded string");
+		 logger.info("Encoded string: "+base64EncodedString);
+		 byte[] decodedBytes = Base64Utils.decodeFromString(base64EncodedString);
+		 logger.info("Decoded bytes: "+decodedBytes.toString());
 		 assert decodedBytes != null;
-		 ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedBytes);
+
+//		 ByteArrayInputStream inputStream = new ByteArrayInputStream(base64EncodedString.getBytes());
 		 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 		 FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
 		 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
 
 		 TransformerFactory factory = TransformerFactory.newInstance();
-		 Transformer transformer = factory.newTransformer();
-		 transformer.transform(new StreamSource(inputStream), new SAXResult(fop.getDefaultHandler()));
+		 Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
+		 transformer.transform(new StreamSource(new File("invoice.xml")), new SAXResult(fop.getDefaultHandler()));
 
-		 byte[] pdfBytes = outputStream.toByteArray();
-		 HttpHeaders headers = new HttpHeaders();
-		 headers.setContentType(MediaType.APPLICATION_PDF);
-		 headers.setContentLength(pdfBytes.length);
-		 headers.setContentDispositionFormData("attachment", "invoice.pdf");
+//		 byte[] pdfBytes = outputStream.toByteArray();
+//		 HttpHeaders headers = new HttpHeaders();
+//		 headers.setContentType(MediaType.APPLICATION_PDF);
+//		 headers.setContentLength(pdfBytes.length);
+//		 headers.setContentDispositionFormData("attachment", "invoice.pdf");
+		 String pdfFileName = "output.pdf";
+		 response.reset();
+		 response.addHeader("Pragma", "public");
+		 response.addHeader("Cache-Control", "max-age=0");
+		 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
+		 response.setContentType("application/pdf");
 
-		 inputStream.close();
-		 outputStream.close();
-		 return ResponseEntity.ok().headers(headers).body(pdfBytes);
+		 // avoid "byte shaving" by specifying precise length of transferred data
+		 response.setContentLength(outputStream.size());
+		 ServletOutputStream servletOutputStream = response.getOutputStream();
+		 servletOutputStream.write(outputStream.toByteArray());
+		 servletOutputStream.flush();
+		 servletOutputStream.close();
+		 logger.info("PDF generated");
 
 	 }
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {

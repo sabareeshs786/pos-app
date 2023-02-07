@@ -78,6 +78,16 @@ public class BrandDao extends AbstractDao {
 		Long totalElements = em().createQuery(SELECT_BY_BRAND_COUNT, Long.class).setParameter("brand", brand).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
+
+	public List<BrandPojo> selectByBrand(String brand) {
+
+		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND, BrandPojo.class);
+		query.setParameter("brand", brand);
+
+		logger.info("From BrandDao  brand="+brand);
+
+		return query.getResultList();
+	}
 	
 	public Page<BrandPojo> selectByCategory(String category, Integer page, Integer size) {
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);
@@ -92,6 +102,13 @@ public class BrandDao extends AbstractDao {
 		List<BrandPojo> entities = query.getResultList();
 		Long totalElements = em().createQuery(SELECT_BY_CATEGORY_COUNT, Long.class).setParameter("category", category).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+	}
+
+	public List<BrandPojo> selectByCategory(String category) {
+		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);
+		query.setParameter("category", category);
+
+		return query.getResultList();
 	}
 	
 	public BrandPojo selectByBrandAndCategory(String brand, String category) {

@@ -34,15 +34,7 @@ public class InventoryController {
 			@RequestParam(required = false) Integer size
 	) throws ApiException {
 		logger.info("ProductId="+productId+"Page number="+page+"Size="+size);
-		if(productId == null && page != null && size != null){
-			return inventoryDto.getAll(page, size);
-		}
-		else if (productId != null){
-			return inventoryDto.getByProductId(productId);
-		}
-		else {
-			throw new ApiException("Invalid request");
-		}
+		return inventoryDto.getData(productId, page, size);
 	}
 
 	@ApiOperation(value = "Updates the inventory by id")

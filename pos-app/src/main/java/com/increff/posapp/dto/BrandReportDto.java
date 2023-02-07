@@ -24,24 +24,53 @@ public class BrandReportDto extends InventoryDto{
     @Autowired
     private BrandService brandService;
     private static final Logger logger = Logger.getLogger(InventoryDto.class);
-    public Page<BrandData> getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
-        if(brand.isEmpty() && category.isEmpty()){
+    public <T> T getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
+        brand = brand.toLowerCase();
+        category = category.toLowerCase();
+        logger.info("Page = "+page+" Size = "+size);
+        logger.info("Brand = "+brand+ " AND Category = "+category);
+        if(page == null && size == null){
+            List<BrandData> list = new ArrayList<>();
+            List<BrandPojo> pojos = null;
+            if(brand.isEmpty() && category.isEmpty()){
+                logger.info("Brand is null & category is null");
+                pojos = brandService.getAll();
+            }
+            else if(!brand.isEmpty() && !category.isEmpty()){
+                logger.info("Brand and category both are not null");
+                pojos = (List<BrandPojo>) brandService.getByBrandAndCategory(brand, category);
+            }
+            else if(!category.isEmpty()){
+                logger.info("Category is not null");
+                pojos = brandService.getByCategory(category);
+            }
+            else {
+                logger.info("Brand = "+brand + " Category = "+ category);
+                pojos = brandService.getByBrand(brand);
+            }
+            for(BrandPojo p : pojos){
+                list.add(Converter.convertToBrandData(p));
+            }
+            return (T) list;
+        }
+        else if(brand.isEmpty() && category.isEmpty()){
             Page<BrandPojo> brandPojoPage = brandService.getAllByPage(page, size);
-            return getPage(brandPojoPage, page, size);
+            return (T) getPage(brandPojoPage, page, size);
         }
         else if(!brand.isEmpty() && !category.isEmpty()){
             BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);
             Page<BrandPojo> brandPojoPage = Converter.convertToBrandPojoPage(brandPojo);
-            return getPage(brandPojoPage, 0, 1);
+            return (T) getPage(brandPojoPage, 0, 1);
         }
         else if(!brand.isEmpty()){
             logger.info("Brand is not empty");
             Page<BrandPojo> brandPojoPage = brandService.getByBrand(brand, page, size);
-            return getPage(brandPojoPage, page, size);
+            return (T) getPage(brandPojoPage, page, size);
         }
         else {
+            logger.info("Cateory is not empty");
             Page<BrandPojo> brandPojoPage = brandService.getByCategory(category, page, size);
-            return getPage(brandPojoPage, page, size);
+            return (T) getPage(brandPojoPage, page, size);
         }
     }
 

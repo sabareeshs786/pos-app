@@ -20,6 +20,7 @@ public class OrderItemService {
 
 	public void add(OrderItemPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		orderItemDao.insert(p);
 	}
 
@@ -35,6 +36,14 @@ public class OrderItemService {
 	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
 		getCheckByOrderId(orderId);
 		return orderItemDao.getPageByOrderId(orderId, page, size);
+	}
+
+	public Long getSumOfInvoicedQuantityByOrderId(Integer orderId){
+		return orderItemDao.getInvoicedQuantityByOrderId(orderId);
+	}
+
+	public Double getTotalCostByOrderId(Integer orderId){
+		return orderItemDao.getTotalCostByOrderId(orderId);
 	}
 
 	public OrderItemPojo getByProductId(Integer productId) throws ApiException {
@@ -61,6 +70,7 @@ public class OrderItemService {
 	   
 	public void updateById(Integer id, OrderItemPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		OrderItemPojo ex = getCheckById(id);
 		ex.setOrderId(p.getOrderId());
 		ex.setProductId(p.getProductId());
@@ -113,8 +123,30 @@ public class OrderItemService {
 		}
 		return list;
 	}
-
 	protected static void normalize(OrderItemPojo p) {
 		p.setSellingPrice(DoubleUtil.round(p.getSellingPrice(), 2));
+	}
+	protected void validate(OrderItemPojo p) throws ApiException {
+		if(p.getOrderId().toString().isEmpty()){
+			throw new ApiException("Order Id can't be empty");
+		}
+		if(p.getProductId().toString().isEmpty()){
+			throw new ApiException("Order Id can't be empty");
+		}
+		if(p.getQuantity().toString().isEmpty()){
+			throw new ApiException("Order Id can't be empty");
+		}
+		if(p.getSellingPrice().toString().isEmpty()){
+			throw new ApiException("Selling Price can't be empty");
+		}
+		if(p.getSellingPrice() <= 0.0){
+			throw new ApiException("Selling price must be greater than zero");
+		}
+		if(p.getQuantity() <= 0){
+			throw new ApiException("Quantity must be greater than zero");
+		}
+		if(p.getSellingPrice().isInfinite() || p.getSellingPrice().isNaN()){
+			throw new ApiException("Selling price is not valid");
+		}
 	}
 }

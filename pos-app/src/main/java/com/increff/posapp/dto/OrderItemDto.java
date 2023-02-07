@@ -165,7 +165,7 @@ public class OrderItemDto {
 	}
 	private void updateOrderPojo(OrderItemPojo orderItemPojo) throws ApiException {
 		OrderPojo orderPojo = orderService.getById(orderItemPojo.getOrderId());
-		orderPojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
+		orderPojo.setTime(DateTimeUtil.getZonedDateTimeStart("Asia/Kolkata"));
 		orderService.updateById(orderPojo.getId(), orderPojo);
 	}
 	private void checkInventory(OrderItemEditForm orderItemEditForm) throws ApiException {
