@@ -1,7 +1,6 @@
 package com.increff.posapp.dto;
 
 import com.increff.invoiceapp.base64encoder.PdfService;
-
 import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.model.OrderItemData;
@@ -22,19 +21,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.springframework.util.Base64Utils;
-
 import java.util.List;
 
 @Component
@@ -51,7 +51,7 @@ public class OrderDto {
 	@Autowired
 	private OrderItemService orderItemService;
 	private static final Logger logger = Logger.getLogger(OrderDto.class);
-	private static final String resourcesDir = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
+	//private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
 
@@ -109,7 +109,7 @@ public class OrderDto {
 		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
 	}
-	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException {
+	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
 		 List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		 List<OrderItemData> orderItemDataList = new ArrayList<>();
 		 for(OrderItemPojo orderItemPojo:orderItemPojoList){
@@ -131,6 +131,7 @@ public class OrderDto {
 			sellingPrices.add(orderItemData.getSellingPrice());
 			mrps.add(orderItemData.getMrp());
 		}
+		logger.info("Fields created");
 
 		// invoice-app is called
 		String base64EncodedString = PdfService.getBase64String(
@@ -154,8 +155,8 @@ public class OrderDto {
 		 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
 
 		 TransformerFactory factory = TransformerFactory.newInstance();
-		 Transformer transformer = factory.newTransformer(new StreamSource(new File(resourcesDir + "/invoice.xsl")));
-		 transformer.transform(new StreamSource(new File(resourcesDir + "/invoice.xml")), new SAXResult(fop.getDefaultHandler()));
+		 Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
+		 transformer.transform(new StreamSource(new File("invoice.xml")), new SAXResult(fop.getDefaultHandler()));
 
 //		 byte[] pdfBytes = outputStream.toByteArray();
 //		 HttpHeaders headers = new HttpHeaders();

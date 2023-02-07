@@ -83,8 +83,8 @@ public class InventoryService {
 		if(p.getQuantity().toString().isEmpty()){
 			throw new ApiException("Quantity can't be empty");
 		}
-		if(p.getQuantity() <= 0){
-			throw new ApiException("Quantity must be greater than zero");
+		if(p.getQuantity() < 0){
+			throw new ApiException("Quantity can't be less ta zero");
 		}
 	}
 }
