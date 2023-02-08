@@ -23,11 +23,11 @@ public class BrandDto {
 	@Autowired
 	private BrandService brandService;
 	
-	public void add(BrandForm form) throws ApiException {
+	public BrandData add(BrandForm form) throws ApiException {
 		FormValidator.brandFormValidator(form);
 		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo brandPojo = Converter.convertToBrandPojo(form);
-		brandService.add(brandPojo);
+		return brandService.add(brandPojo);
 	}
 
 	public Page<BrandData> getData(Integer id, Integer page, Integer size) throws ApiException {
@@ -71,10 +71,10 @@ public class BrandDto {
 		return dataPage;
 	}
 
-	public void updateById(Integer id, BrandForm form) throws ApiException {
+	public BrandData updateById(Integer id, BrandForm form) throws ApiException {
 		FormValidator.brandFormValidator(form);
 		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo p = Converter.convertToBrandPojo(form);
-		brandService.updateById(id, p);
+		return Converter.convertToBrandData(brandService.updateById(id, p));
 	}
 }

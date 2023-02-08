@@ -23,11 +23,11 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 
-	public void add(ProductPojo p) throws ApiException {
+	public ProductPojo add(ProductPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
 		//Inserting
-		productDao.insert(p);
+		return productDao.insert(p);
 	}
 
 	public ProductPojo getById(int id) throws ApiException {
@@ -58,7 +58,7 @@ public class ProductService {
 	public Page<ProductPojo> getAllByPage(Integer page, Integer size){
 		return productDao.getAllByPage(page, size);
 	}
-	public void updateById(int id, ProductPojo p) throws ApiException {
+	public ProductPojo updateById(int id, ProductPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
 		ProductPojo ex = getCheckById(id);
@@ -67,6 +67,7 @@ public class ProductService {
 		ex.setName(p.getName());
 		ex.setMrp(p.getMrp());
 		productDao.update(ex);
+		return ex;
 	}
 
 	public ProductPojo getCheckById(Integer id) throws ApiException {
@@ -137,5 +138,9 @@ public class ProductService {
 		if(p.getMrp() <= 0.0){
 			throw new ApiException("MRP must be greater than zero");
 		}
+		if(productDao.selectByBarcode(p.getBarcode()) != null){
+			throw new ApiException("The entered barcode already exists\nEnter a different barcode");
+		}
+
 	}
 }

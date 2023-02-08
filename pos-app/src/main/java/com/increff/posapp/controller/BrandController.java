@@ -4,6 +4,7 @@ import com.increff.posapp.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.BrandDto;
@@ -13,7 +14,10 @@ import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+
 @Api
+@Validated
 @RestController
 public class BrandController {
 	private static final Logger logger = Logger.getLogger(BrandController.class);
@@ -22,10 +26,8 @@ public class BrandController {
 
 	@ApiOperation(value = "Adds a new item of a particular brand and category")
 	@RequestMapping(path = "/api/brand", method = RequestMethod.POST)
-	public void add(@RequestBody BrandForm form) throws ApiException {
-		StringUtil.checkValid(form.getBrand());
-		StringUtil.checkValid(form.getCategory());
-		brandDto.add(form);
+	public BrandData add(@Valid @RequestBody BrandForm form) throws ApiException {
+		return brandDto.add(form);
 	}
 
 	@ApiOperation(value = "Gets the requested brand data")
@@ -41,8 +43,8 @@ public class BrandController {
 
 	@ApiOperation(value = "Updates a brand and category")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
-		brandDto.updateById(id, form);
+	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException {
+		return brandDto.updateById(id, form);
 	}
 
 }

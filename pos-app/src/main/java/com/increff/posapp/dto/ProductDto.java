@@ -34,19 +34,20 @@ public class ProductDto {
 	@Autowired
 	private BrandService brandService;
 	
-	public void add(ProductForm form) throws ApiException {
+	public ProductData add(ProductForm form) throws ApiException {
 		FormValidator.productFormValidator(form);
 		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brandCategory = brandPojo.getId();
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);
-		productService.add(productPojo);
+		ProductPojo p = productService.add(productPojo);
 		logger.info("Product added");
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		inventoryPojo.setProductId(productPojo.getId());
 		inventoryPojo.setQuantity(0);
 		inventoryService.add(inventoryPojo);
-		logger.info("Inventory updated");
+		logger.info("Inventory updated with 0");
+		return Converter.convertToProductData(p, brandPojo);
 	}
 
 	public Page<ProductData> getById(Integer id) throws ApiException {
@@ -75,12 +76,12 @@ public class ProductDto {
 		return dataPage;
 	}
 	
-	public void updateById(Integer id, ProductForm form) throws ApiException {
+	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
 		FormValidator.productFormValidator(form);
 		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo p = Converter.convertToProductPojo(form, brandPojo.getId());
-		productService.updateById(id, p);
+		return Converter.convertToProductData(productService.updateById(id, p), brandPojo);
 	}
 
 	public Page<ProductData> getData(Integer id, Integer page, Integer size) throws ApiException {

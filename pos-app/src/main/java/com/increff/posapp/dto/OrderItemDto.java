@@ -120,7 +120,7 @@ public class OrderItemDto {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
 		inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 		inventoryPojo.setQuantity(inventoryPojo.getQuantity() - orderItemEditForm.getQuantity());
-		inventoryService.updateById(inventoryPojo.getId(),  inventoryPojo);
+		inventoryService.updateByProductId(inventoryPojo.getProductId(),  inventoryPojo);
 
 		//ORDERITEM UPDATION
 		orderItemPojo.setProductId(productPojo.getId());
@@ -138,7 +138,7 @@ public class OrderItemDto {
 		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());
 		if(finalQuantity < initialQuantity){
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
-			inventoryService.updateById(inventoryPojo.getId(), inventoryPojo);
+			inventoryService.updateByProductId(inventoryPojo.getProductId(), inventoryPojo);
 			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());
 			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());
 			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);
@@ -151,7 +151,7 @@ public class OrderItemDto {
 				throw new ApiException("Required additional quantity is not present");
 			}
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
-			inventoryService.updateById(inventoryPojo.getId(), inventoryPojo);
+			inventoryService.updateByProductId(inventoryPojo.getProductId(), inventoryPojo);
 			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());
 			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());
 			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);

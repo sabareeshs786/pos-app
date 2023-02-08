@@ -19,7 +19,7 @@ function addProduct(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess(response);
+			handleAjaxSuccess("Product added successfully!!!");
 			getProductListUtil();
 		},
 		error: handleAjaxError
@@ -47,7 +47,7 @@ function updateProduct(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess(response);
+			handleAjaxSuccess("Product updated successfully!!!");
 			getProductListUtil();   
 		},
 		error: handleAjaxError
@@ -89,7 +89,8 @@ function processData(){
 }
 
 function readFileDataCallback(results){
-	fileData = results.data;
+	fileData = results;
+	console.log("File data; "+fileData);
 	uploadRows();
 }
 

@@ -34,8 +34,9 @@ public class BrandDao extends AbstractDao {
 	private static final String SELECT_BY_BRAND_COUNT = "select count(p) from BrandPojo p where brand=:brand";
 	private static final String SELECT_BY_CATEGORY_COUNT = "select count(p) from BrandPojo p where category=:category";
 	
-	public void insert(BrandPojo p) {
+	public BrandPojo insert(BrandPojo p) {
 		em().persist(p);
+		return p;
 	}
 
 	public Integer deleteById(Integer id) {

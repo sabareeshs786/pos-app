@@ -4,18 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Getter
 @Setter
-public class SalesReportForm {
+public class SchedulerForm {
 
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-	@Size(max = 20)
-	private String brand;
-	@Size(max = 20)
-	private String category;
 }

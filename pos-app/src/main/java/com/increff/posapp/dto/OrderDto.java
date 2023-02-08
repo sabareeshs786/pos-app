@@ -10,6 +10,7 @@ import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.FormValidator;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
@@ -21,7 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
+
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -31,27 +32,32 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Base64;
 
 @Component
 public class OrderDto {
 
 	@Autowired
 	private ProductService productService;
-
 	@Autowired
 	private InventoryService inventoryService;
 	@Autowired
 	private OrderService orderService;
-
 	@Autowired
 	private OrderItemService orderItemService;
 	private static final Logger logger = Logger.getLogger(OrderDto.class);
-	//private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
+	private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
+
+
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
 
@@ -109,8 +115,11 @@ public class OrderDto {
 		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 		return dataPage;
 	}
+
 	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
 		 List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
+		 OrderPojo orderPojo = orderService.getById(orderId);
+		 String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), "dd/MM/yyyy");
 		 List<OrderItemData> orderItemDataList = new ArrayList<>();
 		 for(OrderItemPojo orderItemPojo:orderItemPojoList){
 			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
@@ -135,6 +144,7 @@ public class OrderDto {
 
 		// invoice-app is called
 		String base64EncodedString = PdfService.getBase64String(
+				date,
 				orderItemsIds,
 				productNames,
 				quantities,
@@ -142,49 +152,28 @@ public class OrderDto {
 				mrps
 		);
 
-		 logger.info("Got encoded string");
-		 logger.info("Encoded string: "+base64EncodedString);
-		 byte[] decodedBytes = Base64Utils.decodeFromString(base64EncodedString);
-		 logger.info("Decoded bytes: "+decodedBytes.toString());
-		 assert decodedBytes != null;
+		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
 
-//		 ByteArrayInputStream inputStream = new ByteArrayInputStream(base64EncodedString.getBytes());
-		 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//			 byte[] pdfBytes = outputStream.toByteArray();
+//			 HttpHeaders headers = new HttpHeaders();
+//			 headers.setContentType(MediaType.APPLICATION_PDF);
+//			 headers.setContentLength(pdfBytes.length);
+//			 headers.setContentDispositionFormData("attachment", "invoice.pdf");
+//			 String pdfFileName = "output.pdf";
+//			 response.reset();
+//			 response.addHeader("Pragma", "public");
+//			 response.addHeader("Cache-Control", "max-age=0");
+//			 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
+//			 response.setContentType("application/pdf");
 
-		 FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
-		 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
-
-		 TransformerFactory factory = TransformerFactory.newInstance();
-		 Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
-		 transformer.transform(new StreamSource(new File("invoice.xml")), new SAXResult(fop.getDefaultHandler()));
-
-//		 byte[] pdfBytes = outputStream.toByteArray();
-//		 HttpHeaders headers = new HttpHeaders();
-//		 headers.setContentType(MediaType.APPLICATION_PDF);
-//		 headers.setContentLength(pdfBytes.length);
-//		 headers.setContentDispositionFormData("attachment", "invoice.pdf");
-//		 String pdfFileName = "output.pdf";
-//		 response.reset();
-//		 response.addHeader("Pragma", "public");
-//		 response.addHeader("Cache-Control", "max-age=0");
-//		 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
-//		 response.setContentType("application/pdf");
-//
-//		 // avoid "byte shaving" by specifying precise length of transferred data
-//		 response.setContentLength(outputStream.size());
-//		 ServletOutputStream servletOutputStream = response.getOutputStream();
-//		 servletOutputStream.write(outputStream.toByteArray());
-//		 servletOutputStream.flush();
-//		 servletOutputStream.close();
 		 //Prepare response
 		 response.setContentType("application/pdf");
-		 response.setContentLength(outputStream.size());
+		 response.setContentLength(decodedBytes.length);
 
 		 //Send content to Browser
-		 response.getOutputStream().write(outputStream.toByteArray());
+		 response.getOutputStream().write(decodedBytes);
 		 response.getOutputStream().flush();
 		 logger.info("PDF generated");
-
 	 }
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {
 		if (sellingPrice > mrp) {

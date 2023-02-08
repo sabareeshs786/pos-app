@@ -9,12 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Converter {
-	private static Logger logger = Logger.getLogger(Converter.class);
+	private static final Logger logger = Logger.getLogger(Converter.class);
 	public static BrandData convertToBrandData(BrandPojo p) {
 		BrandData d = new BrandData();
 		d.setBrand(p.getBrand());
@@ -42,7 +43,7 @@ public class Converter {
 		productData.setCategory(brandPojo.getCategory());
 		productData.setBrand_category(productPojo.getBrandCategory());
 		productData.setName(productPojo.getName());
-		productData.setMrp(DoubleUtil.roundToString(productPojo.getMrp()));
+		productData.setMrp(productPojo.getMrp());
 		return productData;
 	}
 
@@ -51,7 +52,7 @@ public class Converter {
 		p.setBarcode(f.getBarcode());
 		p.setBrandCategory(brandCategory);
 		logger.info(f.getMrp());
-		p.setMrp(DoubleUtil.round(Double.parseDouble(f.getMrp()), 2));
+		p.setMrp(f.getMrp());
 		p.setName(f.getName());
 		return p;
 	}
@@ -124,8 +125,9 @@ public class Converter {
 	}
 
 	public static SchedulerData convertToSchedulerData(PosDaySalesPojo pojo){
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		SchedulerData schedulerData = new SchedulerData();
-		schedulerData.setDate(pojo.getZonedDateTime());
+		schedulerData.setDate(pojo.getZonedDateTime().toLocalDate().format(dateTimeFormatter));
 		schedulerData.setInvoicedOrdersCount(pojo.getInvoicedOrdersCount());
 		schedulerData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
 		schedulerData.setTotalRevenue(pojo.getTotalRevenue());

@@ -36,8 +36,9 @@ public class ProductDao extends AbstractDao{
 
 
 	@Transactional
-	public void insert(ProductPojo productPojo) {
+	public ProductPojo insert(ProductPojo productPojo) {
 		em().persist(productPojo);
+		return productPojo;
 	}
 
 	public Integer deleteById(Integer id) {

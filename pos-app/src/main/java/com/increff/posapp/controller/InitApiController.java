@@ -34,7 +34,7 @@ public class InitApiController extends AbstractUiController {
 	@ApiOperation(value = "Initializes application")
 	@RequestMapping(path = "/site/init", method = RequestMethod.GET)
 	public ModelAndView showPage(UserForm form) throws ApiException {
-		info.setMessage("");
+		info.setMessage("Initializing application");
 		return mav("init.html");
 	}
 

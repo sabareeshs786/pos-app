@@ -50,9 +50,9 @@
 
 
 <!--Place Order Modal -->
-<div class="modal" tabindex="-1" role="dialog" id="place-order-modal">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
+<div class="modal fade" tabindex="-1" role="dialog" id="place-order-modal">
+	<div class="modal-dialog mw-100 w-75" role="document" style="height: auto; overflow: auto;">
+	  <div class="modal-content container">
 		<div class="modal-header">
 		  <h5 class="modal-title">Place Order</h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id = "cancel1">
@@ -62,31 +62,53 @@
 		<div class="modal-body">
 			<div class="container-fluid">
 			  <form class="form-inline" id="place-order-form">
-				<div class="form-group">
-				  <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-				  <div class="col-sm-10">
-					<input type="text" class="form-control" name="barcode" placeholder="Enter barcode" required>
-				  </div>
-				</div>
-				<br>
+				<div class="row">
+					<div class="form-group">
+					<label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" name="barcode" placeholder="Enter barcode" required>
+					</div>
+					</div>
+				
 				<div class="form-group">
 				  <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-				  <div class="col-sm-10">
-					<input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" required value="1">
+				  <div class="col-sm-6">
+					<input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" required readonly>
 				  </div>
 				</div>
+				</div>
+
+				<div class="row">
 				<div class="form-group">
 					<label for="inputSellingPrice" class="col-sm-2 col-form-label">Selling Price</label>
-					<div class="col-sm-10">
-					  <input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter Selling Price" required value="0.00">
+					<div class="col-sm-6">
+					  <input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter Selling Price" required readonly>
 					</div>
 				</div>
-			  </form> 
-			  <div class="row">
-				<div class="col-12">
-					<button type="button" class="btn btn-primary" id="add-item">+ Add Item</button>
+					<div class="form-group">
+					<div class="col-sm-6">
+						<button type="button" class="btn btn-primary" id="add-item" disabled>+&nbsp;Add&nbsp;Item</button>
+					</div>
+					</div>
 				</div>
-			  </div>
+			  </form>
+			</div>
+			<div style="height: 200px; overflow-y: auto;">
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">SNo</th>
+						<th scope="col">Barcode</th>
+						<th scope="col">Product Name</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Selling Price</th>
+						<th scope="col">Total</th>
+						<th scope="col">Actions</th>
+					</tr>
+					</thead>
+					<tbody id="added-items">
+					</tbody>
+				</table>		  
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -96,8 +118,46 @@
 	  </div>
 	</div>
   </div>
-  
-
+<!-- Added Item Edit Modal -->
+  <div class="modal" tabindex="-1" role="dialog" id="edit-added-item-modal">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Edit Order Item</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <form class="form-inline" id="edit-added-item-form">
+			  <div class="form-group">
+				  <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+				  <div class="col-lg-12">
+					<input type="text" class="form-control" id="inputBarcode" name="barcode" placeholder="Enter barcode">
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+				  <div class="col-lg-12">
+					<input type="number" class="form-control" name="quantity" placeholder="Enter quantity" readonly>
+				  </div>
+				</div>
+				<div class="form-group">
+					<label for="inputSellingPrice" class="col-sm-2 col-form-label">Selling Price</label>
+					<div class="col-lg-12">
+					  <input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter selling price" readonly>
+					</div>
+				</div>
+			  <input type="hidden" name="i">
+		  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		  <button type="button" class="btn btn-primary" id="update-added-item" disabled>Update</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
