@@ -1,7 +1,5 @@
 function getRole(){
-	var info = $("meta[name=info]").attr("content");
-	var json = JSON.parse(info);
-	var role = json.role;
+	var role = $("meta[name=role]").attr("content");
 	return role;
 }
 
@@ -20,6 +18,7 @@ function validator(jsonStr){
 }
 
 function enableOrDisable(){
+    console.log("Current users role: "+getRole());
 	if(getRole() != 'supervisor'){
 		$('input').attr('disabled', true);
 		$('button').attr('disabled', true);
@@ -69,27 +68,35 @@ function handleAjaxError(response){
 }
 
 function handleAjaxSuccess(response){
- $("#success-message").notify("Success!!!!", "success");
+ $("#success-message").notify(response, "success");
 }
+
 function readFileData(file, callback){
     var linesParsed = 0;
-	var config = {
-		header: true,
-		delimiter: "\t",
-		skipEmptyLines: "greedy",
+    var results = [];
+    var config = {
+        header: true,
+        delimiter: "\t",
+        skipEmptyLines: "greedy",
         dynamicTyping: true,
         worker: true,
-        step: function(row) {
+        step: function(row){
             linesParsed++;
-            if (linesParsed > 500) {
-            this.abort();
+            results.push(row.data);
+            if(linesParsed > 500){
+                this.abort();
             }
         },
-		complete: function(results) {
-			callback(results);
-	  	}	
-	}
-	Papa.parse(file, config);
+        complete: function() {
+            console.log(results);
+            callback(results);
+        },
+        error: function(results){
+            console.log(results);
+        }
+    }
+
+    Papa.parse(file, config);
 }
 
 

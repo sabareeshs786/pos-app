@@ -16,48 +16,52 @@
 <div class="row" th:replace="snippets.html :: pos_app_selected_rows">
 </div>
  <!-- Top row with form-->
- <div class="row">
-	 <div class="col-12">
-			<form class="form-inline" id="product-form">
-			  <div class="form-group">
-			    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-			    <div class="col-sm-5">
-			      <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter product barcode">
-			    </div>
-			  </div>
-			  <div class="form-group">
-				<label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
-			    <div class="col-sm-5">
+<div class="row">
+	<div class="col-12">
+	  <form class="form-inline" id="product-form">
+		
+			<div class="form-group">
+				<label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter product barcode">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
+				<div class="col-sm-2">
 					<input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
-			    </div>
-			  </div>
-			  <div class="form-group">
-				<label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
-			    <div class="col-sm-5">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+				<div class="col-sm-2">
 					<input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
-			    </div>
-			  </div>
-
-			  <div class="form-group">
-			    <label for="inputProductName" class="col-sm-2 col-form-label">Product Name</label>
-			    <div class="col-sm-5">
-			      <input type="text" class="form-control" name="name" id="inputProductName" placeholder="Enter Product name">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="inputMRP" class="col-sm-2 col-form-label">MRP</label>
-			    <div class="col-sm-5">
-			      <input type="text" class="form-control decimal-number" name="mrp" id="inputMrp" placeholder="Enter product MRP">
-			    </div>
-			  </div>
-			  <button type="button" class="btn btn-success" id="add-product">Add</button>
-			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
-			</form>
-	 </div>	
-</div> 
-
-
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputProductName" class="col-sm-2 col-form-label">Product Name</label>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" name="name" id="inputProductName" placeholder="Enter Product name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputMRP" class="col-sm-2 col-form-label">MRP</label>
+				<div class="col-sm-2">
+					<input type="text" class="form-control decimal-number" name="mrp" id="inputMrp" placeholder="Enter product MRP">
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-success" id="add-product">Add</button>
+				&nbsp;
+				&nbsp;
+				<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+				&nbsp;
+				&nbsp;
+				<button type="reset" class="btn btn-danger">Reset</button>
+			</div>
+	  </form>
+	</div>
+</div>
 <!-- Blank Row -->
 <div class="row">
 	&nbsp;
@@ -106,24 +110,14 @@
 			    </div>
 			  </div>
 			  <div class="form-group">
-			    <div class="col-sm-5">
-					<!--For Brand Name-->
-					<div class="col-auto my-1">
-					  <label class="mr-sm-2" for="inputBrand">Brand</label>
-					  <select class="custom-select mr-sm-2" id="inputBrand" name="brand">
-					  </select>
-					</div>
-				  </div>
+				<label class="mr-sm-2" for="inputBrand">Brand</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
+				</div>
 			  </div>
 			  <div class="form-group">
-			    <div class="col-sm-10">
-					<!--For Category Name-->
-					<div class="col-auto my-1">
-					  <label class="mr-sm-2" for="inputCategory">Category</label>
-					  <select class="custom-select mr-sm-2" id="inputCategory" name="category">
-					  </select>
-					</div>
-				</div>
+					<label class="mr-sm-2" for="inputCategory">Category</label>
+					  
 			  </div>
 			  <div class="form-group">
 			    <label for="inputProductName" class="col-sm-2 col-form-label">Product Name</label>

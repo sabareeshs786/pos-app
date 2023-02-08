@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="baseUrl" th:attr="content=${baseUrl}">
 <meta name="orderId" th:attr="content=${orderId}">
-<meta name="info" th:attr="content=${info}">
+<!-- <meta name="info" th:attr="content=${info}"> -->
+<meta name="role" content="${info.getRole()}">
 <meta name="mode" th:attr="content=${mode}">
 
 <script th:src="@{/static/c30beb553f.js}" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+<!-- <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}"> -->
 <script th:src="@{/static/js/jquery.validate.min.js}"></script>
 <script th:src="@{/static/js/additional-methods.min.js}"></script>
 <link rel="stylesheet" th:href="@{/static/app.css}">
@@ -57,6 +58,11 @@
        <li class="nav-item">
         <a class="btn btn-primary" th:href="@{/site/login}">Login</a>
       </li>
+      &nbsp;
+      &nbsp;
+      <li class="nav-item">
+        <a class="btn btn-primary" th:href="@{/site/signup}">SignUp</a>
+      </li>
     </ul>
  
   </div>
@@ -95,6 +101,8 @@
           <a class="dropdown-item" th:href="@{/ui/brandreport}">Brand Report</a>
           <a class="dropdown-item" th:href="@{/ui/inventoryreport}">Inventory Report</a>
           <a class="dropdown-item" th:href="@{/ui/salesreport}">Sales Report</a>
+          <hr>
+          <a class="dropdown-item" th:href="@{/ui/scheduler}">Scheduler</a>
         </div>
       </li>
       <li class="nav-item">

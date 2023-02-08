@@ -13,7 +13,6 @@ import com.increff.posapp.pojo.InventoryPojo;
 public class InventoryInMemDao{
 	
 	private HashMap<Integer, InventoryPojo> rows;
-	private Integer lastId;
 
 	@PostConstruct
 	public void init() {
@@ -21,9 +20,6 @@ public class InventoryInMemDao{
 	}
 	
 	public void insert(InventoryPojo p) {
-		lastId++;
-		p.setId(lastId);
-		rows.put(lastId, p);
 	}
 
 	public void delete(Integer id) {

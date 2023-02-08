@@ -14,7 +14,7 @@ public class FormNormalizer {
 		form.setBrand(form.getBrand().toLowerCase());
 		form.setCategory(form.getCategory().toLowerCase());
 		form.setName(form.getName().toLowerCase());
-		form.setMrp(DoubleUtil.roundToString(Double.parseDouble(form.getMrp())));
+		form.setMrp(Double.parseDouble(DoubleUtil.roundToString(form.getMrp())));
 	}
 
 	public static void inventoryFormNormalizer(InventoryForm form) throws ApiException {

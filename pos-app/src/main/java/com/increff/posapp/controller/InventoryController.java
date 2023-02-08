@@ -3,6 +3,7 @@ package com.increff.posapp.controller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.InventoryDto;
@@ -12,7 +13,10 @@ import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+
 @Api
+@Validated
 @RestController
 public class InventoryController {
 	
@@ -22,7 +26,7 @@ public class InventoryController {
 
 	@ApiOperation(value = "Adds a new product and it's quantity")
 	@RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm form) throws ApiException {
+	public void add(@Valid @RequestBody InventoryForm form) throws ApiException {
 		inventoryDto.add(form);
 	}
 
@@ -39,7 +43,7 @@ public class InventoryController {
 
 	@ApiOperation(value = "Updates the inventory by id")
 	@RequestMapping(path = "/api/inventory/{productId}", method = RequestMethod.PUT)
-	public void update(@PathVariable Integer productId, @RequestBody InventoryForm f) throws ApiException {
+	public void update(@PathVariable Integer productId,@Valid @RequestBody InventoryForm f) throws ApiException {
 		inventoryDto.updateByProductId(productId, f);
 	}
 

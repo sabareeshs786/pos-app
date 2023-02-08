@@ -3,19 +3,27 @@
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-<span class="nc" id="L7">@Setter</span>
-<span class="nc" id="L8">public class ProductForm {</span>
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
-<span class="nc" id="L10">	private String barcode;</span>
-<span class="nc" id="L11">	private String brand;</span>
-<span class="nc" id="L12">	private String category;</span>
-<span class="nc" id="L13">	private String name;</span>
-<span class="nc" id="L14">	private String mrp;</span>
+@Getter
+<span class="nc" id="L10">@Setter</span>
+<span class="nc" id="L11">public class ProductForm {</span>
+
+	@Size(max = 20)
+<span class="nc" id="L14">	private String barcode;</span>
+	@Size(max = 20)
+<span class="nc" id="L16">	private String brand;</span>
+	@Size(max = 20)
+<span class="nc" id="L18">	private String category;</span>
+	@Size(max = 30)
+<span class="nc" id="L20">	private String name;</span>
+	@Max(value = Integer.MAX_VALUE)
+<span class="nc" id="L22">	private Double mrp;</span>
 	
 	@Override
 	public String toString() {
-<span class="nc" id="L18">		return &quot;ProductForm [barcode=&quot; + barcode + &quot;, brand=&quot; + brand + &quot;, category=&quot; + category + &quot;, name=&quot; + name</span>
+<span class="nc" id="L26">		return &quot;ProductForm [barcode=&quot; + barcode + &quot;, brand=&quot; + brand + &quot;, category=&quot; + category + &quot;, name=&quot; + name</span>
 				+ &quot;, mrp=&quot; + mrp + &quot;]&quot;;
 	}
 	

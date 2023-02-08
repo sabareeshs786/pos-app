@@ -21,14 +21,18 @@
 						color="black" font-weight="bold" space-after="5mm" space-before="20pt">
 						Invoice
 					</fo:block>
-					<fo:block font-size="12pt" space-before="35pt">
+					<fo:block text-align="left" font-size="16pt" font-family="Helvetica"
+							  color="black" font-weight="bold" space-after="5mm" space-before="20pt">
+						Date: <xsl:value-of select="date"/>
+					</fo:block>
+					<fo:block font-size="11pt" space-before="35pt">
 						<fo:table table-layout="fixed" width="100%"
-							border-collapse="separate" line-height="25px">
+							border-collapse="separate" line-height="25px" text-align="center">
+							<fo:table-column column-width="1cm" />
 							<fo:table-column column-width="5cm" />
-							<fo:table-column column-width="5cm" />
-							<fo:table-column column-width="5cm" />
-							<fo:table-column column-width="5cm" />
-							<fo:table-column column-width="5cm" />
+							<fo:table-column column-width="3cm" />
+							<fo:table-column column-width="3cm" />
+							<fo:table-column column-width="3cm" />
 							<fo:table-header>
 								<fo:table-cell
 									xsl:use-attribute-sets="tableBorder">
@@ -55,6 +59,11 @@
 								<xsl:apply-templates select="item" />
 							</fo:table-body>
 						</fo:table>
+					</fo:block>
+					<fo:block text-align="center" font-size="16pt" font-family="Helvetica"
+							  color="black" font-weight="bold" space-after="5mm" space-before="20pt">
+						Total:
+							<xsl:value-of select="total"/>
 					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>

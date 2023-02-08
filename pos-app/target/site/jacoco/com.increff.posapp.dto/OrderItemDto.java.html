@@ -120,7 +120,7 @@ import java.util.Objects;
 <span class="nc" id="L120">		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());</span>
 <span class="nc" id="L121">		inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
 <span class="nc" id="L122">		inventoryPojo.setQuantity(inventoryPojo.getQuantity() - orderItemEditForm.getQuantity());</span>
-<span class="nc" id="L123">		inventoryService.updateById(inventoryPojo.getId(),  inventoryPojo);</span>
+<span class="nc" id="L123">		inventoryService.updateByProductId(inventoryPojo.getProductId(),  inventoryPojo);</span>
 
 		//ORDERITEM UPDATION
 <span class="nc" id="L126">		orderItemPojo.setProductId(productPojo.getId());</span>
@@ -138,7 +138,7 @@ import java.util.Objects;
 <span class="nc" id="L138">		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());</span>
 <span class="nc bnc" id="L139" title="All 2 branches missed.">		if(finalQuantity &lt; initialQuantity){</span>
 <span class="nc" id="L140">			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));</span>
-<span class="nc" id="L141">			inventoryService.updateById(inventoryPojo.getId(), inventoryPojo);</span>
+<span class="nc" id="L141">			inventoryService.updateByProductId(inventoryPojo.getProductId(), inventoryPojo);</span>
 <span class="nc" id="L142">			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());</span>
 <span class="nc" id="L143">			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());</span>
 <span class="nc" id="L144">			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);</span>
@@ -151,7 +151,7 @@ import java.util.Objects;
 <span class="nc" id="L151">				throw new ApiException(&quot;Required additional quantity is not present&quot;);</span>
 			}
 <span class="nc" id="L153">			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));</span>
-<span class="nc" id="L154">			inventoryService.updateById(inventoryPojo.getId(), inventoryPojo);</span>
+<span class="nc" id="L154">			inventoryService.updateByProductId(inventoryPojo.getProductId(), inventoryPojo);</span>
 <span class="nc" id="L155">			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());</span>
 <span class="nc" id="L156">			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());</span>
 <span class="nc" id="L157">			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);</span>

@@ -1,4 +1,4 @@
-package com.increff.posapp.service;
+package com.increff.posapp.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -19,6 +19,5 @@ import org.springframework.context.annotation.PropertySources;
 		@PropertySource(value = "classpath:./com/increff/posapp/test.properties", ignoreResourceNotFound = false) //
 })
 public class QaConfig {
-
 
 }

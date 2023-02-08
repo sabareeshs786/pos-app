@@ -1,4 +1,5 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/SpringConfig.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SchedulerForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/BrandController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/InventoryDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/UserPojo.java
@@ -26,6 +27,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderInMemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/ProductPojo.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SignUpController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/UserForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/ProductData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SchedulerData.java
@@ -89,3 +91,4 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/UserPrincipal.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/InventoryReportData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AppUiController.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SignUpForm.java

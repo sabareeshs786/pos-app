@@ -10,6 +10,7 @@ import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.FormValidator;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
@@ -21,7 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
+
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -31,110 +32,119 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Base64;
 
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">@Component</span>
-<span class="fc" id="L41">public class OrderDto {</span>
+@Component
+<span class="fc" id="L47">public class OrderDto {</span>
 
 	@Autowired
 	private ProductService productService;
-
 	@Autowired
 	private InventoryService inventoryService;
 	@Autowired
 	private OrderService orderService;
-
 	@Autowired
 	private OrderItemService orderItemService;
-<span class="fc" id="L53">	private static final Logger logger = Logger.getLogger(OrderDto.class);</span>
-	//private static final String RESOURCES_DIR = System.getProperty(&quot;user.dir&quot;) + &quot;/src/main/resources/com/increff/posapp&quot;;
+<span class="fc" id="L57">	private static final Logger logger = Logger.getLogger(OrderDto.class);</span>
+<span class="fc" id="L58">	private static final String RESOURCES_DIR = System.getProperty(&quot;user.dir&quot;) + &quot;/src/main/resources/com/increff/posapp&quot;;</span>
+
+
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderForm form) throws ApiException {
 
-<span class="nc" id="L58">		OrderPojo orderPojo = new OrderPojo(&quot;Asia/Kolkata&quot;);</span>
-<span class="nc" id="L59">		orderService.add(orderPojo);</span>
-<span class="nc" id="L60">		Integer len = form.getBarcodes().size();</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">		for(int i=0; i &lt; len; i++) {</span>
-<span class="nc" id="L62">			FormValidator.orderFormValidator(form);</span>
+<span class="nc" id="L64">		OrderPojo orderPojo = new OrderPojo(&quot;Asia/Kolkata&quot;);</span>
+<span class="nc" id="L65">		orderService.add(orderPojo);</span>
+<span class="nc" id="L66">		Integer len = form.getBarcodes().size();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for(int i=0; i &lt; len; i++) {</span>
+<span class="nc" id="L68">			FormValidator.orderFormValidator(form);</span>
 
-<span class="nc" id="L64">			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));</span>
-<span class="nc" id="L65">			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
-<span class="nc" id="L66">			Integer productId = inventoryPojo.getProductId();</span>
-<span class="nc" id="L67">			Double mrp = productPojo.getMrp();</span>
-<span class="nc" id="L68">			Integer initialQuantity = inventoryPojo.getQuantity();</span>
+<span class="nc" id="L70">			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));</span>
+<span class="nc" id="L71">			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
+<span class="nc" id="L72">			Integer productId = inventoryPojo.getProductId();</span>
+<span class="nc" id="L73">			Double mrp = productPojo.getMrp();</span>
+<span class="nc" id="L74">			Integer initialQuantity = inventoryPojo.getQuantity();</span>
 
-<span class="nc" id="L70">			validateMrp(form.getSellingPrices().get(i), mrp);</span>
-<span class="nc" id="L71">			validateQuantityRequest(form.getQuantities().get(i), initialQuantity);</span>
+<span class="nc" id="L76">			validateMrp(form.getSellingPrices().get(i), mrp);</span>
+<span class="nc" id="L77">			validateQuantityRequest(form.getQuantities().get(i), initialQuantity);</span>
 
-<span class="nc" id="L73">			Integer finalQuantity = initialQuantity - form.getQuantities().get(i);</span>
-<span class="nc" id="L74">			inventoryPojo.setQuantity(finalQuantity);</span>
-<span class="nc" id="L75">			inventoryService.updateByProductId(productId, inventoryPojo);</span>
+<span class="nc" id="L79">			Integer finalQuantity = initialQuantity - form.getQuantities().get(i);</span>
+<span class="nc" id="L80">			inventoryPojo.setQuantity(finalQuantity);</span>
+<span class="nc" id="L81">			inventoryService.updateByProductId(productId, inventoryPojo);</span>
 
-<span class="nc" id="L77">			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, productId);</span>
-<span class="nc" id="L78">			orderItemService.add(orderItemPojo);</span>
+<span class="nc" id="L83">			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, productId);</span>
+<span class="nc" id="L84">			orderItemService.add(orderItemPojo);</span>
 		}
 
-<span class="nc" id="L81">	}</span>
+<span class="nc" id="L87">	}</span>
 
 	public List&lt;OrderData&gt; getAll() throws ApiException {
-<span class="nc" id="L84">		List&lt;OrderPojo&gt; list = orderService.getAll();</span>
-<span class="nc" id="L85">		List&lt;OrderData&gt; list2 = new ArrayList&lt;OrderData&gt;();</span>
-<span class="nc" id="L86">		Double totalAmount = 0.0;</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">		for (OrderPojo orderPojo : list) {</span>
-<span class="nc" id="L88">			totalAmount = 0.00;</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){</span>
-<span class="nc" id="L90">				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();</span>
-<span class="nc" id="L91">			}</span>
-<span class="nc" id="L92">			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));</span>
-<span class="nc" id="L93">		}</span>
-<span class="nc" id="L94">		return list2;</span>
+<span class="nc" id="L90">		List&lt;OrderPojo&gt; list = orderService.getAll();</span>
+<span class="nc" id="L91">		List&lt;OrderData&gt; list2 = new ArrayList&lt;OrderData&gt;();</span>
+<span class="nc" id="L92">		Double totalAmount = 0.0;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">		for (OrderPojo orderPojo : list) {</span>
+<span class="nc" id="L94">			totalAmount = 0.00;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){</span>
+<span class="nc" id="L96">				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();</span>
+<span class="nc" id="L97">			}</span>
+<span class="nc" id="L98">			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));</span>
+<span class="nc" id="L99">		}</span>
+<span class="nc" id="L100">		return list2;</span>
 	}
 
 	public Page&lt;OrderData&gt; getAll(Integer page, Integer size) throws ApiException {
-<span class="nc" id="L98">		Page&lt;OrderPojo&gt; pojoPage = orderService.getAllByPage(page, size);</span>
-<span class="nc" id="L99">		List&lt;OrderPojo&gt; list = pojoPage.getContent();</span>
-<span class="nc" id="L100">		List&lt;OrderData&gt; list2 = new ArrayList&lt;OrderData&gt;();</span>
-<span class="nc" id="L101">		Double totalAmount = 0.0;</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">		for (OrderPojo orderPojo : list) {</span>
-<span class="nc" id="L103">			totalAmount = 0.00;</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){</span>
-<span class="nc" id="L105">				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();</span>
-<span class="nc" id="L106">			}</span>
-<span class="nc" id="L107">			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));</span>
-<span class="nc" id="L108">		}</span>
-<span class="nc" id="L109">		Page&lt;OrderData&gt; dataPage = new PageImpl&lt;&gt;(list2, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
-<span class="nc" id="L110">		return dataPage;</span>
+<span class="nc" id="L104">		Page&lt;OrderPojo&gt; pojoPage = orderService.getAllByPage(page, size);</span>
+<span class="nc" id="L105">		List&lt;OrderPojo&gt; list = pojoPage.getContent();</span>
+<span class="nc" id="L106">		List&lt;OrderData&gt; list2 = new ArrayList&lt;OrderData&gt;();</span>
+<span class="nc" id="L107">		Double totalAmount = 0.0;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		for (OrderPojo orderPojo : list) {</span>
+<span class="nc" id="L109">			totalAmount = 0.00;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){</span>
+<span class="nc" id="L111">				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();</span>
+<span class="nc" id="L112">			}</span>
+<span class="nc" id="L113">			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));</span>
+<span class="nc" id="L114">		}</span>
+<span class="nc" id="L115">		Page&lt;OrderData&gt; dataPage = new PageImpl&lt;&gt;(list2, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
+<span class="nc" id="L116">		return dataPage;</span>
 	}
+
 	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
-<span class="nc" id="L113">		 List&lt;OrderItemPojo&gt; orderItemPojoList = orderItemService.getByOrderId(orderId);</span>
-<span class="nc" id="L114">		 List&lt;OrderItemData&gt; orderItemDataList = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">		 for(OrderItemPojo orderItemPojo:orderItemPojoList){</span>
-<span class="nc" id="L116">			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());</span>
-<span class="nc" id="L117">			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));</span>
-<span class="nc" id="L118">		 }</span>
+<span class="nc" id="L120">		 List&lt;OrderItemPojo&gt; orderItemPojoList = orderItemService.getByOrderId(orderId);</span>
+<span class="nc" id="L121">		 OrderPojo orderPojo = orderService.getById(orderId);</span>
+<span class="nc" id="L122">		 String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), &quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L123">		 List&lt;OrderItemData&gt; orderItemDataList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		 for(OrderItemPojo orderItemPojo:orderItemPojoList){</span>
+<span class="nc" id="L125">			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());</span>
+<span class="nc" id="L126">			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));</span>
+<span class="nc" id="L127">		 }</span>
 
-<span class="nc" id="L120">		 logger.info(&quot;OrderItemPojoList Size: &quot;+orderItemPojoList.size());</span>
+<span class="nc" id="L129">		 logger.info(&quot;OrderItemPojoList Size: &quot;+orderItemPojoList.size());</span>
 
-<span class="nc" id="L122">		 List&lt;Integer&gt; orderItemsIds = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L123">		 List&lt;String&gt; productNames = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L124">		 List&lt;Integer&gt; quantities = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L125">		 List&lt;String&gt; sellingPrices = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L126">		 List&lt;String&gt; mrps = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">		for(OrderItemData orderItemData: orderItemDataList){</span>
-<span class="nc" id="L128">			orderItemsIds.add(orderItemData.getId());</span>
-<span class="nc" id="L129">			productNames.add(orderItemData.getProductName());</span>
-<span class="nc" id="L130">			quantities.add(orderItemData.getQuantity());</span>
-<span class="nc" id="L131">			sellingPrices.add(orderItemData.getSellingPrice());</span>
-<span class="nc" id="L132">			mrps.add(orderItemData.getMrp());</span>
-<span class="nc" id="L133">		}</span>
-<span class="nc" id="L134">		logger.info(&quot;Fields created&quot;);</span>
+<span class="nc" id="L131">		 List&lt;Integer&gt; orderItemsIds = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L132">		 List&lt;String&gt; productNames = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L133">		 List&lt;Integer&gt; quantities = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L134">		 List&lt;String&gt; sellingPrices = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L135">		 List&lt;String&gt; mrps = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">		for(OrderItemData orderItemData: orderItemDataList){</span>
+<span class="nc" id="L137">			orderItemsIds.add(orderItemData.getId());</span>
+<span class="nc" id="L138">			productNames.add(orderItemData.getProductName());</span>
+<span class="nc" id="L139">			quantities.add(orderItemData.getQuantity());</span>
+<span class="nc" id="L140">			sellingPrices.add(orderItemData.getSellingPrice());</span>
+<span class="nc" id="L141">			mrps.add(orderItemData.getMrp());</span>
+<span class="nc" id="L142">		}</span>
+<span class="nc" id="L143">		logger.info(&quot;Fields created&quot;);</span>
 
 		// invoice-app is called
-<span class="nc" id="L137">		String base64EncodedString = PdfService.getBase64String(</span>
+<span class="nc" id="L146">		String base64EncodedString = PdfService.getBase64String(</span>
+				date,
 				orderItemsIds,
 				productNames,
 				quantities,
@@ -142,60 +152,39 @@ import java.util.List;
 				mrps
 		);
 
-<span class="nc" id="L145">		 logger.info(&quot;Got encoded string&quot;);</span>
-<span class="nc" id="L146">		 logger.info(&quot;Encoded string: &quot;+base64EncodedString);</span>
-<span class="nc" id="L147">		 byte[] decodedBytes = Base64Utils.decodeFromString(base64EncodedString);</span>
-<span class="nc" id="L148">		 logger.info(&quot;Decoded bytes: &quot;+decodedBytes.toString());</span>
-<span class="nc bnc" id="L149" title="All 4 branches missed.">		 assert decodedBytes != null;</span>
+<span class="nc" id="L155">		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);</span>
 
-//		 ByteArrayInputStream inputStream = new ByteArrayInputStream(base64EncodedString.getBytes());
-<span class="nc" id="L152">		 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();</span>
+//			 byte[] pdfBytes = outputStream.toByteArray();
+//			 HttpHeaders headers = new HttpHeaders();
+//			 headers.setContentType(MediaType.APPLICATION_PDF);
+//			 headers.setContentLength(pdfBytes.length);
+//			 headers.setContentDispositionFormData(&quot;attachment&quot;, &quot;invoice.pdf&quot;);
+//			 String pdfFileName = &quot;output.pdf&quot;;
+//			 response.reset();
+//			 response.addHeader(&quot;Pragma&quot;, &quot;public&quot;);
+//			 response.addHeader(&quot;Cache-Control&quot;, &quot;max-age=0&quot;);
+//			 response.setHeader(&quot;Content-disposition&quot;, &quot;attachment;filename=&quot; + pdfFileName);
+//			 response.setContentType(&quot;application/pdf&quot;);
 
-<span class="nc" id="L154">		 FopFactory fopFactory = FopFactory.newInstance(new File(&quot;.&quot;).toURI());</span>
-<span class="nc" id="L155">		 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);</span>
-
-<span class="nc" id="L157">		 TransformerFactory factory = TransformerFactory.newInstance();</span>
-<span class="nc" id="L158">		 Transformer transformer = factory.newTransformer(new StreamSource(new File(&quot;invoice.xsl&quot;)));</span>
-<span class="nc" id="L159">		 transformer.transform(new StreamSource(new File(&quot;invoice.xml&quot;)), new SAXResult(fop.getDefaultHandler()));</span>
-
-//		 byte[] pdfBytes = outputStream.toByteArray();
-//		 HttpHeaders headers = new HttpHeaders();
-//		 headers.setContentType(MediaType.APPLICATION_PDF);
-//		 headers.setContentLength(pdfBytes.length);
-//		 headers.setContentDispositionFormData(&quot;attachment&quot;, &quot;invoice.pdf&quot;);
-//		 String pdfFileName = &quot;output.pdf&quot;;
-//		 response.reset();
-//		 response.addHeader(&quot;Pragma&quot;, &quot;public&quot;);
-//		 response.addHeader(&quot;Cache-Control&quot;, &quot;max-age=0&quot;);
-//		 response.setHeader(&quot;Content-disposition&quot;, &quot;attachment;filename=&quot; + pdfFileName);
-//		 response.setContentType(&quot;application/pdf&quot;);
-//
-//		 // avoid &quot;byte shaving&quot; by specifying precise length of transferred data
-//		 response.setContentLength(outputStream.size());
-//		 ServletOutputStream servletOutputStream = response.getOutputStream();
-//		 servletOutputStream.write(outputStream.toByteArray());
-//		 servletOutputStream.flush();
-//		 servletOutputStream.close();
 		 //Prepare response
-<span class="nc" id="L180">		 response.setContentType(&quot;application/pdf&quot;);</span>
-<span class="nc" id="L181">		 response.setContentLength(outputStream.size());</span>
+<span class="nc" id="L170">		 response.setContentType(&quot;application/pdf&quot;);</span>
+<span class="nc" id="L171">		 response.setContentLength(decodedBytes.length);</span>
 
 		 //Send content to Browser
-<span class="nc" id="L184">		 response.getOutputStream().write(outputStream.toByteArray());</span>
-<span class="nc" id="L185">		 response.getOutputStream().flush();</span>
-<span class="nc" id="L186">		 logger.info(&quot;PDF generated&quot;);</span>
-
-<span class="nc" id="L188">	 }</span>
+<span class="nc" id="L174">		 response.getOutputStream().write(decodedBytes);</span>
+<span class="nc" id="L175">		 response.getOutputStream().flush();</span>
+<span class="nc" id="L176">		 logger.info(&quot;PDF generated&quot;);</span>
+<span class="nc" id="L177">	 }</span>
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {
-<span class="nc bnc" id="L190" title="All 2 branches missed.">		if (sellingPrice &gt; mrp) {</span>
-<span class="nc" id="L191">			throw new ApiException(&quot;Selling price must be less than MRP&quot;);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		if (sellingPrice &gt; mrp) {</span>
+<span class="nc" id="L180">			throw new ApiException(&quot;Selling price must be less than MRP&quot;);</span>
 		}
-<span class="nc" id="L193">	}</span>
+<span class="nc" id="L182">	}</span>
 
 	private void validateQuantityRequest(Integer requestedQuantity, Integer initialQuantity) throws ApiException {
-<span class="nc bnc" id="L196" title="All 2 branches missed.">		if (initialQuantity &lt; requestedQuantity) {</span>
-<span class="nc" id="L197">			throw new ApiException(&quot;Entered quantity is greater than quantity present in inventory&quot;);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (initialQuantity &lt; requestedQuantity) {</span>
+<span class="nc" id="L186">			throw new ApiException(&quot;Entered quantity is greater than quantity present in inventory&quot;);</span>
 		}
-<span class="nc" id="L199">	}</span>
+<span class="nc" id="L188">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

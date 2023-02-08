@@ -3,17 +3,20 @@
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Getter
-<span class="nc" id="L11">@Setter</span>
-<span class="nc" id="L12">public class SalesReportForm {</span>
+<span class="nc" id="L12">@Setter</span>
+<span class="nc" id="L13">public class SalesReportForm {</span>
 
-<span class="nc" id="L14">	private LocalDateTime startDate;</span>
-<span class="nc" id="L15">	private LocalDateTime endDate;</span>
-<span class="nc" id="L16">	private String brand;</span>
-<span class="nc" id="L17">	private String category;</span>
+<span class="nc" id="L15">	private LocalDateTime startDate;</span>
+<span class="nc" id="L16">	private LocalDateTime endDate;</span>
+	@Size(max = 20)
+<span class="nc" id="L18">	private String brand;</span>
+	@Size(max = 20)
+<span class="nc" id="L20">	private String category;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -9,18 +9,18 @@ import com.increff.posapp.service.ApiException;
 	}
 
 	public static String toLowerCase(String s) {
-<span class="fc bfc" id="L12" title="All 2 branches covered.">		return s == null ? null : s.trim().toLowerCase();</span>
+<span class="pc bpc" id="L12" title="1 of 2 branches missed.">		return s == null ? null : s.trim().toLowerCase();</span>
 	}
 
 	public static void checkValid(String s) throws ApiException {
-<span class="nc" id="L16">		StringBuilder sb = new StringBuilder();</span>
-<span class="nc bnc" id="L17" title="All 4 branches missed.">		for (int i = 0; i &lt; Integer.MAX_VALUE &amp;&amp; i &lt; s.length(); i++) {</span>
+<span class="fc" id="L16">		StringBuilder sb = new StringBuilder();</span>
+<span class="pc bpc" id="L17" title="1 of 4 branches missed.">		for (int i = 0; i &lt; Integer.MAX_VALUE &amp;&amp; i &lt; s.length(); i++) {</span>
 			try {
-<span class="nc" id="L19">				sb.append(s.charAt(i));</span>
+<span class="fc" id="L19">				sb.append(s.charAt(i));</span>
 <span class="nc" id="L20">			} catch (Throwable e) {</span>
 <span class="nc" id="L21">				throw new ApiException(&quot;Maximum limit of characters exceeded&quot;);</span>
-<span class="nc" id="L22">			}</span>
+<span class="fc" id="L22">			}</span>
 		}
-<span class="nc" id="L24">	}</span>
+<span class="fc" id="L24">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

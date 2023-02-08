@@ -23,12 +23,12 @@ import com.increff.posapp.util.FormValidator;
 	@Autowired
 	private BrandService brandService;
 	
-	public void add(BrandForm form) throws ApiException {
+	public BrandData add(BrandForm form) throws ApiException {
 <span class="nc" id="L27">		FormValidator.brandFormValidator(form);</span>
 <span class="nc" id="L28">		FormNormalizer.brandFormNormalizer(form);</span>
 <span class="nc" id="L29">		BrandPojo brandPojo = Converter.convertToBrandPojo(form);</span>
-<span class="nc" id="L30">		brandService.add(brandPojo);</span>
-<span class="nc" id="L31">	}</span>
+<span class="nc" id="L30">		return brandService.add(brandPojo);</span>
+	}
 
 	public Page&lt;BrandData&gt; getData(Integer id, Integer page, Integer size) throws ApiException {
 <span class="nc bnc" id="L34" title="All 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
@@ -71,11 +71,11 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L71">		return dataPage;</span>
 	}
 
-	public void updateById(Integer id, BrandForm form) throws ApiException {
+	public BrandData updateById(Integer id, BrandForm form) throws ApiException {
 <span class="nc" id="L75">		FormValidator.brandFormValidator(form);</span>
 <span class="nc" id="L76">		FormNormalizer.brandFormNormalizer(form);</span>
 <span class="nc" id="L77">		BrandPojo p = Converter.convertToBrandPojo(form);</span>
-<span class="nc" id="L78">		brandService.updateById(id, p);</span>
-<span class="nc" id="L79">	}</span>
+<span class="nc" id="L78">		return Converter.convertToBrandData(brandService.updateById(id, p));</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -5,6 +5,12 @@ import com.increff.posapp.service.ApiException;
 
 public class FormValidator {
 	public static void brandFormValidator(BrandForm form) throws ApiException {
+		if(form.getBrand() == null){
+			throw new ApiException("Brand is not obtained in the backend");
+		}
+		if(form.getCategory() == null){
+			throw new ApiException("Category is not obtained in the backend");
+		}
 		if (form.getBrand().toString().isEmpty()) {
 			throw new ApiException("Brand cannot be empty");
 		}
@@ -26,7 +32,7 @@ public class FormValidator {
 		if (form.getMrp().toString().isEmpty()) {
 			throw new ApiException("MRP cannot be empty");
 		}
-		if (Double.parseDouble(form.getMrp()) <= 0) {
+		if (form.getMrp() <= 0) {
 			throw new ApiException("MRP must be greater than zero");
 		}
 		if (form.getName().isEmpty()) {

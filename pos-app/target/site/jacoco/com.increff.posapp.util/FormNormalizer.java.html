@@ -14,7 +14,7 @@ import com.increff.posapp.service.ApiException;
 <span class="nc" id="L14">		form.setBrand(form.getBrand().toLowerCase());</span>
 <span class="nc" id="L15">		form.setCategory(form.getCategory().toLowerCase());</span>
 <span class="nc" id="L16">		form.setName(form.getName().toLowerCase());</span>
-<span class="nc" id="L17">		form.setMrp(DoubleUtil.roundToString(Double.parseDouble(form.getMrp())));</span>
+<span class="nc" id="L17">		form.setMrp(Double.parseDouble(DoubleUtil.roundToString(form.getMrp())));</span>
 <span class="nc" id="L18">	}</span>
 
 	public static void inventoryFormNormalizer(InventoryForm form) throws ApiException {

@@ -20,7 +20,7 @@ function addInventory(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess(response);
+			handleAjaxSuccess("Inventory updated!!!");
 			getInventoryListUtil();  
 		},
 		error: handleAjaxError
@@ -91,7 +91,7 @@ function processData(){
 }
 
 function readFileDataCallback(results){
-	fileData = results.data;
+	fileData = results;
 	uploadRows();
 }
 

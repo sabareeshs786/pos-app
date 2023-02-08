@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 	@ApiOperation(value = &quot;Initializes application&quot;)
 	@RequestMapping(path = &quot;/site/init&quot;, method = RequestMethod.GET)
 	public ModelAndView showPage(UserForm form) throws ApiException {
-<span class="nc" id="L37">		info.setMessage(&quot;&quot;);</span>
+<span class="nc" id="L37">		info.setMessage(&quot;Initializing application&quot;);</span>
 <span class="nc" id="L38">		return mav(&quot;init.html&quot;);</span>
 	}
 

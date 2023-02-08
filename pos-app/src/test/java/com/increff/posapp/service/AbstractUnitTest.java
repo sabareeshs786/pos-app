@@ -2,6 +2,7 @@ package com.increff.posapp.service;
 
 import javax.transaction.Transactional;
 
+import com.increff.posapp.config.QaConfig;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

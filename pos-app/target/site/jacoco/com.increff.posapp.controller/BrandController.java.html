@@ -4,6 +4,7 @@ import com.increff.posapp.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.BrandDto;
@@ -13,20 +14,21 @@ import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+
 @Api
+@Validated
 @RestController
-<span class="fc" id="L18">public class BrandController {</span>
-<span class="fc" id="L19">	private static final Logger logger = Logger.getLogger(BrandController.class);</span>
+<span class="fc" id="L22">public class BrandController {</span>
+<span class="fc" id="L23">	private static final Logger logger = Logger.getLogger(BrandController.class);</span>
 	@Autowired
 	private BrandDto brandDto;
 
 	@ApiOperation(value = &quot;Adds a new item of a particular brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.POST)
-	public void add(@RequestBody BrandForm form) throws ApiException {
-<span class="nc" id="L26">		StringUtil.checkValid(form.getBrand());</span>
-<span class="nc" id="L27">		StringUtil.checkValid(form.getCategory());</span>
-<span class="nc" id="L28">		brandDto.add(form);</span>
-<span class="nc" id="L29">	}</span>
+	public BrandData add(@Valid @RequestBody BrandForm form) throws ApiException {
+<span class="nc" id="L30">		return brandDto.add(form);</span>
+	}
 
 	@ApiOperation(value = &quot;Gets the requested brand data&quot;)
 	@RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.GET)
@@ -35,15 +37,15 @@ import io.swagger.annotations.ApiOperation;
 			@RequestParam(name = &quot;pagenumber&quot;, required = false) Integer page,
 			@RequestParam(required = false) Integer size
 	) throws ApiException {
-<span class="nc" id="L38">		logger.info(&quot;Id=&quot;+id+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
-<span class="nc" id="L39">		return brandDto.getData(id, page, size);</span>
+<span class="nc" id="L40">		logger.info(&quot;Id=&quot;+id+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
+<span class="nc" id="L41">		return brandDto.getData(id, page, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates a brand and category&quot;)
 	@RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
-<span class="nc" id="L45">		brandDto.updateById(id, form);</span>
-<span class="nc" id="L46">	}</span>
+	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException {
+<span class="nc" id="L47">		return brandDto.updateById(id, form);</span>
+	}
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

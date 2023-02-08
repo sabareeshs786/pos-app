@@ -19,7 +19,7 @@ function addBrand(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess();
+			handleAjaxSuccess("Success!!!\nBrand "+response.brand+" and category "+response.category+" added successfully!!");
 			getBrandListUtil();
 		},
 		error: handleAjaxError
@@ -47,8 +47,9 @@ function updateBrand(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			
-			getBrandListUtil();   
+			var jsonObj = JSON.parse(json);
+			handleAjaxSuccess("Update successfull!!!");
+			getBrandListUtil(); 
 		},
 		error: handleAjaxError
 		});
@@ -86,15 +87,17 @@ var processCount = 0;
 
 function processData(){
 	var file = $('#brandFile')[0].files[0];
+	console.log(file);
 	readFileData(file, readFileDataCallback);
 }
 
 function readFileDataCallback(results){
-	fileData = results.data;
+	fileData = results;
+	console.log(fileData);
 	uploadRows();
 }
 
-function uploadRows(){
+function uploadRows(response){
 	//Update progress
 	updateUploadDialog();
 	//If everything processed then return
@@ -120,7 +123,7 @@ function uploadRows(){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		uploadRows();
+	   		uploadRows(response);
 	   },
 	   error: function(response){
 	   		row.error=response.responseText

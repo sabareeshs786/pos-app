@@ -18,19 +18,22 @@ import org.springframework.web.servlet.ModelAndView;
 <span class="nc" id="L18">		return mav(&quot;login.html&quot;);</span>
 	}
 
+	@RequestMapping(value = &quot;/site/signup&quot;)
+<span class="nc" id="L22">	public ModelAndView signUp(){return mav(&quot;signup.html&quot;);}</span>
+
 	@RequestMapping(value = &quot;/site/logout&quot;)
 	public ModelAndView logout() {
-<span class="nc" id="L23">		return mav(&quot;logout.html&quot;);</span>
+<span class="nc" id="L26">		return mav(&quot;logout.html&quot;);</span>
 	}
 
 	@RequestMapping(value = &quot;/site/pricing&quot;)
 	public ModelAndView pricing() {
-<span class="nc" id="L28">		return mav(&quot;pricing.html&quot;);</span>
+<span class="nc" id="L31">		return mav(&quot;pricing.html&quot;);</span>
 	}
 
 	@RequestMapping(value = &quot;/site/features&quot;)
 	public ModelAndView features() {
-<span class="nc" id="L33">		return mav(&quot;features.html&quot;);</span>
+<span class="nc" id="L36">		return mav(&quot;features.html&quot;);</span>
 	}
 
 }

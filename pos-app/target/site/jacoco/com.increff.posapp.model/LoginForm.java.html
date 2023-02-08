@@ -3,12 +3,16 @@
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-<span class="nc" id="L7">@Setter</span>
-<span class="nc" id="L8">public class LoginForm {</span>
+import javax.validation.constraints.Size;
 
-<span class="nc" id="L10">	private String email;</span>
-<span class="nc" id="L11">	private String password;</span>
+@Getter
+<span class="nc" id="L9">@Setter</span>
+<span class="nc" id="L10">public class LoginForm {</span>
+
+	@Size(min = 5, max = 50)
+<span class="nc" id="L13">	private String email;</span>
+	@Size(min = 8, max = 50)
+<span class="nc" id="L15">	private String password;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -2,12 +2,12 @@ package com.increff.invoiceapp.base64encoder;
 
 import com.increff.invoiceapp.models.InvoiceItem;
 import com.increff.invoiceapp.models.InvoiceList;
-
+import java.util.Base64;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.springframework.util.Base64Utils;
+import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,22 +16,21 @@ import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.List;
 
 
 public class PdfService {
 
-//    private static final Logger logger = Logger.getLogger(PdfService.class);
-//    private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
-    public static String getBase64String(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException, TransformerException, JAXBException, FOPException {
+    private static final Logger logger = Logger.getLogger(PdfService.class);
+    private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
+    public static String getBase64String(String date, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException, TransformerException, JAXBException, FOPException {
+//          Create the XML file
+            writeInvoiceToXml(date, orderItemsIds, productNames, quantities, sellingPrices, mrps, RESOURCES_DIR + "/invoice.xml");
+            logger.info("XML file created");
 
-
-//             Create the XML file
-            writeInvoiceToXml(orderItemsIds, productNames, quantities, sellingPrices, mrps, "invoice.xml");
-
-//             Setup FOP
+//          Setup FOP
             FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
 
             //Set up a buffer to obtain the content length
@@ -39,30 +38,30 @@ public class PdfService {
 
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
             TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(new File("invoice.xsl")));
+            Transformer transformer = factory.newTransformer(new StreamSource(new File(RESOURCES_DIR + "/invoice.xsl")));
 
             //Make sure the XSL transformation's result is piped through to FOP
             Result res = new SAXResult(fop.getDefaultHandler());
 
             //Setup input
-            Source src = new StreamSource(new File("invoice.xml"));
+            Source src = new StreamSource(new File(RESOURCES_DIR + "/invoice.xml"));
 
             //Start the transformation and rendering process
             transformer.transform(src, res);
 
             byte[] bytes = out.toByteArray();
-
+            logger.info("Bytes: >> : "+bytes.toString());
             out.flush();
             out.close();
 
-        return Base64Utils.encodeToString(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public static void writeInvoiceToXml(List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
+    public static void writeInvoiceToXml(String date, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
         JAXBContext jaxbContext = JAXBContext.newInstance(InvoiceList.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "ISO-8859-1");
 
         // Writing the data
         InvoiceList invoiceList = new InvoiceList();
@@ -76,6 +75,7 @@ public class PdfService {
             invoiceItem.setSellingPrice(sellingPrices.get(i));
             invoiceList.getItems().add(invoiceItem);
         }
+        invoiceList.setDate(date);
         invoiceList.setTotal(getTotal(sellingPrices));
 
         StringWriter sw = new StringWriter();
@@ -83,10 +83,9 @@ public class PdfService {
         jaxbMarshaller.marshal(invoiceList, sw);
         String xmlContent = sw.toString();
 
-//        logger.info("XML Content >>> "+ xmlContent);
-        System.out.println("XML Content: >>" + xmlContent);
+        logger.info("XML Content >>> "+ xmlContent);
 
-        File path = new File("invoice.xml");
+        File path = new File(fileName);
 
         //passing file instance in filewriter
         FileWriter wr = new FileWriter(path);
@@ -112,5 +111,21 @@ public class PdfService {
         }
         return total;
     }
+    private static byte[] convertStream(ByteArrayOutputStream out, Charset encoding) throws IOException {
+        ByteArrayInputStream original = new ByteArrayInputStream(out.toByteArray());
+        InputStreamReader contentReader = new InputStreamReader(original, encoding);
+        logger.info("Default charset: "+Charset.defaultCharset());
+        logger.info("Encoding: "+contentReader.getEncoding());
 
+        int readCount;
+        char[] buffer = new char[4096];
+        try (ByteArrayOutputStream converted = new ByteArrayOutputStream()) {
+            try (Writer writer = new OutputStreamWriter(converted, StandardCharsets.UTF_8)) {
+                while ((readCount = contentReader.read(buffer, 0, buffer.length)) != -1) {
+                    writer.write(buffer, 0, readCount);
+                }
+            }
+            return converted.toByteArray();
+        }
+    }
 }

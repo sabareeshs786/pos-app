@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,7 +38,6 @@ public class SchedulerDto {
 	private OrderService orderService;
 	@Autowired
 	private OrderItemService orderItemService;
-
 
 	@Scheduled(fixedRate = 60000*60*24)
 	public void updateScheduler() throws ApiException {
@@ -87,23 +87,27 @@ public class SchedulerDto {
 	}
 
 	public List<SchedulerData> getAll(){
+		logger.info("SchedulerData started executing");
 		List<SchedulerData> schedulerDataList = new ArrayList<>();
 		List<PosDaySalesPojo> pojos = schedulerService.getAll();
+		logger.info("Received all pojos: "+pojos.toString());
 		for(PosDaySalesPojo p: pojos){
 			schedulerDataList.add(Converter.convertToSchedulerData(p));
 		}
+		logger.info("Scheduler Data: "+schedulerDataList.toString());
+		logger.info("Returning data");
 		return schedulerDataList;
 	}
 
-	public Page<SchedulerData> getAll(Integer page, Integer size){
-		Page<PosDaySalesPojo> posDaySalesPojoPage = schedulerService.getAllByPage(page, size);
-		List<SchedulerData> schedulerDataList = new ArrayList<>();
-		List<PosDaySalesPojo> pojos = posDaySalesPojoPage.getContent();
-		for(PosDaySalesPojo p: pojos){
-			schedulerDataList.add(Converter.convertToSchedulerData(p));
-		}
-		return new PageImpl<>(schedulerDataList, PageRequest.of(page, size), posDaySalesPojoPage.getTotalElements());
-	}
+//	public Page<SchedulerData> getAll(Integer page, Integer size){
+//		Page<PosDaySalesPojo> posDaySalesPojoPage = schedulerService.getAllByPage(page, size);
+//		List<SchedulerData> schedulerDataList = new ArrayList<>();
+//		List<PosDaySalesPojo> pojos = posDaySalesPojoPage.getContent();
+//		for(PosDaySalesPojo p: pojos){
+//			schedulerDataList.add(Converter.convertToSchedulerData(p));
+//		}
+//		return new PageImpl<>(schedulerDataList, PageRequest.of(page, size), posDaySalesPojoPage.getTotalElements());
+//	}
 	private static LocalDate toLocalDate(OrderPojo orderPojo){
 		return orderPojo.getTime().toLocalDate();
 	}

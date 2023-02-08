@@ -5,76 +5,82 @@ import com.increff.posapp.service.ApiException;
 
 <span class="nc" id="L6">public class FormValidator {</span>
 	public static void brandFormValidator(BrandForm form) throws ApiException {
-<span class="nc bnc" id="L8" title="All 2 branches missed.">		if (form.getBrand().toString().isEmpty()) {</span>
-<span class="nc" id="L9">			throw new ApiException(&quot;Brand cannot be empty&quot;);</span>
+<span class="nc bnc" id="L8" title="All 2 branches missed.">		if(form.getBrand() == null){</span>
+<span class="nc" id="L9">			throw new ApiException(&quot;Brand is not obtained in the backend&quot;);</span>
 		}
-<span class="nc bnc" id="L11" title="All 2 branches missed.">		if (form.getCategory().toString().isEmpty()) {</span>
-<span class="nc" id="L12">			throw new ApiException(&quot;Category cannot be empty&quot;);</span>
+<span class="nc bnc" id="L11" title="All 2 branches missed.">		if(form.getCategory() == null){</span>
+<span class="nc" id="L12">			throw new ApiException(&quot;Category is not obtained in the backend&quot;);</span>
 		}
-<span class="nc" id="L14">	}</span>
+<span class="nc bnc" id="L14" title="All 2 branches missed.">		if (form.getBrand().toString().isEmpty()) {</span>
+<span class="nc" id="L15">			throw new ApiException(&quot;Brand cannot be empty&quot;);</span>
+		}
+<span class="nc bnc" id="L17" title="All 2 branches missed.">		if (form.getCategory().toString().isEmpty()) {</span>
+<span class="nc" id="L18">			throw new ApiException(&quot;Category cannot be empty&quot;);</span>
+		}
+<span class="nc" id="L20">	}</span>
 
 	public static void productFormValidator(ProductForm form) throws ApiException {
-<span class="nc bnc" id="L17" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
-<span class="nc" id="L18">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
+<span class="nc" id="L24">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L20" title="All 2 branches missed.">		if (form.getBrand().isEmpty()) {</span>
-<span class="nc" id="L21">			throw new ApiException(&quot;Brand cannot be empty&quot;);</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">		if (form.getBrand().isEmpty()) {</span>
+<span class="nc" id="L27">			throw new ApiException(&quot;Brand cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L23" title="All 2 branches missed.">		if (form.getCategory().isEmpty()) {</span>
-<span class="nc" id="L24">			throw new ApiException(&quot;Category cannot be empty&quot;);</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">		if (form.getCategory().isEmpty()) {</span>
+<span class="nc" id="L30">			throw new ApiException(&quot;Category cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L26" title="All 2 branches missed.">		if (form.getMrp().toString().isEmpty()) {</span>
-<span class="nc" id="L27">			throw new ApiException(&quot;MRP cannot be empty&quot;);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		if (form.getMrp().toString().isEmpty()) {</span>
+<span class="nc" id="L33">			throw new ApiException(&quot;MRP cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L29" title="All 2 branches missed.">		if (Double.parseDouble(form.getMrp()) &lt;= 0) {</span>
-<span class="nc" id="L30">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">		if (form.getMrp() &lt;= 0) {</span>
+<span class="nc" id="L36">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
 		}
-<span class="nc bnc" id="L32" title="All 2 branches missed.">		if (form.getName().isEmpty()) {</span>
-<span class="nc" id="L33">			throw new ApiException(&quot;Product name cannot be empty&quot;);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		if (form.getName().isEmpty()) {</span>
+<span class="nc" id="L39">			throw new ApiException(&quot;Product name cannot be empty&quot;);</span>
 		}
-<span class="nc" id="L35">	}</span>
+<span class="nc" id="L41">	}</span>
 
 	public static void inventoryFormValidator(InventoryForm form) throws ApiException {
-<span class="nc bnc" id="L38" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
-<span class="nc" id="L39">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
+<span class="nc" id="L45">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L41" title="All 2 branches missed.">		if (form.getQuantity().toString().isEmpty()) {</span>
-<span class="nc" id="L42">			throw new ApiException(&quot;Quantity cannot be empty&quot;);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		if (form.getQuantity().toString().isEmpty()) {</span>
+<span class="nc" id="L48">			throw new ApiException(&quot;Quantity cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
-<span class="nc" id="L45">			throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
+<span class="nc" id="L51">			throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
 		}
-<span class="nc" id="L47">	}</span>
+<span class="nc" id="L53">	}</span>
 
 	public static void orderFormValidator(OrderForm form) throws ApiException {
-<span class="nc" id="L50">		Integer len = form.getBarcodes().size();</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">		for(Integer i=0; i &lt; len; i++){</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">			if(form.getBarcodes().get(i).isEmpty()){</span>
-<span class="nc" id="L53">				throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
+<span class="nc" id="L56">		Integer len = form.getBarcodes().size();</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		for(Integer i=0; i &lt; len; i++){</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">			if(form.getBarcodes().get(i).isEmpty()){</span>
+<span class="nc" id="L59">				throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 			}
-<span class="nc bnc" id="L55" title="All 2 branches missed.">			if(form.getQuantities().get(i) &lt;= 0){</span>
-<span class="nc" id="L56">				throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">			if(form.getQuantities().get(i) &lt;= 0){</span>
+<span class="nc" id="L62">				throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
 			}
-<span class="nc bnc" id="L58" title="All 2 branches missed.">			if(form.getSellingPrices().get(i) &lt;= 0){</span>
-<span class="nc" id="L59">				throw new ApiException(&quot;Selling Price must be greater than zero&quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">			if(form.getSellingPrices().get(i) &lt;= 0){</span>
+<span class="nc" id="L65">				throw new ApiException(&quot;Selling Price must be greater than zero&quot;);</span>
 			}
 		}
-<span class="nc" id="L62">	}</span>
+<span class="nc" id="L68">	}</span>
 
 	public static void orderItemEditFormValidator(OrderItemEditForm form) throws ApiException {
-<span class="nc bnc" id="L65" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
-<span class="nc" id="L66">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (form.getBarcode().isEmpty()) {</span>
+<span class="nc" id="L72">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L68" title="All 2 branches missed.">		if (form.getSellingPrice().toString().isEmpty()) {</span>
-<span class="nc" id="L69">			throw new ApiException(&quot;Selling price cannot be empty&quot;);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		if (form.getSellingPrice().toString().isEmpty()) {</span>
+<span class="nc" id="L75">			throw new ApiException(&quot;Selling price cannot be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (form.getQuantity().toString().isEmpty()) {</span>
-<span class="nc" id="L72">			throw new ApiException(&quot;Quantity cannot be empty&quot;);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (form.getQuantity().toString().isEmpty()) {</span>
+<span class="nc" id="L78">			throw new ApiException(&quot;Quantity cannot be empty&quot;);</span>
 		}
 
-<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
-<span class="nc" id="L76">			throw new ApiException(&quot;Quantity must be grater than zero&quot;);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
+<span class="nc" id="L82">			throw new ApiException(&quot;Quantity must be grater than zero&quot;);</span>
 		}
-<span class="nc" id="L78">	}</span>
+<span class="nc" id="L84">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

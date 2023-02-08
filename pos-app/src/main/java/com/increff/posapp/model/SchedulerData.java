@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @Setter
 @ToString
 public class SchedulerData{
-	private ZonedDateTime date;
+	private String date;
 	private Integer invoicedOrdersCount;
 	private Integer invoicedItemsCount;
 	private Double totalRevenue;

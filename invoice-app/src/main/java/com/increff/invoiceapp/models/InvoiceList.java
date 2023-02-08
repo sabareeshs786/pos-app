@@ -17,6 +17,8 @@ import java.util.List;
 @Setter
 @ToString
 public class InvoiceList {
+    @XmlElement(name = "date")
+    private String date;
     @XmlElement(name = "item")
     private List<InvoiceItem> items;
     @XmlElement(name = "total")

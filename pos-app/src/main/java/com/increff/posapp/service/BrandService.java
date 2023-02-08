@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.increff.posapp.model.BrandData;
+import com.increff.posapp.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.method.P;
@@ -22,10 +24,10 @@ public class BrandService {
 	@Autowired
 	private BrandDao brandDao;
 
-	public void add(BrandPojo p) throws ApiException {
-		normalize(p);
+	public BrandData add(BrandPojo p) throws ApiException {
 		validate(p);
-		brandDao.insert(p);
+		normalize(p);
+		return Converter.convertToBrandData(brandDao.insert(p));
 	}
 
 	public BrandPojo getById(int id) throws ApiException {
@@ -65,13 +67,14 @@ public class BrandService {
 	public Page<BrandPojo> getAllByPage(Integer page, Integer size){
 		return brandDao.getAllByPage(page, size);
 	}
-	public void updateById(int id, BrandPojo p) throws ApiException {
-		normalize(p);
+	public BrandPojo updateById(int id, BrandPojo p) throws ApiException {
 		validate(p);
+		normalize(p);
 		BrandPojo ex = getCheckById(id);
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
 		brandDao.update(ex);
+		return ex;
 	}
 
 	public BrandPojo getCheckById(int id) throws ApiException {
@@ -125,15 +128,27 @@ public class BrandService {
 	protected static void normalize(BrandPojo p) {
 		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
 		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
+		p.setBrand(p.getBrand().trim());
+		p.setCategory(p.getCategory().trim());
 	}
 
 	protected void validate(BrandPojo p) throws ApiException {
+		if(p.getBrand() == null){
+			throw new ApiException("Brand is not obtained in the backend");
+		}
+		if(p.getCategory() == null){
+			throw new ApiException("Category is not obtained in the backend");
+		}
 		if(p.getBrand().isEmpty()){
 			throw new ApiException("Brand can't be empty");
 		}
 		if(p.getCategory().isEmpty()){
 			throw new ApiException("Category can't be empty");
 		}
+
+		StringUtil.checkValid(p.getBrand());
+		StringUtil.checkValid(p.getCategory());
+
 		if(brandDao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {
 			throw new ApiException("The entered brand and category combination already exists\nEnter a different brand or category");
 		}

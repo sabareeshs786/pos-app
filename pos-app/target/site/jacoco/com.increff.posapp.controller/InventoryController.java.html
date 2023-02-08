@@ -3,6 +3,7 @@
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.dto.InventoryDto;
@@ -12,19 +13,22 @@ import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+
 @Api
+@Validated
 @RestController
-<span class="fc" id="L17">public class InventoryController {</span>
+<span class="fc" id="L21">public class InventoryController {</span>
 	
 	@Autowired
 	private InventoryDto inventoryDto;
-<span class="fc" id="L21">	private static final Logger logger = Logger.getLogger(InventoryController.class);</span>
+<span class="fc" id="L25">	private static final Logger logger = Logger.getLogger(InventoryController.class);</span>
 
 	@ApiOperation(value = &quot;Adds a new product and it's quantity&quot;)
 	@RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm form) throws ApiException {
-<span class="nc" id="L26">		inventoryDto.add(form);</span>
-<span class="nc" id="L27">	}</span>
+	public void add(@Valid @RequestBody InventoryForm form) throws ApiException {
+<span class="nc" id="L30">		inventoryDto.add(form);</span>
+<span class="nc" id="L31">	}</span>
 
 	@ApiOperation(value = &quot;Gets the requested inventory data&quot;)
 	@RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.GET)
@@ -33,15 +37,15 @@ import io.swagger.annotations.ApiOperation;
 			@RequestParam(name = &quot;pagenumber&quot;, required = false) Integer page,
 			@RequestParam(required = false) Integer size
 	) throws ApiException {
-<span class="nc" id="L36">		logger.info(&quot;ProductId=&quot;+productId+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
-<span class="nc" id="L37">		return inventoryDto.getData(productId, page, size);</span>
+<span class="nc" id="L40">		logger.info(&quot;ProductId=&quot;+productId+&quot;Page number=&quot;+page+&quot;Size=&quot;+size);</span>
+<span class="nc" id="L41">		return inventoryDto.getData(productId, page, size);</span>
 	}
 
 	@ApiOperation(value = &quot;Updates the inventory by id&quot;)
 	@RequestMapping(path = &quot;/api/inventory/{productId}&quot;, method = RequestMethod.PUT)
-	public void update(@PathVariable Integer productId, @RequestBody InventoryForm f) throws ApiException {
-<span class="nc" id="L43">		inventoryDto.updateByProductId(productId, f);</span>
-<span class="nc" id="L44">	}</span>
+	public void update(@PathVariable Integer productId,@Valid @RequestBody InventoryForm f) throws ApiException {
+<span class="nc" id="L47">		inventoryDto.updateByProductId(productId, f);</span>
+<span class="nc" id="L48">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

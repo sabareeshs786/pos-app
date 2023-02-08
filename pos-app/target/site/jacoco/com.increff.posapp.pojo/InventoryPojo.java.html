@@ -16,15 +16,11 @@ import lombok.ToString;
 @Getter
 <span class="nc" id="L17">@Setter</span>
 <span class="nc" id="L18">@ToString</span>
-<span class="fc" id="L19">public class InventoryPojo {</span>
-
+<span class="nc" id="L19">public class InventoryPojo {</span>
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L23">	private Integer id;</span>
-	@Column(nullable = false)
-<span class="nc" id="L25">	private Integer quantity;</span>
-	@Column(name = &quot;product_id&quot;, nullable = false, unique = true)
-<span class="nc" id="L27">	private Integer productId;</span>
-
+	@Column(name = &quot;product_id&quot;)
+<span class="nc" id="L22">	private Integer productId;</span>
+	@Column
+<span class="nc" id="L24">	private Integer quantity;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

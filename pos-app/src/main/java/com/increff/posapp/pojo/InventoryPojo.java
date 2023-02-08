@@ -17,13 +17,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class InventoryPojo {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	@Column(nullable = false)
-	private Integer quantity;
-	@Column(name = "product_id", nullable = false, unique = true)
+	@Column(name = "product_id")
 	private Integer productId;
-
+	@Column
+	private Integer quantity;
 }

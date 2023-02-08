@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api
 @RestController
 public class ReportsController {
@@ -26,8 +28,8 @@ public class ReportsController {
     @ApiOperation(value = "Used to get the brand report")
     @RequestMapping(path = "/api/reports/brandreport", method = RequestMethod.GET)
     public <T> T getBrandReport(
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String category,
+           @RequestParam(required = false) String brand,
+           @RequestParam(required = false) String category,
             @RequestParam(name = "pagenumber", required = false) Integer page,
             @RequestParam(required = false) Integer size
     ) throws ApiException {

@@ -13,36 +13,32 @@ import com.increff.posapp.pojo.InventoryPojo;
 <span class="fc" id="L13">public class InventoryInMemDao{</span>
 	
 	private HashMap&lt;Integer, InventoryPojo&gt; rows;
-	private Integer lastId;
 
 	@PostConstruct
 	public void init() {
-<span class="fc" id="L20">		rows = new HashMap&lt;Integer, InventoryPojo&gt;();</span>
-<span class="fc" id="L21">	}</span>
+<span class="fc" id="L19">		rows = new HashMap&lt;Integer, InventoryPojo&gt;();</span>
+<span class="fc" id="L20">	}</span>
 	
 	public void insert(InventoryPojo p) {
-<span class="nc" id="L24">		lastId++;</span>
-<span class="nc" id="L25">		p.setId(lastId);</span>
-<span class="nc" id="L26">		rows.put(lastId, p);</span>
-<span class="nc" id="L27">	}</span>
+<span class="nc" id="L23">	}</span>
 
 	public void delete(Integer id) {
-<span class="nc" id="L30">		rows.remove(id);</span>
-<span class="nc" id="L31">	}</span>
+<span class="nc" id="L26">		rows.remove(id);</span>
+<span class="nc" id="L27">	}</span>
 
 	public InventoryPojo select(Integer id) {
-<span class="nc" id="L34">		return rows.get(id);</span>
+<span class="nc" id="L30">		return rows.get(id);</span>
 	}
 	
 	public List&lt;InventoryPojo&gt; selectAll() {
-<span class="nc" id="L38">		ArrayList&lt;InventoryPojo&gt; list = new ArrayList&lt;InventoryPojo&gt;();</span>
-<span class="nc" id="L39">		list.addAll(rows.values());</span>
-<span class="nc" id="L40">		return list;</span>
+<span class="nc" id="L34">		ArrayList&lt;InventoryPojo&gt; list = new ArrayList&lt;InventoryPojo&gt;();</span>
+<span class="nc" id="L35">		list.addAll(rows.values());</span>
+<span class="nc" id="L36">		return list;</span>
 	}
 
 	public void update(Integer id, InventoryPojo p) {
-<span class="nc" id="L44">		rows.put(id, p);</span>
-<span class="nc" id="L45">	}</span>
+<span class="nc" id="L40">		rows.put(id, p);</span>
+<span class="nc" id="L41">	}</span>
 
 
 }

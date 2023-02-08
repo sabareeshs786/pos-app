@@ -1,5 +1,5 @@
 /home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/service/AbstractUnitTest.java
 /home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/service/AboutAppServiceTest.java
-/home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/service/QaConfig.java
+/home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/config/QaConfig.java
 /home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/service/SampleTest.java
 /home/sabareeshs/Documents/pos/pos-app/src/test/java/com/increff/posapp/service/BrandServiceTest.java
