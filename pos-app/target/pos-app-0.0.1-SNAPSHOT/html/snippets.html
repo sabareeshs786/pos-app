@@ -6,7 +6,7 @@
 <meta name="baseUrl" th:attr="content=${baseUrl}">
 <meta name="orderId" th:attr="content=${orderId}">
 <!-- <meta name="info" th:attr="content=${info}"> -->
-<meta name="role" content="${info.getRole()}">
+<meta name="role" th:attr="content=${info.getRole()}">
 <meta name="mode" th:attr="content=${mode}">
 
 <script th:src="@{/static/c30beb553f.js}" crossorigin="anonymous"></script>

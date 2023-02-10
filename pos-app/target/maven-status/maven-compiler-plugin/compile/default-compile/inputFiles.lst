@@ -18,6 +18,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/Converter.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/CookieUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SchedulerController.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/ValidationUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/BrandDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AppRestControllerAdvice.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/OrderForm.java

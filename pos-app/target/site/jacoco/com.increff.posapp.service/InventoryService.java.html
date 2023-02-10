@@ -18,74 +18,54 @@ import com.increff.posapp.pojo.InventoryPojo;
 	@Autowired
 	private InventoryDao inventoryDao;
 
-	public void add(InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L22">		validate(inventoryPojo);</span>
-<span class="nc bnc" id="L23" title="All 2 branches missed.">		if (inventoryDao.selectByProductId(inventoryPojo.getProductId()) != null) {</span>
-<span class="nc" id="L24">			InventoryPojo p = inventoryDao.selectByProductId(inventoryPojo.getProductId());</span>
-<span class="nc" id="L25">			Integer q = p.getQuantity();</span>
-<span class="nc" id="L26">			p.setQuantity(q + inventoryPojo.getQuantity());</span>
-<span class="nc" id="L27">			return;</span>
+	public InventoryPojo add(InventoryPojo inventoryPojo) throws ApiException {
+<span class="fc" id="L22">		validate(inventoryPojo);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">		if (inventoryDao.selectByProductId(inventoryPojo.getProductId()) != null) {</span>
+<span class="fc" id="L24">			InventoryPojo p = inventoryDao.selectByProductId(inventoryPojo.getProductId());</span>
+<span class="fc" id="L25">			p.setQuantity(p.getQuantity() + inventoryPojo.getQuantity());</span>
+<span class="fc" id="L26">			return p;</span>
 		}
-<span class="nc" id="L29">		inventoryDao.insert(inventoryPojo);</span>
-<span class="nc" id="L30">	}</span>
-
-	public InventoryPojo getById(int id) throws ApiException {
-<span class="nc" id="L33">		return getCheckId(id);</span>
+<span class="fc" id="L28">		return inventoryDao.add(inventoryPojo);</span>
 	}
 
-	  
 	public InventoryPojo getByProductId(int pid) throws ApiException {
-<span class="nc" id="L38">		return getCheckProductId(pid);</span>
+<span class="fc" id="L32">		return getCheckProductId(pid);</span>
 	}
 
 	public List&lt;InventoryPojo&gt; getAll() {
-<span class="nc" id="L42">		return inventoryDao.selectAll();</span>
+<span class="fc" id="L36">		return inventoryDao.selectAll();</span>
 	}
+
 	public Page&lt;InventoryPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L45">		return inventoryDao.getAllByPage(page, size);</span>
+<span class="fc" id="L40">		return inventoryDao.getAllByPage(page, size);</span>
 	}
-	 
-	public void updateById(int id, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L49">		InventoryPojo ex = getById(id);</span>
-<span class="nc" id="L50">		ex.setProductId(inventoryPojo.getProductId());</span>
-<span class="nc" id="L51">		ex.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L52">		inventoryDao.update(ex);</span>
-<span class="nc" id="L53">	}</span>
 
-	 
-	public void updateByProductId(Integer productId, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L57">		validate(inventoryPojo);</span>
-<span class="nc" id="L58">		InventoryPojo ex = getByProductId(productId);</span>
-<span class="nc" id="L59">		ex.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L60">		inventoryDao.update(ex);</span>
-<span class="nc" id="L61">	}</span>
-
-	private InventoryPojo getCheckId(int id) throws ApiException {
-<span class="nc" id="L64">		InventoryPojo inventoryPojo = inventoryDao.selectById(id);</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
-<span class="nc" id="L66">			throw new ApiException(&quot;Item with given ID does not exit in the inventory&quot;);</span>
-		}
-<span class="nc" id="L68">		return inventoryPojo;</span>
+	public InventoryPojo updateByProductId(InventoryPojo inventoryPojo) throws ApiException {
+<span class="fc" id="L44">		validate(inventoryPojo);</span>
+<span class="fc" id="L45">		InventoryPojo ex = getByProductId(inventoryPojo.getProductId());</span>
+<span class="fc" id="L46">		ex.setQuantity(inventoryPojo.getQuantity());</span>
+<span class="fc" id="L47">		inventoryDao.update(ex);</span>
+<span class="fc" id="L48">		return ex;</span>
 	}
 
 	private InventoryPojo getCheckProductId(int productId) throws ApiException {
-<span class="nc" id="L72">		InventoryPojo inventoryPojo = inventoryDao.selectByProductId(productId);</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">		if (inventoryPojo == null) {</span>
-<span class="nc" id="L74">			throw new ApiException(&quot;Item with given Product ID does not exist in the inventory&quot;);</span>
+<span class="fc" id="L52">		InventoryPojo inventoryPojo = inventoryDao.selectByProductId(productId);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (inventoryPojo == null) {</span>
+<span class="fc" id="L54">			throw new ApiException(&quot;Item with given Product ID does not exist in the inventory&quot;);</span>
 		}
-<span class="nc" id="L76">		return inventoryPojo;</span>
+<span class="fc" id="L56">		return inventoryPojo;</span>
 	}
 
 	private void validate(InventoryPojo p) throws ApiException {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">		if(p.getProductId().toString().isEmpty()){</span>
-<span class="nc" id="L81">			throw new ApiException(&quot;Product id can't be empty&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		if(p.getProductId() == null ){</span>
+<span class="fc" id="L61">			throw new ApiException(&quot;Product id can't be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L83" title="All 2 branches missed.">		if(p.getQuantity().toString().isEmpty()){</span>
-<span class="nc" id="L84">			throw new ApiException(&quot;Quantity can't be empty&quot;);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if(p.getQuantity() == null ){</span>
+<span class="fc" id="L64">			throw new ApiException(&quot;Quantity can't be empty&quot;);</span>
 		}
-<span class="nc bnc" id="L86" title="All 2 branches missed.">		if(p.getQuantity() &lt; 0){</span>
-<span class="nc" id="L87">			throw new ApiException(&quot;Quantity can't be less ta zero&quot;);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if(p.getQuantity() &lt; 0){</span>
+<span class="fc" id="L67">			throw new ApiException(&quot;Quantity can't be less ta zero&quot;);</span>
 		}
-<span class="nc" id="L89">	}</span>
+<span class="fc" id="L69">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

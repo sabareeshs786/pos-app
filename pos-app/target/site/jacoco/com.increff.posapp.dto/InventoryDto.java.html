@@ -76,7 +76,7 @@ import com.increff.posapp.util.FormValidator;
 <span class="nc" id="L76">		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</span>
 <span class="nc" id="L77">		Integer productId = productPojo.getId();</span>
 <span class="nc" id="L78">		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);</span>
-<span class="nc" id="L79">		inventoryService.updateByProductId(productId, inventoryPojo);</span>
+<span class="nc" id="L79">		inventoryService.updateByProductId(inventoryPojo);</span>
 <span class="nc" id="L80">	}</span>
 
 	protected ProductService productService(){

@@ -86,16 +86,16 @@ function getOrderList(pageNumber, pageSize){
 }
 
 function fillValues(data){
-	$('#place-order-form input[name=quantity]').attr("readonly", false);
-	$('#place-order-form input[name=sellingPrice]').attr("readonly", false);
+	// $('#place-order-form input[name=quantity]').attr("readonly", false);
+	// $('#place-order-form input[name=sellingPrice]').attr("readonly", false);
 	$('#place-order-form input[name=quantity]').val(1);
 	$('#place-order-form input[name=sellingPrice]').val(data.mrp);
 	$('#add-item').attr('disabled', false);
 }
 
 function fillValuesForEdit(data){
-	$('#edit-added-item-form input[name=quantity]').attr("readonly", false);
-	$('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
+	// $('#edit-added-item-form input[name=quantity]').attr("readonly", false);
+	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
 	$('#edit-added-item-form input[name=quantity]').val(1);
 	$('#edit-added-item-form input[name=sellingPrice]').val(data.mrp);
 	$('#update-added-item').attr('disabled', false);
@@ -105,22 +105,21 @@ function resetToDefault(){
 	$('#add-item').attr('disabled', true);
 	$('#place-order-form input[name=quantity]').val('');
 	$('#place-order-form input[name=sellingPrice]').val('');
-	$('#place-order-form input[name=quantity]').attr("readonly", true);
-	$('#place-order-form input[name=sellingPrice]').attr("readonly", true);
+	// $('#place-order-form input[name=quantity]').attr("readonly", true);
+	// $('#place-order-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function resetToDefaultForEdit(){
 	$('#update-added-item').attr('disabled', true);
 	$('#edit-added-item-form input[name=quantity]').val('');
 	$('#edit-added-item-form input[name=sellingPrice]').val('');
-	$('#edit-added-item-form input[name=quantity]').attr("readonly", true);
-	$('#edit-added-item-form input[name=sellingPrice]').attr("readonly", true);
+	// $('#edit-added-item-form input[name=quantity]').attr("readonly", true);
+	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function getProduct(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
 	console.log("Barcode: "+barcode);
-	if(barcode.length >= 4){
 	var url = getProductUrl() + '/' + barcode;
 	$.ajax({
 	   url: url,
@@ -137,7 +136,6 @@ function getProduct(){
 			resetToDefault();
 	   }
 	});
-}
 	return false;
 }
 
@@ -346,10 +344,10 @@ function init(){
 	$('#cancel2').click(clearAll);
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
-	$('#place-order-form input[name=barcode]').on('input',function(){
+	$('#place-order-form input[name=barcode]').on('change',function(){
 		getProduct();
 	});
-	$('#edit-added-item-form input[name=barcode]').on('input', function(){
+	$('#edit-added-item-form input[name=barcode]').on('change', function(){
 		getProductForEdit();
 	});
 	$('#update-added-item').click(updateAddedItem);

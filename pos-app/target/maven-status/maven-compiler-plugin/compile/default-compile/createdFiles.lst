@@ -73,6 +73,7 @@ com/increff/posapp/dao/BrandInMemDao.class
 com/increff/posapp/model/SalesReportData.class
 com/increff/posapp/dto/SalesReportDto.class
 com/increff/posapp/model/ReportForm.class
+com/increff/posapp/util/ValidationUtil.class
 com/increff/posapp/dto/OrderDto.class
 com/increff/posapp/model/OrderItemEditForm.class
 com/increff/posapp/dao/ProductInMemDao.class

@@ -64,12 +64,11 @@ public class OrderDto {
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
 		Integer len = form.getBarcodes().size();
+		FormValidator.orderFormValidator(form);
 		for(int i=0; i < len; i++) {
-			FormValidator.orderFormValidator(form);
 
 			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));
 			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
-			Integer productId = inventoryPojo.getProductId();
 			Double mrp = productPojo.getMrp();
 			Integer initialQuantity = inventoryPojo.getQuantity();
 
@@ -78,9 +77,9 @@ public class OrderDto {
 
 			Integer finalQuantity = initialQuantity - form.getQuantities().get(i);
 			inventoryPojo.setQuantity(finalQuantity);
-			inventoryService.updateByProductId(productId, inventoryPojo);
+			inventoryService.updateByProductId(inventoryPojo);
 
-			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, productId);
+			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, inventoryPojo.getProductId());
 			orderItemService.add(orderItemPojo);
 		}
 

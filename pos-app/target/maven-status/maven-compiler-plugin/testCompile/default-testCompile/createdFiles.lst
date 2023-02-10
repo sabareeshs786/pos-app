@@ -1,5 +1,7 @@
+com/increff/posapp/service/ProductServiceTest.class
+com/increff/posapp/service/AboutAppServiceTest.class
+com/increff/posapp/service/SampleTest.class
+com/increff/posapp/service/InventoryServiceTest.class
 com/increff/posapp/service/BrandServiceTest.class
 com/increff/posapp/config/QaConfig.class
-com/increff/posapp/service/AboutAppServiceTest.class
 com/increff/posapp/service/AbstractUnitTest.class
-com/increff/posapp/service/SampleTest.class

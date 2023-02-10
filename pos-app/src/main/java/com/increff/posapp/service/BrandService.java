@@ -6,16 +6,13 @@ import javax.transaction.Transactional;
 
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.BrandDao;
-import com.increff.posapp.dao.InventoryDao;
-import com.increff.posapp.dao.ProductDao;
 import com.increff.posapp.pojo.BrandPojo;
-import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.util.StringUtil;
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -25,8 +22,8 @@ public class BrandService {
 	private BrandDao brandDao;
 
 	public BrandData add(BrandPojo p) throws ApiException {
-		validate(p);
 		normalize(p);
+		validate(p);
 		return Converter.convertToBrandData(brandDao.insert(p));
 	}
 
@@ -35,28 +32,32 @@ public class BrandService {
 	}
 
 	public List<BrandPojo> getByBrand(String brand) throws ApiException {
-		brand = brand.toLowerCase();
+		brand = validateAndNormalizeString(brand, "Brand");
 		return getCheckByBrand(brand);
 	}
 
 	public List<BrandPojo> getByCategory(String category) throws ApiException {
-		category = category.toLowerCase();
+		category = validateAndNormalizeString(category, "Category");
 		return getCheckByCategory(category);
 	}
 
 	public Page<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
-		brand = brand.toLowerCase();
+		brand = validateAndNormalizeString(brand, "Brand");
+		if(!ValidationUtil.isPageSizeValid(page, size))
+			throw new ApiException("Invalid page number or size");
 		return getCheckByBrand(brand, page, size);
 	}
 
 	public Page<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
-		category = category.toLowerCase();
+		category = validateAndNormalizeString(category, "Category");
+		if(!ValidationUtil.isPageSizeValid(page, size))
+			throw new ApiException("Invalid page number or size");
 		return getCheckByCategory(category, page, size);
 	}
 
 	public BrandPojo getByBrandAndCategory(String brand, String category) throws ApiException {
-		brand = brand.toLowerCase();
-		category = category.toLowerCase();
+		brand = validateAndNormalizeString(brand, "Brand");
+		category = validateAndNormalizeString(category, "Category");
 		return getCheckByBrandAndCategory(brand, category);
 	}
 
@@ -64,20 +65,22 @@ public class BrandService {
 		return brandDao.selectAll();
 	}
 
-	public Page<BrandPojo> getAllByPage(Integer page, Integer size){
+	public Page<BrandPojo> getAllByPage(Integer page, Integer size) throws ApiException {
+		if(!ValidationUtil.isPageSizeValid(page, size))
+			throw new ApiException("Invalid page number or size");
 		return brandDao.getAllByPage(page, size);
 	}
-	public BrandPojo updateById(int id, BrandPojo p) throws ApiException {
-		validate(p);
+	public BrandData updateById(int id, BrandPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		BrandPojo ex = getCheckById(id);
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
 		brandDao.update(ex);
-		return ex;
+		return Converter.convertToBrandData(ex);
 	}
 
-	public BrandPojo getCheckById(int id) throws ApiException {
+	private BrandPojo getCheckById(int id) throws ApiException {
 		BrandPojo p = brandDao.selectById(id);
 		if (p == null) {
 			throw new ApiException("Brand Category combination with given ID does not exit");
@@ -85,7 +88,7 @@ public class BrandService {
 		return p;
 	}
 
-	public Page<BrandPojo> getCheckByBrand(String brand, Integer page, Integer size) throws ApiException {
+	private Page<BrandPojo> getCheckByBrand(String brand, Integer page, Integer size) throws ApiException {
 		Page<BrandPojo> p = brandDao.selectByBrand(brand, page, size);
 		if (p.getTotalElements() == 0) {
 			throw new ApiException("The given brand doesn't exist");
@@ -93,7 +96,7 @@ public class BrandService {
 		return p;
 	}
 
-	public List<BrandPojo> getCheckByBrand(String brand) throws ApiException {
+	private List<BrandPojo> getCheckByBrand(String brand) throws ApiException {
 		List<BrandPojo> pojos = brandDao.selectByBrand(brand);
 		if(pojos.size() == 0){
 			throw new ApiException("No such brand");
@@ -101,7 +104,7 @@ public class BrandService {
 		return pojos;
 	}
 
-	public Page<BrandPojo> getCheckByCategory(String category, Integer page, Integer size) throws ApiException {
+	private Page<BrandPojo> getCheckByCategory(String category, Integer page, Integer size) throws ApiException {
 		Page<BrandPojo> p = brandDao.selectByCategory(category, page, size);
 		if (p.getTotalElements() == 0) {
 			throw new ApiException("The given category doesn't exist");
@@ -109,7 +112,7 @@ public class BrandService {
 		return p;
 	}
 
-	public List<BrandPojo> getCheckByCategory(String category) throws ApiException {
+	private List<BrandPojo> getCheckByCategory(String category) throws ApiException {
 		List<BrandPojo> pojos = brandDao.selectByCategory(category);
 		if(pojos.size() == 0){
 			throw new ApiException("No such category");
@@ -117,7 +120,7 @@ public class BrandService {
 		return pojos;
 	}
 
-	public BrandPojo getCheckByBrandAndCategory(String brand, String category) throws ApiException {
+	private BrandPojo getCheckByBrandAndCategory(String brand, String category) throws ApiException {
 		BrandPojo p = brandDao.selectByBrandAndCategory(brand, category);
 		if (p == null) {
 			throw new ApiException("The given brand and category combination doesn't exist");
@@ -125,32 +128,30 @@ public class BrandService {
 		return p;
 	}
 	
-	protected static void normalize(BrandPojo p) {
+	private void normalize(BrandPojo p) {
 		p.setBrand(StringUtil.toLowerCase(p.getBrand()));
 		p.setCategory(StringUtil.toLowerCase(p.getCategory()));
-		p.setBrand(p.getBrand().trim());
-		p.setCategory(p.getCategory().trim());
 	}
 
-	protected void validate(BrandPojo p) throws ApiException {
-		if(p.getBrand() == null){
-			throw new ApiException("Brand is not obtained in the backend");
-		}
-		if(p.getCategory() == null){
-			throw new ApiException("Category is not obtained in the backend");
-		}
-		if(p.getBrand().isEmpty()){
+	private void validate(BrandPojo p) throws ApiException {
+		if(StringUtil.isEmpty(p.getBrand())){
 			throw new ApiException("Brand can't be empty");
 		}
-		if(p.getCategory().isEmpty()){
+
+		if(StringUtil.isEmpty(p.getCategory())){
 			throw new ApiException("Category can't be empty");
 		}
-
-		StringUtil.checkValid(p.getBrand());
-		StringUtil.checkValid(p.getCategory());
 
 		if(brandDao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {
 			throw new ApiException("The entered brand and category combination already exists\nEnter a different brand or category");
 		}
+	}
+
+	private String validateAndNormalizeString(String s, String field) throws ApiException {
+		s = StringUtil.toLowerCase(s);
+		if(s == null || s.length() == 0){
+			throw new ApiException(field + " is empty");
+		}
+		return s;
 	}
 }

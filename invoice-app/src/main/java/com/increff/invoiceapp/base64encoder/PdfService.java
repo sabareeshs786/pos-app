@@ -2,6 +2,8 @@ package com.increff.invoiceapp.base64encoder;
 
 import com.increff.invoiceapp.models.InvoiceItem;
 import com.increff.invoiceapp.models.InvoiceList;
+
+import java.net.Inet4Address;
 import java.util.Base64;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
@@ -76,7 +78,7 @@ public class PdfService {
             invoiceList.getItems().add(invoiceItem);
         }
         invoiceList.setDate(date);
-        invoiceList.setTotal(getTotal(sellingPrices));
+        invoiceList.setTotal(getTotal(quantities, sellingPrices));
 
         StringWriter sw = new StringWriter();
 
@@ -104,10 +106,10 @@ public class PdfService {
 //        sw.close();
     }
 
-    private static Double getTotal(List<String> sellingPrices){
+    private static Double getTotal(List<Integer> quantities, List<String> sellingPrices){
         Double total = 0.0;
-        for(String sellingPrice: sellingPrices){
-            total += Double.parseDouble(sellingPrice);
+        for(int i=0; i < quantities.size(); i++){
+            total += Double.parseDouble(sellingPrices.get(i)) * quantities.get(i);
         }
         return total;
     }

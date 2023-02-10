@@ -5,16 +5,23 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 <span class="nc" id="L7">public class DoubleUtil {</span>
-	public static Double round(Double value, Integer places) throws NumberFormatException{
-<span class="nc bnc" id="L9" title="All 2 branches missed.">		if (places &lt; 0) throw new IllegalArgumentException();</span>
-
-<span class="nc" id="L11">		BigDecimal bd = BigDecimal.valueOf(value);</span>
-<span class="nc" id="L12">		bd = bd.setScale(places, RoundingMode.HALF_UP);</span>
-<span class="nc" id="L13">		return bd.doubleValue();</span>
+	public static Double round(Double value, Integer places){
+<span class="pc bpc" id="L9" title="1 of 2 branches missed.">		if (places &lt; 0) throw new IllegalArgumentException();</span>
+<span class="fc bfc" id="L10" title="All 2 branches covered.">		if(value == null)</span>
+<span class="fc" id="L11">			return null;</span>
+<span class="fc bfc" id="L12" title="All 2 branches covered.">		else if(value.isNaN())</span>
+<span class="fc" id="L13">			return Double.NaN;</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">		else if(value == Double.POSITIVE_INFINITY)</span>
+<span class="fc" id="L15">			return Double.POSITIVE_INFINITY;</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">		else if(value ==Double.NEGATIVE_INFINITY)</span>
+<span class="fc" id="L17">			return Double.NEGATIVE_INFINITY;</span>
+<span class="fc" id="L18">		BigDecimal bd = BigDecimal.valueOf(value);</span>
+<span class="fc" id="L19">		bd = bd.setScale(places, RoundingMode.HALF_UP);</span>
+<span class="fc" id="L20">		return bd.doubleValue();</span>
 	}
 
 	public static String roundToString(Double num) throws NumberFormatException{
-<span class="nc" id="L17">		return String.format(&quot;%.2f&quot;, num);</span>
+<span class="nc" id="L24">		return String.format(&quot;%.2f&quot;, num);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

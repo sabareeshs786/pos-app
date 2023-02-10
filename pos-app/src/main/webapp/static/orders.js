@@ -6,6 +6,7 @@ var quantities = [];
 var sellingPrices = [];
 var names = [];
 var totals = [];
+var barcodeSet = new Set();
 
 
 function getOrderUrl(){
@@ -86,16 +87,16 @@ function getOrderList(pageNumber, pageSize){
 }
 
 function fillValues(data){
-	$('#place-order-form input[name=quantity]').attr("readonly", false);
-	$('#place-order-form input[name=sellingPrice]').attr("readonly", false);
+	// $('#place-order-form input[name=quantity]').attr("readonly", false);
+	// $('#place-order-form input[name=sellingPrice]').attr("readonly", false);
 	$('#place-order-form input[name=quantity]').val(1);
 	$('#place-order-form input[name=sellingPrice]').val(data.mrp);
 	$('#add-item').attr('disabled', false);
 }
 
 function fillValuesForEdit(data){
-	$('#edit-added-item-form input[name=quantity]').attr("readonly", false);
-	$('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
+	// $('#edit-added-item-form input[name=quantity]').attr("readonly", false);
+	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
 	$('#edit-added-item-form input[name=quantity]').val(1);
 	$('#edit-added-item-form input[name=sellingPrice]').val(data.mrp);
 	$('#update-added-item').attr('disabled', false);
@@ -105,22 +106,21 @@ function resetToDefault(){
 	$('#add-item').attr('disabled', true);
 	$('#place-order-form input[name=quantity]').val('');
 	$('#place-order-form input[name=sellingPrice]').val('');
-	$('#place-order-form input[name=quantity]').attr("readonly", true);
-	$('#place-order-form input[name=sellingPrice]').attr("readonly", true);
+	// $('#place-order-form input[name=quantity]').attr("readonly", true);
+	// $('#place-order-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function resetToDefaultForEdit(){
 	$('#update-added-item').attr('disabled', true);
 	$('#edit-added-item-form input[name=quantity]').val('');
 	$('#edit-added-item-form input[name=sellingPrice]').val('');
-	$('#edit-added-item-form input[name=quantity]').attr("readonly", true);
-	$('#edit-added-item-form input[name=sellingPrice]').attr("readonly", true);
+	// $('#edit-added-item-form input[name=quantity]').attr("readonly", true);
+	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function getProduct(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
 	console.log("Barcode: "+barcode);
-	if(barcode.length >= 4){
 	var url = getProductUrl() + '/' + barcode;
 	$.ajax({
 	   url: url,
@@ -137,7 +137,6 @@ function getProduct(){
 			resetToDefault();
 	   }
 	});
-}
 	return false;
 }
 
@@ -169,22 +168,29 @@ function addItem(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
 	var quantity = $('#place-order-form input[name=quantity]').val();
 	var sellingPrice = $('#place-order-form input[name=sellingPrice]').val();
-	var json = {'barcode': barcode, 
-				'quantity': quantity, 
-				'sellingPrice': sellingPrice
-			   };
-	json = JSON.stringify(json);
-	if(validator(json)){
-		barcodes.push(barcode);
-		quantities.push(quantity);
-		sellingPrices.push(sellingPrice);
-		names.push(dataOfItem.name);
-		totals.push(quantity * parseFloat(sellingPrice));
-		console.log("Barcodes: >>: "+barcodes);
-		console.log("Quantities: >>: "+quantities);
-		console.log("Selling prices: >>: "+sellingPrices);
-		updateAddedItemsTable();
+	if(barcodeSet.has(barcode)){
+		var barcode = $('#place-order-form input[name=barcode]').val('');
 		resetToDefault();
+	}
+	else{
+		barcodeSet.add(barcode);
+		var json = {'barcode': barcode, 
+					'quantity': quantity, 
+					'sellingPrice': sellingPrice
+				};
+		json = JSON.stringify(json);
+		if(validator(json)){
+			barcodes.push(barcode);
+			quantities.push(quantity);
+			sellingPrices.push(sellingPrice);
+			names.push(dataOfItem.name);
+			totals.push(quantity * parseFloat(sellingPrice));
+			console.log("Barcodes: >>: "+barcodes);
+			console.log("Quantities: >>: "+quantities);
+			console.log("Selling prices: >>: "+sellingPrices);
+			updateAddedItemsTable();
+			resetToDefault();
+		}
 	}
 }
 
@@ -346,10 +352,10 @@ function init(){
 	$('#cancel2').click(clearAll);
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
-	$('#place-order-form input[name=barcode]').on('input',function(){
+	$('#place-order-form input[name=barcode]').on('change',function(){
 		getProduct();
 	});
-	$('#edit-added-item-form input[name=barcode]').on('input', function(){
+	$('#edit-added-item-form input[name=barcode]').on('change', function(){
 		getProductForEdit();
 	});
 	$('#update-added-item').click(updateAddedItem);

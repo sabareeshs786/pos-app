@@ -37,8 +37,8 @@ import com.increff.posapp.pojo.ProductPojo;
 
 	@Transactional
 	public ProductPojo insert(ProductPojo productPojo) {
-<span class="nc" id="L40">		em().persist(productPojo);</span>
-<span class="nc" id="L41">		return productPojo;</span>
+<span class="fc" id="L40">		em().persist(productPojo);</span>
+<span class="fc" id="L41">		return productPojo;</span>
 	}
 
 	public Integer deleteById(Integer id) {
@@ -71,15 +71,15 @@ import com.increff.posapp.pojo.ProductPojo;
 	}
 	
 	public ProductPojo selectById(Integer id) {
-<span class="nc" id="L74">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
-<span class="nc" id="L75">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L76">		return getSingle(query);</span>
+<span class="fc" id="L74">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
+<span class="fc" id="L75">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L76">		return getSingle(query);</span>
 	}
 	
 	public ProductPojo selectByBarcode(String barcode) {
-<span class="nc" id="L80">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
-<span class="nc" id="L81">		query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="nc" id="L82">		return getSingle(query);</span>
+<span class="fc" id="L80">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
+<span class="fc" id="L81">		query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="fc" id="L82">		return getSingle(query);</span>
 	}
 	
 	public Page&lt;ProductPojo&gt; selectByBrandCategory(Integer brandCategory, Integer page, Integer size) {
@@ -111,26 +111,26 @@ import com.increff.posapp.pojo.ProductPojo;
 	}
 	
 	public List&lt;ProductPojo&gt; selectAll() {
-<span class="nc" id="L114">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
-<span class="nc" id="L115">		return query.getResultList();</span>
+<span class="fc" id="L114">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="fc" id="L115">		return query.getResultList();</span>
 	}
 	public Page&lt;ProductPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L118">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="fc" id="L118">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
 		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="nc" id="L120">		int pageNumber = page;</span>
-<span class="nc" id="L121">		int pageSize = size;</span>
-<span class="nc" id="L122">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L123">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L124">		query.setMaxResults(pageSize);</span>
+<span class="fc" id="L120">		int pageNumber = page;</span>
+<span class="fc" id="L121">		int pageSize = size;</span>
+<span class="fc" id="L122">		int firstResult = pageNumber * pageSize;</span>
+<span class="fc" id="L123">		query.setFirstResult(firstResult);</span>
+<span class="fc" id="L124">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="nc" id="L127">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L128">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="nc" id="L129">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="fc" id="L127">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
+<span class="fc" id="L128">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="fc" id="L129">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(ProductPojo productPojo) {
 		// Implemented by Spring itself
-<span class="nc" id="L133">	}</span>
+<span class="fc" id="L133">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
