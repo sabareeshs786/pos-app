@@ -76,7 +76,7 @@ public class InventoryDto {
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
-		inventoryService.updateByProductId(productId, inventoryPojo);
+		inventoryService.updateByProductId(inventoryPojo);
 	}
 
 	protected ProductService productService(){

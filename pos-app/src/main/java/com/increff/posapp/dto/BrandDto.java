@@ -60,7 +60,7 @@ public class BrandDto {
 	}
 
 
-	private Page<BrandData> getAll(Integer page, Integer size){
+	private Page<BrandData> getAll(Integer page, Integer size) throws ApiException {
 		Page<BrandPojo> pojoPage = brandService.getAllByPage(page, size);
 		List<BrandPojo> brandPojoList = pojoPage.getContent();
 		List<BrandData> listBrandData = new ArrayList<>();
@@ -75,6 +75,6 @@ public class BrandDto {
 		FormValidator.brandFormValidator(form);
 		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo p = Converter.convertToBrandPojo(form);
-		return Converter.convertToBrandData(brandService.updateById(id, p));
+		return brandService.updateById(id, p);
 	}
 }

@@ -18,22 +18,16 @@ public class InventoryService {
 	@Autowired
 	private InventoryDao inventoryDao;
 
-	public void add(InventoryPojo inventoryPojo) throws ApiException {
+	public InventoryPojo add(InventoryPojo inventoryPojo) throws ApiException {
 		validate(inventoryPojo);
 		if (inventoryDao.selectByProductId(inventoryPojo.getProductId()) != null) {
 			InventoryPojo p = inventoryDao.selectByProductId(inventoryPojo.getProductId());
-			Integer q = p.getQuantity();
-			p.setQuantity(q + inventoryPojo.getQuantity());
-			return;
+			p.setQuantity(p.getQuantity() + inventoryPojo.getQuantity());
+			return p;
 		}
-		inventoryDao.insert(inventoryPojo);
+		return inventoryDao.add(inventoryPojo);
 	}
 
-	public InventoryPojo getById(int id) throws ApiException {
-		return getCheckId(id);
-	}
-
-	  
 	public InventoryPojo getByProductId(int pid) throws ApiException {
 		return getCheckProductId(pid);
 	}
@@ -41,31 +35,17 @@ public class InventoryService {
 	public List<InventoryPojo> getAll() {
 		return inventoryDao.selectAll();
 	}
+
 	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
 		return inventoryDao.getAllByPage(page, size);
 	}
-	 
-	public void updateById(int id, InventoryPojo inventoryPojo) throws ApiException {
-		InventoryPojo ex = getById(id);
-		ex.setProductId(inventoryPojo.getProductId());
-		ex.setQuantity(inventoryPojo.getQuantity());
-		inventoryDao.update(ex);
-	}
 
-	 
-	public void updateByProductId(Integer productId, InventoryPojo inventoryPojo) throws ApiException {
+	public InventoryPojo updateByProductId(InventoryPojo inventoryPojo) throws ApiException {
 		validate(inventoryPojo);
-		InventoryPojo ex = getByProductId(productId);
+		InventoryPojo ex = getByProductId(inventoryPojo.getProductId());
 		ex.setQuantity(inventoryPojo.getQuantity());
 		inventoryDao.update(ex);
-	}
-
-	private InventoryPojo getCheckId(int id) throws ApiException {
-		InventoryPojo inventoryPojo = inventoryDao.selectById(id);
-		if (inventoryPojo == null) {
-			throw new ApiException("Item with given ID does not exit in the inventory");
-		}
-		return inventoryPojo;
+		return ex;
 	}
 
 	private InventoryPojo getCheckProductId(int productId) throws ApiException {
@@ -77,10 +57,10 @@ public class InventoryService {
 	}
 
 	private void validate(InventoryPojo p) throws ApiException {
-		if(p.getProductId().toString().isEmpty()){
+		if(p.getProductId() == null ){
 			throw new ApiException("Product id can't be empty");
 		}
-		if(p.getQuantity().toString().isEmpty()){
+		if(p.getQuantity() == null ){
 			throw new ApiException("Quantity can't be empty");
 		}
 		if(p.getQuantity() < 0){

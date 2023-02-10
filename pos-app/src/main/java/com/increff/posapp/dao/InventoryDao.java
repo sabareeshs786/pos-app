@@ -2,7 +2,6 @@ package com.increff.posapp.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -17,12 +16,7 @@ import com.increff.posapp.service.ApiException;
 @Repository
 @Transactional(rollbackOn = ApiException.class)
 public class InventoryDao extends AbstractDao{
-	
-	private static final String DELETE_BY_ID = "delete from InventoryPojo p where id=:id";
-	private static final String DELETE_BY_PRODUCT_ID = "delete from InventoryPojo p where productId=:productId";
-	private static final String DELETE_BY_QUANTITY = "delete from InventoryPojo p where quantity=:quantity";
-	
-	private static final String SELECT_BY_ID = "select p from InventoryPojo p where id=:id";
+
 	private static final String SELECT_BY_PRODUCT_ID = "select p from InventoryPojo p where productId=:productId";
 	private static final String SELECT_BY_QUANTITY = "select p from InventoryPojo p where quantity=:quantity";
 	
@@ -31,34 +25,11 @@ public class InventoryDao extends AbstractDao{
 
 
 
-	public void insert(InventoryPojo inventoryPojo) {
+	public InventoryPojo add(InventoryPojo inventoryPojo) {
 		em().persist(inventoryPojo);
+		return inventoryPojo;
 	}
 
-	public Integer deleteById(Integer id) {
-		Query query = em().createQuery(DELETE_BY_ID);
-		query.setParameter("id", id);
-		return query.executeUpdate();
-	}
-	
-	public Integer deleteByProductId(Integer pId) {
-		Query query = em().createQuery(DELETE_BY_PRODUCT_ID);
-		query.setParameter("productId",pId);
-		return query.executeUpdate();
-	}
-
-	public Integer deleteByQuantity(Integer quantity) {
-		Query query = em().createQuery(DELETE_BY_QUANTITY);
-		query.setParameter("quantity", quantity);
-		return query.executeUpdate();
-	}
-	
-	public InventoryPojo selectById(Integer id) {
-		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_ID, InventoryPojo.class);
-		query.setParameter("id", id);
-		return getSingle(query);
-	}
-	
 	public InventoryPojo selectByProductId(Integer pid) {
 		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_PRODUCT_ID, InventoryPojo.class);
 		query.setParameter("productId", pid);
