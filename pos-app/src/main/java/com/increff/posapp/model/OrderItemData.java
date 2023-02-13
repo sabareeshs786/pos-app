@@ -13,6 +13,4 @@ public class OrderItemData {
 	private Integer quantity;
 	private String sellingPrice;
 	private String mrp;
-
-
 }

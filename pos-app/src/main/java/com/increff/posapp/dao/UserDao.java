@@ -20,8 +20,9 @@ public class UserDao extends AbstractDao {
 	private static final String SELECT_BY_EMAIL = "select p from UserPojo p where email=:email";
 	private static final String SELECT_ALL = "select p from UserPojo p";
 
-	public void insert(UserPojo p) {
+	public UserPojo insert(UserPojo p) {
 		em().persist(p);
+		return p;
 	}
 
 	public Integer delete(Integer id) {

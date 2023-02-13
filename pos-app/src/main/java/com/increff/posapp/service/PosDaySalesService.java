@@ -1,6 +1,6 @@
 package com.increff.posapp.service;
 
-import com.increff.posapp.dao.SchedulerDao;
+import com.increff.posapp.dao.PosDaySalesDao;
 import com.increff.posapp.pojo.PosDaySalesPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,25 +12,26 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
-public class SchedulerService {
+public class PosDaySalesService {
 
 	@Autowired
-	private SchedulerDao schedulerDao;
+	private PosDaySalesDao posDaySalesDao;
 
 	public void add(PosDaySalesPojo p) throws ApiException {
+
 		//Inserting
-		schedulerDao.insert(p);
+		posDaySalesDao.insert(p);
 	}
 
 	public ZonedDateTime getLastDateTime(){
-		return schedulerDao.getLastDateTime();
+		return posDaySalesDao.getLastDateTime();
 	}
 
 	public List<PosDaySalesPojo> getAll(){
-		return schedulerDao.selectAll();
+		return posDaySalesDao.selectAll();
 	}
 
 	public Page<PosDaySalesPojo> getAllByPage(Integer page, Integer size){
-		return schedulerDao.getAllByPage(page, size);
+		return posDaySalesDao.getAllByPage(page, size);
 	}
 }

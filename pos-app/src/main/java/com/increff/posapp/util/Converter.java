@@ -41,7 +41,7 @@ public class Converter {
 		productData.setBarcode(productPojo.getBarcode());
 		productData.setBrand(brandPojo.getBrand());
 		productData.setCategory(brandPojo.getCategory());
-		productData.setBrand_category(productPojo.getBrandCategory());
+		productData.setBrandCategory(productPojo.getBrandCategory());
 		productData.setName(productPojo.getName());
 		productData.setMrp(productPojo.getMrp());
 		return productData;
@@ -124,13 +124,13 @@ public class Converter {
 		return salesReportData;
 	}
 
-	public static SchedulerData convertToSchedulerData(PosDaySalesPojo pojo){
+	public static PosDaySalesData convertToSchedulerData(PosDaySalesPojo pojo){
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		SchedulerData schedulerData = new SchedulerData();
-		schedulerData.setDate(pojo.getZonedDateTime().toLocalDate().format(dateTimeFormatter));
-		schedulerData.setInvoicedOrdersCount(pojo.getInvoicedOrdersCount());
-		schedulerData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
-		schedulerData.setTotalRevenue(pojo.getTotalRevenue());
-		return schedulerData;
+		PosDaySalesData posDaySalesData = new PosDaySalesData();
+		posDaySalesData.setDate(pojo.getZonedDateTime().toLocalDate().format(dateTimeFormatter));
+		posDaySalesData.setInvoicedOrdersCount(pojo.getInvoicedOrdersCount());
+		posDaySalesData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
+		posDaySalesData.setTotalRevenue(pojo.getTotalRevenue());
+		return posDaySalesData;
 	}
 }

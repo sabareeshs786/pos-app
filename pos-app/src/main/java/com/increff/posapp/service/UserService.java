@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.increff.posapp.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,14 @@ public class UserService {
 	private UserDao dao;
 
 	@Transactional
-	public void add(UserPojo p) throws ApiException {
+	public UserPojo add(UserPojo p) throws ApiException {
 		normalize(p);
+		validate(p);
 		UserPojo existing = dao.select(p.getEmail());
 		if (existing != null) {
 			throw new ApiException("User with given email already exists");
 		}
-		dao.insert(p);
+		return dao.insert(p);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
@@ -41,8 +43,17 @@ public class UserService {
 		dao.delete(id);
 	}
 
-	protected static void normalize(UserPojo p) {
-		p.setEmail(p.getEmail().toLowerCase().trim());
-		p.setRole(p.getRole().toLowerCase().trim());
+	private static void normalize(UserPojo p) {
+		p.setEmail(StringUtil.toLowerCase(p.getEmail()));
+		p.setRole(StringUtil.toLowerCase(p.getRole()));
+	}
+
+	private void validate(UserPojo p) throws ApiException {
+		if(p.getEmail() == null){
+			throw new ApiException("Email can't be empty");
+		}
+		if(p.getPassword() == null){
+			throw new ApiException("Password can't be empty");
+		}
 	}
 }

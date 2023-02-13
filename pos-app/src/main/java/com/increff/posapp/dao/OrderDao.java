@@ -29,10 +29,11 @@ public class OrderDao extends AbstractDao{
 	private static final String SELECT_BY_INTERVAL = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
 	private static final String SELECT_ALL = "select p from OrderPojo p order by time";
 
-	private static String SELECT_ALL_COUNT = "select count(p) from OrderPojo p";
+	private static final String SELECT_ALL_COUNT = "select count(p) from OrderPojo p";
 
-	public void insert(OrderPojo p) {
+	public OrderPojo insert(OrderPojo p) {
 		em().persist(p);
+		return p;
 	}
 
 	public Integer deleteById(Integer id) {

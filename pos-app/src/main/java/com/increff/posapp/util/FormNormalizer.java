@@ -21,8 +21,4 @@ public class FormNormalizer {
 		form.setBarcode(form.getBarcode().toLowerCase());
 	}
 
-	public static void orderItemEditFormNormalizer(OrderItemEditForm form) throws ApiException {
-		form.setBarcode(form.getBarcode().toLowerCase());
-		form.setSellingPrice(DoubleUtil.round(form.getSellingPrice(), 2));
-	}
 }
