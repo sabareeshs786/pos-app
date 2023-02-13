@@ -46,18 +46,17 @@ public class BrandDto {
 		BrandPojo brandPojo = brandService.getById(id);
 		List<BrandData> listBrandData = new ArrayList<>();
 		listBrandData.add(Converter.convertToBrandData(brandPojo));
-		Page<BrandData> dataPage = new PageImpl<>(listBrandData, PageRequest.of(0,1), 1);
-		return dataPage;
+		return new PageImpl<>(listBrandData, PageRequest.of(0,1), 1);
 	}
 	
-	public List<BrandData> getAll() throws ApiException{
-		List<BrandPojo> listBrandPojo = brandService.getAll();
-		List<BrandData> listBrandData = new ArrayList<>();
-		for(BrandPojo p: listBrandPojo) {
-			listBrandData.add(Converter.convertToBrandData(p));
-		}
-		return listBrandData;
-	}
+//	private List<BrandData> getAll() throws ApiException{
+//		List<BrandPojo> listBrandPojo = brandService.getAll();
+//		List<BrandData> listBrandData = new ArrayList<>();
+//		for(BrandPojo p: listBrandPojo) {
+//			listBrandData.add(Converter.convertToBrandData(p));
+//		}
+//		return listBrandData;
+//	}
 
 
 	private Page<BrandData> getAll(Integer page, Integer size) throws ApiException {
@@ -67,8 +66,7 @@ public class BrandDto {
 		for(BrandPojo p: brandPojoList) {
 			listBrandData.add(Converter.convertToBrandData(p));
 		}
-		Page<BrandData> dataPage = new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
-		return dataPage;
+		return new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 
 	public BrandData updateById(Integer id, BrandForm form) throws ApiException {

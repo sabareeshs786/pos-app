@@ -31,14 +31,14 @@ public class BrandReportDto extends InventoryDto{
         logger.info("Brand = "+brand+ " AND Category = "+category);
         if(page == null && size == null){
             List<BrandData> list = new ArrayList<>();
-            List<BrandPojo> pojos = null;
+            List<BrandPojo> pojos = new ArrayList<>();
             if(brand.isEmpty() && category.isEmpty()){
                 logger.info("Brand is null & category is null");
                 pojos = brandService.getAll();
             }
             else if(!brand.isEmpty() && !category.isEmpty()){
                 logger.info("Brand and category both are not null");
-                pojos = (List<BrandPojo>) brandService.getByBrandAndCategory(brand, category);
+                pojos.add(brandService.getByBrandAndCategory(brand, category));
             }
             else if(!category.isEmpty()){
                 logger.info("Category is not null");

@@ -6,6 +6,7 @@ var quantities = [];
 var sellingPrices = [];
 var names = [];
 var totals = [];
+var barcodeSet = new Set();
 
 
 function getOrderUrl(){
@@ -167,22 +168,29 @@ function addItem(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
 	var quantity = $('#place-order-form input[name=quantity]').val();
 	var sellingPrice = $('#place-order-form input[name=sellingPrice]').val();
-	var json = {'barcode': barcode, 
-				'quantity': quantity, 
-				'sellingPrice': sellingPrice
-			   };
-	json = JSON.stringify(json);
-	if(validator(json)){
-		barcodes.push(barcode);
-		quantities.push(quantity);
-		sellingPrices.push(sellingPrice);
-		names.push(dataOfItem.name);
-		totals.push(quantity * parseFloat(sellingPrice));
-		console.log("Barcodes: >>: "+barcodes);
-		console.log("Quantities: >>: "+quantities);
-		console.log("Selling prices: >>: "+sellingPrices);
-		updateAddedItemsTable();
+	if(barcodeSet.has(barcode)){
+		var barcode = $('#place-order-form input[name=barcode]').val('');
 		resetToDefault();
+	}
+	else{
+		barcodeSet.add(barcode);
+		var json = {'barcode': barcode, 
+					'quantity': quantity, 
+					'sellingPrice': sellingPrice
+				};
+		json = JSON.stringify(json);
+		if(validator(json)){
+			barcodes.push(barcode);
+			quantities.push(quantity);
+			sellingPrices.push(sellingPrice);
+			names.push(dataOfItem.name);
+			totals.push(quantity * parseFloat(sellingPrice));
+			console.log("Barcodes: >>: "+barcodes);
+			console.log("Quantities: >>: "+quantities);
+			console.log("Selling prices: >>: "+sellingPrices);
+			updateAddedItemsTable();
+			resetToDefault();
+		}
 	}
 }
 

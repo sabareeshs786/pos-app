@@ -93,9 +93,9 @@ import org.springframework.web.bind.annotation.RestController;
 <span class="nc" id="L93">		return orderItemDto.getByOrderItemId(id);</span>
 	}
 	@ApiOperation(value = &quot;Edits an order item by id&quot;)
-	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.PUT)
-	public void updateOrderItem(@PathVariable Integer id, @Valid @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-<span class="nc" id="L98">		orderItemDto.update(id, orderItemEditForm);</span>
+	@RequestMapping(path = &quot;/api/orderitems/update&quot;, method = RequestMethod.PUT)
+	public void updateOrderItem(@Valid @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
+<span class="nc" id="L98">		orderItemDto.update(orderItemEditForm);</span>
 <span class="nc" id="L99">	}</span>
 
 	@ApiOperation(value = &quot;Used to download invoice&quot;)

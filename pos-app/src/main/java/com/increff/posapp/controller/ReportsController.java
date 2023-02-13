@@ -57,6 +57,6 @@ public class ReportsController {
             ) throws ApiException {
             logger.info("SalesReportForm: "+salesReportForm);
             logger.info("Page number: "+page+" Size: "+size);
-            return salesReportDto.getData(salesReportForm, page, size);
+            return salesReportDto.getData(salesReportForm);
     }
 }

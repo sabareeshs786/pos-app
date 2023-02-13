@@ -1,13 +1,12 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/SpringConfig.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SchedulerForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/BrandController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/InventoryDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/UserPojo.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/ProductService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/InventoryInMemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/OrderItemEditForm.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/PosDaySalesForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/IOUtil.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/SchedulerDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/AboutAppData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/SecurityConfig.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/BrandService.java
@@ -17,7 +16,6 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderItemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/Converter.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/CookieUtil.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SchedulerController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/ValidationUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/BrandDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AppRestControllerAdvice.java
@@ -31,8 +29,6 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SignUpController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/UserForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/ProductData.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SchedulerData.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/SchedulerService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/SpringSecurityInitializer.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/PosDaySalesPojo.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/InventoryData.java
@@ -46,6 +42,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/InventoryController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/ControllerConfig.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AdminApiController.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/PosDaySalesDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/AbstractDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SiteUiController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/ApiException.java
@@ -57,6 +54,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/InventoryReportDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/SalesReportDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SalesReportForm.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/PosDaySalesController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AbstractUiController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderItemInMemDao.java
@@ -69,6 +67,8 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/FormNormalizer.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/UserData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/ReportsController.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/PosDaySalesService.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/PosDaySalesDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/BrandReportDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/spring/WebInitializer.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/InventoryPojo.java
@@ -84,10 +84,10 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/ReportForm.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/SecurityUtil.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/SchedulerDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/BrandData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/BrandInMemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SalesReportData.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/PosDaySalesData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/AboutAppService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/UserPrincipal.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/InventoryReportData.java

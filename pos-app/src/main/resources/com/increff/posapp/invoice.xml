@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <invoice>
-    <date>04/02/2023</date>
+    <date>14/02/2023</date>
     <item>
-        <id>1</id>
-        <productName>xl men's t-shirt</productName>
-        <quantity>6</quantity>
-        <mrp>1000.98</mrp>
-        <sellingPrice>1000.00</sellingPrice>
+        <id>1128</id>
+        <productName>product1</productName>
+        <quantity>2</quantity>
+        <mrp>123.45</mrp>
+        <sellingPrice>120.68</sellingPrice>
     </item>
-    <total>6000.0</total>
+    <item>
+        <id>1129</id>
+        <productName>product2</productName>
+        <quantity>2</quantity>
+        <mrp>12.45</mrp>
+        <sellingPrice>10.78</sellingPrice>
+    </item>
+    <total>262.92</total>
 </invoice>

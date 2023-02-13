@@ -20,36 +20,37 @@ import com.increff.posapp.pojo.UserPojo;
 	private static final String SELECT_BY_EMAIL = &quot;select p from UserPojo p where email=:email&quot;;
 	private static final String SELECT_ALL = &quot;select p from UserPojo p&quot;;
 
-	public void insert(UserPojo p) {
-<span class="nc" id="L24">		em().persist(p);</span>
-<span class="nc" id="L25">	}</span>
+	public UserPojo insert(UserPojo p) {
+<span class="fc" id="L24">		em().persist(p);</span>
+<span class="fc" id="L25">		return p;</span>
+	}
 
 	public Integer delete(Integer id) {
-<span class="nc" id="L28">		Query query = em().createQuery(DELETE_BY_ID);</span>
-<span class="nc" id="L29">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L30">		return query.executeUpdate();</span>
+<span class="fc" id="L29">		Query query = em().createQuery(DELETE_BY_ID);</span>
+<span class="fc" id="L30">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L31">		return query.executeUpdate();</span>
 	}
 
 	public UserPojo select(Integer id) {
-<span class="nc" id="L34">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_ID, UserPojo.class);</span>
-<span class="nc" id="L35">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L36">		return getSingle(query);</span>
+<span class="nc" id="L35">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_ID, UserPojo.class);</span>
+<span class="nc" id="L36">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L37">		return getSingle(query);</span>
 	}
 
 	public UserPojo select(String email) {
-<span class="nc" id="L40">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_EMAIL, UserPojo.class);</span>
-<span class="nc" id="L41">		query.setParameter(&quot;email&quot;, email);</span>
-<span class="nc" id="L42">		return getSingle(query);</span>
+<span class="fc" id="L41">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_EMAIL, UserPojo.class);</span>
+<span class="fc" id="L42">		query.setParameter(&quot;email&quot;, email);</span>
+<span class="fc" id="L43">		return getSingle(query);</span>
 	}
 
 	public List&lt;UserPojo&gt; selectAll() {
-<span class="nc" id="L46">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_ALL, UserPojo.class);</span>
-<span class="nc" id="L47">		return query.getResultList();</span>
+<span class="fc" id="L47">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_ALL, UserPojo.class);</span>
+<span class="fc" id="L48">		return query.getResultList();</span>
 	}
 
 	public void update(UserPojo p) {
 		//Implemented by Spring itself
-<span class="nc" id="L52">	}</span>
+<span class="nc" id="L53">	}</span>
 
 
 }

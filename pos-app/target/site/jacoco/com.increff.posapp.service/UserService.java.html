@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.increff.posapp.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,39 +12,49 @@ import com.increff.posapp.dao.UserDao;
 import com.increff.posapp.pojo.UserPojo;
 
 @Service
-<span class="fc" id="L14">public class UserService {</span>
+<span class="fc" id="L15">public class UserService {</span>
 
 	@Autowired
 	private UserDao dao;
 
 	@Transactional
-	public void add(UserPojo p) throws ApiException {
-<span class="nc" id="L21">		normalize(p);</span>
-<span class="nc" id="L22">		UserPojo existing = dao.select(p.getEmail());</span>
-<span class="nc bnc" id="L23" title="All 2 branches missed.">		if (existing != null) {</span>
-<span class="nc" id="L24">			throw new ApiException(&quot;User with given email already exists&quot;);</span>
+	public UserPojo add(UserPojo p) throws ApiException {
+<span class="fc" id="L22">		normalize(p);</span>
+<span class="fc" id="L23">		validate(p);</span>
+<span class="fc" id="L24">		UserPojo existing = dao.select(p.getEmail());</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">		if (existing != null) {</span>
+<span class="fc" id="L26">			throw new ApiException(&quot;User with given email already exists&quot;);</span>
 		}
-<span class="nc" id="L26">		dao.insert(p);</span>
-<span class="nc" id="L27">	}</span>
+<span class="fc" id="L28">		return dao.insert(p);</span>
+	}
 
 	@Transactional(rollbackOn = ApiException.class)
 	public UserPojo get(String email) throws ApiException {
-<span class="nc" id="L31">		return dao.select(email);</span>
+<span class="fc" id="L33">		return dao.select(email);</span>
 	}
 
 	@Transactional
 	public List&lt;UserPojo&gt; getAll() {
-<span class="nc" id="L36">		return dao.selectAll();</span>
+<span class="fc" id="L38">		return dao.selectAll();</span>
 	}
 
 	@Transactional
 	public void delete(int id) {
-<span class="nc" id="L41">		dao.delete(id);</span>
-<span class="nc" id="L42">	}</span>
+<span class="fc" id="L43">		dao.delete(id);</span>
+<span class="fc" id="L44">	}</span>
 
-	protected static void normalize(UserPojo p) {
-<span class="nc" id="L45">		p.setEmail(p.getEmail().toLowerCase().trim());</span>
-<span class="nc" id="L46">		p.setRole(p.getRole().toLowerCase().trim());</span>
-<span class="nc" id="L47">	}</span>
+	private static void normalize(UserPojo p) {
+<span class="fc" id="L47">		p.setEmail(StringUtil.toLowerCase(p.getEmail()));</span>
+<span class="fc" id="L48">		p.setRole(StringUtil.toLowerCase(p.getRole()));</span>
+<span class="fc" id="L49">	}</span>
+
+	private void validate(UserPojo p) throws ApiException {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		if(p.getEmail() == null){</span>
+<span class="fc" id="L53">			throw new ApiException(&quot;Email can't be empty&quot;);</span>
+		}
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if(p.getPassword() == null){</span>
+<span class="fc" id="L56">			throw new ApiException(&quot;Password can't be empty&quot;);</span>
+		}
+<span class="fc" id="L58">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

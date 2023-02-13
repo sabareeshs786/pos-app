@@ -59,8 +59,8 @@ public class OrderDto {
 
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(OrderForm form) throws ApiException {
-
+	public List<OrderItemData> add(OrderForm form) throws ApiException {
+		List<OrderItemData> list = new ArrayList<>();
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
 		Integer len = form.getBarcodes().size();
@@ -80,9 +80,13 @@ public class OrderDto {
 			inventoryService.updateByProductId(inventoryPojo);
 
 			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, inventoryPojo.getProductId());
-			orderItemService.add(orderItemPojo);
+			list.add(
+					Converter.convertToOrderItemData(
+							orderItemService.add(orderItemPojo),
+							productPojo)
+			);
 		}
-
+		return list;
 	}
 
 	public List<OrderData> getAll() throws ApiException {
@@ -111,10 +115,10 @@ public class OrderDto {
 			}
 			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
 		}
-		Page<OrderData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
-		return dataPage;
+		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 
+	 @Transactional(rollbackOn = ApiException.class)
 	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
 		 List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		 OrderPojo orderPojo = orderService.getById(orderId);

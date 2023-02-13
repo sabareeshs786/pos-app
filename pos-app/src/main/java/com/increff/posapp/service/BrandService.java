@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.ValidationUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class BrandService {
 
 	@Autowired
 	private BrandDao brandDao;
+
+	private static final Logger logger = Logger.getLogger(BrandService.class);
 
 	public BrandData add(BrandPojo p) throws ApiException {
 		normalize(p);

@@ -33,7 +33,7 @@ import com.increff.posapp.pojo.BrandPojo;
 	private static final String SELECT_ALL_COUNT = &quot;select count(p) from BrandPojo p&quot;;
 	private static final String SELECT_BY_BRAND_COUNT = &quot;select count(p) from BrandPojo p where brand=:brand&quot;;
 	private static final String SELECT_BY_CATEGORY_COUNT = &quot;select count(p) from BrandPojo p where category=:category&quot;;
-	
+
 	public BrandPojo insert(BrandPojo p) {
 <span class="fc" id="L38">		em().persist(p);</span>
 <span class="fc" id="L39">		return p;</span>

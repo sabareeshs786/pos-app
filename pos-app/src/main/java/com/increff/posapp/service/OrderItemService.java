@@ -18,10 +18,10 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemDao orderItemDao;
 
-	public void add(OrderItemPojo p) throws ApiException {
+	public OrderItemPojo add(OrderItemPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
-		orderItemDao.insert(p);
+		return orderItemDao.insert(p);
 	}
 
 	public OrderItemPojo getById(Integer id) throws ApiException {
@@ -38,37 +38,21 @@ public class OrderItemService {
 		return orderItemDao.getPageByOrderId(orderId, page, size);
 	}
 
-	public Long getSumOfInvoicedQuantityByOrderId(Integer orderId){
+	public Long getTotalInvoicedQuantity(Integer orderId){
 		return orderItemDao.getInvoicedQuantityByOrderId(orderId);
 	}
 
-	public Double getTotalCostByOrderId(Integer orderId){
+	public Double getTotalCost(Integer orderId){
 		return orderItemDao.getTotalCostByOrderId(orderId);
 	}
 
-	public OrderItemPojo getByProductId(Integer productId) throws ApiException {
-		return getCheckByProductId(productId);
-	}
-
-	   
-	public List<OrderItemPojo> getByQuantity(Integer quantity) throws ApiException {
-		return getCheckByQuantity(quantity);
-	}
-
-	   
-	public List<OrderItemPojo> getBySellingPrice(Double sellingPrice) throws ApiException {
-		return getCheckBySellingPrice(sellingPrice);
-	}
-
-	   
 	public List<OrderItemPojo> getAll() {
 		return orderItemDao.selectAll();
 	}
 
+	// For update
 
-	// For updation
-	   
-	public void updateById(Integer id, OrderItemPojo p) throws ApiException {
+	public OrderItemPojo updateById(Integer id, OrderItemPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
 		OrderItemPojo ex = getCheckById(id);
@@ -77,19 +61,19 @@ public class OrderItemService {
 		ex.setQuantity(p.getQuantity());
 		ex.setSellingPrice(p.getSellingPrice());
 		orderItemDao.update(ex);
+		return ex;
 	}
 
 	   
-	public OrderItemPojo getCheckById(Integer id) throws ApiException {
+	private OrderItemPojo getCheckById(Integer id) throws ApiException {
 		OrderItemPojo p = orderItemDao.selectById(id);
 		if (p == null) {
-			throw new ApiException("Band Category combination with given ID does not exit, id: " + id);
+			throw new ApiException("Item with the given id doesn't exist");
 		}
 		return p;
 	}
 
-	   
-	public List<OrderItemPojo> getCheckByOrderId(Integer orderId) throws ApiException {
+	private List<OrderItemPojo> getCheckByOrderId(Integer orderId) throws ApiException {
 		List<OrderItemPojo> list = orderItemDao.selectByOrderId(orderId);
 		if (list.isEmpty()) {
 			throw new ApiException("Order Id doesn't exist");
@@ -97,46 +81,20 @@ public class OrderItemService {
 		return list;
 	}
 
-	   
-	public OrderItemPojo getCheckByProductId(Integer productId) throws ApiException {
-		OrderItemPojo p = orderItemDao.selectByProductId(productId);
-		if (p == null) {
-			throw new ApiException("Order with product Id doesnot exist");
-		}
-		return p;
-	}
-
-	   
-	public List<OrderItemPojo> getCheckByQuantity(Integer quantity) throws ApiException {
-		List<OrderItemPojo> list = orderItemDao.selectByQuantity(quantity);
-		if (list.isEmpty()) {
-			throw new ApiException("Order Id doesnot exist");
-		}
-		return list;
-	}
-
-	   
-	public List<OrderItemPojo> getCheckBySellingPrice(Double sellingPrice) throws ApiException {
-		List<OrderItemPojo> list = orderItemDao.selectBySellingPrice(sellingPrice);
-		if (list.isEmpty()) {
-			throw new ApiException("Order Id doesnot exist");
-		}
-		return list;
-	}
-	protected static void normalize(OrderItemPojo p) {
+	private static void normalize(OrderItemPojo p) {
 		p.setSellingPrice(DoubleUtil.round(p.getSellingPrice(), 2));
 	}
-	protected void validate(OrderItemPojo p) throws ApiException {
-		if(p.getOrderId().toString().isEmpty()){
+	private void validate(OrderItemPojo p) throws ApiException {
+		if(p.getOrderId() == null){
 			throw new ApiException("Order Id can't be empty");
 		}
-		if(p.getProductId().toString().isEmpty()){
+		if(p.getProductId() == null){
 			throw new ApiException("Order Id can't be empty");
 		}
-		if(p.getQuantity().toString().isEmpty()){
+		if(p.getQuantity() == null){
 			throw new ApiException("Order Id can't be empty");
 		}
-		if(p.getSellingPrice().toString().isEmpty()){
+		if(p.getSellingPrice() == null){
 			throw new ApiException("Selling Price can't be empty");
 		}
 		if(p.getSellingPrice() <= 0.0){

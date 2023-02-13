@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-public class SchedulerDao extends AbstractDao{
+public class PosDaySalesDao extends AbstractDao{
 
 	private static final String SELECT_BY_DATE = "select p from PosDaySalesPojo p where date=:date";
 	private static final String SELECT_BY_START_TIME = "select p from PosDaySalesPojo p where date >= :startDate";

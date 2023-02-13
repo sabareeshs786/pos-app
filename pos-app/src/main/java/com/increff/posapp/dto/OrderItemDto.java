@@ -53,8 +53,11 @@ public class OrderItemDto {
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		}
-		Page<OrderItemData> dataPage = new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
-		return dataPage;
+		return new PageImpl<>(
+				list,
+				PageRequest.of(page, size),
+				pojoPage.getTotalElements()
+		);
 	}
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
@@ -62,19 +65,19 @@ public class OrderItemDto {
 		return Converter.convertToOrderItemData(orderItemPojo, productPojo);
 	}
 
-	public List<OrderItemData> getAll() throws ApiException {
-		List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
-		List<OrderItemData> list = new ArrayList<>();
-		for(OrderItemPojo orderItemPojo : orderItemPojoList){
-			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
-		}
-		return list;
-	}
-	public void update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException {
+//	public List<OrderItemData> getAll() throws ApiException {
+//		List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
+//		List<OrderItemData> list = new ArrayList<>();
+//		for(OrderItemPojo orderItemPojo : orderItemPojoList){
+//			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+//			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+//		}
+//		return list;
+//	}
+	public void update(OrderItemEditForm orderItemEditForm) throws ApiException {
 		FormValidator.orderItemEditFormValidator(orderItemEditForm);
 		isBarcodeValid(orderItemEditForm);
-		OrderItemPojo orderItemPojo = orderItemService.getById(id);
+		OrderItemPojo orderItemPojo = orderItemService.getById(orderItemEditForm.getId());
 		if(isProductChange(orderItemPojo, orderItemEditForm)){
 			checkInventory(orderItemEditForm);
 			isSellingPriceValid(orderItemEditForm);

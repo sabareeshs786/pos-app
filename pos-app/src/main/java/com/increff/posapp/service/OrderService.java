@@ -19,11 +19,11 @@ public class OrderService {
 	@Autowired
 	private OrderDao orderDao;
 
-	public void add(OrderPojo p) throws ApiException {
+	public OrderPojo add(OrderPojo p) throws ApiException {
 		validate(p);
 
 		// Inserting the order
-		orderDao.insert(p);
+		return orderDao.insert(p);
 	}
 
 	public OrderPojo getById(Integer id) throws ApiException {
@@ -42,10 +42,11 @@ public class OrderService {
 	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
 		return orderDao.getAllByPage(page, size);
 	}
-	public void updateById(Integer id, OrderPojo p) throws ApiException {
+	public OrderPojo updateById(Integer id, OrderPojo p) throws ApiException {
 		OrderPojo ex = getCheckById(id);
 		ex.setTime(p.getTime());
 		orderDao.update(ex);
+		return ex;
 	}
 
 	private OrderPojo getCheckById(Integer id) throws ApiException {

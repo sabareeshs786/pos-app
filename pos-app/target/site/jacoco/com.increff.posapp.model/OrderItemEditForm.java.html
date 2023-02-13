@@ -8,19 +8,19 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Getter
-<span class="nc" id="L11">@Setter</span>
-<span class="nc" id="L12">public class OrderItemEditForm {</span>
+<span class="fc" id="L11">@Setter</span>
+<span class="fc" id="L12">public class OrderItemEditForm {</span>
 
 	@Min(value = 1)
 	@Max(value = Integer.MAX_VALUE)
-<span class="nc" id="L16">	private Integer id;</span>
+<span class="fc" id="L16">	private Integer id;</span>
 	@Size(max = 20)
-<span class="nc" id="L18">	private String barcode;</span>
+<span class="fc" id="L18">	private String barcode;</span>
 	@Min(value = 1)
 	@Max(value = Integer.MAX_VALUE)
-<span class="nc" id="L21">	private Integer quantity;</span>
+<span class="fc" id="L21">	private Integer quantity;</span>
 	@Max(value = Integer.MAX_VALUE)
 	@Min(value = 0)
-<span class="nc" id="L24">	private Double sellingPrice;</span>
+<span class="fc" id="L24">	private Double sellingPrice;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

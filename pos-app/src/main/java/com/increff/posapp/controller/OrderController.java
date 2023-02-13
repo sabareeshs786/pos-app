@@ -93,9 +93,9 @@ public class OrderController {
 		return orderItemDto.getByOrderItemId(id);
 	}
 	@ApiOperation(value = "Edits an order item by id")
-	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.PUT)
-	public void updateOrderItem(@PathVariable Integer id, @Valid @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-		orderItemDto.update(id, orderItemEditForm);
+	@RequestMapping(path = "/api/orderitems/update", method = RequestMethod.PUT)
+	public void updateOrderItem(@Valid @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
+		orderItemDto.update(orderItemEditForm);
 	}
 
 	@ApiOperation(value = "Used to download invoice")
