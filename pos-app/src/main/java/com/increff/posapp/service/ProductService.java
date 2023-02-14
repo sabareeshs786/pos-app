@@ -23,6 +23,9 @@ public class ProductService {
 	public ProductPojo add(ProductPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
+		if(productDao.selectByBarcode(p.getBarcode()) != null){
+			throw new ApiException("The entered barcode already exists");
+		}
 		//Inserting
 		return productDao.insert(p);
 	}
@@ -94,9 +97,6 @@ public class ProductService {
 		}
 		if(p.getMrp() <= 0.0){
 			throw new ApiException("MRP must be greater than zero");
-		}
-		if(productDao.selectByBarcode(p.getBarcode()) != null){
-			throw new ApiException("The entered barcode already exists");
 		}
 	}
 }

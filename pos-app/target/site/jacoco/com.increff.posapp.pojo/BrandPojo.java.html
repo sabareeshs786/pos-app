@@ -12,19 +12,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-<span class="pc" id="L16">@Setter</span>
+<span class="nc" id="L15">@Getter</span>
+<span class="nc" id="L16">@Setter</span>
 <span class="nc" id="L17">@ToString</span>
 @Entity
 @Table(name = &quot;brands&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;brand&quot;, &quot;category&quot; }) })
-<span class="fc" id="L20">public class BrandPojo {</span>
+<span class="nc" id="L20">public class BrandPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L24">	private Integer id;</span>
+	private Integer id;
 	@Column(nullable = false)
-<span class="fc" id="L26">	private String brand;</span>
+	private String brand;
 	@Column(nullable = false)
-<span class="fc" id="L28">	private String category;</span>
+	private String category;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

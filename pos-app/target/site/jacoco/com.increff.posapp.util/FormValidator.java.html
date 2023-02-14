@@ -6,38 +6,38 @@ import com.increff.posapp.service.ApiException;
 <span class="nc" id="L6">public class FormValidator {</span>
 
 	public static void orderFormValidator(OrderForm form) throws ApiException {
-<span class="fc" id="L9">		Integer len = form.getBarcodes().size();</span>
-<span class="fc bfc" id="L10" title="All 2 branches covered.">		for(Integer i=0; i &lt; len; i++){</span>
-<span class="pc bpc" id="L11" title="2 of 4 branches missed.">			if(form.getBarcodes().get(i) == null || form.getBarcodes().get(i).isEmpty()){</span>
+<span class="nc" id="L9">		Integer len = form.getBarcodes().size();</span>
+<span class="nc bnc" id="L10" title="All 2 branches missed.">		for(Integer i=0; i &lt; len; i++){</span>
+<span class="nc bnc" id="L11" title="All 4 branches missed.">			if(form.getBarcodes().get(i) == null || form.getBarcodes().get(i).isEmpty()){</span>
 <span class="nc" id="L12">				throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 			}
-<span class="pc bpc" id="L14" title="2 of 4 branches missed.">			if(form.getQuantities().get(i) == null || form.getQuantities().get(i) &lt;= 0){</span>
+<span class="nc bnc" id="L14" title="All 4 branches missed.">			if(form.getQuantities().get(i) == null || form.getQuantities().get(i) &lt;= 0){</span>
 <span class="nc" id="L15">				throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
 			}
-<span class="pc bpc" id="L17" title="2 of 4 branches missed.">			if(form.getSellingPrices().get(i) == null || form.getSellingPrices().get(i) &lt;= 0){</span>
+<span class="nc bnc" id="L17" title="All 4 branches missed.">			if(form.getSellingPrices().get(i) == null || form.getSellingPrices().get(i) &lt;= 0){</span>
 <span class="nc" id="L18">				throw new ApiException(&quot;Selling Price must be greater than zero&quot;);</span>
 			}
 		}
-<span class="fc" id="L21">	}</span>
+<span class="nc" id="L21">	}</span>
 
 	public static void orderItemEditFormValidator(OrderItemEditForm form) throws ApiException {
-<span class="pc bpc" id="L24" title="2 of 4 branches missed.">		if (form.getBarcode() == null || form.getBarcode().isEmpty()) {</span>
+<span class="nc bnc" id="L24" title="All 4 branches missed.">		if (form.getBarcode() == null || form.getBarcode().isEmpty()) {</span>
 <span class="nc" id="L25">			throw new ApiException(&quot;Barcode cannot be empty&quot;);</span>
 		}
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">		if (form.getSellingPrice() == null) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">		if (form.getSellingPrice() == null) {</span>
 <span class="nc" id="L28">			throw new ApiException(&quot;Selling price cannot be empty&quot;);</span>
 		}
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">		if (form.getQuantity() == null) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">		if (form.getQuantity() == null) {</span>
 <span class="nc" id="L31">			throw new ApiException(&quot;Quantity cannot be empty&quot;);</span>
 		}
 
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">		if (form.getQuantity() &lt;= 0) {</span>
 <span class="nc" id="L35">			throw new ApiException(&quot;Quantity must be greater than zero&quot;);</span>
 		}
 
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">		if (form.getSellingPrice() &lt;= 0.0) {</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		if (form.getSellingPrice() &lt;= 0.0) {</span>
 <span class="nc" id="L39">			throw new ApiException(&quot;Selling price must be greater than zero&quot;);</span>
 		}
-<span class="fc" id="L41">	}</span>
+<span class="nc" id="L41">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

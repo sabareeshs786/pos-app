@@ -87,16 +87,12 @@ function getOrderList(pageNumber, pageSize){
 }
 
 function fillValues(data){
-	// $('#place-order-form input[name=quantity]').attr("readonly", false);
-	// $('#place-order-form input[name=sellingPrice]').attr("readonly", false);
 	$('#place-order-form input[name=quantity]').val(1);
 	$('#place-order-form input[name=sellingPrice]').val(data.mrp);
 	$('#add-item').attr('disabled', false);
 }
 
 function fillValuesForEdit(data){
-	// $('#edit-added-item-form input[name=quantity]').attr("readonly", false);
-	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
 	$('#edit-added-item-form input[name=quantity]').val(1);
 	$('#edit-added-item-form input[name=sellingPrice]').val(data.mrp);
 	$('#update-added-item').attr('disabled', false);
@@ -106,16 +102,12 @@ function resetToDefault(){
 	$('#add-item').attr('disabled', true);
 	$('#place-order-form input[name=quantity]').val('');
 	$('#place-order-form input[name=sellingPrice]').val('');
-	// $('#place-order-form input[name=quantity]').attr("readonly", true);
-	// $('#place-order-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function resetToDefaultForEdit(){
 	$('#update-added-item').attr('disabled', true);
 	$('#edit-added-item-form input[name=quantity]').val('');
 	$('#edit-added-item-form input[name=sellingPrice]').val('');
-	// $('#edit-added-item-form input[name=quantity]').attr("readonly", true);
-	// $('#edit-added-item-form input[name=sellingPrice]').attr("readonly", true);
 }
 
 function getProduct(){
@@ -152,7 +144,7 @@ function getProductForEdit(){
 	   contentType : 'application/json',
 	   success: function(data) {
 			console.log("From getProductForEdit: "+data);
-			dataOfItemForEdit = data;
+			dataOfItemForEdit = data.name;
 			fillValuesForEdit(data);
 	   },
 	   error: function(response){
@@ -169,8 +161,24 @@ function addItem(){
 	var quantity = $('#place-order-form input[name=quantity]').val();
 	var sellingPrice = $('#place-order-form input[name=sellingPrice]').val();
 	if(barcodeSet.has(barcode)){
-		var barcode = $('#place-order-form input[name=barcode]').val('');
-		resetToDefault();
+		var json = {'barcode': barcode, 
+					'quantity': quantity, 
+					'sellingPrice': sellingPrice
+				};
+		json = JSON.stringify(json);
+		var index = barcodes.indexOf(barcode);
+		if(validator(json)){
+			barcodes[index] = barcode;
+			quantities[index] = parseInt(quantities[index]) + parseInt(quantity);
+			sellingPrices[index] = sellingPrice;
+			totals[index] = parseFloat(quantities[index]) * parseFloat(sellingPrices[index]);
+			updateAddedItemsTable();
+			resetToDefault();
+		}
+		else{
+			handleAjaxError("Enter valid data");
+			resetToDefault();
+		}
 	}
 	else{
 		barcodeSet.add(barcode);
@@ -181,14 +189,15 @@ function addItem(){
 		json = JSON.stringify(json);
 		if(validator(json)){
 			barcodes.push(barcode);
-			quantities.push(quantity);
-			sellingPrices.push(sellingPrice);
+			quantities.push(parseInt(quantity));
+			sellingPrices.push(parseFloat(sellingPrice));
 			names.push(dataOfItem.name);
-			totals.push(quantity * parseFloat(sellingPrice));
-			console.log("Barcodes: >>: "+barcodes);
-			console.log("Quantities: >>: "+quantities);
-			console.log("Selling prices: >>: "+sellingPrices);
+			totals.push(parseFloat(quantity) * parseFloat(sellingPrice));
 			updateAddedItemsTable();
+			resetToDefault();
+		}
+		else{
+			handleAjaxError("Enter valid data");
 			resetToDefault();
 		}
 	}
@@ -221,29 +230,29 @@ function editAddedItem(i){
 }
 
 function displayEditAddedItem(i){
-	$('#edit-added-item-form input[name=quantity]').attr("readonly", false);
-	$('#edit-added-item-form input[name=sellingPrice]').attr("readonly", false);
 	$('#edit-added-item-form input[name=quantity]').val(quantities[i]);
 	$('#edit-added-item-form input[name=sellingPrice]').val(sellingPrices[i]);
 	$('#edit-added-item-form input[name=barcode]').val(barcodes[i]);
 	$('#edit-added-item-form input[name=i]').val(i);
-	$('#update-added-item').attr("disabled", false);
-	getProductForEdit();
+	dataOfItemForEdit =names[i];
+	$('#update-added-item').attr("disabled", true);
+	// getProductForEdit();
 }
-
-function updateAddedItem(){
-	var i = $('#edit-added-item-form input[name=i]').val();
-	barcodes[i] = $('#edit-added-item-form input[name=barcode]').val();
-	quantities[i] = $('#edit-added-item-form input[name=quantity]').val();
-	sellingPrices[i] = $('#edit-added-item-form input[name=sellingPrice]').val();
-	names[i] = dataOfItemForEdit.name;
-	totals[i] = quantities[i] * parseFloat(sellingPrices[i]);
-	resetToDefaultForEdit();
+function resetModals(){
 	$('#edit-added-item-modal').modal('toggle');
 	$('#place-order-modal').modal('toggle');
 	resetToDefaultForEdit();
 	resetToDefault();
 	updateAddedItemsTable();
+}
+function updateAddedItem(){
+	var i = $('#edit-added-item-form input[name=i]').val();
+	barcodes[i] = $('#edit-added-item-form input[name=barcode]').val();
+	quantities[i] = $('#edit-added-item-form input[name=quantity]').val();
+	sellingPrices[i] = $('#edit-added-item-form input[name=sellingPrice]').val();
+	names[i] = dataOfItemForEdit;
+	totals[i] = quantities[i] * parseFloat(sellingPrices[i]);
+	resetModals();
 }
 
 function deleteAddedItem(i){
@@ -350,14 +359,21 @@ function init(){
 	$('#add-item').click(addItem);
 	$('#cancle1').click(clearAll);
 	$('#cancel2').click(clearAll);
+	$('#cancel3').click(resetModals);
+	$('.close').click(function(){
+		clearAll();
+		resetModals();
+	})
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
-	$('#place-order-form input[name=barcode]').on('change',function(){
-		getProduct();
-	});
-	$('#edit-added-item-form input[name=barcode]').on('change', function(){
-		getProductForEdit();
-	});
+	$('#place-order-form input[name=barcode]').on('change',getProduct);
+	$('#edit-added-item-form input[name=barcode]').on('change', getProductForEdit);
+	$('#edit-added-item-form input[name=quantity]').on('input', function(){
+		$('#update-added-item').attr('disabled', false);
+	})
+	$('#edit-added-item-form input[name=sellingPrice]').on('input', function(){
+		$('#update-added-item').attr('disabled', false);
+	})
 	$('#update-added-item').click(updateAddedItem);
 }
 

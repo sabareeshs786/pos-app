@@ -13,21 +13,21 @@ import lombok.ToString;
 
 @Entity
 @Table(name = &quot;products&quot;)
-@Getter
-<span class="pc" id="L17">@Setter</span>
+<span class="nc" id="L16">@Getter</span>
+<span class="nc" id="L17">@Setter</span>
 <span class="nc" id="L18">@ToString</span>
-<span class="fc" id="L19">public class ProductPojo {</span>
+<span class="nc" id="L19">public class ProductPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L23">	private Integer id;</span>
+	private Integer id;
 	@Column(unique = true, nullable = false)
-<span class="fc" id="L25">	private String barcode;</span>
+	private String barcode;
 	@Column(name = &quot;brand_category&quot;, nullable = false)
-<span class="fc" id="L27">	private Integer brandCategory;</span>
+	private Integer brandCategory;
 	@Column(name = &quot;product_name&quot;, nullable = false)
-<span class="fc" id="L29">	private String name;</span>
+	private String name;
 	@Column(nullable = false)
-<span class="fc" id="L31">	private Double mrp;</span>
+	private Double mrp;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

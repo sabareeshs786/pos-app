@@ -11,14 +11,14 @@ import com.increff.posapp.util.SecurityUtil;
 import com.increff.posapp.util.UserPrincipal;
 
 @Controller
-<span class="fc" id="L14">public abstract class AbstractUiController {</span>
+<span class="nc" id="L14">public abstract class AbstractUiController {</span>
 
 	@Autowired
 	private InfoData info;
 
 	@Value(&quot;${app.baseUrl}&quot;)
 	private String baseUrl;
-<span class="fc" id="L21">	private static Logger logger = Logger.getLogger(AbstractUiController.class);</span>
+<span class="nc" id="L21">	private static Logger logger = Logger.getLogger(AbstractUiController.class);</span>
 
 	protected ModelAndView mav(String page) {
 		// Get current user

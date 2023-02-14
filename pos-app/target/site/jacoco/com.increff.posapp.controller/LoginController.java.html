@@ -30,7 +30,7 @@ import com.increff.posapp.util.UserPrincipal;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-<span class="fc" id="L33">public class LoginController {</span>
+<span class="nc" id="L33">public class LoginController {</span>
 
 	@Autowired
 	private UserService service;
@@ -80,7 +80,7 @@ import io.swagger.annotations.ApiOperation;
 
 		// Create Authentication
 <span class="nc" id="L82">		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,</span>
-				authorities);
+<span class="nc" id="L83">				authorities);</span>
 <span class="nc" id="L84">		return token;</span>
 	}
 }

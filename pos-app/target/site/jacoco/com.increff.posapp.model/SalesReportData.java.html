@@ -7,16 +7,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+<span class="pc" id="L10">@Getter</span>
 <span class="pc" id="L11">@Setter</span>
 public class SalesReportData{
-<span class="fc" id="L13">	private String startDate;</span>
-<span class="fc" id="L14">	private String  endDate;</span>
-<span class="fc" id="L15">	private List&lt;String&gt; brands;</span>
-<span class="fc" id="L16">	private List&lt;String&gt; categories;</span>
-<span class="fc" id="L17">	private List&lt;Integer&gt; quantities;</span>
-<span class="fc" id="L18">	private List&lt;String&gt; totalAmounts;</span>
-<span class="nc" id="L19">	private String totalRevenue;</span>
+	private String startDate;
+	private String  endDate;
+	private List&lt;String&gt; brands;
+	private List&lt;String&gt; categories;
+	private List&lt;Integer&gt; quantities;
+	private List&lt;String&gt; totalAmounts;
+	private String totalRevenue;
 
 <span class="fc" id="L21">	public SalesReportData(){</span>
 <span class="fc" id="L22">		this.brands = new ArrayList&lt;String&gt;();</span>
@@ -28,14 +28,14 @@ public class SalesReportData{
 	@Override
 	public String toString() {
 <span class="nc" id="L30">		return &quot;SalesReportData{&quot; +</span>
-				&quot;startDate=&quot; + startDate +
-				&quot;, endDate=&quot; + endDate +
-				&quot;, brands=&quot; + brands +
-				&quot;, categories=&quot; + categories +
-				&quot;, quantities=&quot; + quantities +
-				&quot;, totalAmounts=&quot; + totalAmounts +
-				&quot;, totalRevenue='&quot; + totalRevenue + '\'' +
-				'}';
+<span class="nc" id="L31">				&quot;startDate=&quot; + startDate +</span>
+<span class="nc" id="L32">				&quot;, endDate=&quot; + endDate +</span>
+<span class="nc" id="L33">				&quot;, brands=&quot; + brands +</span>
+<span class="nc" id="L34">				&quot;, categories=&quot; + categories +</span>
+<span class="nc" id="L35">				&quot;, quantities=&quot; + quantities +</span>
+<span class="nc" id="L36">				&quot;, totalAmounts=&quot; + totalAmounts +</span>
+<span class="nc" id="L37">				&quot;, totalRevenue='&quot; + totalRevenue + '\'' +</span>
+<span class="nc" id="L38">				'}';</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

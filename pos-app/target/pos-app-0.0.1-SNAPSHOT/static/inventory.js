@@ -100,7 +100,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		handleAjaxSuccess(response);
+		handleAjaxSuccess("Uploaded successfully!!!");
 		getInventoryListUtil();
 		return;
 	}

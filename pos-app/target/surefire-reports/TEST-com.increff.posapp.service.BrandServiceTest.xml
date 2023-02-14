@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="39" failures="0" name="com.increff.posapp.service.BrandServiceTest" time="0.364" errors="0" skipped="0">
+<testsuite tests="39" failures="0" name="com.increff.posapp.service.BrandServiceTest" time="0.331" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
     <property name="java.vm.version" value="25.352-b08"/>
     <property name="java.vm.vendor" value="Private Build"/>
-    <property name="maven.multiModuleProjectDirectory" value="/home/sabareeshs/Documents/pos/pos-app"/>
+    <property name="maven.multiModuleProjectDirectory" value="/home/sabareeshs/Documents/pos"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=":"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/home/sabareeshs/Documents/pos/pos-app"/>
+    <property name="user.dir" value="/home/sabareeshs/Documents/pos"/>
     <property name="java.runtime.version" value="1.8.0_352-8u352-ga-1~20.04-b08"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/endorsed"/>
@@ -63,43 +63,43 @@
     <property name="sun.desktop" value="gnome"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandIdAssign" time="0.01"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddCategoryNull" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalid" time="0.012"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateDuplicateEntry" time="0.01"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAllByPageInvalid" time="0.011"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidBrand" time="0.018"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAdd" time="0.009"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBothEmpty" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryNull" time="0.013"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandEmpty" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategoryInvalid" time="0.017"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddCategoryEmpty" time="0.004"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidPageAndSize" time="0.013"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByIdValid" time="0.015"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testUpdateByIdValid" time="0.012"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBrandNull" time="0.004"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidPage" time="0.009"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidSize" time="0.01"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetBycategoryInvalidPageAndSize" time="0.011"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryValid" time="0.011"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategory" time="0.015"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBothNull" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandNull" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAllByPage" time="0.015"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateCategoryEmpty" time="0.004"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateCategoryNull" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBothNull" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrand" time="0.013"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateDuplicateEntryAndNormalize" time="0.01"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetBycategoryInvalidCategory" time="0.011"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testNormalize" time="0.009"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByIdInvalidId" time="0.011"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandNull" time="0.01"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAll" time="0.012"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategoryNull" time="0.009"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBrandEmpty" time="0.003"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandValid" time="0.013"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategory" time="0.008"/>
-  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryInValid" time="0.011"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandIdAssign" time="0.177"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddCategoryNull" time="0.005"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalid" time="0.01"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateDuplicateEntry" time="0.007"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAllByPageInvalid" time="0.006"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidBrand" time="0.007"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAdd" time="0.003"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBothEmpty" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryNull" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandEmpty" time="0.001"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategoryInvalid" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddCategoryEmpty" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidPageAndSize" time="0.003"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByIdValid" time="0.006"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testUpdateByIdValid" time="0.005"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBrandNull" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidPage" time="0.003"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandInvalidSize" time="0.003"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetBycategoryInvalidPageAndSize" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryValid" time="0.006"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategory" time="0.006"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBothNull" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBrandNull" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAllByPage" time="0.007"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateCategoryEmpty" time="0.002"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateCategoryNull" time="0.001"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testAddBothNull" time="0.001"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrand" time="0.005"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateDuplicateEntryAndNormalize" time="0.005"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetBycategoryInvalidCategory" time="0.007"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testNormalize" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByIdInvalidId" time="0.005"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandNull" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetAll" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategoryNull" time="0.003"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testValidateBrandEmpty" time="0.001"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandValid" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByBrandAndCategory" time="0.004"/>
+  <testcase classname="com.increff.posapp.service.BrandServiceTest" name="testGetByCategoryInValid" time="0.004"/>
 </testsuite>

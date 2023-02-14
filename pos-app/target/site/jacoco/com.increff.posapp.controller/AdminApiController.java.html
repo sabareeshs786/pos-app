@@ -23,13 +23,13 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
-<span class="fc" id="L26">public class AdminApiController {</span>
+<span class="nc" id="L26">public class AdminApiController {</span>
 
 	@Autowired
 	private UserService service;
 	@Value(&quot;${app.supervisors}&quot;)
 	private String emails;
-<span class="fc" id="L32">	private static Logger logger = Logger.getLogger(AdminApiController.class);</span>
+<span class="nc" id="L32">	private static Logger logger = Logger.getLogger(AdminApiController.class);</span>
 
 	@ApiOperation(value = &quot;Adds a user&quot;)
 	@RequestMapping(path = &quot;/api/supervisor/user&quot;, method = RequestMethod.POST)
@@ -58,7 +58,7 @@ import io.swagger.annotations.ApiOperation;
 <span class="nc" id="L58">		List&lt;UserData&gt; list2 = new ArrayList&lt;UserData&gt;();</span>
 <span class="nc bnc" id="L59" title="All 2 branches missed.">		for (UserPojo p : list) {</span>
 <span class="nc" id="L60">			list2.add(convert(p));</span>
-<span class="nc" id="L61">		}</span>
+		}
 <span class="nc" id="L62">		return list2;</span>
 	}
 

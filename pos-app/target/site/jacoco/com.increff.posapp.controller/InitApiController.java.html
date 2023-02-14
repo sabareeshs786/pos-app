@@ -20,7 +20,7 @@ import com.increff.posapp.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-<span class="fc" id="L23">public class InitApiController extends AbstractUiController {</span>
+<span class="nc" id="L23">public class InitApiController extends AbstractUiController {</span>
 
 	@Autowired
 	private UserService service;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 <span class="nc" id="L44">		List&lt;UserPojo&gt; list = service.getAll();</span>
 <span class="nc bnc" id="L45" title="All 2 branches missed.">		if (list.size() &gt; 0) {</span>
 <span class="nc" id="L46">			info.setMessage(&quot;Application already initialized. Please use existing credentials&quot;);</span>
-		} else {
+<span class="nc" id="L47">		} else {</span>
 <span class="nc" id="L48">			UserPojo p = convert(form);</span>
 <span class="nc" id="L49">			String[] emailArray = emails.split(&quot;,&quot;);</span>
 <span class="nc" id="L50">			Set&lt;String&gt; emailSet = new HashSet&lt;&gt;(Arrays.asList(emailArray));</span>

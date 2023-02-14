@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+<span class="nc" id="L12">@Getter</span>
 <span class="nc" id="L13">@Setter</span>
 @Component
 @Scope(value=&quot;session&quot;, proxyMode=ScopedProxyMode.TARGET_CLASS)
@@ -17,9 +17,9 @@ public class InfoData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-<span class="nc" id="L20">	private String message;</span>
-<span class="nc" id="L21">	private String email;</span>
-<span class="nc" id="L22">	private String role;</span>
+	private String message;
+	private String email;
+	private String role;
 
 <span class="nc" id="L24">	public InfoData() {</span>
 <span class="nc" id="L25">		message = &quot;No message&quot;;</span>
@@ -29,8 +29,8 @@ public class InfoData implements Serializable {
 	@Override
 	public String toString() {
 <span class="nc" id="L31">		return &quot;{\&quot;message\&quot;: \&quot;&quot; + message + &quot;\&quot;, &quot; +</span>
-				&quot;\&quot;email\&quot; : \&quot;&quot; + email + &quot;\&quot;, &quot; +
-				&quot;\&quot;role\&quot;: \&quot;&quot;+ role + &quot;\&quot;}&quot;;
+<span class="nc" id="L32">				&quot;\&quot;email\&quot; : \&quot;&quot; + email + &quot;\&quot;, &quot; +</span>
+<span class="nc" id="L33">				&quot;\&quot;role\&quot;: \&quot;&quot;+ role + &quot;\&quot;}&quot;;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

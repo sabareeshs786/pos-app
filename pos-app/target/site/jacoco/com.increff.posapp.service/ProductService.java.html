@@ -15,89 +15,89 @@ import com.increff.posapp.util.StringUtil;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L18">public class ProductService {</span>
+<span class="nc" id="L18">public class ProductService {</span>
 
 	@Autowired
 	private ProductDao productDao;
 
 	public ProductPojo add(ProductPojo p) throws ApiException {
-<span class="fc" id="L24">		normalize(p);</span>
-<span class="fc" id="L25">		validate(p);</span>
+<span class="nc" id="L24">		normalize(p);</span>
+<span class="nc" id="L25">		validate(p);</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">		if(productDao.selectByBarcode(p.getBarcode()) != null){</span>
+<span class="nc" id="L27">			throw new ApiException(&quot;The entered barcode already exists&quot;);</span>
+		}
 		//Inserting
-<span class="fc" id="L27">		return productDao.insert(p);</span>
+<span class="nc" id="L30">		return productDao.insert(p);</span>
 	}
 
 	public ProductPojo getById(int id) throws ApiException {
-<span class="fc" id="L31">		return getCheckById(id);</span>
+<span class="nc" id="L34">		return getCheckById(id);</span>
 	}
 
 	public ProductPojo getByBarcode(String barcode) throws ApiException {
-<span class="fc" id="L35">		return getCheckByBarcode(barcode);</span>
+<span class="nc" id="L38">		return getCheckByBarcode(barcode);</span>
 	}
 
 	public List&lt;ProductPojo&gt; getAll() {
-<span class="fc" id="L39">		return productDao.selectAll();</span>
+<span class="nc" id="L42">		return productDao.selectAll();</span>
 	}
 
 	public Page&lt;ProductPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="fc" id="L43">		return productDao.getAllByPage(page, size);</span>
+<span class="nc" id="L46">		return productDao.getAllByPage(page, size);</span>
 	}
 	public ProductPojo updateById(int id, ProductPojo p) throws ApiException {
-<span class="fc" id="L46">		normalize(p);</span>
-<span class="fc" id="L47">		validate(p);</span>
-<span class="fc" id="L48">		ProductPojo ex = getCheckById(id);</span>
-<span class="fc" id="L49">		ex.setBarcode(p.getBarcode());</span>
-<span class="fc" id="L50">		ex.setBrandCategory(p.getBrandCategory());</span>
-<span class="fc" id="L51">		ex.setName(p.getName());</span>
-<span class="fc" id="L52">		ex.setMrp(p.getMrp());</span>
-<span class="fc" id="L53">		productDao.update(ex);</span>
-<span class="fc" id="L54">		return ex;</span>
+<span class="nc" id="L49">		normalize(p);</span>
+<span class="nc" id="L50">		validate(p);</span>
+<span class="nc" id="L51">		ProductPojo ex = getCheckById(id);</span>
+<span class="nc" id="L52">		ex.setBarcode(p.getBarcode());</span>
+<span class="nc" id="L53">		ex.setBrandCategory(p.getBrandCategory());</span>
+<span class="nc" id="L54">		ex.setName(p.getName());</span>
+<span class="nc" id="L55">		ex.setMrp(p.getMrp());</span>
+<span class="nc" id="L56">		productDao.update(ex);</span>
+<span class="nc" id="L57">		return ex;</span>
 	}
 
 	private ProductPojo getCheckById(Integer id) throws ApiException {
-<span class="fc" id="L58">		ProductPojo p = productDao.selectById(id);</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (p == null) {</span>
-<span class="fc" id="L60">			throw new ApiException(&quot;Product with given ID does not exist&quot;);</span>
+<span class="nc" id="L61">		ProductPojo p = productDao.selectById(id);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L63">			throw new ApiException(&quot;Product with given ID does not exist&quot;);</span>
 		}
-<span class="fc" id="L62">		return p;</span>
+<span class="nc" id="L65">		return p;</span>
 	}
 
 	private ProductPojo getCheckByBarcode(String barcode) throws ApiException {
-<span class="fc" id="L66">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (p == null) {</span>
-<span class="fc" id="L68">			throw new ApiException(&quot;Product with given barcode doesn't exist&quot;);</span>
+<span class="nc" id="L69">		ProductPojo p = productDao.selectByBarcode(barcode);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (p == null) {</span>
+<span class="nc" id="L71">			throw new ApiException(&quot;Product with given barcode doesn't exist&quot;);</span>
 		}
-<span class="fc" id="L70">		return p;</span>
+<span class="nc" id="L73">		return p;</span>
 	}
 
 	private void normalize(ProductPojo p) {
-<span class="fc" id="L74">		p.setBarcode(StringUtil.toLowerCase(p.getBarcode()));</span>
-<span class="fc" id="L75">		p.setName(StringUtil.toLowerCase(p.getName()));</span>
-<span class="fc" id="L76">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
-<span class="fc" id="L77">	}</span>
+<span class="nc" id="L77">		p.setBarcode(StringUtil.toLowerCase(p.getBarcode()));</span>
+<span class="nc" id="L78">		p.setName(StringUtil.toLowerCase(p.getName()));</span>
+<span class="nc" id="L79">		p.setMrp(DoubleUtil.round(p.getMrp(), 2));</span>
+<span class="nc" id="L80">	}</span>
 
 	private void validate(ProductPojo p) throws ApiException {
-<span class="fc bfc" id="L80" title="All 2 branches covered.">		if(StringUtil.isEmpty(p.getBarcode())){</span>
-<span class="fc" id="L81">			throw new ApiException(&quot;Barcode can't be empty&quot;);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		if(StringUtil.isEmpty(p.getBarcode())){</span>
+<span class="nc" id="L84">			throw new ApiException(&quot;Barcode can't be empty&quot;);</span>
 		}
-<span class="fc bfc" id="L83" title="All 2 branches covered.">		if(StringUtil.isEmpty(p.getName())){</span>
-<span class="fc" id="L84">			throw new ApiException(&quot;Product name can't be empty&quot;);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if(StringUtil.isEmpty(p.getName())){</span>
+<span class="nc" id="L87">			throw new ApiException(&quot;Product name can't be empty&quot;);</span>
 		}
-<span class="pc bpc" id="L86" title="1 of 4 branches missed.">		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){</span>
-<span class="fc" id="L87">			throw new ApiException(&quot;Brand-Category number can't be empty&quot;);</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){</span>
+<span class="nc" id="L90">			throw new ApiException(&quot;Brand-Category number can't be empty&quot;);</span>
 		}
-<span class="pc bpc" id="L89" title="1 of 4 branches missed.">		if(p.getMrp() == null || StringUtil.isEmpty(p.getMrp().toString())){</span>
-<span class="fc" id="L90">			throw new ApiException(&quot;MRP can't be empty&quot;);</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">		if(p.getMrp() == null || StringUtil.isEmpty(p.getMrp().toString())){</span>
+<span class="nc" id="L93">			throw new ApiException(&quot;MRP can't be empty&quot;);</span>
 		}
-<span class="fc bfc" id="L92" title="All 4 branches covered.">		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {</span>
-<span class="fc" id="L93">			throw new ApiException(&quot;MRP is invalid&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {</span>
+<span class="nc" id="L96">			throw new ApiException(&quot;MRP is invalid&quot;);</span>
 		}
-<span class="fc bfc" id="L95" title="All 2 branches covered.">		if(p.getMrp() &lt;= 0.0){</span>
-<span class="fc" id="L96">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">		if(p.getMrp() &lt;= 0.0){</span>
+<span class="nc" id="L99">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
 		}
-<span class="fc bfc" id="L98" title="All 2 branches covered.">		if(productDao.selectByBarcode(p.getBarcode()) != null){</span>
-<span class="fc" id="L99">			throw new ApiException(&quot;The entered barcode already exists&quot;);</span>
-		}
-<span class="fc" id="L101">	}</span>
+<span class="nc" id="L101">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

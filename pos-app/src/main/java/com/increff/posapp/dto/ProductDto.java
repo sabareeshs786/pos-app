@@ -68,8 +68,7 @@ public class ProductDto {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 			list2.add(Converter.convertToProductData(productPojo, brandPojo));
 		}
-		Page<ProductData> dataPage = new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
-		return dataPage;
+		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 	
 	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
@@ -83,6 +82,7 @@ public class ProductDto {
 			return getAll(page, size);
 		}
 		else if (id != null){
+			logger.info("In getData. Id = "+id);
 			return getById(id);
 		}
 		else {

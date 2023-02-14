@@ -16,7 +16,7 @@ import com.increff.posapp.pojo.ProductPojo;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="fc" id="L19">public class ProductDao extends AbstractDao{</span>
+<span class="nc" id="L19">public class ProductDao extends AbstractDao{</span>
 	private static final String SELECT_BY_ID = &quot;select p from ProductPojo p where id=:id&quot;;
 	private static final String SELECT_BY_BARCODE = &quot;select p from ProductPojo p where barcode=:barcode&quot;;
 	private static final String SELECT_ALL = &quot;select p from ProductPojo p&quot;;
@@ -25,44 +25,44 @@ import com.increff.posapp.pojo.ProductPojo;
 
 	@Transactional
 	public ProductPojo insert(ProductPojo productPojo) {
-<span class="fc" id="L28">		em().persist(productPojo);</span>
-<span class="fc" id="L29">		return productPojo;</span>
+<span class="nc" id="L28">		em().persist(productPojo);</span>
+<span class="nc" id="L29">		return productPojo;</span>
 	}
 
 	public ProductPojo selectById(Integer id) {
-<span class="fc" id="L33">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
-<span class="fc" id="L34">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="fc" id="L35">		return getSingle(query);</span>
+<span class="nc" id="L33">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_ID, ProductPojo.class);</span>
+<span class="nc" id="L34">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="nc" id="L35">		return getSingle(query);</span>
 	}
 	
 	public ProductPojo selectByBarcode(String barcode) {
-<span class="fc" id="L39">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
-<span class="fc" id="L40">		query.setParameter(&quot;barcode&quot;, barcode);</span>
-<span class="fc" id="L41">		return getSingle(query);</span>
+<span class="nc" id="L39">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_BY_BARCODE, ProductPojo.class);</span>
+<span class="nc" id="L40">		query.setParameter(&quot;barcode&quot;, barcode);</span>
+<span class="nc" id="L41">		return getSingle(query);</span>
 	}
 
 	public List&lt;ProductPojo&gt; selectAll() {
-<span class="fc" id="L45">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
-<span class="fc" id="L46">		return query.getResultList();</span>
+<span class="nc" id="L45">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="nc" id="L46">		return query.getResultList();</span>
 	}
 
 	public Page&lt;ProductPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="fc" id="L50">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
+<span class="nc" id="L50">		TypedQuery&lt;ProductPojo&gt; query = getQuery(SELECT_ALL, ProductPojo.class);</span>
 		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="fc" id="L52">		int pageNumber = page;</span>
-<span class="fc" id="L53">		int pageSize = size;</span>
-<span class="fc" id="L54">		int firstResult = pageNumber * pageSize;</span>
-<span class="fc" id="L55">		query.setFirstResult(firstResult);</span>
-<span class="fc" id="L56">		query.setMaxResults(pageSize);</span>
+<span class="nc" id="L52">		int pageNumber = page;</span>
+<span class="nc" id="L53">		int pageSize = size;</span>
+<span class="nc" id="L54">		int firstResult = pageNumber * pageSize;</span>
+<span class="nc" id="L55">		query.setFirstResult(firstResult);</span>
+<span class="nc" id="L56">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="fc" id="L59">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
-<span class="fc" id="L60">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="fc" id="L61">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="nc" id="L59">		List&lt;ProductPojo&gt; entities = query.getResultList();</span>
+<span class="nc" id="L60">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="nc" id="L61">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(ProductPojo productPojo) {
 		// Implemented by Spring itself
-<span class="fc" id="L65">	}</span>
+<span class="nc" id="L65">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

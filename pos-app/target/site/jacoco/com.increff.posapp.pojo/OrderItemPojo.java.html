@@ -8,21 +8,21 @@ import lombok.ToString;
 
 @Entity
 @Table(name = &quot;orderitems&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;order_id&quot;, &quot;product_id&quot; }) })
-@Getter
-<span class="pc" id="L12">@Setter</span>
+<span class="nc" id="L11">@Getter</span>
+<span class="nc" id="L12">@Setter</span>
 <span class="nc" id="L13">@ToString</span>
-<span class="fc" id="L14">public class OrderItemPojo {</span>
+<span class="nc" id="L14">public class OrderItemPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L18">	private Integer id;</span>
+	private Integer id;
 	@Column(name = &quot;order_id&quot;, nullable = false)
-<span class="fc" id="L20">	private Integer orderId;</span>
+	private Integer orderId;
 	@Column(name = &quot;product_id&quot;, nullable = false)
-<span class="fc" id="L22">	private Integer productId;</span>
+	private Integer productId;
 	@Column(nullable = false)
-<span class="fc" id="L24">	private Integer quantity;</span>
+	private Integer quantity;
 	@Column(name = &quot;selling_price&quot;, nullable = false)
-<span class="fc" id="L26">	private Double sellingPrice;</span>
+	private Double sellingPrice;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
