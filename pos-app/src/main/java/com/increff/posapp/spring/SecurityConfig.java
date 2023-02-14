@@ -2,6 +2,7 @@ package com.increff.posapp.spring;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,7 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/ui/**")//
 				.and().authorizeRequests()//
 				.antMatchers("/api/supervisor/**").hasAuthority("supervisor")//
-				.antMatchers("/api/**").hasAnyAuthority("supervisor")//
+				.antMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("supervisor")
+				.antMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("supervisor")
+				.antMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority("supervisor")
+				.antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("supervisor", "operator")
+				.antMatchers(HttpMethod.POST, "/api/reports/**").hasAnyAuthority("supervisor", "operator")
 				.antMatchers("/ui/**").hasAnyAuthority("supervisor", "operator")//
 				// Ignore CSRF and CORS
 				.and().csrf().disable().cors().disable();

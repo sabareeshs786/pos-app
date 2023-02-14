@@ -150,7 +150,7 @@ function displayProductList(data, sno){
 	+ data[i].brand + "</td><td>"
 	+ data[i].category + "</td><td>"
 	+ data[i].name + "</td><td>" 
-	+ data[i].mrp + "</td><td>" 
+	+ data[i].mrp + "</td><td>"
 	+ buttonHtml 
 	+ "</td></tr>";
 	$("#product-table-body").append(row);
@@ -160,11 +160,14 @@ function displayProductList(data, sno){
 
 function displayEditProduct(id){
 	var url = getProductUrl() + "?id=" + id;
+	console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayProduct(data);   
+			console.log("Content="+data.content);
+			console.log(data);
+	   		displayProduct(data.content); 
 	   },
 	   error: handleAjaxError
 	});	
@@ -201,12 +204,12 @@ function displayUploadData(){
 }
 
 function displayProduct(data){
-	$("#product-edit-form input[name=id]").val(data.id)
-	$("#product-edit-form input[name=barcode]").val(data.barcode);	
-	$("#product-edit-form select[name=brand]").val(data.brand);
-	$("#product-edit-form select[name=category]").val(data.category);
-	$("#product-edit-form input[name=name]").val(data.name);
-	$("#product-edit-form input[name=mrp]").val(data.mrp);
+	$("#product-edit-form input[name=id]").val(data[0].id)
+	$("#product-edit-form input[name=barcode]").val(data[0].barcode);	
+	$("#product-edit-form input[name=brand]").val(data[0].brand);
+	$("#product-edit-form input[name=category]").val(data[0].category);
+	$("#product-edit-form input[name=name]").val(data[0].name);
+	$("#product-edit-form input[name=mrp]").val(data[0].mrp);
 	$('#edit-product-modal').modal('toggle');
 }
 
