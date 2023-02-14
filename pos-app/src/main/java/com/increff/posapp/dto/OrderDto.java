@@ -157,18 +157,6 @@ public class OrderDto {
 
 		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
 
-//			 byte[] pdfBytes = outputStream.toByteArray();
-//			 HttpHeaders headers = new HttpHeaders();
-//			 headers.setContentType(MediaType.APPLICATION_PDF);
-//			 headers.setContentLength(pdfBytes.length);
-//			 headers.setContentDispositionFormData("attachment", "invoice.pdf");
-//			 String pdfFileName = "output.pdf";
-//			 response.reset();
-//			 response.addHeader("Pragma", "public");
-//			 response.addHeader("Cache-Control", "max-age=0");
-//			 response.setHeader("Content-disposition", "attachment;filename=" + pdfFileName);
-//			 response.setContentType("application/pdf");
-
 		 //Prepare response
 		 response.setContentType("application/pdf");
 		 response.setContentLength(decodedBytes.length);

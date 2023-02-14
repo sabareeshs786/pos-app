@@ -1,6 +1,5 @@
 package com.increff.posapp.dto;
 
-import com.increff.posapp.model.InventoryReportData;
 import com.increff.posapp.model.SalesReportData;
 import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.pojo.BrandPojo;
@@ -13,16 +12,16 @@ import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.DoubleUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Component
 public class SalesReportDto extends InventoryDto {
@@ -37,50 +36,6 @@ public class SalesReportDto extends InventoryDto {
     private OrderItemService orderItemService;
 
 
-//    public SalesReportData getall() throws ApiException {
-//        SortedMap<String, Double> sm1 = new TreeMap<>();
-//        SortedMap<String, Integer> sm2 = new TreeMap<>();
-//        String brandCategory = null;
-//        Set<ZonedDateTime> zonedDateTimeSet = new TreeSet<>();
-//        SalesReportData salesReportData = new SalesReportData();
-//        List<OrderPojo> orderPojoList = orderService.getAll();
-//        Double totalRevenue = 0.0;
-//        for (OrderPojo orderPojo : orderPojoList) {
-//            List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderPojo.getId());
-//            for (OrderItemPojo orderItemPojo : orderItemPojoList) {
-//                ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-//                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-//                brandCategory = brandPojo.getBrand() + "--" + brandPojo.getCategory();
-//                if (sm1.containsKey(brandCategory)) {
-//                    sm1.put(brandCategory, sm1.get(brandCategory) + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
-//                    sm2.put(brandCategory, sm2.get(brandCategory) + orderItemPojo.getQuantity());
-//                } else {
-//                    sm1.put(brandCategory, orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
-//                    sm2.put(brandCategory, orderItemPojo.getQuantity());
-//                }
-//                totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
-//            }
-//            zonedDateTimeSet.add(orderPojo.getTime());
-//        }
-//
-//        List<ZonedDateTime> zonedDateTimeList = new ArrayList<>(zonedDateTimeSet);
-//        salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));
-//
-//        for (Map.Entry<String, Double> entry : sm1.entrySet()) {
-//            Integer quantity = sm2.get(entry.getKey());
-//            Converter.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);
-//        }
-//        return salesReportData;
-//    }
-
-//    public SalesReportData getData1(SalesReportForm salesReportForm) throws ApiException {
-//        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
-//        ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);
-//        ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(salesReportForm.getEndDate(), zoneId);
-//        List<OrderPojo> orderPojoList = orderService.getByInterval(zonedDateTimeStart, zonedDateTimeEnd);
-//        validate(salesReportForm);
-//        return null;
-//    }
     public <T> T getData(SalesReportForm salesReportForm) throws ApiException {
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
         ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);
@@ -137,11 +92,8 @@ public class SalesReportDto extends InventoryDto {
             Integer quantity = sm2.get(entry.getKey());
             Converter.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);
         }
-//        if(page == null && size == null){
-//
-//        }
+
         return (T) salesReportData;
-//        return (T) getPage(salesReportData, page, size);
     }
 
     private void setSortedMap1(SortedMap<String, Double> sm, OrderItemPojo orderItemPojo, String brand, String category){
@@ -177,19 +129,4 @@ public class SalesReportDto extends InventoryDto {
             throw new ApiException("Difference between the two entered dates must be within one year");
         }
     }
-
-//    private <T> T getPage(SalesReportData salesReportDataList, Integer page, Integer size){
-//        SalesReportData salesReportDataList1 = new SalesReportData();
-//        Long totalElements = (long) salesReportDataList.getBrands().size();
-//        Integer start = page*size;
-//        Integer end = start + size - 1;
-//        for(int i=start; i <= end && i < totalElements; i++){
-//            salesReportDataList1.getBrands().add(salesReportDataList.getBrands().get(i));
-//            salesReportDataList1.getCategories().add(salesReportDataList.getCategories().get(i));
-//            salesReportDataList1.getQuantities().add(salesReportDataList.getQuantities().get(i));
-//            salesReportDataList1.getTotalAmounts().add(salesReportDataList.getTotalAmounts().get(i));
-//        }
-//
-//        return (T) new PageImpl<>((List<SalesReportData> )salesReportDataList1, PageRequest.of(page, size), totalElements);
-//    }
 }

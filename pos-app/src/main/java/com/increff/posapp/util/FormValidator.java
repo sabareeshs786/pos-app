@@ -4,82 +4,39 @@ import com.increff.posapp.model.*;
 import com.increff.posapp.service.ApiException;
 
 public class FormValidator {
-	public static void brandFormValidator(BrandForm form) throws ApiException {
-		if(form.getBrand() == null){
-			throw new ApiException("Brand is not obtained in the backend");
-		}
-		if(form.getCategory() == null){
-			throw new ApiException("Category is not obtained in the backend");
-		}
-		if (form.getBrand().toString().isEmpty()) {
-			throw new ApiException("Brand cannot be empty");
-		}
-		if (form.getCategory().toString().isEmpty()) {
-			throw new ApiException("Category cannot be empty");
-		}
-	}
-
-	public static void productFormValidator(ProductForm form) throws ApiException {
-		if (form.getBarcode().isEmpty()) {
-			throw new ApiException("Barcode cannot be empty");
-		}
-		if (form.getBrand().isEmpty()) {
-			throw new ApiException("Brand cannot be empty");
-		}
-		if (form.getCategory().isEmpty()) {
-			throw new ApiException("Category cannot be empty");
-		}
-		if (form.getMrp().toString().isEmpty()) {
-			throw new ApiException("MRP cannot be empty");
-		}
-		if (form.getMrp() <= 0) {
-			throw new ApiException("MRP must be greater than zero");
-		}
-		if (form.getName().isEmpty()) {
-			throw new ApiException("Product name cannot be empty");
-		}
-	}
-
-	public static void inventoryFormValidator(InventoryForm form) throws ApiException {
-		if (form.getBarcode().isEmpty()) {
-			throw new ApiException("Barcode cannot be empty");
-		}
-		if (form.getQuantity().toString().isEmpty()) {
-			throw new ApiException("Quantity cannot be empty");
-		}
-		if (form.getQuantity() <= 0) {
-			throw new ApiException("Quantity must be greater than zero");
-		}
-	}
 
 	public static void orderFormValidator(OrderForm form) throws ApiException {
 		Integer len = form.getBarcodes().size();
 		for(Integer i=0; i < len; i++){
-			if(form.getBarcodes().get(i).isEmpty()){
+			if(form.getBarcodes().get(i) == null || form.getBarcodes().get(i).isEmpty()){
 				throw new ApiException("Barcode cannot be empty");
 			}
-			if(form.getQuantities().get(i) <= 0){
+			if(form.getQuantities().get(i) == null || form.getQuantities().get(i) <= 0){
 				throw new ApiException("Quantity must be greater than zero");
 			}
-			if(form.getSellingPrices().get(i) <= 0){
+			if(form.getSellingPrices().get(i) == null || form.getSellingPrices().get(i) <= 0){
 				throw new ApiException("Selling Price must be greater than zero");
 			}
 		}
 	}
 
 	public static void orderItemEditFormValidator(OrderItemEditForm form) throws ApiException {
-		if (form.getBarcode().isEmpty()) {
+		if (form.getBarcode() == null || form.getBarcode().isEmpty()) {
 			throw new ApiException("Barcode cannot be empty");
 		}
-		if (form.getSellingPrice().toString().isEmpty()) {
+		if (form.getSellingPrice() == null) {
 			throw new ApiException("Selling price cannot be empty");
 		}
-		if (form.getQuantity().toString().isEmpty()) {
+		if (form.getQuantity() == null) {
 			throw new ApiException("Quantity cannot be empty");
 		}
 
 		if (form.getQuantity() <= 0) {
-			throw new ApiException("Quantity must be grater than zero");
+			throw new ApiException("Quantity must be greater than zero");
+		}
+
+		if (form.getSellingPrice() <= 0.0) {
+			throw new ApiException("Selling price must be greater than zero");
 		}
 	}
 }

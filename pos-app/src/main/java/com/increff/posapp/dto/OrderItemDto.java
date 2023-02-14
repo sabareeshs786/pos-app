@@ -65,15 +65,7 @@ public class OrderItemDto {
 		return Converter.convertToOrderItemData(orderItemPojo, productPojo);
 	}
 
-//	public List<OrderItemData> getAll() throws ApiException {
-//		List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
-//		List<OrderItemData> list = new ArrayList<>();
-//		for(OrderItemPojo orderItemPojo : orderItemPojoList){
-//			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-//			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
-//		}
-//		return list;
-//	}
+
 	public void update(OrderItemEditForm orderItemEditForm) throws ApiException {
 		FormValidator.orderItemEditFormValidator(orderItemEditForm);
 		isBarcodeValid(orderItemEditForm);
