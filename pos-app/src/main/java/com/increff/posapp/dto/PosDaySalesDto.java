@@ -95,23 +95,8 @@ public class PosDaySalesDto {
 		return posDaySalesDataList;
 	}
 
-//	public Page<PosDaySalesData> getAll(Integer page, Integer size){
-//		Page<PosDaySalesPojo> posDaySalesPojoPage = posDaySalesService.getAllByPage(page, size);
-//		List<PosDaySalesData> schedulerDataList = new ArrayList<>();
-//		List<PosDaySalesPojo> pojos = posDaySalesPojoPage.getContent();
-//		for(PosDaySalesPojo p: pojos){
-//			schedulerDataList.add(Converter.convertToSchedulerData(p));
-//		}
-//		return new PageImpl<>(schedulerDataList, PageRequest.of(page, size), posDaySalesPojoPage.getTotalElements());
-//	}
 	private static LocalDate toLocalDate(OrderPojo orderPojo){
 		return orderPojo.getTime().toLocalDate();
 	}
 
-//	public Page<PosDaySalesData> getData(LocalDateTime startDate, LocalDateTime endDate, Integer page, Integer size){
-//		if(page == null && size == null){
-//
-//		}
-//		if(startDate != null && endDate!= null)
-//	}
 }

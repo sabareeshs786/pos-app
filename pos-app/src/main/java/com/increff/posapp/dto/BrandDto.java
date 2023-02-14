@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +15,6 @@ import com.increff.posapp.model.BrandForm;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.BrandService;
-import com.increff.posapp.util.FormValidator;
 
 @Component
 public class BrandDto {
@@ -24,8 +22,6 @@ public class BrandDto {
 	private BrandService brandService;
 	
 	public BrandData add(BrandForm form) throws ApiException {
-		FormValidator.brandFormValidator(form);
-		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo brandPojo = Converter.convertToBrandPojo(form);
 		return brandService.add(brandPojo);
 	}
@@ -70,8 +66,6 @@ public class BrandDto {
 	}
 
 	public BrandData updateById(Integer id, BrandForm form) throws ApiException {
-		FormValidator.brandFormValidator(form);
-		FormNormalizer.brandFormNormalizer(form);
 		BrandPojo p = Converter.convertToBrandPojo(form);
 		return brandService.updateById(id, p);
 	}

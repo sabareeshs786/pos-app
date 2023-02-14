@@ -35,13 +35,7 @@ public class InventoryDao extends AbstractDao{
 		query.setParameter("productId", pid);
 		return getSingle(query);
 	}
-	
-	public List<InventoryPojo> selectByQuantity(Integer quantity) {
-		TypedQuery<InventoryPojo> query = getQuery(SELECT_BY_QUANTITY, InventoryPojo.class);
-		query.setParameter("quantity", quantity);
-		return query.getResultList();
-	}
-	
+
 	public List<InventoryPojo> selectAll() {
 		TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);
 		return query.getResultList();
@@ -49,14 +43,12 @@ public class InventoryDao extends AbstractDao{
 
 	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
 		TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);
-		// private static String select_all = "select p from ProductPojo p";apply pagination
 		int pageNumber = page;
 		int pageSize = size;
 		int firstResult = pageNumber * pageSize;
 		query.setFirstResult(firstResult);
 		query.setMaxResults(pageSize);
 
-		// execute the query
 		List<InventoryPojo> entities = query.getResultList();
 
 		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();

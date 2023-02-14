@@ -23,30 +23,18 @@ import java.time.format.DateTimeFormatter;
 <span class="fc" id="L23">        return ZonedDateTime.of(localDateTime, zoneId);</span>
     }
 
-//    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
-//        ZoneId zoneId = ZoneId.of(&quot;Asia/Kolkata&quot;);
-//        return ZonedDateTime.of(localDateTime, zoneId);
-//    }
-
     public static ZonedDateTime getZonedDateTimeStart(LocalDate localDate, String zone){
-<span class="nc" id="L32">        ZoneId zoneId = ZoneId.of(zone);</span>
-<span class="nc" id="L33">        LocalDateTime localDateTime = localDate.atTime(0, 0, 0);</span>
-<span class="nc" id="L34">        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);</span>
-<span class="nc" id="L35">        return zonedDateTime;</span>
+<span class="nc" id="L27">        ZoneId zoneId = ZoneId.of(zone);</span>
+<span class="nc" id="L28">        LocalDateTime localDateTime = localDate.atTime(0, 0, 0);</span>
+<span class="nc" id="L29">        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);</span>
+<span class="nc" id="L30">        return zonedDateTime;</span>
     }
 
     public static ZonedDateTime getZonedDateTimeEnd(LocalDate localDate, String zone){
-<span class="nc" id="L39">        ZoneId zoneId = ZoneId.of(zone);</span>
-<span class="nc" id="L40">        LocalDateTime localDateTime = localDate.atTime(23, 59, 59);</span>
-<span class="nc" id="L41">        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);</span>
-<span class="nc" id="L42">        return zonedDateTime;</span>
-    }
-    public static String getZonedDateTimeIndiaAsString(){
-<span class="nc" id="L45">        LocalDateTime currentTime = LocalDateTime.now();</span>
-<span class="nc" id="L46">        ZoneId india = ZoneId.of(&quot;Asia/Kolkata&quot;);</span>
-<span class="nc" id="L47">        ZonedDateTime zoneIndia = ZonedDateTime.of(currentTime, india);</span>
-<span class="nc" id="L48">        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
-<span class="nc" id="L49">        return currentTime.format(dateTimeFormatter);</span>
+<span class="nc" id="L34">        ZoneId zoneId = ZoneId.of(zone);</span>
+<span class="nc" id="L35">        LocalDateTime localDateTime = localDate.atTime(23, 59, 59);</span>
+<span class="nc" id="L36">        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);</span>
+<span class="nc" id="L37">        return zonedDateTime;</span>
     }
 
 }

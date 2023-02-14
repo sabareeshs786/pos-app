@@ -59,14 +59,12 @@ public class PosDaySalesDao extends AbstractDao{
 	public Page<PosDaySalesPojo> getAllByPage(Integer page, Integer size){
 		TypedQuery<PosDaySalesPojo> query = getQuery(SELECT_ALL, PosDaySalesPojo.class);
 
-		// private static String select_all = "select p from ProductPojo p";apply pagination
 		int pageNumber = page;
 		int pageSize = size;
 		int firstResult = pageNumber * pageSize;
 		query.setFirstResult(firstResult);
 		query.setMaxResults(pageSize);
 
-		// execute the query
 		List<PosDaySalesPojo> entities = query.getResultList();
 		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
 		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);

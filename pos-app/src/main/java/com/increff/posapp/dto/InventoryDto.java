@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.FormNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,7 +17,6 @@ import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.InventoryService;
 import com.increff.posapp.service.ProductService;
-import com.increff.posapp.util.FormValidator;
 
 @Component
 public class InventoryDto {
@@ -30,8 +28,6 @@ public class InventoryDto {
 	private ProductService productService;
 	
 	public InventoryData add(InventoryForm form) throws ApiException {
-		FormValidator.inventoryFormValidator(form);
-		FormNormalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
@@ -46,17 +42,6 @@ public class InventoryDto {
 		return new PageImpl<>(list, PageRequest.of(0,1), 1);
 	}
 
-//	public List<InventoryData> getAll() throws ApiException{
-//		List<InventoryPojo> listInventoryPojo = inventoryService.getAll();
-//		List<InventoryData> list = new ArrayList<InventoryData>();
-//		for(InventoryPojo inventoryPojo: listInventoryPojo) {
-//			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
-//			String barcode = productPojo.getBarcode();
-//			list.add(Converter.convertToInventoryData(inventoryPojo, barcode));
-//		}
-//		return list;
-//	}
-
 	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
 		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
 		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();
@@ -66,13 +51,10 @@ public class InventoryDto {
 			String barcode = productPojo.getBarcode();
 			list.add(Converter.convertToInventoryData(inventoryPojo, barcode));
 		}
-		Page<InventoryData> dataPage = new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
-		return dataPage;
+		return new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 	
 	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException {
-		FormValidator.inventoryFormValidator(form);
-		FormNormalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
@@ -81,14 +63,6 @@ public class InventoryDto {
 				productPojo.getBarcode()
 		);
 	}
-
-//	protected ProductService productService(){
-//		return productService;
-//	}
-//
-//	protected InventoryService inventoryService(){
-//		return inventoryService;
-//	}
 
 	public Page<InventoryData> getData(Integer productId, Integer page, Integer size) throws ApiException {
 		if(productId == null && page != null && size != null){

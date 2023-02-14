@@ -23,11 +23,6 @@ public class DateTimeUtil {
         return ZonedDateTime.of(localDateTime, zoneId);
     }
 
-//    public ZonedDateTime getZonedDateTime(LocalDateTime localDateTime){
-//        ZoneId zoneId = ZoneId.of("Asia/Kolkata");
-//        return ZonedDateTime.of(localDateTime, zoneId);
-//    }
-
     public static ZonedDateTime getZonedDateTimeStart(LocalDate localDate, String zone){
         ZoneId zoneId = ZoneId.of(zone);
         LocalDateTime localDateTime = localDate.atTime(0, 0, 0);
@@ -40,13 +35,6 @@ public class DateTimeUtil {
         LocalDateTime localDateTime = localDate.atTime(23, 59, 59);
         ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
         return zonedDateTime;
-    }
-    public static String getZonedDateTimeIndiaAsString(){
-        LocalDateTime currentTime = LocalDateTime.now();
-        ZoneId india = ZoneId.of("Asia/Kolkata");
-        ZonedDateTime zoneIndia = ZonedDateTime.of(currentTime, india);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return currentTime.format(dateTimeFormatter);
     }
 
 }

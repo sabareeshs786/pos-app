@@ -6,7 +6,6 @@ import java.util.List;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.service.InventoryService;
 import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.FormNormalizer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.BrandService;
 import com.increff.posapp.service.ProductService;
-import com.increff.posapp.util.FormValidator;
 
 @Component
 public class ProductDto {
@@ -35,8 +33,6 @@ public class ProductDto {
 	private BrandService brandService;
 	
 	public ProductData add(ProductForm form) throws ApiException {
-		FormValidator.productFormValidator(form);
-		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brandCategory = brandPojo.getId();
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);
@@ -77,8 +73,6 @@ public class ProductDto {
 	}
 	
 	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
-		FormValidator.productFormValidator(form);
-		FormNormalizer.productFormNormalizer(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo p = Converter.convertToProductPojo(form, brandPojo.getId());
 		return Converter.convertToProductData(productService.updateById(id, p), brandPojo);

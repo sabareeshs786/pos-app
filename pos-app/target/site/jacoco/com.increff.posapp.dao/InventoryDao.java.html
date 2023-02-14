@@ -35,36 +35,28 @@ import com.increff.posapp.service.ApiException;
 <span class="fc" id="L35">		query.setParameter(&quot;productId&quot;, pid);</span>
 <span class="fc" id="L36">		return getSingle(query);</span>
 	}
-	
-	public List&lt;InventoryPojo&gt; selectByQuantity(Integer quantity) {
-<span class="nc" id="L40">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_BY_QUANTITY, InventoryPojo.class);</span>
-<span class="nc" id="L41">		query.setParameter(&quot;quantity&quot;, quantity);</span>
-<span class="nc" id="L42">		return query.getResultList();</span>
-	}
-	
+
 	public List&lt;InventoryPojo&gt; selectAll() {
-<span class="fc" id="L46">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
-<span class="fc" id="L47">		return query.getResultList();</span>
+<span class="fc" id="L40">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
+<span class="fc" id="L41">		return query.getResultList();</span>
 	}
 
 	public Page&lt;InventoryPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="fc" id="L51">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
-		// private static String select_all = &quot;select p from ProductPojo p&quot;;apply pagination
-<span class="fc" id="L53">		int pageNumber = page;</span>
-<span class="fc" id="L54">		int pageSize = size;</span>
-<span class="fc" id="L55">		int firstResult = pageNumber * pageSize;</span>
-<span class="fc" id="L56">		query.setFirstResult(firstResult);</span>
-<span class="fc" id="L57">		query.setMaxResults(pageSize);</span>
+<span class="fc" id="L45">		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</span>
+<span class="fc" id="L46">		int pageNumber = page;</span>
+<span class="fc" id="L47">		int pageSize = size;</span>
+<span class="fc" id="L48">		int firstResult = pageNumber * pageSize;</span>
+<span class="fc" id="L49">		query.setFirstResult(firstResult);</span>
+<span class="fc" id="L50">		query.setMaxResults(pageSize);</span>
 
-		// execute the query
-<span class="fc" id="L60">		List&lt;InventoryPojo&gt; entities = query.getResultList();</span>
+<span class="fc" id="L52">		List&lt;InventoryPojo&gt; entities = query.getResultList();</span>
 
-<span class="fc" id="L62">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="fc" id="L63">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="fc" id="L54">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="fc" id="L55">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(InventoryPojo inventoryPojo) {
 		// Implemented by Spring itself
-<span class="fc" id="L67">	}</span>
+<span class="fc" id="L59">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

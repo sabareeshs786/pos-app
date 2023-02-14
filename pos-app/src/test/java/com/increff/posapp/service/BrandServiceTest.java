@@ -301,6 +301,24 @@ public class BrandServiceTest extends AbstractUnitTest {
 	}
 
 	@Test(expected = ApiException.class)
+	public void testGetByBrandInvalidPage() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrand("brand2", null, 4);
+	}
+
+	@Test(expected = ApiException.class)
+	public void testGetByBrandInvalidSize() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrand("brand2", 0, null);
+	}
+
+	@Test(expected = ApiException.class)
 	public void testGetByBrandInvalidPageAndSize() throws ApiException {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
