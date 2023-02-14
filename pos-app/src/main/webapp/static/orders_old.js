@@ -366,8 +366,7 @@ function init(){
 	
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
-	// $('#place-order-form input[name=barcode]').on('change',getProduct);
-	$('#searchForBarcode').click(getProduct);
+	$('#place-order-form input[name=barcode]').on('change',getProduct);
 	$('#edit-added-item-form input[name=barcode]').on('change', getProductForEdit);
 	$('#edit-added-item-form input[name=quantity]').on('input', function(){
 		$('#update-added-item').attr('disabled', false);
