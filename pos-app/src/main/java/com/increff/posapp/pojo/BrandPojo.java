@@ -1,12 +1,6 @@
 package com.increff.posapp.pojo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +10,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name = "brands", uniqueConstraints = { @UniqueConstraint(columnNames = { "brand", "category" }) })
+@Table(name = "brands",
+		uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "brand", "category" }) },
+		indexes = {
+			@Index(name = "uniqueIndex", columnList = "brand, category", unique = true)
+		}
+)
 public class BrandPojo {
 
 	@Id

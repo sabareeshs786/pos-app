@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="nc" id="L17">public class OrderItemDao extends AbstractDao{</span>
+<span class="fc" id="L17">public class OrderItemDao extends AbstractDao{</span>
 
 	private static final String SELECT_BY_ID = &quot;select p from OrderItemPojo p where id=:id&quot;;
 	private static final String SELECT_BY_ORDER_ID = &quot;select p from OrderItemPojo p where orderId=:orderId&quot;;
@@ -24,53 +24,53 @@ import java.util.List;
 	private static final String SELECT_BY_ORDER_ID_COUNT = &quot;select count(p) from OrderItemPojo p where orderId=:orderId&quot;;
 
 	public OrderItemPojo insert(OrderItemPojo p) {
-<span class="nc" id="L27">		em().persist(p);</span>
-<span class="nc" id="L28">		return p;</span>
+<span class="fc" id="L27">		em().persist(p);</span>
+<span class="fc" id="L28">		return p;</span>
 	}
 
 	public OrderItemPojo selectById(Integer id) {
-<span class="nc" id="L32">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L33">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L34">		return getSingle(query);</span>
+<span class="fc" id="L32">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ID, OrderItemPojo.class);</span>
+<span class="fc" id="L33">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L34">		return getSingle(query);</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectByOrderId(Integer orderId) {
-<span class="nc" id="L38">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L39">		query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L40">		return query.getResultList();</span>
+<span class="fc" id="L38">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
+<span class="fc" id="L39">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="fc" id="L40">		return query.getResultList();</span>
 	}
 
 	public Page&lt;OrderItemPojo&gt; getPageByOrderId(Integer orderId, Integer page, Integer size) {
-<span class="nc" id="L44">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L45">		query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L46">		int pageNumber = page;</span>
-<span class="nc" id="L47">		int pageSize = size;</span>
-<span class="nc" id="L48">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L49">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L50">		query.setMaxResults(pageSize);</span>
+<span class="fc" id="L44">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);</span>
+<span class="fc" id="L45">		query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="fc" id="L46">		int pageNumber = page;</span>
+<span class="fc" id="L47">		int pageSize = size;</span>
+<span class="fc" id="L48">		int firstResult = pageNumber * pageSize;</span>
+<span class="fc" id="L49">		query.setFirstResult(firstResult);</span>
+<span class="fc" id="L50">		query.setMaxResults(pageSize);</span>
 
 		// execute the query
-<span class="nc" id="L53">		List&lt;OrderItemPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L54">		Long totalElements = em().createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
-<span class="nc" id="L55">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="fc" id="L53">		List&lt;OrderItemPojo&gt; entities = query.getResultList();</span>
+<span class="fc" id="L54">		Long totalElements = em().createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
+<span class="fc" id="L55">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 
 	public List&lt;OrderItemPojo&gt; selectAll() {
-<span class="nc" id="L59">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL, OrderItemPojo.class);</span>
-<span class="nc" id="L60">		return query.getResultList();</span>
+<span class="fc" id="L59">		TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL, OrderItemPojo.class);</span>
+<span class="fc" id="L60">		return query.getResultList();</span>
 	}
 
 	public Long getInvoicedQuantityByOrderId(Integer orderId){
-<span class="nc" id="L64">		return em().createQuery(SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
+<span class="fc" id="L64">		return em().createQuery(SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID, Long.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
 	}
 
 	public Double getTotalCostByOrderId(Integer orderId){
-<span class="nc" id="L68">		return em().createQuery(TOTAL_COST_BY_ORDER_ID, Double.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
+<span class="fc" id="L68">		return em().createQuery(TOTAL_COST_BY_ORDER_ID, Double.class).setParameter(&quot;orderId&quot;, orderId).getSingleResult();</span>
 	}
 
 	public void update(OrderItemPojo p) {
 		// Implemented by Spring itself
-<span class="nc" id="L73">	}</span>
+<span class="fc" id="L73">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

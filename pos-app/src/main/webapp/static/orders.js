@@ -100,12 +100,14 @@ function fillValuesForEdit(data){
 
 function resetToDefault(){
 	$('#add-item').attr('disabled', true);
+	$('#place-order-form input[name=barcode]').val('');
 	$('#place-order-form input[name=quantity]').val('');
 	$('#place-order-form input[name=sellingPrice]').val('');
 }
 
 function resetToDefaultForEdit(){
 	$('#update-added-item').attr('disabled', true);
+	$('#edit-added-item-form input[name=barcode]').val('');
 	$('#edit-added-item-form input[name=quantity]').val('');
 	$('#edit-added-item-form input[name=sellingPrice]').val('');
 }
@@ -201,6 +203,7 @@ function addItem(){
 			resetToDefault();
 		}
 	}
+	console.log("Barcodes"+barcodes)
 }
 
 function updateAddedItemsTable(){
@@ -239,7 +242,7 @@ function displayEditAddedItem(i){
 	// getProductForEdit();
 }
 function resetModals(){
-	$('#edit-added-item-modal').modal('toggle');
+	$('#edit-added-item-modal').modal('');
 	$('#place-order-modal').modal('toggle');
 	resetToDefaultForEdit();
 	resetToDefault();
@@ -359,14 +362,12 @@ function init(){
 	$('#add-item').click(addItem);
 	$('#cancle1').click(clearAll);
 	$('#cancel2').click(clearAll);
-	$('#cancel3').click(resetModals);
-	$('.close').click(function(){
-		clearAll();
-		resetModals();
-	})
+	$('#cancel3').click();
+	
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
-	$('#place-order-form input[name=barcode]').on('change',getProduct);
+	// $('#place-order-form input[name=barcode]').on('change',getProduct);
+	$('#searchForBarcode').click(getProduct);
 	$('#edit-added-item-form input[name=barcode]').on('change', getProductForEdit);
 	$('#edit-added-item-form input[name=quantity]').on('input', function(){
 		$('#update-added-item').attr('disabled', false);

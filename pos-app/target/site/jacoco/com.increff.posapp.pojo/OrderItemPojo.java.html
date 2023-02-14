@@ -7,22 +7,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = &quot;orderitems&quot;, uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;order_id&quot;, &quot;product_id&quot; }) })
-<span class="nc" id="L11">@Getter</span>
-<span class="nc" id="L12">@Setter</span>
-<span class="nc" id="L13">@ToString</span>
-<span class="nc" id="L14">public class OrderItemPojo {</span>
+@Table(
+		name = &quot;orderitems&quot;,
+		uniqueConstraints = { @UniqueConstraint(columnNames = { &quot;order_id&quot;, &quot;product_id&quot; }) },
+		indexes = {@Index(name=&quot;uniqueIndex&quot;, columnList = &quot;order_id, product_id&quot;, unique = true)}
+)
+@Getter
+<span class="pc" id="L16">@Setter</span>
+<span class="nc" id="L17">@ToString</span>
+<span class="fc" id="L18">public class OrderItemPojo {</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+<span class="fc" id="L22">	private Integer id;</span>
 	@Column(name = &quot;order_id&quot;, nullable = false)
-	private Integer orderId;
+<span class="fc" id="L24">	private Integer orderId;</span>
 	@Column(name = &quot;product_id&quot;, nullable = false)
-	private Integer productId;
+<span class="fc" id="L26">	private Integer productId;</span>
 	@Column(nullable = false)
-	private Integer quantity;
+<span class="fc" id="L28">	private Integer quantity;</span>
 	@Column(name = &quot;selling_price&quot;, nullable = false)
-	private Double sellingPrice;
+<span class="fc" id="L30">	private Double sellingPrice;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

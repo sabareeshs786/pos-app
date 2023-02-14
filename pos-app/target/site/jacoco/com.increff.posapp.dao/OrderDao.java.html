@@ -18,7 +18,7 @@ import com.increff.posapp.pojo.OrderPojo;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="nc" id="L21">public class OrderDao extends AbstractDao{</span>
+<span class="fc" id="L21">public class OrderDao extends AbstractDao{</span>
 
 	private static final String SELECT_BY_ID = &quot;select p from OrderPojo p where id=:id&quot;;
 	private static final String SELECT_BY_INTERVAL = &quot;select p from OrderPojo p where time &gt;= :startTime and time &lt;=:endTime&quot;;
@@ -27,42 +27,42 @@ import com.increff.posapp.pojo.OrderPojo;
 	private static final String SELECT_ALL_COUNT = &quot;select count(p) from OrderPojo p&quot;;
 
 	public OrderPojo insert(OrderPojo p) {
-<span class="nc" id="L30">		em().persist(p);</span>
-<span class="nc" id="L31">		return p;</span>
+<span class="fc" id="L30">		em().persist(p);</span>
+<span class="fc" id="L31">		return p;</span>
 	}
 
 	public OrderPojo selectById(Integer id) {
-<span class="nc" id="L35">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_ID, OrderPojo.class);</span>
-<span class="nc" id="L36">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L37">		return getSingle(query);</span>
+<span class="fc" id="L35">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_ID, OrderPojo.class);</span>
+<span class="fc" id="L36">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L37">		return getSingle(query);</span>
 	}
 
 	public List&lt;OrderPojo&gt; selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
-<span class="nc" id="L41">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_INTERVAL, OrderPojo.class);</span>
-<span class="nc" id="L42">		query.setParameter(&quot;startTime&quot;, startTime);</span>
-<span class="nc" id="L43">		query.setParameter(&quot;endTime&quot;, endTime);</span>
-<span class="nc" id="L44">		return query.getResultList();</span>
+<span class="fc" id="L41">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_INTERVAL, OrderPojo.class);</span>
+<span class="fc" id="L42">		query.setParameter(&quot;startTime&quot;, startTime);</span>
+<span class="fc" id="L43">		query.setParameter(&quot;endTime&quot;, endTime);</span>
+<span class="fc" id="L44">		return query.getResultList();</span>
 	}
 	public List&lt;OrderPojo&gt; selectAll() {
-<span class="nc" id="L47">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
-<span class="nc" id="L48">		return query.getResultList();</span>
+<span class="fc" id="L47">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
+<span class="fc" id="L48">		return query.getResultList();</span>
 	}
 
 	public Page&lt;OrderPojo&gt; getAllByPage(Integer page, Integer size){
-<span class="nc" id="L52">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
+<span class="fc" id="L52">		TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
 
-<span class="nc" id="L54">		int pageNumber = page;</span>
-<span class="nc" id="L55">		int pageSize = size;</span>
-<span class="nc" id="L56">		int firstResult = pageNumber * pageSize;</span>
-<span class="nc" id="L57">		query.setFirstResult(firstResult);</span>
-<span class="nc" id="L58">		query.setMaxResults(pageSize);</span>
+<span class="fc" id="L54">		int pageNumber = page;</span>
+<span class="fc" id="L55">		int pageSize = size;</span>
+<span class="fc" id="L56">		int firstResult = pageNumber * pageSize;</span>
+<span class="fc" id="L57">		query.setFirstResult(firstResult);</span>
+<span class="fc" id="L58">		query.setMaxResults(pageSize);</span>
 
-<span class="nc" id="L60">		List&lt;OrderPojo&gt; entities = query.getResultList();</span>
-<span class="nc" id="L61">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
-<span class="nc" id="L62">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
+<span class="fc" id="L60">		List&lt;OrderPojo&gt; entities = query.getResultList();</span>
+<span class="fc" id="L61">		Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();</span>
+<span class="fc" id="L62">		return new PageImpl&lt;&gt;(entities, PageRequest.of(page, size), totalElements);</span>
 	}
 	public void update(OrderPojo p) {
 		// Implemented by Spring itself
-<span class="nc" id="L66">	}</span>
+<span class="fc" id="L66">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

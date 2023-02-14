@@ -7,20 +7,20 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-<span class="nc" id="L10">@Getter</span>
-<span class="nc" id="L11">@Setter</span>
-<span class="nc" id="L12">public class OrderItemEditForm {</span>
+@Getter
+<span class="fc" id="L11">@Setter</span>
+<span class="fc" id="L12">public class OrderItemEditForm {</span>
 
 	@Min(value = 1)
 	@Max(value = Integer.MAX_VALUE)
-	private Integer id;
+<span class="fc" id="L16">	private Integer id;</span>
 	@Size(max = 20)
-	private String barcode;
+<span class="fc" id="L18">	private String barcode;</span>
 	@Min(value = 1)
 	@Max(value = Integer.MAX_VALUE)
-	private Integer quantity;
+<span class="fc" id="L21">	private Integer quantity;</span>
 	@Max(value = Integer.MAX_VALUE)
 	@Min(value = 0)
-	private Double sellingPrice;
+<span class="fc" id="L24">	private Double sellingPrice;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

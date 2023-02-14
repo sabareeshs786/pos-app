@@ -203,6 +203,7 @@ function addItem(){
 			resetToDefault();
 		}
 	}
+	console.log("Barcodes"+barcodes)
 }
 
 function updateAddedItemsTable(){
@@ -241,7 +242,7 @@ function displayEditAddedItem(i){
 	// getProductForEdit();
 }
 function resetModals(){
-	$('#edit-added-item-modal').modal('toggle');
+	$('#edit-added-item-modal').modal('');
 	$('#place-order-modal').modal('toggle');
 	resetToDefaultForEdit();
 	resetToDefault();
@@ -361,11 +362,8 @@ function init(){
 	$('#add-item').click(addItem);
 	$('#cancle1').click(clearAll);
 	$('#cancel2').click(clearAll);
-	$('#cancel3').click(resetModals);
-	$('.close').click(function(){
-		clearAll();
-		resetModals();
-	})
+	$('#cancel3').click();
+	
 	$('#place-order-confirm').click(placeOrder);
 	$('#inputPageSize').on('change', getOrderListUtil);
 	$('#place-order-form input[name=barcode]').on('change',getProduct);

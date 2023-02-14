@@ -6,25 +6,25 @@ import lombok.Setter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
-<span class="nc" id="L9">@Getter</span>
-<span class="nc" id="L10">@Setter</span>
-<span class="nc" id="L11">public class ProductForm {</span>
+@Getter
+<span class="fc" id="L10">@Setter</span>
+<span class="fc" id="L11">public class ProductForm {</span>
 
 	@Size(max = 20)
-	private String barcode;
+<span class="fc" id="L14">	private String barcode;</span>
 	@Size(max = 20)
-	private String brand;
+<span class="fc" id="L16">	private String brand;</span>
 	@Size(max = 20)
-	private String category;
+<span class="fc" id="L18">	private String category;</span>
 	@Size(max = 30)
-	private String name;
+<span class="fc" id="L20">	private String name;</span>
 	@Max(value = Integer.MAX_VALUE)
-	private Double mrp;
+<span class="fc" id="L22">	private Double mrp;</span>
 	
 	@Override
 	public String toString() {
 <span class="nc" id="L26">		return &quot;ProductForm [barcode=&quot; + barcode + &quot;, brand=&quot; + brand + &quot;, category=&quot; + category + &quot;, name=&quot; + name</span>
-<span class="nc" id="L27">				+ &quot;, mrp=&quot; + mrp + &quot;]&quot;;</span>
+				+ &quot;, mrp=&quot; + mrp + &quot;]&quot;;
 	}
 	
 }

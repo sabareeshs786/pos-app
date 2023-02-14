@@ -7,7 +7,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "orderitems", uniqueConstraints = { @UniqueConstraint(columnNames = { "order_id", "product_id" }) })
+@Table(
+		name = "orderitems",
+		uniqueConstraints = { @UniqueConstraint(columnNames = { "order_id", "product_id" }) },
+		indexes = {@Index(name="uniqueIndex", columnList = "order_id, product_id", unique = true)}
+)
 @Getter
 @Setter
 @ToString

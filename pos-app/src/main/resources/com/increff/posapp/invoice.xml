@@ -2,14 +2,14 @@
 <invoice>
     <date>14/02/2023</date>
     <item>
-        <id>43</id>
+        <id>7</id>
         <productName>product1</productName>
         <quantity>2</quantity>
         <mrp>123.45</mrp>
         <sellingPrice>120.68</sellingPrice>
     </item>
     <item>
-        <id>44</id>
+        <id>8</id>
         <productName>product2</productName>
         <quantity>2</quantity>
         <mrp>12.45</mrp>

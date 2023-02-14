@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.increff.posapp.model.MessageData;
 import com.increff.posapp.service.ApiException;
 @RestControllerAdvice
-<span class="nc" id="L12">public class AppRestControllerAdvice {</span>
-<span class="nc" id="L13">	private Logger logger = Logger.getLogger(AppRestControllerAdvice.class);</span>
+<span class="fc" id="L12">public class AppRestControllerAdvice {</span>
+<span class="fc" id="L13">	private Logger logger = Logger.getLogger(AppRestControllerAdvice.class);</span>
 
 	@ExceptionHandler(ApiException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

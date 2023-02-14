@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.increff.posapp.util.IOUtil;
 
 @Controller
-<span class="nc" id="L18">public class SampleController {</span>
-<span class="nc" id="L19">	private static Logger logger = Logger.getLogger(SampleController.class);</span>
+<span class="fc" id="L18">public class SampleController {</span>
+<span class="fc" id="L19">	private static Logger logger = Logger.getLogger(SampleController.class);</span>
 	//Spring ignores . (dot) in the path. So we need fileName:.+
 	//See https://stackoverflow.com/questions/16332092/spring-mvc-pathvariable-with-dot-is-getting-truncated
 	@RequestMapping(value = &quot;/sample/{fileName:.+}&quot;, method = RequestMethod.GET)

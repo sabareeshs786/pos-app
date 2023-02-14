@@ -9,21 +9,21 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L12">@Getter</span>
+@Getter
 <span class="nc" id="L13">@Setter</span>
 public class OrderForm {
 	@Size(max = 20)
-	private List&lt;String&gt; barcodes;
+<span class="fc" id="L16">	private List&lt;String&gt; barcodes;</span>
 	@Max(value = Integer.MAX_VALUE)
-	private List&lt;Integer&gt; quantities;
+<span class="fc" id="L18">	private List&lt;Integer&gt; quantities;</span>
 	@Max(value = Integer.MAX_VALUE)
-	private List&lt;Double&gt; sellingPrices;
+<span class="fc" id="L20">	private List&lt;Double&gt; sellingPrices;</span>
 
-<span class="nc" id="L22">	public OrderForm(){</span>
-<span class="nc" id="L23">		this.barcodes = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L24">		this.quantities = new ArrayList&lt;Integer&gt;();</span>
-<span class="nc" id="L25">		this.sellingPrices = new ArrayList&lt;Double&gt;();</span>
-<span class="nc" id="L26">	}</span>
+<span class="fc" id="L22">	public OrderForm(){</span>
+<span class="fc" id="L23">		this.barcodes = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L24">		this.quantities = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L25">		this.sellingPrices = new ArrayList&lt;Double&gt;();</span>
+<span class="fc" id="L26">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

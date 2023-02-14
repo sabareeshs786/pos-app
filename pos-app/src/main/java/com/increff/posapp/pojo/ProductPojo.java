@@ -1,18 +1,19 @@
 package com.increff.posapp.pojo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products",
+		uniqueConstraints = {@UniqueConstraint(columnNames = {"brand_category", "product_name"})},
+		indexes = {
+				@Index(columnList = "brand_category, product_name", unique = true),
+				@Index(columnList = "barcode", unique = true)
+}
+)
 @Getter
 @Setter
 @ToString

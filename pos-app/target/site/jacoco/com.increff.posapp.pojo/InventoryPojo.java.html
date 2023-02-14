@@ -13,14 +13,14 @@ import lombok.ToString;
 
 @Entity
 @Table(name = &quot;inventory&quot;)
-<span class="nc" id="L16">@Getter</span>
-<span class="nc" id="L17">@Setter</span>
+@Getter
+<span class="fc" id="L17">@Setter</span>
 <span class="nc" id="L18">@ToString</span>
-<span class="nc" id="L19">public class InventoryPojo {</span>
+<span class="fc" id="L19">public class InventoryPojo {</span>
 	@Id
 	@Column(name = &quot;product_id&quot;)
-	private Integer productId;
+<span class="fc" id="L22">	private Integer productId;</span>
 	@Column
-	private Integer quantity;
+<span class="fc" id="L24">	private Integer quantity;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

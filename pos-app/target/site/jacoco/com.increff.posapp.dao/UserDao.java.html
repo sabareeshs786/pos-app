@@ -13,7 +13,7 @@ import com.increff.posapp.pojo.UserPojo;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
-<span class="nc" id="L16">public class UserDao extends AbstractDao {</span>
+<span class="fc" id="L16">public class UserDao extends AbstractDao {</span>
 
 	private static final String DELETE_BY_ID = &quot;delete from UserPojo p where id=:id&quot;;
 	private static final String SELECT_BY_ID = &quot;select p from UserPojo p where id=:id&quot;;
@@ -21,14 +21,14 @@ import com.increff.posapp.pojo.UserPojo;
 	private static final String SELECT_ALL = &quot;select p from UserPojo p&quot;;
 
 	public UserPojo insert(UserPojo p) {
-<span class="nc" id="L24">		em().persist(p);</span>
-<span class="nc" id="L25">		return p;</span>
+<span class="fc" id="L24">		em().persist(p);</span>
+<span class="fc" id="L25">		return p;</span>
 	}
 
 	public Integer delete(Integer id) {
-<span class="nc" id="L29">		Query query = em().createQuery(DELETE_BY_ID);</span>
-<span class="nc" id="L30">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L31">		return query.executeUpdate();</span>
+<span class="fc" id="L29">		Query query = em().createQuery(DELETE_BY_ID);</span>
+<span class="fc" id="L30">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L31">		return query.executeUpdate();</span>
 	}
 
 	public UserPojo select(Integer id) {
@@ -38,14 +38,14 @@ import com.increff.posapp.pojo.UserPojo;
 	}
 
 	public UserPojo select(String email) {
-<span class="nc" id="L41">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_EMAIL, UserPojo.class);</span>
-<span class="nc" id="L42">		query.setParameter(&quot;email&quot;, email);</span>
-<span class="nc" id="L43">		return getSingle(query);</span>
+<span class="fc" id="L41">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_BY_EMAIL, UserPojo.class);</span>
+<span class="fc" id="L42">		query.setParameter(&quot;email&quot;, email);</span>
+<span class="fc" id="L43">		return getSingle(query);</span>
 	}
 
 	public List&lt;UserPojo&gt; selectAll() {
-<span class="nc" id="L47">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_ALL, UserPojo.class);</span>
-<span class="nc" id="L48">		return query.getResultList();</span>
+<span class="fc" id="L47">		TypedQuery&lt;UserPojo&gt; query = getQuery(SELECT_ALL, UserPojo.class);</span>
+<span class="fc" id="L48">		return query.getResultList();</span>
 	}
 
 	public void update(UserPojo p) {
