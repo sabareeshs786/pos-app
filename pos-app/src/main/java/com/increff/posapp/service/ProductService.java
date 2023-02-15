@@ -86,6 +86,9 @@ public class ProductService {
 		if(StringUtil.isEmpty(p.getName())){
 			throw new ApiException("Product name can't be empty");
 		}
+		if(StringUtil.isSafe(p.getBarcode()) || StringUtil.isSafe(p.getName())){
+				throw new ApiException("Characters other than alpha-numeric is not allowed");
+		}
 		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){
 			throw new ApiException("Brand-Category number can't be empty");
 		}
@@ -98,5 +101,6 @@ public class ProductService {
 		if(p.getMrp() <= 0.0){
 			throw new ApiException("MRP must be greater than zero");
 		}
+
 	}
 }

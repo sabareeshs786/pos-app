@@ -41,23 +41,25 @@ public class ProductDto {
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		inventoryPojo.setProductId(productPojo.getId());
 		inventoryPojo.setQuantity(0);
-		inventoryService.add(inventoryPojo);
+		InventoryPojo pojo = inventoryService.add(inventoryPojo);
 		logger.info("Inventory updated with 0");
-		return Converter.convertToProductData(p, brandPojo);
+		return Converter.convertToProductData(p, brandPojo, pojo);
 	}
 
 	public Page<ProductData> getById(Integer id) throws ApiException {
 		ProductPojo productPojo = productService.getById(id);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 		List<ProductData> list = new ArrayList<>();
-		list.add(Converter.convertToProductData(productPojo, brandPojo));
+		list.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));
 		return new PageImpl<>(list, PageRequest.of(0, 1), 1);
 	}
 	
 	public ProductData getByBarcode(String barcode) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-		return Converter.convertToProductData(productPojo, brandPojo);
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
 	}
 	
 	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
@@ -66,15 +68,18 @@ public class ProductDto {
 		List<ProductData> list2 = new ArrayList<>();
 		for (ProductPojo productPojo : list) {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-			list2.add(Converter.convertToProductData(productPojo, brandPojo));
+			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+			list2.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));
 		}
 		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 	
 	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
-		ProductPojo p = Converter.convertToProductPojo(form, brandPojo.getId());
-		return Converter.convertToProductData(productService.updateById(id, p), brandPojo);
+		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
+		productPojo.setId(id);
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);
 	}
 
 	public Page<ProductData> getData(Integer id, Integer page, Integer size) throws ApiException {

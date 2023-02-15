@@ -144,7 +144,9 @@ public class BrandService {
 		if(StringUtil.isEmpty(p.getCategory())){
 			throw new ApiException("Category can't be empty");
 		}
-
+		if(StringUtil.isSafe(p.getBrand()) || StringUtil.isSafe(p.getCategory())){
+			throw new ApiException("Characters other than alpha-numeric is not allowed");
+		}
 		if(brandDao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {
 			throw new ApiException("The entered brand and category combination already exists\nEnter a different brand or category");
 		}

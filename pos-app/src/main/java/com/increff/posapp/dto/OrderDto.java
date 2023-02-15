@@ -148,6 +148,7 @@ public class OrderDto {
 		// invoice-app is called
 		String base64EncodedString = PdfService.getBase64String(
 				date,
+				orderId,
 				orderItemsIds,
 				productNames,
 				quantities,
