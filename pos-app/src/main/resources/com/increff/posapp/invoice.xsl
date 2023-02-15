@@ -25,6 +25,10 @@
 							  color="black" font-weight="bold" space-after="5mm" space-before="20pt">
 						Date: <xsl:value-of select="date"/>
 					</fo:block>
+					<fo:block text-align="left" font-size="14pt" font-family="Helvetica"
+							  color="black" font-weight="bold" space-after="5mm" space-before="20pt">
+						Order Id: <xsl:value-of select="orderId"/>
+					</fo:block>
 					<fo:block font-size="11pt" space-before="35pt">
 						<fo:table table-layout="fixed" width="100%"
 							border-collapse="separate" line-height="25px" text-align="center">

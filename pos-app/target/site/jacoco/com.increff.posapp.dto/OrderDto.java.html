@@ -148,6 +148,7 @@ import java.util.Base64;
 		// invoice-app is called
 <span class="fc" id="L149">		String base64EncodedString = PdfService.getBase64String(</span>
 				date,
+				orderId,
 				orderItemsIds,
 				productNames,
 				quantities,
@@ -155,27 +156,27 @@ import java.util.Base64;
 				mrps
 		);
 
-<span class="fc" id="L158">		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);</span>
+<span class="fc" id="L159">		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);</span>
 
 		 //Prepare response
-<span class="fc" id="L161">		 response.setContentType(&quot;application/pdf&quot;);</span>
-<span class="fc" id="L162">		 response.setContentLength(decodedBytes.length);</span>
+<span class="fc" id="L162">		 response.setContentType(&quot;application/pdf&quot;);</span>
+<span class="fc" id="L163">		 response.setContentLength(decodedBytes.length);</span>
 
 		 //Send content to Browser
-<span class="fc" id="L165">		 response.getOutputStream().write(decodedBytes);</span>
-<span class="fc" id="L166">		 response.getOutputStream().flush();</span>
-<span class="fc" id="L167">		 logger.info(&quot;PDF generated&quot;);</span>
-<span class="fc" id="L168">	 }</span>
+<span class="fc" id="L166">		 response.getOutputStream().write(decodedBytes);</span>
+<span class="fc" id="L167">		 response.getOutputStream().flush();</span>
+<span class="fc" id="L168">		 logger.info(&quot;PDF generated&quot;);</span>
+<span class="fc" id="L169">	 }</span>
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {
-<span class="fc bfc" id="L170" title="All 2 branches covered.">		if (sellingPrice &gt; mrp) {</span>
-<span class="fc" id="L171">			throw new ApiException(&quot;Selling price must be less than MRP&quot;);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (sellingPrice &gt; mrp) {</span>
+<span class="fc" id="L172">			throw new ApiException(&quot;Selling price must be less than MRP&quot;);</span>
 		}
-<span class="fc" id="L173">	}</span>
+<span class="fc" id="L174">	}</span>
 
 	private void validateQuantityRequest(Integer requestedQuantity, Integer initialQuantity) throws ApiException {
-<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (initialQuantity &lt; requestedQuantity) {</span>
-<span class="fc" id="L177">			throw new ApiException(&quot;Entered quantity is greater than quantity present in inventory&quot;);</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (initialQuantity &lt; requestedQuantity) {</span>
+<span class="fc" id="L178">			throw new ApiException(&quot;Entered quantity is greater than quantity present in inventory&quot;);</span>
 		}
-<span class="fc" id="L179">	}</span>
+<span class="fc" id="L180">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

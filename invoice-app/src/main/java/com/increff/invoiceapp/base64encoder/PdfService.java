@@ -27,9 +27,9 @@ public class PdfService {
 
     private static final Logger logger = Logger.getLogger(PdfService.class);
     private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
-    public static String getBase64String(String date, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException, TransformerException, JAXBException, FOPException {
+    public static String getBase64String(String date, Integer orderId, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrps) throws IOException, TransformerException, JAXBException, FOPException {
 //          Create the XML file
-            writeInvoiceToXml(date, orderItemsIds, productNames, quantities, sellingPrices, mrps, RESOURCES_DIR + "/invoice.xml");
+            writeInvoiceToXml(date, orderId, orderItemsIds, productNames, quantities, sellingPrices, mrps, RESOURCES_DIR + "/invoice.xml");
             logger.info("XML file created");
 
 //          Setup FOP
@@ -59,7 +59,7 @@ public class PdfService {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public static void writeInvoiceToXml(String date, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
+    public static void writeInvoiceToXml(String date, Integer orderId, List<Integer> orderItemsIds, List<String> productNames, List<Integer> quantities, List<String> sellingPrices, List<String> mrp, String fileName) throws JAXBException, IOException, TransformerException {
         JAXBContext jaxbContext = JAXBContext.newInstance(InvoiceList.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -78,6 +78,7 @@ public class PdfService {
             invoiceList.getItems().add(invoiceItem);
         }
         invoiceList.setDate(date);
+        invoiceList.setOrderId(orderId);
         invoiceList.setTotal(getTotal(quantities, sellingPrices));
 
         StringWriter sw = new StringWriter();

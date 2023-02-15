@@ -1,9 +1,11 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.BrandDao;
+import com.increff.posapp.dao.InventoryDao;
 import com.increff.posapp.model.ProductData;
 import com.increff.posapp.model.ProductForm;
 import com.increff.posapp.pojo.BrandPojo;
+import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
@@ -20,6 +22,8 @@ public class ProductDtoTest extends AbstractUnitTest {
     private ProductDto productDto;
     @Autowired
     private BrandDao brandDao;
+    @Autowired
+    private InventoryDao inventoryDao;
     private static Logger logger = Logger.getLogger(ProductDtoTest.class);
 
     private BrandPojo addBrand(){
@@ -101,6 +105,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("13.45", data.getMrp().toString());
         assertEquals("asd34455", data.getBarcode());
         assertEquals(data1.getBrandCategory(), data.getBrandCategory());
+        assertEquals(0, data.getQuantity().intValue());
     }
 
     @Test

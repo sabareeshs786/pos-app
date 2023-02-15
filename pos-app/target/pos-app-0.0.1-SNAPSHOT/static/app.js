@@ -17,6 +17,27 @@ function validator(jsonStr){
     return true;
 }
 
+function generateInvoicePdf(id){
+	var url = getInvoiceUrl() + "/" + id;
+	$.ajax({
+		url: url,
+		type: 'GET',
+		xhrFields: {
+			responseType: 'blob'
+		 },
+		success: function(blob) {
+			console.log(blob.length);
+			var link=document.createElement('a');
+			link.href=window.URL.createObjectURL(blob);
+			link.download="Invoice" + new Date() + ".pdf";
+			link.click();
+				
+		},
+		error: handleAjaxError
+	 });
+	 return false;
+}
+
 function enableOrDisable(){
     console.log("Current users role: "+getRole());
 	if(getRole() != 'supervisor'){

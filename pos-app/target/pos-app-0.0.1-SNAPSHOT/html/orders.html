@@ -19,8 +19,6 @@
 	<!-- Top row -->
 	<div class="row">
 		<div class="col-12">
-			<!-- <a th:href="@{/ui/order-placing}" target="_self"class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Place Order</a>
-			 -->
 			 <button type="button" class="btn btn-primary" id="place-order">Place Order</button>
 		</div>	
 	</div> 
@@ -55,46 +53,76 @@
 	  <div class="modal-content container">
 		<div class="modal-header">
 		  <h5 class="modal-title">Place Order</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id = "cancel1">
+		  <button type="button" class="close" aria-label="Close" id = "cancel1">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body">
-			<div class="container-fluid">
-			  <form class="form-inline" id="place-order-form">
-				<div class="row">
-					<div class="form-group">
-					<label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-					<div class="col-sm-6">
+			<form class="row g-3 needs-validation" id="place-order-form" novalidate>
+				<div class="col-md-4">
+					<label for="inputBarcode" class="form-label">Barcode</label>
+					<div class="input-group has-validation">
 						<input type="text" class="form-control" name="barcode" placeholder="Enter barcode" required>
-					</div>
-					</div>
-				
-				<div class="form-group">
-				  <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-				  <div class="col-sm-6">
-					<input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" required>
-				  </div>
-				</div>
-				</div>
-
-				<div class="row">
-				<div class="form-group">
-					<label for="inputSellingPrice" class="col-sm-2 col-form-label">Selling Price</label>
-					<div class="col-sm-6">
-					  <input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter Selling Price" required>
-					</div>
-				</div>
-					<div class="form-group">
-					<div class="col-sm-6">
-						<button type="button" class="btn btn-primary" id="add-item" disabled>+&nbsp;Add&nbsp;Item</button>
-					</div>
+						<span class="input-group-append">
+							<button class="btn btn-primary" type="button" id="searchForBarcode"><i class="fa fa-search"></i></button>
+						</span>				  
+						<div class="valid-feedback" id="bvf1">
+							Looks good!
+						</div>
+						<div class="invalid-feedback" id="bif1">
+							Please enter barcode
+						</div>
+						<div class="invalid-feedback" id="bif2">
+							Barcode is invalid
+						</div>
+						<div class="invalid-feedback" id="bif3">
+							This item is currently unavailable
+						</div>
 					</div>
 				</div>
-			  </form>
+				<div class="col-md-4">
+					<label for="inputQuantity" class="form-label">Quantity</label>
+					<input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" required readonly>
+					<div class="valid-feedback" id="qvf1">
+					</div>
+					<div class="invalid-feedback" id="qif1">
+						Please enter quantity
+					</div>
+					<div class="invalid-feedback" id="qif2">
+						Enter a quantity within 3
+					</div>
+				</div>
+				<div class="col-md-4">
+					<label for="inputSellingPrice" class="form-label">Selling Price</label>
+					<input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter Selling Price" required readonly>
+					<div class="valid-feedback" id="spvf1">
+						Looks good!
+					</div>
+					<div class="invalid-feedback" id="spif1">
+						Please enter selling price
+					</div>
+					<div class="invalid-feedback" id="spif2">
+						Selling Price must be less than 45.67
+					</div>
+				</div>
+				<div class="col-12">
+					&nbsp;&nbsp;
+				</div>
+					<button type="button" class="btn btn-primary" id="add-item" disabled>+&nbsp;Add&nbsp;item</button>
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					<button type="reset" class="btn btn-danger" id="reset-item">Reset</button>
+			</form>	
+			
+			<div class="row">
+				<div class="col-12">
+					&nbsp;&nbsp;
+				</div>
 			</div>
-			<div style="height: 200px; overflow-y: auto;">
-				<table class="table">
+
+			<div style="height: 200px; overflow-y: auto;" id="table-div">
+				<table class="table" id="added-items-table">
 					<thead>
 					<tr>
 						<th scope="col">SNo</th>
@@ -109,55 +137,17 @@
 					<tbody id="added-items">
 					</tbody>
 				</table>		  
-			</div>
+			</div> 
+
 		</div>
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal" id = "cancel2">Cancel</button>
-		  <button type="button" class="btn btn-primary" id="place-order-confirm">Place Order</button>
+		  <button type="button" class="btn btn-primary" id="place-order-confirm" disabled>Place Order</button>
+		  <button type="button" class="btn btn-secondary" id = "cancel2">Cancel</button>
 		</div>
 	  </div>
 	</div>
   </div>
-<!-- Added Item Edit Modal -->
-  <div class="modal" tabindex="-1" role="dialog" id="edit-added-item-modal">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title">Edit Order Item</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-		<div class="modal-body">
-		  <form class="form-inline" id="edit-added-item-form">
-			  <div class="form-group">
-				  <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-				  <div class="col-lg-12">
-					<input type="text" class="form-control" id="inputBarcode" name="barcode" placeholder="Enter barcode">
-				  </div>
-				</div>
-				<div class="form-group">
-				  <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-				  <div class="col-lg-12">
-					<input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
-				  </div>
-				</div>
-				<div class="form-group">
-					<label for="inputSellingPrice" class="col-sm-2 col-form-label">Selling Price</label>
-					<div class="col-lg-12">
-					  <input type="text" class="form-control decimal-number" name="sellingPrice" placeholder="Enter selling price">
-					</div>
-				</div>
-			  <input type="hidden" name="i">
-		  </form>
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel3">Cancel</button>
-		  <button type="button" class="btn btn-primary" id="update-added-item" disabled>Update</button>
-		</div>
-	  </div>
-	</div>
-  </div>
+
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>

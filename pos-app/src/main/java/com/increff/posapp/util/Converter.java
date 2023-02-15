@@ -35,7 +35,7 @@ public class Converter {
 		return p;
 	}
 	
-	public static ProductData convertToProductData(ProductPojo productPojo, BrandPojo brandPojo) {
+	public static ProductData convertToProductData(ProductPojo productPojo, BrandPojo brandPojo, InventoryPojo inventoryPojo) {
 		ProductData productData = new ProductData();
 		productData.setId(productPojo.getId());
 		productData.setBarcode(productPojo.getBarcode());
@@ -43,6 +43,7 @@ public class Converter {
 		productData.setCategory(brandPojo.getCategory());
 		productData.setBrandCategory(productPojo.getBrandCategory());
 		productData.setName(productPojo.getName());
+		productData.setQuantity(inventoryPojo.getQuantity());
 		productData.setMrp(productPojo.getMrp());
 		return productData;
 	}

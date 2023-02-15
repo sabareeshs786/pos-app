@@ -4,7 +4,7 @@ pos-app,com.increff.posapp.pojo,OrderPojo,21,26,0,0,1,9,2,5,2,5
 pos-app,com.increff.posapp.pojo,UserPojo,31,27,0,0,1,6,2,8,2,8
 pos-app,com.increff.posapp.pojo,InventoryPojo,17,17,0,0,1,4,1,5,1,5
 pos-app,com.increff.posapp.pojo,PosDaySalesPojo,33,25,0,0,3,4,3,7,3,7
-pos-app,com.increff.posapp.pojo,ProductPojo,36,34,0,0,1,7,2,10,2,10
+pos-app,com.increff.posapp.pojo,ProductPojo,32,38,0,0,1,7,1,11,1,11
 pos-app,com.increff.posapp.pojo,OrderItemPojo,36,34,0,0,1,7,2,10,2,10
 pos-app,com.increff.posapp.service,ProductService,0,192,2,22,0,44,2,21,0,11
 pos-app,com.increff.posapp.service,InventoryService,0,109,0,10,0,26,0,13,0,8
@@ -13,7 +13,7 @@ pos-app,com.increff.posapp.service,OrderItemService,0,180,0,20,0,45,0,23,0,13
 pos-app,com.increff.posapp.service,PosDaySalesService,0,22,0,0,0,6,0,5,0,5
 pos-app,com.increff.posapp.service,ApiException,0,4,0,0,0,2,0,1,0,1
 pos-app,com.increff.posapp.service,BrandService,0,306,1,27,0,70,1,34,0,21
-pos-app,com.increff.posapp.service,OrderService,0,109,0,8,0,25,0,15,0,11
+pos-app,com.increff.posapp.service,OrderService,5,104,1,7,1,24,1,14,0,11
 pos-app,com.increff.posapp.service,AboutAppService,0,9,0,0,0,3,0,3,0,3
 pos-app,com.increff.posapp.controller,PosDaySalesController,7,7,0,0,2,2,1,2,1,2
 pos-app,com.increff.posapp.controller,InitApiController,73,3,4,0,18,1,5,1,3,1
@@ -41,14 +41,14 @@ pos-app,com.increff.posapp.dao,OrderDao,0,97,0,0,0,22,0,7,0,7
 pos-app,com.increff.posapp.dao,AbstractDao,0,19,0,0,0,4,0,4,0,4
 pos-app,com.increff.posapp.model,InventoryData,12,10,0,0,1,3,1,3,1,3
 pos-app,com.increff.posapp.model,OrderData,20,21,0,0,2,4,2,6,2,6
-pos-app,com.increff.posapp.model,ProductData,64,17,0,0,5,4,3,5,3,5
-pos-app,com.increff.posapp.model,BrandForm,0,17,0,0,0,4,0,5,0,5
+pos-app,com.increff.posapp.model,ProductData,57,24,0,0,4,5,1,7,1,7
 pos-app,com.increff.posapp.model,ReportForm,58,0,0,0,7,0,10,0,10,0
+pos-app,com.increff.posapp.model,BrandForm,0,17,0,0,0,4,0,5,0,5
 pos-app,com.increff.posapp.model,OrderItemData,0,52,0,0,0,9,0,15,0,15
 pos-app,com.increff.posapp.model,OrderForm,12,27,0,0,1,8,3,4,3,4
 pos-app,com.increff.posapp.model,AboutAppData,17,0,0,0,4,0,5,0,5,0
-pos-app,com.increff.posapp.model,BrandData,0,10,0,0,0,3,0,3,0,3
 pos-app,com.increff.posapp.model,SalesReportForm,0,31,0,0,0,6,0,9,0,9
+pos-app,com.increff.posapp.model,BrandData,0,10,0,0,0,3,0,3,0,3
 pos-app,com.increff.posapp.model,InfoData,52,0,0,0,9,0,8,0,8,0
 pos-app,com.increff.posapp.model,LoginForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,InvoiceData,41,0,0,0,6,0,8,0,8,0
@@ -58,8 +58,8 @@ pos-app,com.increff.posapp.model,SignUpForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,UserData,24,0,0,0,5,0,7,0,7,0
 pos-app,com.increff.posapp.model,PosDaySalesData,58,0,0,0,7,0,10,0,10,0
 pos-app,com.increff.posapp.model,InventoryReportData,0,24,0,0,0,5,0,7,0,7
-pos-app,com.increff.posapp.model,PosDaySalesForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,ProductForm,32,38,0,0,1,7,1,11,1,11
+pos-app,com.increff.posapp.model,PosDaySalesForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,UserForm,17,0,0,0,4,0,5,0,5,0
 pos-app,com.increff.posapp.model,OrderItemEditForm,0,31,0,0,0,6,0,9,0,9
 pos-app,com.increff.posapp.model,InventoryForm,17,17,0,0,1,4,1,5,1,5
@@ -72,7 +72,7 @@ pos-app,com.increff.posapp.util,FormValidator,43,95,12,14,9,12,13,3,1,2
 pos-app,com.increff.posapp.util,DateTimeUtil,3,53,0,0,1,15,1,5,1,5
 pos-app,com.increff.posapp.util,ValidationUtil,3,9,0,4,1,1,1,3,1,1
 pos-app,com.increff.posapp.util,UserPrincipal,50,0,0,0,10,0,8,0,8,0
-pos-app,com.increff.posapp.util,Converter,31,290,0,0,8,73,2,13,2,13
+pos-app,com.increff.posapp.util,Converter,31,294,0,0,8,74,2,13,2,13
 pos-app,com.increff.posapp.spring,ControllerConfig,4,174,0,0,2,32,1,8,1,8
 pos-app,com.increff.posapp.spring,SecurityConfig,0,187,0,0,0,19,0,4,0,4
 pos-app,com.increff.posapp.spring,SpringSecurityInitializer,3,0,0,0,1,0,1,0,1,0
@@ -82,9 +82,9 @@ pos-app,com.increff.posapp.spring,WebInitializer,20,0,0,0,4,0,4,0,4,0
 pos-app,com.increff.posapp.dto,OrderItemDto,0,476,1,25,0,102,1,27,0,15
 pos-app,com.increff.posapp.dto,BrandDto,0,108,1,9,0,21,1,10,0,6
 pos-app,com.increff.posapp.dto,InventoryDto,0,152,1,9,0,30,1,10,0,6
-pos-app,com.increff.posapp.dto,ProductDto,0,205,1,9,0,38,1,12,0,8
+pos-app,com.increff.posapp.dto,ProductDto,0,241,1,9,0,43,1,12,0,8
 pos-app,com.increff.posapp.dto,PosDaySalesDto,93,183,4,8,17,36,3,8,0,5
 pos-app,com.increff.posapp.dto,SalesReportDto,0,446,4,30,0,65,4,19,0,6
 pos-app,com.increff.posapp.dto,InventoryReportDto,0,601,2,60,0,95,2,34,0,5
-pos-app,com.increff.posapp.dto,OrderDto,0,425,0,18,0,82,0,17,0,8
+pos-app,com.increff.posapp.dto,OrderDto,0,426,0,18,0,82,0,17,0,8
 pos-app,com.increff.posapp.dto,BrandReportDto,0,245,1,27,0,44,1,17,0,4

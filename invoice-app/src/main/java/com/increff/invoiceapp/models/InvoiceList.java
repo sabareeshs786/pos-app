@@ -19,6 +19,8 @@ import java.util.List;
 public class InvoiceList {
     @XmlElement(name = "date")
     private String date;
+    @XmlElement(name = "orderId")
+    private Integer orderId;
     @XmlElement(name = "item")
     private List<InvoiceItem> items;
     @XmlElement(name = "total")
