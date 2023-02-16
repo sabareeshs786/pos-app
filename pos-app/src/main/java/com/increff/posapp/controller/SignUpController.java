@@ -63,7 +63,7 @@ public class SignUpController {
 		// Attach Authentication object to the Security Context
 		SecurityUtil.setAuthentication(authentication);
 
-		return new ModelAndView("redirect:/ui/home");
+		return new ModelAndView("redirect:/ui/brand");
 	}
 
 	private static UserData convertToUserData(UserPojo p) {

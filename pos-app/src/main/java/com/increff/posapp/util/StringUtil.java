@@ -12,10 +12,10 @@ public class StringUtil {
 		return s == null ? null : s.trim().toLowerCase();
 	}
 
-	public static Boolean isSafe(String s){
-		String regex = "^[a-zA-Z0-9]*$";
+	public static Boolean isNotAlNum(String s){
+		String regex = "^[a-zA-Z0-9\\s-]*$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(s);
-		return matcher.matches();
+		return !matcher.matches();
 	}
 }

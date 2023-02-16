@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.Normalizer;
+import com.increff.posapp.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,6 +30,8 @@ public class InventoryDto {
 	private ProductService productService;
 	
 	public InventoryData add(InventoryForm form) throws ApiException {
+		Validator.inventoryFormValidator(form);
+		Normalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
@@ -55,6 +59,11 @@ public class InventoryDto {
 	}
 	
 	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException {
+		if(id == null){
+			throw new ApiException("Id can't be empty");
+		}
+		Validator.inventoryFormValidator(form);
+		Normalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);

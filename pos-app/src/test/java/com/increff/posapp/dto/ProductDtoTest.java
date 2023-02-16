@@ -105,7 +105,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("13.45", data.getMrp().toString());
         assertEquals("asd34455", data.getBarcode());
         assertEquals(data1.getBrandCategory(), data.getBrandCategory());
-        assertEquals(0, data.getQuantity().intValue());
+        assertNull(data.getQuantity());
     }
 
     @Test
