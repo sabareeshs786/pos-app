@@ -15,14 +15,13 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/OrderItemDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/Converter.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/CookieUtil.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/ValidationUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dao/BrandDao.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/AppRestControllerAdvice.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/OrderForm.java
-/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/FormValidator.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/UserService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/StringUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/pojo/ProductPojo.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/Validator.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/SignUpController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/UserForm.java
@@ -78,6 +77,7 @@
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/service/OrderItemService.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/ReportForm.java
+/home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/Normalizer.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/util/SecurityUtil.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/BrandData.java
 /home/sabareeshs/Documents/pos/pos-app/src/main/java/com/increff/posapp/model/SalesReportData.java

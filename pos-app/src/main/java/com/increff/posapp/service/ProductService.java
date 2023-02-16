@@ -86,7 +86,7 @@ public class ProductService {
 		if(StringUtil.isEmpty(p.getName())){
 			throw new ApiException("Product name can't be empty");
 		}
-		if(StringUtil.isSafe(p.getBarcode()) || StringUtil.isSafe(p.getName())){
+		if(StringUtil.isNotAlNum(p.getBarcode()) || StringUtil.isNotAlNum(p.getName())){
 				throw new ApiException("Characters other than alpha-numeric is not allowed");
 		}
 		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){

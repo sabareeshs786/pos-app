@@ -1,71 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-app</a> &gt; <a href="index.source.html" class="el_package">com.increff.posapp.controller</a> &gt; <span class="el_source">OrderController.java</span></div><h1>OrderController.java</h1><pre class="source lang-java linenums">package com.increff.posapp.controller;
 
-import java.util.List;
-
-import com.increff.posapp.model.OrderItemEditForm;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.increff.posapp.dto.OrderDto;
-import com.increff.posapp.dto.OrderItemDto;
 import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.fop.apps.FOPException;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import org.apache.fop.apps.FOPException;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
+import java.util.List;
 
 @Api
 @Validated
 @RestController
-<span class="fc" id="L51">public class OrderController {</span>
-	@Autowired
-	private OrderItemDto orderItemDto;
+<span class="fc" id="L27">public class OrderController {</span>
+
 	@Autowired
 	private OrderDto orderDto;
-<span class="fc" id="L56">	private static final Logger logger = Logger.getLogger(OrderController.class);</span>
+<span class="fc" id="L31">	private static final Logger logger = Logger.getLogger(OrderController.class);</span>
 
 	@ApiOperation(value = &quot;Adds an order&quot;)
 	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.POST)
 	public void add(@Valid @RequestBody OrderForm form) throws ApiException {
-<span class="nc" id="L61">		logger.info(form);</span>
-<span class="nc" id="L62">		orderDto.add(form);</span>
-<span class="nc" id="L63">	}</span>
+<span class="nc" id="L36">		logger.info(form);</span>
+<span class="nc" id="L37">		orderDto.add(form);</span>
+<span class="nc" id="L38">	}</span>
 
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
 	@RequestMapping(path = &quot;/api/order/{orderId}&quot;, method = RequestMethod.GET)
 	public List&lt;OrderItemData&gt; getByOrderId(@PathVariable Integer orderId) throws ApiException {
-<span class="nc" id="L68">		return orderItemDto.getByOrderId(orderId);</span>
+<span class="nc" id="L43">		return orderDto.getByOrderId(orderId);</span>
 	}
 
 	@ApiOperation(value = &quot;Gets list of all ordered items by order id&quot;)
@@ -73,41 +48,32 @@ import org.springframework.web.bind.annotation.RestController;
 	public Page&lt;OrderItemData&gt; getPageByOrderId(@RequestParam Integer orderId,
 												@RequestParam(name = &quot;pagenumber&quot;) Integer page,
 												@RequestParam Integer size) throws ApiException {
-<span class="nc" id="L76">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
-<span class="nc" id="L77">		return orderItemDto.getPageByOrderId(orderId, page, size);</span>
+<span class="nc" id="L51">		logger.info(&quot;OrderId: &quot;+orderId+&quot;\nPage: &quot;+page+&quot;\nSize: &quot;+size);</span>
+<span class="nc" id="L52">		return orderDto.getPageByOrderId(orderId, page, size);</span>
 	}
 
-//	@ApiOperation(value = &quot;Gets list of all orders&quot;)
-//	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
-//	public List&lt;OrderData&gt; getAll() throws ApiException {
-//		return orderDto.getAll();
-//	}
 	@ApiOperation(value = &quot;Gets list of all orders&quot;)
 	@RequestMapping(path = &quot;/api/order/{pageNo}/{size}&quot;, method = RequestMethod.GET)
 	public Page&lt;OrderData&gt; getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-<span class="nc" id="L88">		return orderDto.getAll(pageNo, size);</span>
+<span class="nc" id="L58">		return orderDto.getAll(pageNo, size);</span>
 	}
+
 	@ApiOperation(value = &quot;Gets an order item by id&quot;)
 	@RequestMapping(path = &quot;/api/orderitems/{id}&quot;, method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L93">		return orderItemDto.getByOrderItemId(id);</span>
+<span class="nc" id="L64">		return orderDto.getByOrderItemId(id);</span>
 	}
-	@ApiOperation(value = &quot;Edits an order item by id&quot;)
-	@RequestMapping(path = &quot;/api/orderitems/update&quot;, method = RequestMethod.PUT)
-	public void updateOrderItem(@Valid @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-<span class="nc" id="L98">		orderItemDto.update(orderItemEditForm);</span>
-<span class="nc" id="L99">	}</span>
 
 	@ApiOperation(value = &quot;Used to download invoice&quot;)
 	@RequestMapping(path = &quot;/api/invoice/download/{orderId}&quot;, method = RequestMethod.GET)
 	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
 			throws IOException, FOPException, TransformerException, ApiException, JAXBException {
-<span class="nc" id="L105">		logger.info(&quot;OrderId = &quot;+orderId);</span>
-<span class="nc" id="L106">		orderDto.convertToPdf(orderId, response);</span>
-<span class="nc" id="L107">		logger.info(&quot;Response character encoding: &quot;+response.getCharacterEncoding());</span>
-<span class="nc" id="L108">		logger.info(&quot;Response content type: &quot;+response.getContentType());</span>
-<span class="nc" id="L109">		logger.info(&quot;Response status: &quot;+response.getStatus());</span>
-<span class="nc" id="L110">		logger.info(&quot;Response content length: &quot;+response.getOutputStream().toString().length());</span>
-<span class="nc" id="L111">	}</span>
+<span class="nc" id="L71">		logger.info(&quot;OrderId = &quot;+orderId);</span>
+<span class="nc" id="L72">		orderDto.convertToPdf(orderId, response);</span>
+<span class="nc" id="L73">		logger.info(&quot;Response character encoding: &quot;+response.getCharacterEncoding());</span>
+<span class="nc" id="L74">		logger.info(&quot;Response content type: &quot;+response.getContentType());</span>
+<span class="nc" id="L75">		logger.info(&quot;Response status: &quot;+response.getStatus());</span>
+<span class="nc" id="L76">		logger.info(&quot;Response content length: &quot;+response.getOutputStream().toString().length());</span>
+<span class="nc" id="L77">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

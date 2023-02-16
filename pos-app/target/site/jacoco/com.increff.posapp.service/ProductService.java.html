@@ -86,18 +86,22 @@ import com.increff.posapp.util.StringUtil;
 <span class="fc bfc" id="L86" title="All 2 branches covered.">		if(StringUtil.isEmpty(p.getName())){</span>
 <span class="fc" id="L87">			throw new ApiException(&quot;Product name can't be empty&quot;);</span>
 		}
-<span class="pc bpc" id="L89" title="1 of 4 branches missed.">		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){</span>
-<span class="fc" id="L90">			throw new ApiException(&quot;Brand-Category number can't be empty&quot;);</span>
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">		if(StringUtil.isNotAlNum(p.getBarcode()) || StringUtil.isNotAlNum(p.getName())){</span>
+<span class="fc" id="L90">				throw new ApiException(&quot;Characters other than alpha-numeric is not allowed&quot;);</span>
 		}
-<span class="pc bpc" id="L92" title="1 of 4 branches missed.">		if(p.getMrp() == null || StringUtil.isEmpty(p.getMrp().toString())){</span>
-<span class="fc" id="L93">			throw new ApiException(&quot;MRP can't be empty&quot;);</span>
+<span class="pc bpc" id="L92" title="2 of 4 branches missed.">		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){</span>
+<span class="nc" id="L93">			throw new ApiException(&quot;Brand-Category number can't be empty&quot;);</span>
 		}
-<span class="fc bfc" id="L95" title="All 4 branches covered.">		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {</span>
-<span class="fc" id="L96">			throw new ApiException(&quot;MRP is invalid&quot;);</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">		if(p.getMrp() == null || StringUtil.isEmpty(p.getMrp().toString())){</span>
+<span class="fc" id="L96">			throw new ApiException(&quot;MRP can't be empty&quot;);</span>
 		}
-<span class="fc bfc" id="L98" title="All 2 branches covered.">		if(p.getMrp() &lt;= 0.0){</span>
-<span class="fc" id="L99">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
+<span class="fc bfc" id="L98" title="All 4 branches covered.">		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {</span>
+<span class="fc" id="L99">			throw new ApiException(&quot;MRP is invalid&quot;);</span>
 		}
-<span class="fc" id="L101">	}</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		if(p.getMrp() &lt;= 0.0){</span>
+<span class="fc" id="L102">			throw new ApiException(&quot;MRP must be greater than zero&quot;);</span>
+		}
+
+<span class="fc" id="L105">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

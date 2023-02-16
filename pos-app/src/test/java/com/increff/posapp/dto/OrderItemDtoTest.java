@@ -1,23 +1,34 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.*;
+import com.increff.posapp.model.OrderData;
+import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.model.OrderItemEditForm;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.util.Converter;
+import org.apache.fop.apps.FOPException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderItemDtoTest extends AbstractUnitTest {
 
     @Autowired
-    private OrderItemDto orderItemDto;
+    private OrderDto orderDto;
     @Autowired
     private BrandDao brandDao;
     @Autowired
@@ -122,11 +133,24 @@ public class OrderItemDtoTest extends AbstractUnitTest {
         return list;
     }
 
+    private List<OrderItemData> addOrder() throws ApiException {
+        addInventory1();
+        addInventory2();
+        OrderForm form = new OrderForm();
+        form.getBarcodes().add("barcode123");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(120.68);
+        form.getBarcodes().add("barcode1234");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(10.78);
+        return orderDto.add(form);
+    }
+
     @Test
     public void testGetByOrderId() throws ApiException {
         List<OrderItemPojo> list1 = addOrderItems();
         Integer orderId = list1.get(0).getOrderId();
-        List<OrderItemData> list2 = orderItemDto.getByOrderId(orderId);
+        List<OrderItemData> list2 = orderDto.getByOrderId(orderId);
         assertEquals(list1.size(), list2.size());
         for(int i=0; i < list1.size(); i++){
             assertEquals(list1.get(i).getOrderId(), list2.get(i).getOrderId());
@@ -139,10 +163,113 @@ public class OrderItemDtoTest extends AbstractUnitTest {
     }
 
     @Test
+    public void testAdd() throws ApiException {
+        InventoryPojo inventoryPojo1 = addInventory1();
+        InventoryPojo inventoryPojo2 = addInventory2();
+        OrderForm form = new OrderForm();
+        form.getBarcodes().add("barcode123");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(120.68);
+        form.getBarcodes().add("barcode1234");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(10.78);
+        List<OrderItemData> list = orderDto.add(form);
+        assertEquals("barcode123", list.get(0).getBarcode());
+        assertEquals("product1", list.get(0).getProductName());
+        assertEquals(2, list.get(0).getQuantity().intValue());
+        assertEquals("120.68", list.get(0).getSellingPrice());
+        assertEquals("123.45", list.get(0).getMrp());
+
+        assertEquals("barcode1234", list.get(1).getBarcode());
+        assertEquals("product2", list.get(1).getProductName());
+        assertEquals(2, list.get(1).getQuantity().intValue());
+        assertEquals("10.78", list.get(1).getSellingPrice());
+        assertEquals("12.45", list.get(1).getMrp());
+
+        assertNotNull(list.get(0).getOrderId());
+        assertNotNull(list.get(1).getOrderId());
+        assertEquals(list.get(0).getOrderId(), list.get(1).getOrderId());
+        assertEquals(19, inventoryPojo1.getQuantity().intValue());
+        assertEquals(21, inventoryPojo2.getQuantity().intValue());
+    }
+
+    @Test
+    public void testGetAll() throws ApiException {
+        List<OrderItemData> list = addOrder();
+        List<OrderData> orderDataList = orderDto.getAll();
+        assertEquals(2, list.size());
+        assertEquals(1, orderDataList.size());
+        assertEquals(
+                LocalDate.now(
+                        ZoneId.of("Asia/Kolkata")
+                ).format(
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                ),
+                orderDataList.get(0).getTime().substring(0, 10)
+        );
+        assertEquals("262.92",orderDataList.get(0).getTotalAmount());
+    }
+
+    @Test
+    public void testGetAllPage() throws ApiException {
+        List<OrderItemData> list = addOrder();
+        List<OrderData> orderDataList = orderDto.getAll(0, 5).getContent();
+        assertEquals(2, list.size());
+        assertEquals(1, orderDataList.size());
+        assertTrue(orderDataList.size() > 0 && orderDataList.size() <= 5);
+        assertEquals(
+                LocalDate.now(
+                        ZoneId.of("Asia/Kolkata")
+                ).format(
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                ),
+                orderDataList.get(0).getTime().substring(0, 10)
+        );
+        assertEquals("262.92",orderDataList.get(0).getTotalAmount());
+    }
+
+    @Test
+    public void testConvertToPdf() throws ApiException, FOPException, JAXBException, IOException, TransformerException {
+        HttpServletResponse response = new MockHttpServletResponse();
+        List<OrderItemData> list = addOrder();
+        assertEquals(2,list.size());
+        orderDto.convertToPdf(list.get(0).getOrderId(), response);
+        assertEquals("application/pdf", response.getContentType());
+        assertTrue(response.getBufferSize() > 0);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testValidateMrpInvalid() throws ApiException {
+        addInventory1();
+        addInventory2();
+        OrderForm form = new OrderForm();
+        form.getBarcodes().add("barcode123");
+        form.getQuantities().add(200);
+        form.getSellingPrices().add(1200.78);
+        form.getBarcodes().add("barcode1234");
+        form.getQuantities().add(29);
+        form.getSellingPrices().add(1008.7);
+        orderDto.add(form);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testValidateQuantityInvalid() throws ApiException {
+        addInventory1();
+        addInventory2();
+        OrderForm form = new OrderForm();
+        form.getBarcodes().add("barcode123");
+        form.getQuantities().add(290);
+        form.getSellingPrices().add(120.68);
+        form.getBarcodes().add("barcode1234");
+        form.getQuantities().add(287);
+        form.getSellingPrices().add(10.78);
+        orderDto.add(form);
+    }
+    @Test
     public void testGetPageByOrderId() throws ApiException {
         List<OrderItemPojo> list1 = addOrderItems();
         Integer orderId = list1.get(0).getOrderId();
-        List<OrderItemData> list2 = orderItemDto.getPageByOrderId(orderId, 0, 5).getContent();
+        List<OrderItemData> list2 = orderDto.getPageByOrderId(orderId, 0, 5).getContent();
         assertEquals(list1.size(), list2.size());
         assertTrue(list2.size() > 0 && list2.size() <= 5);
         for(int i=0; i < list1.size(); i++){
@@ -158,137 +285,12 @@ public class OrderItemDtoTest extends AbstractUnitTest {
     @Test
     public void testGetByOrderItemId() throws ApiException {
         List<OrderItemPojo> list1 = addOrderItems();
-        OrderItemData data = orderItemDto.getByOrderItemId(list1.get(0).getId());
+        OrderItemData data = orderDto.getByOrderItemId(list1.get(0).getId());
         assertEquals(list1.get(0).getId(), data.getId());
         assertEquals(list1.get(0).getOrderId(), data.getOrderId());
         assertEquals("product1", data.getProductName());
         assertEquals(list1.get(0).getQuantity(), data.getQuantity());
         assertEquals(list1.get(0).getSellingPrice().toString(), data.getSellingPrice());
     }
-    @Test
-    public void testUpdateProductChange() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        addInventory3();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode12345");
-        form.setQuantity(list1.get(0).getQuantity());
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-        OrderItemPojo pojo = orderItemDao.selectById(id);
-        ProductPojo productPojo = productDao.selectById(pojo.getProductId());
-        assertEquals("barcode12345", productPojo.getBarcode());
-        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getQuantity().intValue(), pojo.getQuantity().intValue());
-        assertEquals(list1.get(0).getSellingPrice(), pojo.getSellingPrice());
-    }
 
-    @Test(expected = ApiException.class)
-    public void testUpdateProductQuantityChange() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        addInventory3();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode12345");
-        form.setQuantity(123);
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-    }
-
-    @Test
-    public void testUpdateQuantityIncrease() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(3);
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-        OrderItemPojo pojo = orderItemDao.selectById(id);
-        ProductPojo productPojo = productDao.selectById(pojo.getProductId());
-        assertEquals("barcode123", productPojo.getBarcode());
-        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(3, pojo.getQuantity().intValue());
-        assertEquals(list1.get(0).getSellingPrice(), pojo.getSellingPrice());
-    }
-
-    @Test
-    public void testUpdateQuantityDecrease() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(1);
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-        OrderItemPojo pojo = orderItemDao.selectById(id);
-        ProductPojo productPojo = productDao.selectById(pojo.getProductId());
-        assertEquals("barcode123", productPojo.getBarcode());
-        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(1, pojo.getQuantity().intValue());
-        assertEquals(list1.get(0).getSellingPrice(), pojo.getSellingPrice());
-    }
-    @Test(expected = ApiException.class)
-    public void testUpdateQuantityInvalid() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(300);
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-    }
-
-    @Test
-    public void testUpdateSellingPriceChange() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(list1.get(0).getQuantity());
-        form.setSellingPrice(110.78);
-        orderItemDto.update(form);
-        OrderItemPojo pojo = orderItemDao.selectById(id);
-        ProductPojo productPojo = productDao.selectById(pojo.getProductId());
-        assertEquals("barcode123", productPojo.getBarcode());
-        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getQuantity().intValue(), pojo.getQuantity().intValue());
-        assertEquals("110.78", pojo.getSellingPrice().toString());
-    }
-
-    @Test(expected = ApiException.class)
-    public void testUpdateSellingPriceInvalid() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(list1.get(0).getQuantity());
-        form.setSellingPrice(11000.78);
-        orderItemDto.update(form);
-    }
-
-    @Test
-    public void testUpdateNoUpdate() throws ApiException {
-        List<OrderItemPojo> list1 = addOrderItems();
-        Integer id = list1.get(0).getId();
-        OrderItemEditForm form = new OrderItemEditForm();
-        form.setId(id);
-        form.setBarcode("barcode123");
-        form.setQuantity(list1.get(0).getQuantity());
-        form.setSellingPrice(list1.get(0).getSellingPrice());
-        orderItemDto.update(form);
-        OrderItemPojo pojo = orderItemDao.selectById(id);
-        ProductPojo productPojo = productDao.selectById(pojo.getProductId());
-        assertEquals("barcode123", productPojo.getBarcode());
-        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getQuantity().intValue(), pojo.getQuantity().intValue());
-        assertEquals(list1.get(0).getSellingPrice().toString(), pojo.getSellingPrice().toString());
-    }
 }

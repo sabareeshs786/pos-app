@@ -70,8 +70,8 @@ function updateAddedItemsTable(){
 		+ barcodes[i] + "</td><td>"
 		+ names[i] + "</td><td>"
 		+ quantities[i] + "</td><td>"
-		+ sellingPrices[i] + "</td><td>"
-		+ totals[i] + "</td><td>"
+		+ parseFloat(sellingPrices[i]).toFixed(2) + "</td><td>"
+		+ parseFloat(totals[i]).toFixed(2) + "</td><td>"
 		+ buttonHtml + "</td></tr>";
 		$('#added-items').append(row);
 	}
@@ -544,7 +544,9 @@ function placeOrder(){
 				handleAjaxSuccess("Order Placed Successsfully!!!");
 				getOrderListUtil();
 			},
-			error: handleAjaxError
+			error: function(){
+				
+			}
 	 });
 	}
 	 return false;
@@ -554,8 +556,8 @@ function addItem(){
 	console.log("Add item clicked");
 	if(enableOrDisableAddOrEdit()){
 		var barcode = $barcode.val();
-		var quantity = $quantity.val();
-		var sellingPrice = $sp.val();
+		var quantity = parseInt($quantity.val());
+		var sellingPrice =parseFloat($sp.val()).toFixed(2);
 		console.log("Barcode set length: "+barcodeSet.length);
 		if(barcodeSet.has(barcode)){
 			console.log("Has barcode --> ");
@@ -565,7 +567,6 @@ function addItem(){
 					};
 			json = JSON.stringify(json);
 			var index = barcodes.indexOf(barcode);
-			console.log("Index of bacode: "+index);
 			if(validator(json)){
 				barcodes[index] = barcode;
 				quantities[index] = parseInt(quantities[index]) + parseInt(quantity);
@@ -788,7 +789,7 @@ function displayOrderList(data, sno){
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')">View</button>&nbsp;&nbsp;'
-					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')">Edit</button>&nbsp;&nbsp;'
+					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" style=\"display:none;\">Edit</button>&nbsp;&nbsp;'
 					 + '<button onclick="generateInvoicePdf(' + data[i].id + ')">Download Invoice</button>';
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
@@ -838,6 +839,7 @@ function init(){
 	$('#place-order-form input[name=quantity]').on('input', checkQuantity);
 	$('#place-order-form input[name=sellingPrice]').on('input', checkSellingPrice);
 	$('#searchForBarcode').click(getProduct);
+
 }
 
 $(document).ready(init);

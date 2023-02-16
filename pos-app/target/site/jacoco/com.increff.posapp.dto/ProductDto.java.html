@@ -6,6 +6,8 @@ import java.util.List;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.service.InventoryService;
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.Normalizer;
+import com.increff.posapp.util.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,9 +24,9 @@ import com.increff.posapp.service.BrandService;
 import com.increff.posapp.service.ProductService;
 
 @Component
-<span class="fc" id="L25">public class ProductDto {</span>
+<span class="fc" id="L27">public class ProductDto {</span>
 
-<span class="fc" id="L27">	private static final Logger logger = Logger.getLogger(ProductDto.class);</span>
+<span class="fc" id="L29">	private static final Logger logger = Logger.getLogger(ProductDto.class);</span>
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -33,66 +35,98 @@ import com.increff.posapp.service.ProductService;
 	private BrandService brandService;
 	
 	public ProductData add(ProductForm form) throws ApiException {
-<span class="fc" id="L36">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="fc" id="L37">		Integer brandCategory = brandPojo.getId();</span>
-<span class="fc" id="L38">		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);</span>
-<span class="fc" id="L39">		ProductPojo p = productService.add(productPojo);</span>
-<span class="fc" id="L40">		logger.info(&quot;Product added&quot;);</span>
-<span class="fc" id="L41">		InventoryPojo inventoryPojo = new InventoryPojo();</span>
-<span class="fc" id="L42">		inventoryPojo.setProductId(productPojo.getId());</span>
-<span class="fc" id="L43">		inventoryPojo.setQuantity(0);</span>
-<span class="fc" id="L44">		InventoryPojo pojo = inventoryService.add(inventoryPojo);</span>
-<span class="fc" id="L45">		logger.info(&quot;Inventory updated with 0&quot;);</span>
-<span class="fc" id="L46">		return Converter.convertToProductData(p, brandPojo, pojo);</span>
+<span class="fc" id="L38">		Validator.productFormValidator(form);</span>
+<span class="fc" id="L39">		Normalizer.productFormNormalizer(form);</span>
+<span class="fc" id="L40">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="fc" id="L41">		Integer brandCategory = brandPojo.getId();</span>
+<span class="fc" id="L42">		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);</span>
+<span class="fc" id="L43">		ProductPojo p = productService.add(productPojo);</span>
+<span class="fc" id="L44">		logger.info(&quot;Product added&quot;);</span>
+<span class="fc" id="L45">		InventoryPojo inventoryPojo = new InventoryPojo();</span>
+<span class="fc" id="L46">		inventoryPojo.setQuantity(null);</span>
+<span class="fc" id="L47">		return Converter.convertToProductData(p, brandPojo, inventoryPojo);</span>
 	}
 
 	public Page&lt;ProductData&gt; getById(Integer id) throws ApiException {
-<span class="fc" id="L50">		ProductPojo productPojo = productService.getById(id);</span>
-<span class="fc" id="L51">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="fc" id="L52">		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
-<span class="fc" id="L53">		List&lt;ProductData&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L54">		list.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));</span>
-<span class="fc" id="L55">		return new PageImpl&lt;&gt;(list, PageRequest.of(0, 1), 1);</span>
+<span class="fc" id="L51">		Validator.validateId(id);</span>
+<span class="fc" id="L52">		ProductPojo productPojo = productService.getById(id);</span>
+<span class="fc" id="L53">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="fc" id="L54">		InventoryPojo inventoryPojo = new InventoryPojo();</span>
+		try{
+<span class="nc" id="L56">			inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
+		}
+<span class="fc" id="L58">		catch (ApiException ex){</span>
+<span class="fc" id="L59">			inventoryPojo.setProductId(null);</span>
+<span class="fc" id="L60">			inventoryPojo.setQuantity(null);</span>
+<span class="nc" id="L61">		}</span>
+<span class="fc" id="L62">		List&lt;ProductData&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L63">		list.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));</span>
+<span class="fc" id="L64">		return new PageImpl&lt;&gt;(list, PageRequest.of(0, 1), 1);</span>
 	}
 	
 	public ProductData getByBarcode(String barcode) throws ApiException {
-<span class="fc" id="L59">		ProductPojo productPojo = productService.getByBarcode(barcode);</span>
-<span class="fc" id="L60">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="fc" id="L61">		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
-<span class="fc" id="L62">		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);</span>
+<span class="fc" id="L68">		Validator.stringValidator(barcode);</span>
+<span class="fc" id="L69">		ProductPojo productPojo = productService.getByBarcode(barcode);</span>
+<span class="fc" id="L70">		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="fc" id="L71">		InventoryPojo inventoryPojo = new InventoryPojo();</span>
+		try {
+<span class="nc" id="L73">			inventoryPojo =inventoryService.getByProductId(productPojo.getId());</span>
+		}
+<span class="fc" id="L75">		catch (ApiException ex){</span>
+<span class="fc" id="L76">			inventoryPojo.setProductId(null);</span>
+<span class="fc" id="L77">			inventoryPojo.setQuantity(null);</span>
+<span class="nc" id="L78">		}</span>
+<span class="fc" id="L79">		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);</span>
 	}
 	
 	public Page&lt;ProductData&gt; getAll(Integer page, Integer size) throws ApiException{
-<span class="fc" id="L66">		Page&lt;ProductPojo&gt; pojoPage = productService.getAllByPage(page, size);</span>
-<span class="fc" id="L67">		List&lt;ProductPojo&gt; list = pojoPage.getContent();</span>
-<span class="fc" id="L68">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (ProductPojo productPojo : list) {</span>
-<span class="fc" id="L70">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
-<span class="fc" id="L71">			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
-<span class="fc" id="L72">			list2.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));</span>
-<span class="fc" id="L73">		}</span>
-<span class="fc" id="L74">		return new PageImpl&lt;&gt;(list2, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
+<span class="fc" id="L83">		Validator.validatePageAndSize(page, size);</span>
+<span class="fc" id="L84">		Page&lt;ProductPojo&gt; pojoPage = productService.getAllByPage(page, size);</span>
+<span class="fc" id="L85">		List&lt;ProductPojo&gt; list = pojoPage.getContent();</span>
+<span class="fc" id="L86">		List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		for (ProductPojo productPojo : list) {</span>
+<span class="fc" id="L88">			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</span>
+<span class="fc" id="L89">			InventoryPojo inventoryPojo = new InventoryPojo();</span>
+			try{
+<span class="nc" id="L91">				inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
+<span class="fc" id="L92">			} catch (ApiException ex){</span>
+<span class="fc" id="L93">				inventoryPojo.setProductId(null);</span>
+<span class="fc" id="L94">				inventoryPojo.setQuantity(null);</span>
+			}
+			finally {
+<span class="fc" id="L97">				list2.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));</span>
+			}
+<span class="fc" id="L99">		}</span>
+<span class="fc" id="L100">		return new PageImpl&lt;&gt;(list2, PageRequest.of(page, size), pojoPage.getTotalElements());</span>
 	}
 	
 	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
-<span class="fc" id="L78">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
-<span class="fc" id="L79">		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());</span>
-<span class="fc" id="L80">		productPojo.setId(id);</span>
-<span class="fc" id="L81">		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());</span>
-<span class="fc" id="L82">		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);</span>
+<span class="fc" id="L104">		Validator.validateId(id);</span>
+<span class="fc" id="L105">		Validator.productFormValidator(form);</span>
+<span class="fc" id="L106">		Normalizer.productFormNormalizer(form);</span>
+<span class="fc" id="L107">		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());</span>
+<span class="fc" id="L108">		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());</span>
+<span class="fc" id="L109">		productPojo.setId(id);</span>
+<span class="fc" id="L110">		InventoryPojo inventoryPojo = new InventoryPojo();</span>
+		try{
+<span class="nc" id="L112">			inventoryPojo = inventoryService.getByProductId(id);</span>
+		}
+<span class="fc" id="L114">		catch (ApiException ex){</span>
+<span class="fc" id="L115">			inventoryPojo.setProductId(null);</span>
+<span class="fc" id="L116">			inventoryPojo.setQuantity(null);</span>
+<span class="nc" id="L117">		}</span>
+<span class="fc" id="L118">		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);</span>
 	}
 
 	public Page&lt;ProductData&gt; getData(Integer id, Integer page, Integer size) throws ApiException {
-<span class="pc bpc" id="L86" title="1 of 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
-<span class="fc" id="L87">			return getAll(page, size);</span>
+<span class="pc bpc" id="L122" title="1 of 6 branches missed.">		if(id == null &amp;&amp; page != null &amp;&amp; size != null){</span>
+<span class="fc" id="L123">			return getAll(page, size);</span>
 		}
-<span class="fc bfc" id="L89" title="All 2 branches covered.">		else if (id != null){</span>
-<span class="fc" id="L90">			logger.info(&quot;In getData. Id = &quot;+id);</span>
-<span class="fc" id="L91">			return getById(id);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		if (id != null){</span>
+<span class="fc" id="L126">			logger.info(&quot;In getData. Id = &quot;+id);</span>
+<span class="fc" id="L127">			return getById(id);</span>
 		}
-		else {
-<span class="fc" id="L94">			throw new ApiException(&quot;Invalid request&quot;);</span>
-		}
+<span class="fc" id="L129">		throw new ApiException(&quot;Invalid request&quot;);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

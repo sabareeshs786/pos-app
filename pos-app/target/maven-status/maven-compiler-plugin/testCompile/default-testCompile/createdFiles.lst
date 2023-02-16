@@ -17,4 +17,3 @@ com/increff/posapp/dto/PosDaySalesDtoTest.class
 com/increff/posapp/service/PosDaySalesServiceTest.class
 com/increff/posapp/dto/BrandDtoTest.class
 com/increff/posapp/dto/ProductDtoTest.class
-com/increff/posapp/dto/OrderDtoTest.class

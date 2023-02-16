@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.ValidationUtil;
+import com.increff.posapp.util.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,15 +46,13 @@ public class BrandService {
 
 	public Page<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
 		brand = validateAndNormalizeString(brand, "Brand");
-		if(!ValidationUtil.isPageSizeValid(page, size))
-			throw new ApiException("Invalid page number or size");
+		Validator.validatePageAndSize(page, size);
 		return getCheckByBrand(brand, page, size);
 	}
 
 	public Page<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
 		category = validateAndNormalizeString(category, "Category");
-		if(!ValidationUtil.isPageSizeValid(page, size))
-			throw new ApiException("Invalid page number or size");
+		Validator.validatePageAndSize(page, size);
 		return getCheckByCategory(category, page, size);
 	}
 
@@ -69,8 +67,7 @@ public class BrandService {
 	}
 
 	public Page<BrandPojo> getAllByPage(Integer page, Integer size) throws ApiException {
-		if(!ValidationUtil.isPageSizeValid(page, size))
-			throw new ApiException("Invalid page number or size");
+		Validator.validatePageAndSize(page, size);
 		return brandDao.getAllByPage(page, size);
 	}
 	public BrandData updateById(int id, BrandPojo p) throws ApiException {
@@ -144,7 +141,7 @@ public class BrandService {
 		if(StringUtil.isEmpty(p.getCategory())){
 			throw new ApiException("Category can't be empty");
 		}
-		if(StringUtil.isSafe(p.getBrand()) || StringUtil.isSafe(p.getCategory())){
+		if(StringUtil.isNotAlNum(p.getBrand()) || StringUtil.isNotAlNum(p.getCategory())){
 			throw new ApiException("Characters other than alpha-numeric is not allowed");
 		}
 		if(brandDao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {

@@ -11,11 +11,9 @@ import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
-import com.increff.posapp.util.FormValidator;
+import com.increff.posapp.util.Normalizer;
+import com.increff.posapp.util.Validator;
 import org.apache.fop.apps.FOPException;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,19 +25,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Base64;
 
@@ -64,7 +52,7 @@ public class OrderDto {
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
 		Integer len = form.getBarcodes().size();
-		FormValidator.orderFormValidator(form);
+		Validator.orderFormValidator(form);
 		for(int i=0; i < len; i++) {
 
 			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));
@@ -167,6 +155,38 @@ public class OrderDto {
 		 response.getOutputStream().flush();
 		 logger.info("PDF generated");
 	 }
+
+	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {
+		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
+		List<OrderItemData> list = new ArrayList<>();
+		for(OrderItemPojo orderItemPojo:orderItemPojoList){
+			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+		}
+		return list;
+	}
+
+	public Page<OrderItemData> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
+		Page<OrderItemPojo> pojoPage = orderItemService.getPageByOrderId(orderId, page, size);
+		List<OrderItemPojo> orderItemPojoList = pojoPage.getContent();
+		List<OrderItemData> list = new ArrayList<>();
+		for(OrderItemPojo orderItemPojo:orderItemPojoList){
+			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+		}
+		return new PageImpl<>(
+				list,
+				PageRequest.of(page, size),
+				pojoPage.getTotalElements()
+		);
+	}
+
+	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
+		OrderItemPojo orderItemPojo = orderItemService.getById(id);
+		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+		return Converter.convertToOrderItemData(orderItemPojo, productPojo);
+	}
+
 	private void validateMrp(Double sellingPrice, Double mrp) throws ApiException {
 		if (sellingPrice > mrp) {
 			throw new ApiException("Selling price must be less than MRP");

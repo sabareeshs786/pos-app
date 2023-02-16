@@ -43,10 +43,12 @@ function enableOrDisable(){
 	if(getRole() != 'supervisor'){
 		$('input').attr('disabled', true);
 		$('button').attr('disabled', true);
+        $('#adminButton').attr("style", "display:none;");
 	}
 	else{
 		$('input').attr('disabled', false);
 		$('button').attr('disabled', false);
+        $('#adminButton').attr("style", "display:block;");
 	}
 }
 
@@ -147,6 +149,7 @@ function loadEmailAndPassword(){
     $("#login-form input[name=email]").val("hari@gmail.com");
     $("#login-form input[name=password]").val("1234");
 }
+
 function onlyNonNegativeInt() {
     $('input[type="number"]').keypress(function(event) {
       var keycode = (event.keyCode ? event.keyCode : event.which);

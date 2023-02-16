@@ -18,9 +18,9 @@ import java.time.format.DateTimeFormatter;
     }
 
     public static ZonedDateTime getZonedDateTimeStart(String zone){
-<span class="fc" id="L21">        LocalDateTime localDateTime = LocalDateTime.now();</span>
-<span class="fc" id="L22">        ZoneId zoneId = ZoneId.of(zone);</span>
-<span class="fc" id="L23">        return ZonedDateTime.of(localDateTime, zoneId);</span>
+<span class="nc" id="L21">        LocalDateTime localDateTime = LocalDateTime.now();</span>
+<span class="nc" id="L22">        ZoneId zoneId = ZoneId.of(zone);</span>
+<span class="nc" id="L23">        return ZonedDateTime.of(localDateTime, zoneId);</span>
     }
 
     public static ZonedDateTime getZonedDateTimeStart(LocalDate localDate, String zone){

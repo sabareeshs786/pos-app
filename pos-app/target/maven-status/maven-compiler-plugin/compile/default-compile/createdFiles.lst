@@ -1,8 +1,9 @@
 com/increff/posapp/model/OrderData.class
 com/increff/posapp/pojo/OrderPojo.class
 com/increff/posapp/model/InvoiceData.class
-com/increff/posapp/util/FormValidator.class
 com/increff/posapp/dao/UserDao.class
+com/increff/posapp/util/Validator.class
+com/increff/posapp/util/Normalizer.class
 com/increff/posapp/util/DoubleUtil.class
 com/increff/posapp/model/InventoryReportData.class
 com/increff/posapp/pojo/ProductPojo.class
@@ -56,7 +57,6 @@ com/increff/posapp/util/UserPrincipal.class
 com/increff/posapp/controller/LoginController.class
 com/increff/posapp/model/ReportForm.class
 com/increff/posapp/util/StringUtil.class
-com/increff/posapp/util/ValidationUtil.class
 com/increff/posapp/dto/OrderDto.class
 com/increff/posapp/controller/PosDaySalesController.class
 com/increff/posapp/model/OrderItemEditForm.class
@@ -66,8 +66,6 @@ com/increff/posapp/dto/BrandReportDto.class
 com/increff/posapp/model/SignUpForm.class
 com/increff/posapp/dto/BrandDto.class
 com/increff/posapp/controller/ReportsController.class
-com/increff/posapp/dto/OrderItemDto.class
-com/increff/posapp/controller/InitApiController.class
 com/increff/posapp/spring/ControllerConfig.class
 com/increff/posapp/util/DateTimeUtil.class
 com/increff/posapp/dao/OrderDao.class

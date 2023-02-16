@@ -81,7 +81,7 @@ function displayOrderItems(data, sno){
 		+ '<td>' + data[i].barcode + '</td>'
 		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].quantity + '</td>'
-		+ '<td>' + data[i].sellingPrice + '</td>'
+		+ '<td>' + parseFloat(data[i].sellingPrice).toFixed(2) + '</td>'
 		+ '<td>' + data[i].mrp + '</td>';
 		if(getMode() == 'edit'){
 			row += '<td>' + buttonHtml + '</td></tr>';
@@ -108,7 +108,7 @@ function displayOrderItem(data){
 	console.log("Order item data: " + data);
 	$("#edit-order-item-form input[name=barcode]").val(data.barcode);	
 	$("#edit-order-item-form input[name=quantity]").val(data.quantity);
-	$("#edit-order-item-form input[name=sellingPrice]").val(data.sellingPrice);
+	$("#edit-order-item-form input[name=sellingPrice]").val(parseFloat(data.sellingPrice).toFixed(2));
 	$("#edit-order-item-form input[name=id]").val(data.id);
 	$('#edit-order-item-modal').modal('toggle');
 }
@@ -153,19 +153,6 @@ function addItemToExistingOrder(event){
 	json = JSON.stringify(json);
 	var url = getOrderUrl();
 	console.log(json);
-	// $.ajax({
-	//    url: url,
-	//    type: 'POST',
-	//    data: json,
-	//    headers: {
-    //    	'Content-Type': 'application/json'
-    //    },	   
-	//    success: function(response) {
-	// 	history.back();
-	//    },
-	//    error: handleAjaxError
-	// });
-
 	return false;
 }
 
