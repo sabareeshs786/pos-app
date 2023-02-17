@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 @Api
-@Validated
 @RestController
 public class ProductController {
 	
@@ -27,7 +26,7 @@ public class ProductController {
 
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)
-	public ProductData add(@Valid @RequestBody ProductForm form) throws ApiException {
+	public ProductData add(@RequestBody ProductForm form) throws ApiException {
 		return productDto.add(form);
 	}
 

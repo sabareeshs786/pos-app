@@ -11,18 +11,15 @@ import org.apache.fop.apps.FOPException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.List;
 
 @Api
-@Validated
 @RestController
 public class OrderController {
 
@@ -32,7 +29,7 @@ public class OrderController {
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public void add(@Valid @RequestBody OrderForm form) throws ApiException {
+	public void add(@RequestBody OrderForm form) throws ApiException {
 		logger.info(form);
 		orderDto.add(form);
 	}

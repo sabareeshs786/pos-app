@@ -9,16 +9,10 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class ProductForm {
-
-	@Size(max = 20)
 	private String barcode;
-	@Size(max = 20)
 	private String brand;
-	@Size(max = 20)
 	private String category;
-	@Size(max = 30)
 	private String name;
-	@Max(value = Integer.MAX_VALUE)
 	private Double mrp;
 	
 	@Override

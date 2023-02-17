@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 
 @Api
-@Validated
 @RestController
 public class InventoryController {
 	
@@ -26,7 +25,7 @@ public class InventoryController {
 
 	@ApiOperation(value = "Adds a new product and it's quantity")
 	@RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
-	public void add(@Valid @RequestBody InventoryForm form) throws ApiException {
+	public void add(@RequestBody InventoryForm form) throws ApiException {
 		inventoryDto.add(form);
 	}
 
@@ -43,7 +42,7 @@ public class InventoryController {
 
 	@ApiOperation(value = "Updates the inventory by id")
 	@RequestMapping(path = "/api/inventory/{productId}", method = RequestMethod.PUT)
-	public void update(@PathVariable Integer productId,@Valid @RequestBody InventoryForm f) throws ApiException {
+	public void update(@PathVariable Integer productId, @RequestBody InventoryForm f) throws ApiException {
 		inventoryDto.updateByProductId(productId, f);
 	}
 

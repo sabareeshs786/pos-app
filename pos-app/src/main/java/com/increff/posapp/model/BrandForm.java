@@ -7,9 +7,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 public class BrandForm {
-	@Size(max = 20)
 	private String brand;
-	@Size(max = 20)
 	private String category;
 
 }

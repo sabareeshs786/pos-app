@@ -14,8 +14,6 @@ public class SalesReportForm {
 
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-	@Size(max = 20)
 	private String brand;
-	@Size(max = 20)
 	private String category;
 }
