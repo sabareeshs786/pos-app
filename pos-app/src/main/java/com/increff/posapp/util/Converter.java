@@ -125,10 +125,10 @@ public class Converter {
 		return salesReportData;
 	}
 
-	public static PosDaySalesData convertToSchedulerData(PosDaySalesPojo pojo){
+	public static PosDaySalesData convertToPosDaySalesData(PosDaySalesPojo pojo){
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		PosDaySalesData posDaySalesData = new PosDaySalesData();
-		posDaySalesData.setDate(pojo.getZonedDateTime().toLocalDate().format(dateTimeFormatter));
+		posDaySalesData.setDate(pojo.getDate().toLocalDate().format(dateTimeFormatter));
 		posDaySalesData.setInvoicedOrdersCount(pojo.getInvoicedOrdersCount());
 		posDaySalesData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
 		posDaySalesData.setTotalRevenue(pojo.getTotalRevenue());

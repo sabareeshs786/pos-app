@@ -122,6 +122,9 @@ public class SalesReportDto extends InventoryDto {
         if(!salesReportForm.getCategory().isEmpty()){
             brandService.getByCategory(salesReportForm.getCategory());
         }
+        if(salesReportForm.getStartDate().toLocalDate().isBefore(LocalDate.now().minusYears(2L))){
+            throw new ApiException("Enter a date within 2 years");
+        }
         if(salesReportForm.getEndDate().toLocalDate().isAfter(LocalDate.now())){
             throw new ApiException("End date should be today's date or a date before today");
         }

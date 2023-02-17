@@ -19,7 +19,7 @@ public class PosDaySalesPojo {
 
     @Id
     @Column(name = "date")
-    private ZonedDateTime zonedDateTime;
+    private ZonedDateTime date;
     @Column(name = "invoiced_orders_count", nullable = false)
     private Integer invoicedOrdersCount;
     @Column(name = "invoiced_items_count", nullable = false)
