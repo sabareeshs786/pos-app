@@ -20,7 +20,7 @@ public class PosDaySalesServiceTest extends AbstractUnitTest {
     @Test
     public void testAdd() throws ApiException {
         PosDaySalesPojo p = new PosDaySalesPojo();
-        p.setZonedDateTime(ZonedDateTime.of(LocalDateTime.MIN, ZoneId.of("Asia/Kolkata")));
+        p.setDate(ZonedDateTime.of(LocalDateTime.MIN, ZoneId.of("Asia/Kolkata")));
         p.setInvoicedOrdersCount(1);
         p.setInvoicedItemsCount(1);
         p.setTotalRevenue(23.45);

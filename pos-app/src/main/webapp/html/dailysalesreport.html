@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head th:replace="snippets.html :: name_head"></head>
 
@@ -10,11 +10,11 @@
 
 <div class="container">
 
-<h3>Scheduler</h3>
+<h3>Daily Sales Report</h3>
 &nbsp;
 &nbsp;
 &nbsp;
-<button type="button" id="download-data" class="btn btn-success">Download</button>
+<!--<button type="button" id="download-data" class="btn btn-success">Download</button>-->
 
 <!-- <div class="row" th:replace="snippets.html :: pos_app_select_page_size">
 </div>
@@ -22,7 +22,7 @@
 </div> -->
 
 <!-- Top row with form-->
-<!-- <div class="row">
+<div class="row">
 	<div class="col-12">
 		<h4>Filter Sales Reports By: </h4>
 		   <form class="form-inline" id="sales-report-form">
@@ -32,25 +32,13 @@
 				  <input type="datetime-local" class="form-control" name="startDate" id="inputStartDate">
 			</div>
 			</div>
-			
+
 			<div class="form-group">
 				<label for="inputEndDate" class="col-sm-2 col-form-label">End Date</label>
 				<div class="col-lg-6">
 				  <input type="datetime-local" class="form-control" name="endDate" id="inputEndDate">
 			</div>
 			</div>
-			 <div class="form-group">
-			   <label for="inputBrandName" class="col-sm-2 col-form-label">Brand name</label>
-			   <div class="col-lg-6">
-				 <input type="text" class="form-control" name="brand" id="inputBrandName" placeholder="enter brand name">
-			   </div>
-			 </div>
-			 <div class="form-group">
-			   <label for="inputCategory" class="col-sm-2 col-form-label">Brand Category</label>
-			   <div class="col-lg-6">
-				 <input type="text" class="form-control" name="category" id="inputCategory" placeholder="enter brand category">
-			   </div>
-			 </div>
 			 <button type="button" class="btn btn-primary" id="process-data">Apply</button>
 			 &nbsp;
 			 <button type="reset" class="btn btn-danger" id="reset-data">Reset</button>
@@ -59,22 +47,20 @@
 			 &nbsp;
 			 <button type="button" class="btn btn-success" id="download-data">Download</button>
 		   </form>
-	</div>	
-</div> -->
-
-
-<!-- <div class="row">
-	<div class="col-6">
-		<h4>Start Date: 
-			<span id="start-date"></span>
-		</h4>
 	</div>
-	<div class="col-6">
-		<h4>End Date: 
-			<span id="end-date"></span>
-		</h4>
+</div>
+	<div class="row">
+		<div class="col-6">
+			<h4>Start Date:
+				<span id="start-date"></span>
+			</h4>
+		</div>
+		<div class="col-6">
+			<h4>End Date:
+				<span id="end-date"></span>
+			</h4>
+		</div>
 	</div>
-</div> -->
 
 <div class="row">
 
@@ -100,7 +86,7 @@
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/scheduler.js}"></script>
+<script th:src="@{/static/dailysalesreport.js}"></script>
 
 </body>	
 

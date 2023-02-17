@@ -2,7 +2,7 @@
 var downloadContent = "";
 function getSchedulerUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/scheduler";
+	return baseUrl + "/api/reports/dailysalesreport";
 }
 
 // function toArrayOfJsonObjects(){
@@ -36,28 +36,28 @@ function getSchedulerReportList(){
 	return false;
 }
 
-// function processData(){
-// 	var url = getSchedulerUrl();
-// 	var $form = $('#sales-report-form');
-// 	var json = toJson($form);
-// 	console.log(json);
-// 	$.ajax({
-// 		url: url,
-// 		type: 'POST',
-// 		data: json,
-// 		dataType : 'json',
-// 		headers: {
-// 			'Content-Type': 'application/json'
-// 		},	   
-// 		success: function(data) {
-// 				downloadContent = data;
-// 				displaySchedulerReportList(data);
-// 		},
-// 		error: handleAjaxError
-// 	 });
+ function processData(){
+ 	var url = getSchedulerUrl() + "/date";
+ 	var $form = $('#sales-report-form');
+ 	var json = toJson($form);
+ 	console.log(json);
+ 	$.ajax({
+ 		url: url,
+ 		type: 'POST',
+ 		data: json,
+ 		dataType : 'json',
+ 		headers: {
+ 			'Content-Type': 'application/json'
+ 		},
+ 		success: function(data) {
+ 				downloadContent = data;
+ 				displaySchedulerReportList(data);
+ 		},
+ 		error: handleAjaxError
+ 	 });
  
-// 	 return false;
-// }
+ 	 return false;
+ }
 
 //UI DISPLAY METHODS
 
@@ -74,53 +74,53 @@ function displaySchedulerReportList(data){
 	}
 }
 
-// function setdates(){
-// 	console.log($('#sales-report-form input[name=startDate]').val());
-// 	$('#sales-report-form input[name=startDate]').val(getDateAsstring(6));
-// 	$('#sales-report-form input[name=endDate]').val(getDateAsstring());
-// }
+ function setdates(){
+ 	console.log($('#sales-report-form input[name=startDate]').val());
+ 	$('#sales-report-form input[name=startDate]').val(getDateAsstring(6));
+ 	$('#sales-report-form input[name=endDate]').val(getDateAsstring());
+ }
 
-// function getDateAsstring(offsetMonths=0){
-// 	const d = new Date();
-// 	var date = d.getDate();
-// 	var month = d.getMonth();
-// 	var year = d.getFullYear();
-// 	var hour = d.getHours();
-// 	var minute = d.getMinutes();
-// 	var second = d.getSeconds();
+ function getDateAsstring(offsetMonths=0){
+ 	const d = new Date();
+ 	var date = d.getDate();
+ 	var month = d.getMonth();
+ 	var year = d.getFullYear();
+ 	var hour = d.getHours();
+ 	var minute = d.getMinutes();
+ 	var second = d.getSeconds();
 
-// 	month += 1;
-// 	month -= offsetMonths;
-// 	while(month < 0){
-// 		month += 12;
-// 		year -= 1;
-// 	}
-// 	if(month == 2 && date > 28){
-// 		date = 28;
-// 	}
+ 	month += 1;
+ 	month -= offsetMonths;
+ 	while(month < 0){
+ 		month += 12;
+ 		year -= 1;
+ 	}
+ 	if(month == 2 && date > 28){
+ 		date = 28;
+ 	}
 
-// 	if(date.toString().length == 1){
-// 		date = '0' + date.toString();
-// 	}
-// 	if(month.toString().length == 1){
-// 		month = '0' + month.toString();
-// 	}
-// 	if(hour.toString().length == 1){
-// 		hour = '0' + hour.toString();
-// 	}
-// 	if(minute.toString().length == 1){
-// 		minute = '0' + minute.toString();
-// 	}
-// 	if(second.toString().length == 1){
-// 		second = '0' + second.toString();
-// 	}
+ 	if(date.toString().length == 1){
+ 		date = '0' + date.toString();
+ 	}
+ 	if(month.toString().length == 1){
+ 		month = '0' + month.toString();
+ 	}
+ 	if(hour.toString().length == 1){
+ 		hour = '0' + hour.toString();
+ 	}
+ 	if(minute.toString().length == 1){
+ 		minute = '0' + minute.toString();
+ 	}
+ 	if(second.toString().length == 1){
+ 		second = '0' + second.toString();
+ 	}
 
-// 	year = year.toString();
-// 	var dateString = year + "-"+ month + "-" + date +"T" + 
-// 	hour + ":" + minute + ":" + second;
-// 	console.log(dateString);
-// 	return dateString;
-// }
+ 	year = year.toString();
+ 	var dateString = year + "-"+ month + "-" + date +"T" +
+ 	hour + ":" + minute + ":" + second;
+ 	console.log(dateString);
+ 	return dateString;
+ }
 
 function writeSalesReportFileData(arr){
 	var config = {
@@ -150,11 +150,11 @@ function downloadReport(){
 
 //INITIALIZATION CODE
 function init(){
-	// $('#process-data').click(processData);
+	 $('#process-data').click(processData);
 	$('#refresh-data').click(getSchedulerReportList);
 	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
-// $(document).ready(setdates);
+$(document).ready(setdates);
 $(document).ready(getSchedulerReportList);

@@ -20,10 +20,10 @@ public class PosDaySalesDao extends AbstractDao{
 	private static final String SELECT_BY_DATE = "select p from PosDaySalesPojo p where date=:date";
 	private static final String SELECT_BY_START_TIME = "select p from PosDaySalesPojo p where date >= :startDate";
 	private static final String SELECT_BY_END_TIME = "select p from PosDaySalesPojo p where date <= :endDate";
-	private static final String SELECT_BY_INTERVAL = "select p from PosDaySalesPojo p where date >= :startDate and date <=:endDate";
+	private static final String SELECT_BY_INTERVAL = "select p from PosDaySalesPojo p where date >= :startDate and date <= :endDate";
 	private static final String SELECT_ALL = "select p from PosDaySalesPojo p";
 	private static final String SELECT_ALL_COUNT = "select count(p) from PosDaySalesPojo p";
-	private static final String SELECT_LAST_DATE_TIME = "select max(zonedDateTime) from PosDaySalesPojo p";
+	private static final String SELECT_LAST_DATE_TIME = "select max(date) from PosDaySalesPojo p";
 
 	public void insert(PosDaySalesPojo p) {
 		em().persist(p);
@@ -47,7 +47,9 @@ public class PosDaySalesDao extends AbstractDao{
 	}
 	public List<PosDaySalesPojo> selectByInterval(ZonedDateTime startDate, ZonedDateTime endDate){
 		TypedQuery<PosDaySalesPojo> query = getQuery(SELECT_BY_INTERVAL, PosDaySalesPojo.class);
+		System.out.println("form dao >>>");
 		query.setParameter("startDate", startDate);
+		System.out.println("From Dao ");
 		query.setParameter("endDate", endDate);
 		return query.getResultList();
 	}
