@@ -23,7 +23,7 @@ public class OrderService {
 		validate(p);
 
 		// Inserting the order
-		return orderDao.insert(p);
+		return (OrderPojo) orderDao.insert(p);
 	}
 
 	public OrderPojo getById(Integer id) throws ApiException {
@@ -36,11 +36,11 @@ public class OrderService {
 	}
 
 	public List<OrderPojo> getAll() {
-		return orderDao.selectAll();
+		return orderDao.selectAll(OrderPojo.class);
 	}
 
 	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
-		return orderDao.getAllByPage(page, size);
+		return orderDao.selectAllByPage(OrderPojo.class, page, size);
 	}
 	public OrderPojo updateById(Integer id, OrderPojo p) throws ApiException {
 		OrderPojo ex = getCheckById(id);

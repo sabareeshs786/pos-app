@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class PosDaySalesDto {
-
-	private static final Logger logger = Logger.getLogger(PosDaySalesDto.class);
 	@Autowired
 	private PosDaySalesService posDaySalesService;
 	@Autowired
@@ -45,12 +43,10 @@ public class PosDaySalesDto {
 		ZonedDateTime date = ZonedDateTime.of(localDateTime, zoneId);
 
 		if(posDaySalesService.getAll().size() == 0){
-			logger.info("Nothing in pos_day_sales");
 			List<OrderPojo> orderPojoList = orderService.getAll();
 			List<LocalDate> localDateList = orderPojoList.stream().map(PosDaySalesDto::toLocalDate).collect(Collectors.toList());
 			Set<LocalDate> localDateSet = new TreeSet<>(localDateList);
 			if(orderPojoList.size() > 0){
-				logger.info("Orders greater than zero");
 				for(LocalDate localDate: localDateSet){
 					PosDaySalesPojo p = new PosDaySalesPojo();
 					p.setDate(DateTimeUtil.getZonedDateTimeStart(localDate, "Asia/Kolkata"));
@@ -67,7 +63,6 @@ public class PosDaySalesDto {
 			}
 		}
 		else {
-			logger.info("Pos Day Sales tables has some elements");
 			ZonedDateTime lastDateTime = posDaySalesService.getLastDateTime().plusSeconds(1);
 			ZonedDateTime zonedDateTimeNow = ZonedDateTime.now();
 			List<OrderPojo> orderPojoList = orderService.getByInterval(lastDateTime, zonedDateTimeNow);
@@ -81,20 +76,15 @@ public class PosDaySalesDto {
 				pojo.setTotalRevenue(pojo.getTotalRevenue() + orderItemService.getTotalCost(p.getId()));
 			}
 			posDaySalesService.add(pojo);
-			logger.info("Scheduler updated");
 		}
 	}
 
 	public List<PosDaySalesData> getAll(){
-		logger.info("PosDaySalesData started executing");
 		List<PosDaySalesData> posDaySalesDataList = new ArrayList<>();
 		List<PosDaySalesPojo> pojos = posDaySalesService.getAll();
-		logger.info("Received all pojos: "+pojos.toString());
 		for(PosDaySalesPojo p: pojos){
 			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
 		}
-		logger.info("Data: "+ posDaySalesDataList.toString());
-		logger.info("Returning data");
 		return posDaySalesDataList;
 	}
 
@@ -103,20 +93,17 @@ public class PosDaySalesDto {
 	}
 
 	public List<PosDaySalesData> getData(PosDaySalesForm form) throws ApiException {
-		logger.info("PosDaySalesData by date started executing");
 		validate(form);
 		ZoneId zoneId = ZoneId.of("Asia/Kolkata");
 		ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(form.getStartDate(), zoneId);
 		ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(form.getEndDate(), zoneId);
 
 		List<PosDaySalesData> posDaySalesDataList = new ArrayList<>();
-		List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart, zonedDateTimeEnd);
-		logger.info("Received all pojos by date: "+pojos.toString());
+		List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
+				zonedDateTimeEnd);
 		for(PosDaySalesPojo p: pojos){
 			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
 		}
-		logger.info("Data: "+ posDaySalesDataList.toString());
-		logger.info("Returning data by date");
 		return posDaySalesDataList;
 	}
 

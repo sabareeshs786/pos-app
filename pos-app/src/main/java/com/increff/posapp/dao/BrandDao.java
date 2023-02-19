@@ -2,11 +2,9 @@ package com.increff.posapp.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,21 +17,12 @@ import com.increff.posapp.pojo.BrandPojo;
 @Transactional(rollbackOn = ApiException.class)
 public class BrandDao extends AbstractDao {
 
-	private static final Logger logger = Logger.getLogger(BrandDao.class);
-
 	private static final String SELECT_BY_ID = "select p from BrandPojo p where id=:id";
 	private static final String SELECT_BY_BRAND = "select p from BrandPojo p where brand=:brand";
 	private static final String SELECT_BY_CATEGORY = "select p from BrandPojo p where category=:category";
 	private static final String SELECT_BY_BRAND_AND_CATEGORY = "select p from BrandPojo p where brand=:brand and category=:category";
-	private static final String SELECT_ALL = "select p from BrandPojo p";
-	private static final String SELECT_ALL_COUNT = "select count(p) from BrandPojo p";
 	private static final String SELECT_BY_BRAND_COUNT = "select count(p) from BrandPojo p where brand=:brand";
 	private static final String SELECT_BY_CATEGORY_COUNT = "select count(p) from BrandPojo p where category=:category";
-
-	public BrandPojo insert(BrandPojo p) {
-		em().persist(p);
-		return p;
-	}
 
 	public BrandPojo selectById(Integer id) {
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_ID, BrandPojo.class);
@@ -46,7 +35,6 @@ public class BrandDao extends AbstractDao {
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND, BrandPojo.class);
 		query.setParameter("brand", brand);
 
-		logger.info("From BrandDao  brand="+brand);
 		int pageNumber = page;
 		int pageSize = size;
 		int firstResult = pageNumber * pageSize;
@@ -62,8 +50,6 @@ public class BrandDao extends AbstractDao {
 
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND, BrandPojo.class);
 		query.setParameter("brand", brand);
-
-		logger.info("From BrandDao  brand="+brand);
 
 		return query.getResultList();
 	}
@@ -95,24 +81,6 @@ public class BrandDao extends AbstractDao {
 		query.setParameter("brand", brand);
 		query.setParameter("category", category);
 		return getSingle(query);
-	}
-	
-	public List<BrandPojo> selectAll() {
-		TypedQuery<BrandPojo> query = getQuery(SELECT_ALL, BrandPojo.class);
-		return query.getResultList();
-	}
-	
-	public Page<BrandPojo> getAllByPage(Integer page, Integer size){
-		TypedQuery<BrandPojo> query = getQuery(SELECT_ALL, BrandPojo.class);
-        int pageNumber = page;
-        int pageSize = size;
-        int firstResult = pageNumber * pageSize;
-        query.setFirstResult(firstResult);
-        query.setMaxResults(pageSize);
-
-        List<BrandPojo> entities = query.getResultList();
-        Long totalElements = em().createQuery(SELECT_ALL_COUNT, Long.class).getSingleResult();
-        return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
 	}
 
 	public void update(BrandPojo p) {

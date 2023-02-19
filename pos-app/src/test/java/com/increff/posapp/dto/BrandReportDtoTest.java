@@ -26,14 +26,14 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = new BrandPojo();
         p1.setBrand("brand"+i.toString());
         p1.setCategory("category"+i.toString());
-        return brandDao.insert(p1);
+        return (BrandPojo) brandDao.insert(p1);
     }
 
     private BrandPojo addBrand(Integer b, Integer c){
         BrandPojo p1 = new BrandPojo();
         p1.setBrand("brand"+b.toString());
         p1.setCategory("category"+c.toString());
-        return brandDao.insert(p1);
+        return (BrandPojo) brandDao.insert(p1);
     }
     @Test
     public void testGetBrandReportPageAndSizeNull() throws ApiException {

@@ -18,7 +18,7 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     private static Logger logger = Logger.getLogger(BrandDtoTest.class);
 
-    private BrandData addBrand() throws ApiException {
+    private BrandData addBrand() throws ApiException, IllegalAccessException {
         BrandForm form = new BrandForm();
         form.setBrand("brand1");
         form.setCategory("category1");
@@ -26,7 +26,7 @@ public class BrandDtoTest extends AbstractUnitTest {
         return brandDto.add(form);
     }
     @Test
-    public void testAdd() throws ApiException {
+    public void testAdd() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         System.out.println("Data="+data);
         assertEquals("brand1", data.getBrand());
@@ -35,14 +35,14 @@ public class BrandDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataIdNull() throws ApiException {
+    public void testGetDataIdNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         List<BrandData> dataList = brandDto.getData(null, 0, 5).getContent();
         assertTrue(dataList.size() > 0 && dataList.size() <= 5);
     }
 
     @Test
-    public void testGetDataIdNotNull() throws ApiException {
+    public void testGetDataIdNotNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         List<BrandData> dataList = brandDto.getData(data.getId(), null, null).getContent();
         assertEquals(1, dataList.size());
@@ -54,7 +54,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testUpdateById() throws ApiException {
+    public void testUpdateById() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         BrandForm form = new BrandForm();
         form.setBrand("brand2");

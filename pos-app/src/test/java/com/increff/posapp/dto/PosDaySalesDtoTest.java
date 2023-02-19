@@ -36,7 +36,7 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         BrandPojo p = new BrandPojo();
         p.setBrand("brand"+b.toString());
         p.setCategory("category"+c.toString());
-        return brandDao.insert(p);
+        return (BrandPojo) brandDao.insert(p);
     }
 
     private ProductPojo addProduct(Integer brandCategory, Integer p){
@@ -45,7 +45,7 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         productPojo.setName("product"+p.toString());
         productPojo.setBrandCategory(brandCategory);
         productPojo.setMrp(100.00 + p.doubleValue());
-        return productDao.insert(productPojo);
+        return (ProductPojo) productDao.insert(productPojo);
     }
 
     private void createInventory(){
@@ -60,7 +60,7 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
                     InventoryPojo p = new InventoryPojo();
                     p.setProductId(pojo.getId());
                     p.setQuantity(12+t);
-                    inventoryDao.add(p);
+                    inventoryDao.insert(p);
                     t++;
                     k++;
                 }
@@ -73,7 +73,7 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         List<Integer> list = new ArrayList<>();
         for(int i=1; i<=2; i++) {
             OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
-            OrderPojo orderPojo1 =orderDao.insert(orderPojo);
+            OrderPojo orderPojo1 = (OrderPojo) orderDao.insert(orderPojo);
             list.add(orderPojo1.getId());
             for (int j = s; j <= e; j++) {
                 OrderItemPojo pojo = new OrderItemPojo();

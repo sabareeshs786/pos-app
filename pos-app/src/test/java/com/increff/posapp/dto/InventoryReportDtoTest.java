@@ -35,7 +35,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
         BrandPojo p = new BrandPojo();
         p.setBrand("brand"+b.toString());
         p.setCategory("category"+c.toString());
-        return brandDao.insert(p);
+        return (BrandPojo) brandDao.insert(p);
     }
 
     private ProductPojo addProduct(Integer brandCategory, Integer p){
@@ -44,7 +44,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
         productPojo.setName("product"+p.toString());
         productPojo.setBrandCategory(brandCategory);
         productPojo.setMrp(100.00 + p.doubleValue());
-        return productDao.insert(productPojo);
+        return (ProductPojo) productDao.insert(productPojo);
     }
 
     private void createInventory(){
@@ -59,7 +59,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
                     InventoryPojo p = new InventoryPojo();
                     p.setProductId(pojo.getId());
                     p.setQuantity(12);
-                    inventoryDao.add(p);
+                    inventoryDao.insert(p);
                     t++;
                     k++;
                 }

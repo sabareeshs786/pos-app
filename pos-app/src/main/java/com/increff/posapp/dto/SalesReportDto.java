@@ -25,7 +25,6 @@ import java.util.TreeMap;
 
 @Component
 public class SalesReportDto extends InventoryDto {
-    private static final Logger logger = Logger.getLogger(SalesReportDto.class);
     @Autowired
     private BrandService brandService;
     @Autowired
@@ -34,7 +33,6 @@ public class SalesReportDto extends InventoryDto {
     private OrderService orderService;
     @Autowired
     private OrderItemService orderItemService;
-
 
     public <T> T getData(SalesReportForm salesReportForm) throws ApiException {
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
@@ -49,7 +47,6 @@ public class SalesReportDto extends InventoryDto {
         Double totalRevenue = 0.0;
 
         List<OrderPojo> orderPojoList = orderService.getByInterval(zonedDateTimeStart, zonedDateTimeEnd);
-        logger.info("No. of orders: "+orderPojoList.size());
 
         for(OrderPojo orderPojo: orderPojoList){
             List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderPojo.getId());
@@ -87,7 +84,6 @@ public class SalesReportDto extends InventoryDto {
         salesReportData.setStartDate(DateTimeUtil.getDateTimeString(salesReportForm.getStartDate(),"dd/MM/yyyy"));
         salesReportData.setEndDate(DateTimeUtil.getDateTimeString(salesReportForm.getEndDate(), "dd/MM/yyyy"));
         salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));
-        logger.info("\n\nTotal revenue="+totalRevenue);
         for(Map.Entry<String, Double> entry: sm1.entrySet()){
             Integer quantity = sm2.get(entry.getKey());
             Converter.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);

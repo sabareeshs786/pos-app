@@ -29,9 +29,9 @@ public class InventoryDto {
 	@Autowired
 	private ProductService productService;
 	
-	public InventoryData add(InventoryForm form) throws ApiException {
-		Validator.inventoryFormValidator(form);
-		Normalizer.inventoryFormNormalizer(form);
+	public InventoryData add(InventoryForm form) throws ApiException, IllegalAccessException {
+		Validator.validate(form);
+		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
@@ -39,6 +39,7 @@ public class InventoryDto {
 	}
 
 	private Page<InventoryData> getByProductId(Integer productId) throws ApiException {
+		Validator.isEmpty("Product id", productId);
 		InventoryPojo inventoryPojo = inventoryService.getByProductId(productId);
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 		List<InventoryData> list = new ArrayList<InventoryData>();
@@ -47,6 +48,8 @@ public class InventoryDto {
 	}
 
 	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
+		Validator.isEmpty("Page", page);
+		Validator.isEmpty("Size", size);
 		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
 		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();
 		List<InventoryData> list = new ArrayList<InventoryData>();
@@ -58,11 +61,9 @@ public class InventoryDto {
 		return new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 	
-	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException {
-		if(id == null){
-			throw new ApiException("Id can't be empty");
-		}
-		Validator.inventoryFormValidator(form);
+	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException, IllegalAccessException {
+		Validator.isEmpty("Id", id);
+		Validator.validate(form);
 		Normalizer.inventoryFormNormalizer(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();

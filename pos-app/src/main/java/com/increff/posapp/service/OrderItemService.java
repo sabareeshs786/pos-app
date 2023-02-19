@@ -21,7 +21,7 @@ public class OrderItemService {
 	public OrderItemPojo add(OrderItemPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
-		return orderItemDao.insert(p);
+		return (OrderItemPojo) orderItemDao.insert(p);
 	}
 
 	public OrderItemPojo getById(Integer id) throws ApiException {
@@ -46,9 +46,9 @@ public class OrderItemService {
 		return orderItemDao.getTotalCostByOrderId(orderId);
 	}
 
-	public List<OrderItemPojo> getAll() {
-		return orderItemDao.selectAll();
-	}
+//	public List<OrderItemPojo> getAll() {
+//		return orderItemDao.selectAll();
+//	}
 
 	// For update
 

@@ -23,9 +23,9 @@ public class BrandDto {
 	@Autowired
 	private BrandService brandService;
 	
-	public BrandData add(BrandForm form) throws ApiException {
-		Validator.brandFormValidator(form);
-		Normalizer.brandFormNormalizer(form);
+	public BrandData add(BrandForm form) throws ApiException, IllegalAccessException {
+		Validator.validate(form);
+		Normalizer.normalize(form);
 		BrandPojo brandPojo = Converter.convertToBrandPojo(form);
 		return brandService.add(brandPojo);
 	}
@@ -37,10 +37,20 @@ public class BrandDto {
 		if (id != null){
 			return get(id);
 		}
-			throw new ApiException("Invalid request");
+		throw new ApiException("Invalid request");
 	}
 
+	public BrandData updateById(Integer id, BrandForm form) throws ApiException, IllegalAccessException {
+		Validator.isEmpty("Id", id);
+		Validator.validate(form);
+		Normalizer.normalize(form);
+		BrandPojo p = Converter.convertToBrandPojo(form);
+		return brandService.updateById(id, p);
+	}
+
+	// Private methods
 	private Page<BrandData> get(Integer id) throws ApiException {
+		Validator.isEmpty("Id", id);
 		BrandPojo brandPojo = brandService.getById(id);
 		List<BrandData> listBrandData = new ArrayList<>();
 		listBrandData.add(Converter.convertToBrandData(brandPojo));
@@ -55,13 +65,5 @@ public class BrandDto {
 			listBrandData.add(Converter.convertToBrandData(p));
 		}
 		return new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
-	}
-
-	public BrandData updateById(Integer id, BrandForm form) throws ApiException {
-		Validator.validateId(id);
-		Validator.brandFormValidator(form);
-		Normalizer.brandFormNormalizer(form);
-		BrandPojo p = Converter.convertToBrandPojo(form);
-		return brandService.updateById(id, p);
 	}
 }

@@ -19,7 +19,6 @@ public class PosDaySalesService {
 	@Autowired
 	private PosDaySalesDao posDaySalesDao;
 
-	private Logger logger = Logger.getLogger(PosDaySalesService.class);
 	public void add(PosDaySalesPojo p) throws ApiException {
 
 		//Inserting
@@ -31,14 +30,13 @@ public class PosDaySalesService {
 	}
 
 	public List<PosDaySalesPojo> getByInterval(ZonedDateTime startDate, ZonedDateTime endDate){
-		logger.info("From service layer");
 		return posDaySalesDao.selectByInterval(startDate, endDate);
 	}
 	public List<PosDaySalesPojo> getAll(){
-		return posDaySalesDao.selectAll();
+		return posDaySalesDao.selectAll(PosDaySalesPojo.class);
 	}
 
 	public Page<PosDaySalesPojo> getAllByPage(Integer page, Integer size){
-		return posDaySalesDao.getAllByPage(page, size);
+		return posDaySalesDao.selectAllByPage(PosDaySalesPojo.class, page, size);
 	}
 }

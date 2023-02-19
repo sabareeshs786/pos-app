@@ -22,12 +22,10 @@ public class BrandService {
 	@Autowired
 	private BrandDao brandDao;
 
-	private static final Logger logger = Logger.getLogger(BrandService.class);
-
 	public BrandData add(BrandPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
-		return Converter.convertToBrandData(brandDao.insert(p));
+		return Converter.convertToBrandData((BrandPojo) brandDao.insert(p));
 	}
 
 	public BrandPojo getById(int id) throws ApiException {
@@ -63,12 +61,11 @@ public class BrandService {
 	}
 
 	public List<BrandPojo> getAll() throws ApiException {
-		return brandDao.selectAll();
+		return brandDao.selectAll(BrandPojo.class);
 	}
-
 	public Page<BrandPojo> getAllByPage(Integer page, Integer size) throws ApiException {
 		Validator.validatePageAndSize(page, size);
-		return brandDao.getAllByPage(page, size);
+		return brandDao.selectAllByPage(BrandPojo.class, page, size);
 	}
 	public BrandData updateById(int id, BrandPojo p) throws ApiException {
 		normalize(p);

@@ -1,32 +1,29 @@
 package com.increff.posapp.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.increff.posapp.model.ProductData;
+import com.increff.posapp.model.ProductForm;
+import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.InventoryPojo;
+import com.increff.posapp.pojo.ProductPojo;
+import com.increff.posapp.service.ApiException;
+import com.increff.posapp.service.BrandService;
 import com.increff.posapp.service.InventoryService;
+import com.increff.posapp.service.ProductService;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.Normalizer;
+import com.increff.posapp.util.StringUtil;
 import com.increff.posapp.util.Validator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.increff.posapp.model.ProductData;
-import com.increff.posapp.model.ProductForm;
-import com.increff.posapp.pojo.BrandPojo;
-import com.increff.posapp.pojo.ProductPojo;
-import com.increff.posapp.service.ApiException;
-import com.increff.posapp.service.BrandService;
-import com.increff.posapp.service.ProductService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ProductDto {
-
-	private static final Logger logger = Logger.getLogger(ProductDto.class);
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -34,21 +31,20 @@ public class ProductDto {
 	@Autowired
 	private BrandService brandService;
 	
-	public ProductData add(ProductForm form) throws ApiException {
-		Validator.productFormValidator(form);
-		Normalizer.productFormNormalizer(form);
+	public ProductData add(ProductForm form) throws ApiException, IllegalAccessException {
+		Validator.validate(form);
+		Normalizer.normalize(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brandCategory = brandPojo.getId();
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);
 		ProductPojo p = productService.add(productPojo);
-		logger.info("Product added");
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		inventoryPojo.setQuantity(null);
 		return Converter.convertToProductData(p, brandPojo, inventoryPojo);
 	}
 
 	public Page<ProductData> getById(Integer id) throws ApiException {
-		Validator.validateId(id);
+		Validator.isEmpty("Id", id);
 		ProductPojo productPojo = productService.getById(id);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 		InventoryPojo inventoryPojo = new InventoryPojo();
@@ -65,7 +61,8 @@ public class ProductDto {
 	}
 	
 	public ProductData getByBarcode(String barcode) throws ApiException {
-		Validator.stringValidator(barcode);
+		Validator.stringValidator("Barcode", barcode);
+		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 		InventoryPojo inventoryPojo = new InventoryPojo();
@@ -100,10 +97,10 @@ public class ProductDto {
 		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
 	}
 	
-	public ProductData updateById(Integer id, ProductForm form) throws ApiException {
-		Validator.validateId(id);
-		Validator.productFormValidator(form);
-		Normalizer.productFormNormalizer(form);
+	public ProductData updateById(Integer id, ProductForm form) throws ApiException, IllegalAccessException {
+		Validator.isEmpty("Id", id);
+		Validator.validate(form);
+		Normalizer.normalize(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
 		productPojo.setId(id);
@@ -123,7 +120,6 @@ public class ProductDto {
 			return getAll(page, size);
 		}
 		if (id != null){
-			logger.info("In getData. Id = "+id);
 			return getById(id);
 		}
 		throw new ApiException("Invalid request");

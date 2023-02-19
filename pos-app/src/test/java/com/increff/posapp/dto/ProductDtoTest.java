@@ -30,9 +30,9 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo pojo = new BrandPojo();
         pojo.setBrand("brand1");
         pojo.setCategory("category1");
-        return brandDao.insert(pojo);
+        return (BrandPojo) brandDao.insert(pojo);
     }
-    private ProductData addProduct() throws ApiException {
+    private ProductData addProduct() throws ApiException, IllegalAccessException {
         ProductForm form = new ProductForm();
         form.setBarcode("asd3455t5");
         form.setBrand("brand1");
@@ -43,7 +43,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testAdd() throws ApiException {
+    public void testAdd() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data = addProduct();
         assertEquals("brand1", data.getBrand());
@@ -55,7 +55,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetById() throws ApiException {
+    public void testGetById() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         ProductData data = productDto.getById(data1.getId()).getContent().get(0);
@@ -68,7 +68,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetByBarcode() throws ApiException {
+    public void testGetByBarcode() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         ProductData data = productDto.getByBarcode(data1.getBarcode());
@@ -81,7 +81,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAll() throws ApiException {
+    public void testGetAll() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         List<ProductData> dataList = productDto.getAll(0,5).getContent();
@@ -89,7 +89,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testUpdateById() throws ApiException {
+    public void testUpdateById() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         ProductForm form = new ProductForm();
@@ -109,7 +109,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataIdNull() throws ApiException {
+    public void testGetDataIdNull() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         List<ProductData> dataList = productDto.getData(null, 0, 5).getContent();
@@ -117,7 +117,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataId() throws ApiException {
+    public void testGetDataId() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         List<ProductData> dataList = productDto.getData(data1.getId(), null, null).getContent();

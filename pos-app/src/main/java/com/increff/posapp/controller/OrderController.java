@@ -32,7 +32,7 @@ public class OrderController {
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public void add(@Valid @RequestBody OrderForm form) throws ApiException {
+	public void add(@Valid @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
 		logger.info(form);
 		orderDto.add(form);
 	}

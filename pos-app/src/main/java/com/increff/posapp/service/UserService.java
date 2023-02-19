@@ -25,7 +25,7 @@ public class UserService {
 		if (existing != null) {
 			throw new ApiException("User with given email already exists");
 		}
-		return dao.insert(p);
+		return (UserPojo) dao.insert(p);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
@@ -35,7 +35,7 @@ public class UserService {
 
 	@Transactional
 	public List<UserPojo> getAll() {
-		return dao.selectAll();
+		return dao.selectAll(UserPojo.class);
 	}
 
 	@Transactional

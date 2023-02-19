@@ -25,7 +25,7 @@ public class InventoryService {
 			p.setQuantity(p.getQuantity() + inventoryPojo.getQuantity());
 			return p;
 		}
-		return inventoryDao.add(inventoryPojo);
+		return (InventoryPojo) inventoryDao.insert(inventoryPojo);
 	}
 
 	public InventoryPojo getByProductId(int pid) throws ApiException {
@@ -33,11 +33,11 @@ public class InventoryService {
 	}
 
 	public List<InventoryPojo> getAll() {
-		return inventoryDao.selectAll();
+		return inventoryDao.selectAll(InventoryPojo.class);
 	}
 
 	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
-		return inventoryDao.getAllByPage(page, size);
+		return inventoryDao.selectAllByPage(InventoryPojo.class, page, size);
 	}
 
 	public InventoryPojo updateByProductId(InventoryPojo inventoryPojo) throws ApiException {

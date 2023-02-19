@@ -27,7 +27,7 @@ public class ProductService {
 			throw new ApiException("The entered barcode already exists");
 		}
 		//Inserting
-		return productDao.insert(p);
+		return (ProductPojo) productDao.insert(p);
 	}
 
 	public ProductPojo getById(int id) throws ApiException {
@@ -39,11 +39,11 @@ public class ProductService {
 	}
 
 	public List<ProductPojo> getAll() {
-		return productDao.selectAll();
+		return productDao.selectAll(ProductPojo.class);
 	}
 
 	public Page<ProductPojo> getAllByPage(Integer page, Integer size){
-		return productDao.getAllByPage(page, size);
+		return productDao.selectAllByPage(ProductPojo.class, page, size);
 	}
 	public ProductPojo updateById(int id, ProductPojo p) throws ApiException {
 		normalize(p);
@@ -101,6 +101,5 @@ public class ProductService {
 		if(p.getMrp() <= 0.0){
 			throw new ApiException("MRP must be greater than zero");
 		}
-
 	}
 }

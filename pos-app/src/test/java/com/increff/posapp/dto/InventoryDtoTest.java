@@ -31,7 +31,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         BrandPojo pojo = new BrandPojo();
         pojo.setBrand("brand1");
         pojo.setCategory("category1");
-        return brandDao.insert(pojo);
+        return (BrandPojo) brandDao.insert(pojo);
     }
     private ProductPojo addProduct() throws ApiException {
         BrandPojo brandPojo = addBrand();
@@ -40,10 +40,10 @@ public class InventoryDtoTest extends AbstractUnitTest {
         pojo.setBrandCategory(brandPojo.getId());
         pojo.setName("product1");
         pojo.setMrp(123.45);
-        return productDao.insert(pojo);
+        return (ProductPojo) productDao.insert(pojo);
     }
 
-    private InventoryData addInventory() throws ApiException {
+    private InventoryData addInventory() throws ApiException, IllegalAccessException {
         ProductPojo pojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(pojo.getBarcode());
@@ -51,7 +51,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         return inventoryDto.add(form);
     }
     @Test
-    public void testAdd() throws ApiException {
+    public void testAdd() throws ApiException, IllegalAccessException {
         ProductPojo productPojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(productPojo.getBarcode());
@@ -63,7 +63,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataProductIdNull() throws ApiException {
+    public void testGetDataProductIdNull() throws ApiException, IllegalAccessException {
         ProductPojo productPojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(productPojo.getBarcode());
@@ -74,7 +74,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataProductId() throws ApiException {
+    public void testGetDataProductId() throws ApiException, IllegalAccessException {
         ProductPojo productPojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(productPojo.getBarcode());
@@ -90,7 +90,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testUpdate() throws ApiException {
+    public void testUpdate() throws ApiException, IllegalAccessException {
         ProductPojo pojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(pojo.getBarcode());

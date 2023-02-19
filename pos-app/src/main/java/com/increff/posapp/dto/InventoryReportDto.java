@@ -9,6 +9,7 @@ import com.increff.posapp.service.BrandService;
 import com.increff.posapp.service.InventoryService;
 import com.increff.posapp.service.ProductService;
 import com.increff.posapp.util.Converter;
+import com.increff.posapp.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,16 +29,13 @@ public class InventoryReportDto extends InventoryDto{
     private ProductService productService;
     @Autowired
     private InventoryService inventoryService;
-    private static final Logger logger = Logger.getLogger(InventoryReportDto.class);
     public <T> T getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
-        brand = brand.toLowerCase();
-        category = category.toLowerCase();
-        logger.info("Brand = "+brand+" Category = "+category);
+        brand = StringUtil.toLowerCase(brand);
+        category = StringUtil.toLowerCase(category);
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
         List<InventoryPojo> inventoryPojoList = inventoryService.getAll();
         if(page == null && size == null){
-            logger.info("Page>>"+page+" Size="+size);
-            if(brand.isEmpty() && category.isEmpty()){
+            if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
                 for(InventoryPojo inventoryPojo: inventoryPojoList){
                     ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                     BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -45,7 +43,7 @@ public class InventoryReportDto extends InventoryDto{
                 }
                 validate(inventoryReportDataList);
             }
-            else if(!brand.isEmpty() && !category.isEmpty()){
+            else if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
                 for(InventoryPojo inventoryPojo: inventoryPojoList){
                     ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                     BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -55,11 +53,10 @@ public class InventoryReportDto extends InventoryDto{
                 }
                 validate(inventoryReportDataList);
             }
-            else if(!brand.isEmpty()){
+            else if(!StringUtil.isEmpty(brand)){
                 for(InventoryPojo inventoryPojo: inventoryPojoList){
                     ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                     BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-                    logger.info("Brand>>"+brand+ " Category>>"+category);
                     if(brandPojo.getBrand().equals(brand)){
                         inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));
                     }
@@ -78,8 +75,7 @@ public class InventoryReportDto extends InventoryDto{
             }
             return (T) inventoryReportDataList;
         }
-        else if(brand.isEmpty() && category.isEmpty()){
-            logger.info("Page="+page+" Size="+size);
+        else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -89,9 +85,7 @@ public class InventoryReportDto extends InventoryDto{
             return (T) getPage(inventoryReportDataList, page, size);
         }
 
-        else if(!brand.isEmpty() && !category.isEmpty()){
-            logger.info("Page="+page+" Size="+size);
-            logger.info("No of elements in the list"+inventoryPojoList.size());
+        else if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -104,9 +98,7 @@ public class InventoryReportDto extends InventoryDto{
             validate(inventoryReportDataList);
             return (T) getPage(inventoryReportDataList, page, size);
         }
-        else if(!brand.isEmpty()){
-            logger.info("Page="+page+" Size="+size);
-            logger.info("No of elements in the list "+inventoryPojoList.size());
+        else if(!StringUtil.isEmpty(brand)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -120,8 +112,6 @@ public class InventoryReportDto extends InventoryDto{
             return (T) getPage(inventoryReportDataList, page, size);
         }
         else {
-            logger.info("Page="+page+" Size="+size);
-            logger.info("No of elements in the list"+inventoryPojoList.size());
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());

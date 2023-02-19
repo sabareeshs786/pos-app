@@ -37,7 +37,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         BrandPojo brandPojo = new BrandPojo();
         brandPojo.setBrand("brand1");
         brandPojo.setCategory("category1");
-        return brandDao.insert(brandPojo);
+        return (BrandPojo) brandDao.insert(brandPojo);
     }
     private ProductPojo addProduct(){
         BrandPojo brandPojo = addBrand();
@@ -46,18 +46,18 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         productPojo.setName("productname1");
         productPojo.setBrandCategory(brandPojo.getId());
         productPojo.setMrp(15.78);
-        return productDao.insert(productPojo);
+        return (ProductPojo) productDao.insert(productPojo);
     }
     private InventoryPojo addInventory(){
         ProductPojo productPojo = addProduct();
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setProductId(productPojo.getId());
         inventoryPojo.setQuantity(12);
-        return inventoryDao.add(inventoryPojo);
+        return (InventoryPojo) inventoryDao.insert(inventoryPojo);
     }
     private OrderPojo addOrder() throws ApiException {
         OrderPojo p = new OrderPojo("Asia/Kolkata");
-        return orderDao.insert(p);
+        return (OrderPojo) orderDao.insert(p);
     }
     private OrderItemPojo addOrderItem() throws ApiException {
         OrderPojo orderPojo = addOrder();
@@ -199,12 +199,12 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         Double total = orderItemService.getTotalCost(1000007654);
     }
 
-    @Test
-    public void testGetAll() throws ApiException {
-        addOrderItem();
-        List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
-        assertTrue(orderItemPojoList.size() > 0);
-    }
+//    @Test
+//    public void testGetAll() throws ApiException {
+//        addOrderItem();
+//        List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
+//        assertTrue(orderItemPojoList.size() > 0);
+//    }
 
     @Test
     public void testUpdate() throws ApiException {

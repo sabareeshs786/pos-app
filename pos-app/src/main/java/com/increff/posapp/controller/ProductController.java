@@ -27,7 +27,7 @@ public class ProductController {
 
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)
-	public ProductData add(@Valid @RequestBody ProductForm form) throws ApiException {
+	public ProductData add(@Valid @RequestBody ProductForm form) throws ApiException, IllegalAccessException {
 		return productDto.add(form);
 	}
 
@@ -49,7 +49,7 @@ public class ProductController {
 	}
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.PUT)
-	public ProductData update(@PathVariable Integer id, @Valid @RequestBody ProductForm form) throws ApiException {
+	public ProductData update(@PathVariable Integer id, @Valid @RequestBody ProductForm form) throws ApiException, IllegalAccessException {
 		return productDto.updateById(id, form);
 	}
 

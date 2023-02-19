@@ -42,12 +42,10 @@ public class OrderDto {
 	private OrderService orderService;
 	@Autowired
 	private OrderItemService orderItemService;
-	private static final Logger logger = Logger.getLogger(OrderDto.class);
-	private static final String RESOURCES_DIR = System.getProperty("user.dir") + "/src/main/resources/com/increff/posapp";
 
 
 	@Transactional(rollbackOn = ApiException.class)
-	public List<OrderItemData> add(OrderForm form) throws ApiException {
+	public List<OrderItemData> add(OrderForm form) throws ApiException, IllegalAccessException {
 		List<OrderItemData> list = new ArrayList<>();
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
@@ -92,6 +90,8 @@ public class OrderDto {
 	}
 
 	public Page<OrderData> getAll(Integer page, Integer size) throws ApiException {
+		Validator.isEmpty("Page", page);
+		Validator.isEmpty("Size", size);
 		Page<OrderPojo> pojoPage = orderService.getAllByPage(page, size);
 		List<OrderPojo> list = pojoPage.getContent();
 		List<OrderData> list2 = new ArrayList<OrderData>();
@@ -108,7 +108,8 @@ public class OrderDto {
 
 	 @Transactional(rollbackOn = ApiException.class)
 	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
-		 List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
+		Validator.isEmpty("Order id", orderId);
+		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		 OrderPojo orderPojo = orderService.getById(orderId);
 		 String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), "dd/MM/yyyy");
 		 List<OrderItemData> orderItemDataList = new ArrayList<>();
@@ -116,8 +117,6 @@ public class OrderDto {
 			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 		 }
-
-		 logger.info("OrderItemPojoList Size: "+orderItemPojoList.size());
 
 		 List<Integer> orderItemsIds = new ArrayList<>();
 		 List<String> productNames = new ArrayList<>();
@@ -131,7 +130,6 @@ public class OrderDto {
 			sellingPrices.add(orderItemData.getSellingPrice());
 			mrps.add(orderItemData.getMrp());
 		}
-		logger.info("Fields created");
 
 		// invoice-app is called
 		String base64EncodedString = PdfService.getBase64String(
@@ -146,17 +144,14 @@ public class OrderDto {
 
 		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
 
-		 //Prepare response
 		 response.setContentType("application/pdf");
 		 response.setContentLength(decodedBytes.length);
-
-		 //Send content to Browser
 		 response.getOutputStream().write(decodedBytes);
 		 response.getOutputStream().flush();
-		 logger.info("PDF generated");
 	 }
 
 	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {
+		Validator.isEmpty("Order id", orderId);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo:orderItemPojoList){
@@ -167,6 +162,9 @@ public class OrderDto {
 	}
 
 	public Page<OrderItemData> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
+		Validator.isEmpty("Order id", orderId);
+		Validator.isEmpty("Page", page);
+		Validator.isEmpty("Size", size);
 		Page<OrderItemPojo> pojoPage = orderItemService.getPageByOrderId(orderId, page, size);
 		List<OrderItemPojo> orderItemPojoList = pojoPage.getContent();
 		List<OrderItemData> list = new ArrayList<>();
@@ -182,6 +180,7 @@ public class OrderDto {
 	}
 
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
+		Validator.isEmpty("Id", id);
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 		return Converter.convertToOrderItemData(orderItemPojo, productPojo);

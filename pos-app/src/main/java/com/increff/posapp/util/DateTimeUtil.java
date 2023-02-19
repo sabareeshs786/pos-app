@@ -17,12 +17,6 @@ public class DateTimeUtil {
         return localDateTime.format(formatter);
     }
 
-    public static ZonedDateTime getZonedDateTimeStart(String zone){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        ZoneId zoneId = ZoneId.of(zone);
-        return ZonedDateTime.of(localDateTime, zoneId);
-    }
-
     public static ZonedDateTime getZonedDateTimeStart(LocalDate localDate, String zone){
         ZoneId zoneId = ZoneId.of(zone);
         LocalDateTime localDateTime = localDate.atTime(0, 0, 0);

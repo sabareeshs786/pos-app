@@ -3,27 +3,29 @@ package com.increff.posapp.util;
 import com.increff.posapp.model.*;
 import com.increff.posapp.service.ApiException;
 
-public class Normalizer {
-    public static void brandFormNormalizer(BrandForm form) throws ApiException {
-        form.setBrand(StringUtil.toLowerCase(form.getBrand()));
-        form.setCategory(StringUtil.toLowerCase(form.getCategory()));
-    }
+import java.lang.reflect.Field;
 
-    public static void productFormNormalizer(ProductForm form) throws ApiException {
-        form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
-        form.setBrand(StringUtil.toLowerCase(form.getBrand()));
-        form.setCategory(StringUtil.toLowerCase(form.getCategory()));
-        form.setName(StringUtil.toLowerCase(form.getName()));
-        form.setMrp(DoubleUtil.round(form.getMrp(), 2));
-    }
+public class Normalizer {
 
     public static void inventoryFormNormalizer(InventoryForm form) throws ApiException {
         form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
     }
 
-    public static void orderItemEditFormNormalizer(OrderItemEditForm form) throws ApiException {
-        form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
-        form.setSellingPrice(DoubleUtil.round(form.getSellingPrice(), 2));
+    public static void normalize(Object o) throws IllegalAccessException {
+        Field[] fields = o.getClass().getDeclaredFields();
+        for(Field field: fields){
+            if(field.getType().getSimpleName().equals("String")){
+                field.setAccessible(true);
+                String val = (String) field.get(o);
+                field.set(o, val.toLowerCase());
+                field.setAccessible(false);
+            }
+            else if(field.getType().getSimpleName().equals("Double")){
+                field.setAccessible(true);
+                Double val = (Double) field.get(o);
+                field.set(o, DoubleUtil.round(val, 2));
+                field.setAccessible(false);
+            }
+        }
     }
-
 }

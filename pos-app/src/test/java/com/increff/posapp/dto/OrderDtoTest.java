@@ -43,19 +43,19 @@ public class OrderDtoTest extends AbstractUnitTest {
         BrandPojo pojo = new BrandPojo();
         pojo.setBrand("brand1");
         pojo.setCategory("category1");
-        return brandDao.insert(pojo);
+        return (BrandPojo) brandDao.insert(pojo);
     }
     private BrandPojo addBrand2(){
         BrandPojo pojo = new BrandPojo();
         pojo.setBrand("brand2");
         pojo.setCategory("category2");
-        return brandDao.insert(pojo);
+        return (BrandPojo) brandDao.insert(pojo);
     }
     private BrandPojo addBrand3(){
         BrandPojo pojo = new BrandPojo();
         pojo.setBrand("brand3");
         pojo.setCategory("category3");
-        return brandDao.insert(pojo);
+        return (BrandPojo) brandDao.insert(pojo);
     }
     private ProductPojo addProduct1() throws ApiException {
         BrandPojo brandPojo = addBrand1();
@@ -64,7 +64,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         pojo.setBrandCategory(brandPojo.getId());
         pojo.setName("product1");
         pojo.setMrp(123.45);
-        return productDao.insert(pojo);
+        return (ProductPojo) productDao.insert(pojo);
     }
     private ProductPojo addProduct2() throws ApiException {
         BrandPojo brandPojo = addBrand2();
@@ -73,7 +73,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         pojo.setBrandCategory(brandPojo.getId());
         pojo.setName("product2");
         pojo.setMrp(12.45);
-        return productDao.insert(pojo);
+        return (ProductPojo) productDao.insert(pojo);
     }
     private ProductPojo addProduct3() throws ApiException {
         BrandPojo brandPojo = addBrand3();
@@ -82,7 +82,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         pojo.setBrandCategory(brandPojo.getId());
         pojo.setName("product3");
         pojo.setMrp(1234.56);
-        return productDao.insert(pojo);
+        return (ProductPojo) productDao.insert(pojo);
     }
 
     private InventoryPojo addInventory1() throws ApiException {
@@ -90,7 +90,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setProductId(pojo.getId());
         inventoryPojo.setQuantity(21);
-        return inventoryDao.add(inventoryPojo);
+        return (InventoryPojo) inventoryDao.insert(inventoryPojo);
     }
 
     private InventoryPojo addInventory2() throws ApiException {
@@ -98,14 +98,14 @@ public class OrderDtoTest extends AbstractUnitTest {
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setProductId(pojo.getId());
         inventoryPojo.setQuantity(23);
-        return inventoryDao.add(inventoryPojo);
+        return (InventoryPojo) inventoryDao.insert(inventoryPojo);
     }
     private InventoryPojo addInventory3() throws ApiException {
         ProductPojo pojo = addProduct3();
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setProductId(pojo.getId());
         inventoryPojo.setQuantity(26);
-        return inventoryDao.add(inventoryPojo);
+        return (InventoryPojo) inventoryDao.insert(inventoryPojo);
     }
 
     private List<OrderItemPojo> addOrderItems() throws ApiException {
@@ -115,25 +115,25 @@ public class OrderDtoTest extends AbstractUnitTest {
         InventoryPojo inventoryPojo1 = addInventory1();
         InventoryPojo inventoryPojo2 = addInventory2();
         OrderPojo pojo = new OrderPojo("Asia/Kolkata");
-        OrderPojo orderPojo = orderDao.insert(pojo);
+        OrderPojo orderPojo = (OrderPojo) orderDao.insert(pojo);
         OrderItemPojo orderItemPojo1 = new OrderItemPojo();
         orderItemPojo1.setOrderId(orderPojo.getId());
         orderItemPojo1.setProductId(inventoryPojo1.getProductId());
         orderItemPojo1.setQuantity(2);
         orderItemPojo1.setSellingPrice(120.68);
-        list.add(orderItemDao.insert(orderItemPojo1));
+        list.add((OrderItemPojo) orderItemDao.insert(orderItemPojo1));
 
         OrderItemPojo orderItemPojo2 = new OrderItemPojo();
         orderItemPojo2.setOrderId(orderPojo.getId());
         orderItemPojo2.setProductId(inventoryPojo2.getProductId());
         orderItemPojo2.setQuantity(2);
         orderItemPojo2.setSellingPrice(10.78);
-        list.add(orderItemDao.insert(orderItemPojo2));
+        list.add((OrderItemPojo) orderItemDao.insert(orderItemPojo2));
 
         return list;
     }
 
-    private List<OrderItemData> addOrder() throws ApiException {
+    private List<OrderItemData> addOrder() throws ApiException, IllegalAccessException {
         addInventory1();
         addInventory2();
         OrderForm form = new OrderForm();
@@ -163,7 +163,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testAdd() throws ApiException {
+    public void testAdd() throws ApiException, IllegalAccessException {
         InventoryPojo inventoryPojo1 = addInventory1();
         InventoryPojo inventoryPojo2 = addInventory2();
         OrderForm form = new OrderForm();
@@ -194,7 +194,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAll() throws ApiException {
+    public void testGetAll() throws ApiException, IllegalAccessException {
         List<OrderItemData> list = addOrder();
         List<OrderData> orderDataList = orderDto.getAll();
         assertEquals(2, list.size());
@@ -211,7 +211,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAllPage() throws ApiException {
+    public void testGetAllPage() throws ApiException, IllegalAccessException {
         List<OrderItemData> list = addOrder();
         List<OrderData> orderDataList = orderDto.getAll(0, 5).getContent();
         assertEquals(2, list.size());
@@ -229,7 +229,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testConvertToPdf() throws ApiException, FOPException, JAXBException, IOException, TransformerException {
+    public void testConvertToPdf() throws ApiException, FOPException, JAXBException, IOException, TransformerException, IllegalAccessException {
         HttpServletResponse response = new MockHttpServletResponse();
         List<OrderItemData> list = addOrder();
         assertEquals(2,list.size());
@@ -239,7 +239,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testValidateMrpInvalid() throws ApiException {
+    public void testValidateMrpInvalid() throws ApiException, IllegalAccessException {
         addInventory1();
         addInventory2();
         OrderForm form = new OrderForm();
@@ -253,7 +253,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testValidateQuantityInvalid() throws ApiException {
+    public void testValidateQuantityInvalid() throws ApiException, IllegalAccessException {
         addInventory1();
         addInventory2();
         OrderForm form = new OrderForm();
