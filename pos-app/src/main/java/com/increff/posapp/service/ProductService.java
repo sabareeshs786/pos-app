@@ -89,10 +89,10 @@ public class ProductService {
 		if(StringUtil.isNotAlNum(p.getBarcode()) || StringUtil.isNotAlNum(p.getName())){
 				throw new ApiException("Characters other than alpha-numeric is not allowed");
 		}
-		if(p.getBrandCategory() == null || StringUtil.isEmpty(p.getBrandCategory().toString())){
+		if(p.getBrandCategory() == null){
 			throw new ApiException("Brand-Category number can't be empty");
 		}
-		if(p.getMrp() == null || StringUtil.isEmpty(p.getMrp().toString())){
+		if(p.getMrp() == null){
 			throw new ApiException("MRP can't be empty");
 		}
 		if(p.getMrp().isInfinite() || p.getMrp().isNaN()) {

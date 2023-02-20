@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class DoubleUtil {
+
+	private DoubleUtil() {}
 	public static Double round(Double value, Integer places){
 		if (places < 0) throw new IllegalArgumentException();
 		if(value == null)

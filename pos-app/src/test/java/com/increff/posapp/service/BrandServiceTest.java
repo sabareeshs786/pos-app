@@ -79,6 +79,21 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p2.setCategory("category1");
 		brandService.add(p2);
 	}
+	@Test(expected = ApiException.class)
+	public void testValidateBrandNotAlNum() throws ApiException{
+		BrandPojo p = new BrandPojo();
+		p.setBrand("Br/&^@nd");
+		p.setCategory("c1");
+		brandService.add(p);
+	}
+
+	@Test(expected = ApiException.class)
+	public void testValidateCategoryNotAlNum() throws ApiException{
+		BrandPojo p = new BrandPojo();
+		p.setBrand("b1");
+		p.setCategory("c@Te$go*y");
+		brandService.add(p);
+	}
 
 	@Test
 	public void testNormalize() throws ApiException {

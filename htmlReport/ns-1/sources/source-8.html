@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SalesReportDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.increff.posapp.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: SalesReportDto (com.increff.posapp.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SalesReportDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.6%
+  </span>
+  <span class="absValue">
+    (1/61)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.posapp.dto;
+&nbsp;
+&nbsp;import com.increff.posapp.model.SalesReportData;
+&nbsp;import com.increff.posapp.model.SalesReportForm;
+&nbsp;import com.increff.posapp.pojo.BrandPojo;
+&nbsp;import com.increff.posapp.pojo.OrderItemPojo;
+&nbsp;import com.increff.posapp.pojo.OrderPojo;
+&nbsp;import com.increff.posapp.pojo.ProductPojo;
+&nbsp;import com.increff.posapp.service.*;
+&nbsp;import com.increff.posapp.util.Converter;
+&nbsp;import com.increff.posapp.util.DateTimeUtil;
+&nbsp;import com.increff.posapp.util.DoubleUtil;
+&nbsp;import org.apache.log4j.Logger;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.ZoneId;
+&nbsp;import java.time.ZonedDateTime;
+&nbsp;import java.time.temporal.ChronoUnit;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.SortedMap;
+&nbsp;import java.util.TreeMap;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;public class SalesReportDto extends InventoryDto {</b>
+&nbsp;    @Autowired
+&nbsp;    private BrandService brandService;
+&nbsp;    @Autowired
+&nbsp;    private ProductService productService;
+&nbsp;    @Autowired
+&nbsp;    private OrderService orderService;
+&nbsp;    @Autowired
+&nbsp;    private OrderItemService orderItemService;
+&nbsp;
+&nbsp;    public &lt;T&gt; T getData(SalesReportForm salesReportForm) throws ApiException {
+<b class="nc">&nbsp;        ZoneId zoneId = ZoneId.of(&quot;Asia/Kolkata&quot;);</b>
+<b class="nc">&nbsp;        ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);</b>
+<b class="nc">&nbsp;        ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(salesReportForm.getEndDate(), zoneId);</b>
+&nbsp;
+<b class="nc">&nbsp;        validate(salesReportForm);</b>
+&nbsp;
+<b class="nc">&nbsp;        SortedMap&lt;String, Double&gt; sm1 = new TreeMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        SortedMap&lt;String, Integer&gt; sm2 = new TreeMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        SalesReportData salesReportData = new SalesReportData();</b>
+<b class="nc">&nbsp;        Double totalRevenue = 0.0;</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;OrderPojo&gt; orderPojoList = orderService.getByInterval(zonedDateTimeStart, zonedDateTimeEnd);</b>
+&nbsp;
+<b class="nc">&nbsp;        for(OrderPojo orderPojo: orderPojoList){</b>
+<b class="nc">&nbsp;            List&lt;OrderItemPojo&gt; orderItemPojoList = orderItemService.getByOrderId(orderPojo.getId());</b>
+<b class="nc">&nbsp;            for(OrderItemPojo orderItemPojo: orderItemPojoList){</b>
+<b class="nc">&nbsp;                ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());</b>
+<b class="nc">&nbsp;                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());</b>
+<b class="nc">&nbsp;                if(!salesReportForm.getBrand().isEmpty() &amp;&amp; !salesReportForm.getCategory().isEmpty()){</b>
+<b class="nc">&nbsp;                    if(brandPojo.getBrand().equals(salesReportForm.getBrand()) &amp;&amp; brandPojo.getCategory().equals(salesReportForm.getCategory())){</b>
+<b class="nc">&nbsp;                        setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                else if(!salesReportForm.getBrand().isEmpty()){</b>
+<b class="nc">&nbsp;                    if(brandPojo.getBrand().equals(salesReportForm.getBrand())){</b>
+<b class="nc">&nbsp;                        setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                else if(!salesReportForm.getCategory().isEmpty()){</b>
+<b class="nc">&nbsp;                    if(brandPojo.getCategory().equals(salesReportForm.getCategory())){</b>
+<b class="nc">&nbsp;                        setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                        totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                    setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());</b>
+<b class="nc">&nbsp;                    totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        salesReportData.setStartDate(DateTimeUtil.getDateTimeString(salesReportForm.getStartDate(),&quot;dd/MM/yyyy&quot;));</b>
+<b class="nc">&nbsp;        salesReportData.setEndDate(DateTimeUtil.getDateTimeString(salesReportForm.getEndDate(), &quot;dd/MM/yyyy&quot;));</b>
+<b class="nc">&nbsp;        salesReportData.setTotalRevenue(DoubleUtil.roundToString(totalRevenue));</b>
+<b class="nc">&nbsp;        for(Map.Entry&lt;String, Double&gt; entry: sm1.entrySet()){</b>
+<b class="nc">&nbsp;            Integer quantity = sm2.get(entry.getKey());</b>
+<b class="nc">&nbsp;            Converter.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return (T) salesReportData;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setSortedMap1(SortedMap&lt;String, Double&gt; sm, OrderItemPojo orderItemPojo, String brand, String category){
+<b class="nc">&nbsp;        String brandCategory = brand + &quot;--&quot; + category;</b>
+<b class="nc">&nbsp;        if(sm.containsKey(brandCategory)){</b>
+<b class="nc">&nbsp;            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            sm.put(brandCategory, orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    private void setSortedMap2(SortedMap&lt;String, Integer&gt; sm, OrderItemPojo orderItemPojo, String brand, String category){
+<b class="nc">&nbsp;        String brandCategory = brand + &quot;--&quot; + category;</b>
+<b class="nc">&nbsp;        if(sm.containsKey(brandCategory)){</b>
+<b class="nc">&nbsp;            sm.put(brandCategory, sm.get(brandCategory) + orderItemPojo.getQuantity());</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            sm.put(brandCategory, orderItemPojo.getQuantity());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validate(SalesReportForm salesReportForm) throws ApiException {
+<b class="nc">&nbsp;        if(!salesReportForm.getBrand().isEmpty()){</b>
+<b class="nc">&nbsp;            brandService.getByBrand(salesReportForm.getBrand());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(!salesReportForm.getCategory().isEmpty()){</b>
+<b class="nc">&nbsp;            brandService.getByCategory(salesReportForm.getCategory());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(salesReportForm.getStartDate().toLocalDate().isBefore(LocalDate.now().minusYears(2L))){</b>
+<b class="nc">&nbsp;            throw new ApiException(&quot;Enter a date within 2 years&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(salesReportForm.getEndDate().toLocalDate().isAfter(LocalDate.now())){</b>
+<b class="nc">&nbsp;            throw new ApiException(&quot;End date should be today&#39;s date or a date before today&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(ChronoUnit.DAYS.between(salesReportForm.getStartDate().toLocalDate(), salesReportForm.getEndDate().toLocalDate()) &gt; 366){</b>
+<b class="nc">&nbsp;            throw new ApiException(&quot;Difference between the two entered dates must be within one year&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-20 15:35</div>
+</div>
+</body>
+</html>

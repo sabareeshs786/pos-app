@@ -4,13 +4,10 @@ import com.increff.posapp.dao.BrandDao;
 import com.increff.posapp.dao.ProductDao;
 import com.increff.posapp.model.InventoryData;
 import com.increff.posapp.model.InventoryForm;
-import com.increff.posapp.model.ProductData;
-import com.increff.posapp.model.ProductForm;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -85,7 +82,29 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testGetData() throws ApiException {
+    public void testGetDataPageNull() throws ApiException, IllegalAccessException {
+        ProductPojo productPojo = addProduct();
+        InventoryForm form = new InventoryForm();
+        form.setBarcode(productPojo.getBarcode());
+        form.setQuantity(12);
+        InventoryData data = inventoryDto.add(form);
+        List<InventoryData> dataList = inventoryDto.getData(null, null, 9).getContent();
+        assertEquals(1, dataList.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataSizeNull() throws ApiException, IllegalAccessException {
+        ProductPojo productPojo = addProduct();
+        InventoryForm form = new InventoryForm();
+        form.setBarcode(productPojo.getBarcode());
+        form.setQuantity(12);
+        InventoryData data = inventoryDto.add(form);
+        List<InventoryData> dataList = inventoryDto.getData(null, 0, null).getContent();
+        assertEquals(1, dataList.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataInvalid() throws ApiException {
         inventoryDto.getData(null, null, null);
     }
 

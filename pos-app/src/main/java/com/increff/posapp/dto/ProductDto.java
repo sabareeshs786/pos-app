@@ -13,6 +13,7 @@ import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.Normalizer;
 import com.increff.posapp.util.StringUtil;
 import com.increff.posapp.util.Validator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +31,8 @@ public class ProductDto {
 	private InventoryService inventoryService;
 	@Autowired
 	private BrandService brandService;
-	
+
+	private Logger logger = Logger.getLogger(ProductDto.class);
 	public ProductData add(ProductForm form) throws ApiException, IllegalAccessException {
 		Validator.validate(form);
 		Normalizer.normalize(form);
@@ -49,6 +51,7 @@ public class ProductDto {
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		try{
+			logger.info("Executing try block");
 			inventoryPojo = inventoryService.getByProductId(productPojo.getId());
 		}
 		catch (ApiException ex){
@@ -77,7 +80,8 @@ public class ProductDto {
 	}
 	
 	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
-		Validator.validatePageAndSize(page, size);
+		Validator.isEmpty("Page",page);
+		Validator.isEmpty("Size", size);
 		Page<ProductPojo> pojoPage = productService.getAllByPage(page, size);
 		List<ProductPojo> list = pojoPage.getContent();
 		List<ProductData> list2 = new ArrayList<>();

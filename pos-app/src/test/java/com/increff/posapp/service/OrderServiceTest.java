@@ -58,7 +58,7 @@ public class OrderServiceTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void testValidateTimeIntervalInvalid() throws ApiException {
+    public void testValidateTimeIntervalInvalidStart() throws ApiException {
         LocalDateTime startDateTime = LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10,30);
         LocalDateTime endDateTime = LocalDateTime.of(2023, Month.FEBRUARY, 16, 0,10,10);
         ZonedDateTime startTime = ZonedDateTime.of(startDateTime, ZoneId.of("Asia/Kolkata"));
@@ -66,6 +66,14 @@ public class OrderServiceTest extends AbstractUnitTest {
         orderService.getByInterval(startTime, endTime);
     }
 
+    @Test(expected = ApiException.class)
+    public void testValidateTimeIntervalInvalidEnd() throws ApiException {
+        LocalDateTime startDateTime = LocalDateTime.of(2023, Month.JANUARY, 1, 10, 10,30);
+        LocalDateTime endDateTime = LocalDateTime.now().plusDays(10L);
+        ZonedDateTime startTime = ZonedDateTime.of(startDateTime, ZoneId.of("Asia/Kolkata"));
+        ZonedDateTime endTime = ZonedDateTime.of(endDateTime, ZoneId.of("Asia/Kolkata"));
+        orderService.getByInterval(startTime, endTime);
+    }
     @Test
     public void testGetByInterval() throws ApiException {
         LocalDateTime startDateTime = LocalDateTime.of(2023, Month.JANUARY, 1, 10, 10,30);

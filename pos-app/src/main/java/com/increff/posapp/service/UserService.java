@@ -12,12 +12,12 @@ import com.increff.posapp.dao.UserDao;
 import com.increff.posapp.pojo.UserPojo;
 
 @Service
+@Transactional(rollbackOn = ApiException.class)
 public class UserService {
 
 	@Autowired
 	private UserDao dao;
 
-	@Transactional
 	public UserPojo add(UserPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
@@ -28,21 +28,26 @@ public class UserService {
 		return (UserPojo) dao.insert(p);
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
 	public UserPojo get(String email) throws ApiException {
 		return dao.select(email);
 	}
 
-	@Transactional
 	public List<UserPojo> getAll() {
 		return dao.selectAll(UserPojo.class);
 	}
 
-	@Transactional
 	public void delete(int id) {
 		dao.delete(id);
 	}
 
+	public UserPojo update(Integer id, UserPojo p){
+		UserPojo ex = dao.select(id);
+		ex.setEmail(p.getEmail());
+		ex.setPassword(p.getPassword());
+		ex.setRole(p.getRole());
+		dao.update(ex);
+		return ex;
+	}
 	private static void normalize(UserPojo p) {
 		p.setEmail(StringUtil.toLowerCase(p.getEmail()));
 		p.setRole(StringUtil.toLowerCase(p.getRole()));

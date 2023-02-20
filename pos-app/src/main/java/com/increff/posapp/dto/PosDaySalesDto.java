@@ -2,7 +2,6 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.PosDaySalesData;
 import com.increff.posapp.model.PosDaySalesForm;
-import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.pojo.OrderPojo;
 import com.increff.posapp.pojo.PosDaySalesPojo;
 import com.increff.posapp.service.ApiException;
@@ -11,7 +10,6 @@ import com.increff.posapp.service.OrderService;
 import com.increff.posapp.service.PosDaySalesService;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -36,47 +34,29 @@ public class PosDaySalesDto {
 	@Autowired
 	private OrderItemService orderItemService;
 
-	@Scheduled(fixedRate = 60000*60*24)
-	public void updateScheduler() throws ApiException {
-		LocalDateTime localDateTime = LocalDateTime.now();
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void updatePosDaySalesTable() throws ApiException {
+		LocalDateTime startDateTime = LocalDateTime.now()
+				.minusDays(1L).withHour(0).withMinute(0).withSecond(0);
 		ZoneId zoneId = ZoneId.of("Asia/Kolkata");
-		ZonedDateTime date = ZonedDateTime.of(localDateTime, zoneId);
+		ZonedDateTime startDateTimeZoned = ZonedDateTime.of(startDateTime, zoneId);
 
-		if(posDaySalesService.getAll().size() == 0){
-			List<OrderPojo> orderPojoList = orderService.getAll();
-			List<LocalDate> localDateList = orderPojoList.stream().map(PosDaySalesDto::toLocalDate).collect(Collectors.toList());
-			Set<LocalDate> localDateSet = new TreeSet<>(localDateList);
-			if(orderPojoList.size() > 0){
-				for(LocalDate localDate: localDateSet){
-					PosDaySalesPojo p = new PosDaySalesPojo();
-					p.setDate(DateTimeUtil.getZonedDateTimeStart(localDate, "Asia/Kolkata"));
-					List<OrderPojo> orderPojos = orderService.getByInterval(DateTimeUtil.getZonedDateTimeStart(localDate, "Asia/Kolkata"), DateTimeUtil.getZonedDateTimeEnd(localDate, "Asia/Kolkata"));
-					p.setInvoicedOrdersCount(orderPojos.size());
-					p.setInvoicedItemsCount(0);
-					p.setTotalRevenue(0.0);
-					for(OrderPojo pojo: orderPojos) {
-						p.setInvoicedItemsCount((int) (p.getInvoicedItemsCount() + orderItemService.getTotalInvoicedQuantity(pojo.getId())));
-						p.setTotalRevenue(p.getTotalRevenue() + orderItemService.getTotalCost(pojo.getId()));
-					}
-					posDaySalesService.add(p);
-				}
-			}
+		LocalDateTime endDateTime = LocalDateTime.now()
+				.minusDays(1L).withHour(23).withMinute(59).withSecond(59);
+		ZonedDateTime endDateTimeZoned = ZonedDateTime.of(endDateTime, zoneId);
+
+		List<OrderPojo> orderPojoList = orderService.getByInterval(startDateTimeZoned, endDateTimeZoned);
+
+		PosDaySalesPojo pojo = new PosDaySalesPojo();
+		pojo.setDate(startDateTimeZoned);
+		pojo.setInvoicedOrdersCount(orderPojoList.size());
+		pojo.setInvoicedItemsCount(0);
+		pojo.setTotalRevenue(0.0);
+		for(OrderPojo p: orderPojoList){
+			pojo.setInvoicedItemsCount((int) (pojo.getInvoicedItemsCount() + orderItemService.getTotalInvoicedQuantity(p.getId())));
+			pojo.setTotalRevenue(pojo.getTotalRevenue() + orderItemService.getTotalCost(p.getId()));
 		}
-		else {
-			ZonedDateTime lastDateTime = posDaySalesService.getLastDateTime().plusSeconds(1);
-			ZonedDateTime zonedDateTimeNow = ZonedDateTime.now();
-			List<OrderPojo> orderPojoList = orderService.getByInterval(lastDateTime, zonedDateTimeNow);
-			PosDaySalesPojo pojo = new PosDaySalesPojo();
-			pojo.setDate(zonedDateTimeNow);
-			pojo.setInvoicedOrdersCount(orderPojoList.size());
-			pojo.setInvoicedItemsCount(0);
-			pojo.setTotalRevenue(0.0);
-			for(OrderPojo p: orderPojoList){
-				pojo.setInvoicedItemsCount((int) (pojo.getInvoicedItemsCount() + orderItemService.getTotalInvoicedQuantity(p.getId())));
-				pojo.setTotalRevenue(pojo.getTotalRevenue() + orderItemService.getTotalCost(p.getId()));
-			}
-			posDaySalesService.add(pojo);
-		}
+		posDaySalesService.add(pojo);
 	}
 
 	public List<PosDaySalesData> getAll(){
@@ -86,10 +66,6 @@ public class PosDaySalesDto {
 			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
 		}
 		return posDaySalesDataList;
-	}
-
-	private static LocalDate toLocalDate(OrderPojo orderPojo){
-		return orderPojo.getTime().toLocalDate();
 	}
 
 	public List<PosDaySalesData> getData(PosDaySalesForm form) throws ApiException {
@@ -113,9 +89,6 @@ public class PosDaySalesDto {
 		}
 		if(form.getEndDate().toLocalDate().isAfter(LocalDate.now())){
 			throw new ApiException("End date should be today's date or a date before today");
-		}
-		if(ChronoUnit.DAYS.between(form.getStartDate().toLocalDate(), form.getEndDate().toLocalDate()) > 366){
-			throw new ApiException("Difference between the two entered dates must be within one year");
 		}
 	}
 }

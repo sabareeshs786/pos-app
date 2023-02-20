@@ -64,7 +64,7 @@ public class InventoryDto {
 	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException, IllegalAccessException {
 		Validator.isEmpty("Id", id);
 		Validator.validate(form);
-		Normalizer.inventoryFormNormalizer(form);
+		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);

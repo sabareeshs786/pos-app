@@ -10,6 +10,7 @@ import com.increff.posapp.service.*;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.DoubleUtil;
+import com.increff.posapp.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,21 +54,24 @@ public class SalesReportDto extends InventoryDto {
             for(OrderItemPojo orderItemPojo: orderItemPojoList){
                 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-                if(!salesReportForm.getBrand().isEmpty() && !salesReportForm.getCategory().isEmpty()){
+                if(!StringUtil.isEmpty(salesReportForm.getBrand() )&& !StringUtil.isEmpty(salesReportForm.getCategory())){
                     if(brandPojo.getBrand().equals(salesReportForm.getBrand()) && brandPojo.getCategory().equals(salesReportForm.getCategory())){
                         setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
                         setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
                         totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
                     }
                 }
-                else if(!salesReportForm.getBrand().isEmpty()){
+                else if(!StringUtil.isEmpty(salesReportForm.getBrand())){
                     if(brandPojo.getBrand().equals(salesReportForm.getBrand())){
                         setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
                         setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
                         totalRevenue += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
                     }
+                    else {
+                        continue;
+                    }
                 }
-                else if(!salesReportForm.getCategory().isEmpty()){
+                else if(!StringUtil.isEmpty(salesReportForm.getCategory())){
                     if(brandPojo.getCategory().equals(salesReportForm.getCategory())){
                         setSortedMap1(sm1, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
                         setSortedMap2(sm2, orderItemPojo, brandPojo.getBrand(), brandPojo.getCategory());
@@ -112,10 +116,10 @@ public class SalesReportDto extends InventoryDto {
     }
 
     private void validate(SalesReportForm salesReportForm) throws ApiException {
-        if(!salesReportForm.getBrand().isEmpty()){
+        if(!StringUtil.isEmpty(salesReportForm.getBrand())){
             brandService.getByBrand(salesReportForm.getBrand());
         }
-        if(!salesReportForm.getCategory().isEmpty()){
+        if(!StringUtil.isEmpty(salesReportForm.getCategory())){
             brandService.getByCategory(salesReportForm.getCategory());
         }
         if(salesReportForm.getStartDate().toLocalDate().isBefore(LocalDate.now().minusYears(2L))){

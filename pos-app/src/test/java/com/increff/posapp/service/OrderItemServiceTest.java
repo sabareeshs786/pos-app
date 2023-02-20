@@ -5,17 +5,10 @@ import com.increff.posapp.dao.InventoryDao;
 import com.increff.posapp.dao.OrderDao;
 import com.increff.posapp.dao.ProductDao;
 import com.increff.posapp.pojo.*;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

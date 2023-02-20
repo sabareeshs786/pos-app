@@ -44,13 +44,15 @@ public class BrandService {
 
 	public Page<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
 		brand = validateAndNormalizeString(brand, "Brand");
-		Validator.validatePageAndSize(page, size);
+		Validator.isEmpty("Page", page);
+		Validator.isEmpty("Size", size);
 		return getCheckByBrand(brand, page, size);
 	}
 
 	public Page<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
 		category = validateAndNormalizeString(category, "Category");
-		Validator.validatePageAndSize(page, size);
+		Validator.isEmpty("Page",page);
+		Validator.isEmpty("Size", size);
 		return getCheckByCategory(category, page, size);
 	}
 
@@ -64,7 +66,8 @@ public class BrandService {
 		return brandDao.selectAll(BrandPojo.class);
 	}
 	public Page<BrandPojo> getAllByPage(Integer page, Integer size) throws ApiException {
-		Validator.validatePageAndSize(page, size);
+		Validator.isEmpty("Page",page);
+		Validator.isEmpty("Size", size);
 		return brandDao.selectAllByPage(BrandPojo.class, page, size);
 	}
 	public BrandData updateById(int id, BrandPojo p) throws ApiException {

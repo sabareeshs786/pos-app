@@ -3,7 +3,6 @@ package com.increff.posapp.dto;
 import com.increff.posapp.dao.BrandDao;
 import com.increff.posapp.dao.InventoryDao;
 import com.increff.posapp.dao.ProductDao;
-import com.increff.posapp.model.BrandData;
 import com.increff.posapp.model.InventoryReportData;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.InventoryPojo;
@@ -14,8 +13,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -80,8 +77,20 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
         }
     }
 
+    @Test(expected = ApiException.class)
+    public void testGetInventoryReportPageNull() throws ApiException {
+        createInventory();
+        inventoryReportDto.getInventoryReport("", "", null, 9);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetInventoryReportSizeNull() throws ApiException {
+        createInventory();
+        inventoryReportDto.getInventoryReport("", "", 0, null);
+    }
+
     @Test
-    public void testGetBrandReportBrandNotEmpty() throws ApiException {
+    public void testGetInventoryReportBrandNotEmpty() throws ApiException {
         createInventory();
 
         List<InventoryReportData> list = inventoryReportDto.getInventoryReport("brand1", "", null, null);
@@ -137,6 +146,13 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
             assertEquals("product"+ k, list.get(k-1).getProductName());
             k++;
         }
+    }
+
+    @Test
+    public void testGetInventoryReportByPageInvalid() throws ApiException {
+        createInventory();
+        Page<InventoryReportData> data = inventoryReportDto.getInventoryReport("", "", 100, 200);
+        assertEquals(0L, data.getContent().size());
     }
 
     @Test

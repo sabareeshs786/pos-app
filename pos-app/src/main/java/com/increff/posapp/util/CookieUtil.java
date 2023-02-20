@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CookieUtil {
 
+	private CookieUtil(){}
+
 	public static String getCookie(HttpServletRequest req, String name) {
 		Cookie[] cookies = req.getCookies();
 		if (cookies == null) {

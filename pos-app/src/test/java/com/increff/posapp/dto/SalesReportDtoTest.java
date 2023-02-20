@@ -56,8 +56,8 @@ public class SalesReportDtoTest extends AbstractUnitTest {
 
     private void createInventory(){
         int k = 1;
-        for(int i=1; i<=2; i++){
-            for(int j=1; j<=2; j++){
+        for(int i=1; i<=3; i++){
+            for(int j=1; j<=3; j++){
                 BrandPojo brandPojo = addBrand(i,j);
                 Integer brandCategory = brandPojo.getId();
                 int t = 0;
@@ -94,7 +94,7 @@ public class SalesReportDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetData() throws ApiException {
+    public void testGetDataValid() throws ApiException {
         createOrders(1,2);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
@@ -139,6 +139,29 @@ public class SalesReportDtoTest extends AbstractUnitTest {
         assertEquals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), data.getEndDate());
 //        assertEquals("784.08", data.getTotalRevenue());
     }
+
+    @Test
+    public void testGetDataBrandInvalid() throws ApiException {
+        List<Integer> orderIds = createOrders(1,2);
+        SalesReportForm form = new SalesReportForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now());
+        form.setBrand("brand3");
+        form.setCategory("");
+        SalesReportData data = salesReportDto.getData(form);
+        assertEquals(
+                LocalDateTime
+                        .now()
+                        .minusDays(10L)
+                        .toLocalDate()
+                        .format(
+                                DateTimeFormatter
+                                        .ofPattern("dd/MM/yyyy")),
+                data.getStartDate()
+        );
+        assertEquals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), data.getEndDate());
+//        assertEquals("784.08", data.getTotalRevenue());
+    }
     @Test
     public void testGetDataCategory() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
@@ -158,7 +181,28 @@ public class SalesReportDtoTest extends AbstractUnitTest {
                                         .ofPattern("dd/MM/yyyy")),
                 data.getStartDate()
         );
-//        assertEquals("196.20", data.getTotalRevenue());
+    }
+
+    @Test
+    public void testGetDataCategoryInvalid() throws ApiException {
+        List<Integer> orderIds = createOrders(1,2);
+        SalesReportForm form = new SalesReportForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now());
+        form.setBrand("");
+        form.setCategory("category3");
+        SalesReportData data = salesReportDto.getData(form);
+        assertEquals(
+                LocalDateTime
+                        .now()
+                        .minusDays(10L)
+                        .toLocalDate()
+                        .format(
+                                DateTimeFormatter
+                                        .ofPattern("dd/MM/yyyy")),
+                data.getStartDate()
+        );
+
     }
 
     @Test
@@ -180,11 +224,41 @@ public class SalesReportDtoTest extends AbstractUnitTest {
                                         .ofPattern("dd/MM/yyyy")),
                 data.getStartDate()
         );
-//        assertEquals("98.01", data.getTotalRevenue());
+
     }
 
+    @Test
+    public void testGetDataBrandCategoryInvalid() throws ApiException {
+        List<Integer> orderIds = createOrders(1,2);
+        SalesReportForm form = new SalesReportForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now());
+        form.setBrand("brand3");
+        form.setCategory("category3");
+        SalesReportData data = salesReportDto.getData(form);
+        assertEquals(
+                LocalDateTime
+                        .now()
+                        .minusDays(10L)
+                        .toLocalDate()
+                        .format(
+                                DateTimeFormatter
+                                        .ofPattern("dd/MM/yyyy")),
+                data.getStartDate()
+        );
+    }
     @Test(expected = ApiException.class)
-    public void testValidateDateInvalid() throws ApiException {
+    public void testGetDataStartDateInvalid() throws ApiException {
+        createOrders(1, 2);
+        SalesReportForm form = new SalesReportForm();
+        form.setStartDate(LocalDateTime.now().minusYears(10L));
+        form.setEndDate(LocalDateTime.now().plusMinutes(10L));
+        form.setBrand("");
+        form.setCategory("");
+        SalesReportData data = salesReportDto.getData(form);
+    }
+    @Test(expected = ApiException.class)
+    public void testValidateEndDateInvalid() throws ApiException {
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now().plusDays(20L));

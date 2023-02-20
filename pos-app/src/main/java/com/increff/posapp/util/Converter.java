@@ -15,6 +15,8 @@ import java.util.List;
 
 
 public class Converter {
+
+	private Converter(){}
 	private static final Logger logger = Logger.getLogger(Converter.class);
 	public static BrandData convertToBrandData(BrandPojo p) {
 		BrandData d = new BrandData();

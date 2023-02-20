@@ -1,7 +1,6 @@
 package com.increff.posapp.util;
 
 public class UserPrincipal {
-
 	private int id;
 	private String email;
 	private String role;

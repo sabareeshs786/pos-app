@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InventoryDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.increff.posapp.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: InventoryDto (com.increff.posapp.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InventoryDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.6%
+  </span>
+  <span class="absValue">
+    (1/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.posapp.dto;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import com.increff.posapp.util.Converter;
+&nbsp;import com.increff.posapp.util.Normalizer;
+&nbsp;import com.increff.posapp.util.Validator;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import com.increff.posapp.model.InventoryData;
+&nbsp;import com.increff.posapp.model.InventoryForm;
+&nbsp;import com.increff.posapp.pojo.InventoryPojo;
+&nbsp;import com.increff.posapp.pojo.ProductPojo;
+&nbsp;import com.increff.posapp.service.ApiException;
+&nbsp;import com.increff.posapp.service.InventoryService;
+&nbsp;import com.increff.posapp.service.ProductService;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;public class InventoryDto {</b>
+&nbsp;	
+&nbsp;	@Autowired
+&nbsp;	private InventoryService inventoryService;
+&nbsp;	
+&nbsp;	@Autowired
+&nbsp;	private ProductService productService;
+&nbsp;	
+&nbsp;	public InventoryData add(InventoryForm form) throws ApiException, IllegalAccessException {
+<b class="nc">&nbsp;		Validator.validate(form);</b>
+<b class="nc">&nbsp;		Normalizer.normalize(form);</b>
+<b class="nc">&nbsp;		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</b>
+<b class="nc">&nbsp;		Integer productId = productPojo.getId();</b>
+<b class="nc">&nbsp;		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);</b>
+<b class="nc">&nbsp;		return Converter.convertToInventoryData(inventoryService.add(inventoryPojo),productPojo.getBarcode());</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private Page&lt;InventoryData&gt; getByProductId(Integer productId) throws ApiException {
+<b class="nc">&nbsp;		Validator.isEmpty(&quot;Product id&quot;, productId);</b>
+<b class="nc">&nbsp;		InventoryPojo inventoryPojo = inventoryService.getByProductId(productId);</b>
+<b class="nc">&nbsp;		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</b>
+<b class="nc">&nbsp;		List&lt;InventoryData&gt; list = new ArrayList&lt;InventoryData&gt;();</b>
+<b class="nc">&nbsp;		list.add(Converter.convertToInventoryData(inventoryPojo, productPojo.getBarcode()));</b>
+<b class="nc">&nbsp;		return new PageImpl&lt;&gt;(list, PageRequest.of(0,1), 1);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private Page&lt;InventoryData&gt; getAll(Integer page, Integer size) throws ApiException{
+<b class="nc">&nbsp;		Validator.isEmpty(&quot;Page&quot;, page);</b>
+<b class="nc">&nbsp;		Validator.isEmpty(&quot;Size&quot;, size);</b>
+<b class="nc">&nbsp;		Page&lt;InventoryPojo&gt; pojoPage = inventoryService.getAllByPage(page, size);</b>
+<b class="nc">&nbsp;		List&lt;InventoryPojo&gt; listInventoryPojo = pojoPage.getContent();</b>
+<b class="nc">&nbsp;		List&lt;InventoryData&gt; list = new ArrayList&lt;InventoryData&gt;();</b>
+<b class="nc">&nbsp;		for(InventoryPojo inventoryPojo: listInventoryPojo) {</b>
+<b class="nc">&nbsp;			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());</b>
+<b class="nc">&nbsp;			String barcode = productPojo.getBarcode();</b>
+<b class="nc">&nbsp;			list.add(Converter.convertToInventoryData(inventoryPojo, barcode));</b>
+<b class="nc">&nbsp;		}</b>
+<b class="nc">&nbsp;		return new PageImpl&lt;&gt;(list, PageRequest.of(page, size), pojoPage.getTotalElements());</b>
+&nbsp;	}
+&nbsp;	
+&nbsp;	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException, IllegalAccessException {
+<b class="nc">&nbsp;		Validator.isEmpty(&quot;Id&quot;, id);</b>
+<b class="nc">&nbsp;		Validator.validate(form);</b>
+<b class="nc">&nbsp;		Normalizer.normalize(form);</b>
+<b class="nc">&nbsp;		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());</b>
+<b class="nc">&nbsp;		Integer productId = productPojo.getId();</b>
+<b class="nc">&nbsp;		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);</b>
+<b class="nc">&nbsp;		return Converter.convertToInventoryData(</b>
+<b class="nc">&nbsp;				inventoryService.updateByProductId(inventoryPojo),</b>
+<b class="nc">&nbsp;				productPojo.getBarcode()</b>
+&nbsp;		);
+&nbsp;	}
+&nbsp;
+&nbsp;	public Page&lt;InventoryData&gt; getData(Integer productId, Integer page, Integer size) throws ApiException {
+<b class="nc">&nbsp;		if(productId == null &amp;&amp; page != null &amp;&amp; size != null){</b>
+<b class="nc">&nbsp;			return getAll(page, size);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		else if (productId != null){</b>
+<b class="nc">&nbsp;			return getByProductId(productId);</b>
+&nbsp;		}
+&nbsp;		else {
+<b class="nc">&nbsp;			throw new ApiException(&quot;Invalid request&quot;);</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-20 15:35</div>
+</div>
+</body>
+</html>

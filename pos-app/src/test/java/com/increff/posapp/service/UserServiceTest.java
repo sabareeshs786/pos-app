@@ -89,4 +89,17 @@ public class UserServiceTest extends AbstractUnitTest {
         assertNull(userService.get("raj@gmail.com"));
     }
 
+    @Test
+    public void testUpdate() throws ApiException {
+        UserPojo pojo1 = addUser();
+        UserPojo pojo = new UserPojo();
+        pojo.setEmail("user2@gmail.com");
+        pojo.setPassword("12345");
+        pojo.setRole("supervisor");
+        UserPojo pojo2 = userService.update(pojo1.getId(), pojo);
+        assertEquals("user2@gmail.com", pojo2.getEmail());
+        assertEquals("12345", pojo2.getPassword());
+        assertEquals("supervisor", pojo2.getRole());
+    }
+
 }

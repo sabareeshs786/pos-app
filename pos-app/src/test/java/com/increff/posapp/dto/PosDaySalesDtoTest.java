@@ -1,21 +1,23 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.*;
-import com.increff.posapp.model.SalesReportData;
-import com.increff.posapp.model.SalesReportForm;
+import com.increff.posapp.model.PosDaySalesForm;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.support.CronSequenceGenerator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class PosDaySalesDtoTest extends AbstractUnitTest {
 
@@ -68,16 +70,38 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         }
     }
 
-    private List<Integer> createOrders(Integer s, Integer e){
+    private List<Integer> createOrdersYesterday(Integer s, Integer e){
         createInventory();
         List<Integer> list = new ArrayList<>();
         for(int i=1; i<=2; i++) {
             OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
+            orderPojo.setTime(ZonedDateTime.of(LocalDateTime.now().minusDays(1L),
+                    ZoneId.of("Asia/Kolkata")));
             OrderPojo orderPojo1 = (OrderPojo) orderDao.insert(orderPojo);
             list.add(orderPojo1.getId());
             for (int j = s; j <= e; j++) {
                 OrderItemPojo pojo = new OrderItemPojo();
-                pojo.setOrderId(orderPojo.getId());
+                pojo.setOrderId(orderPojo1.getId());
+                pojo.setProductId(productDao.selectByBarcode("barcode" + j).getId());
+                pojo.setQuantity(2);
+                pojo.setSellingPrice(98.01);
+                orderItemDao.insert(pojo);
+            }
+        }
+        return list;
+    }
+
+    private List<Integer> createOrdersYesterdayAnother(Integer s, Integer e){
+        List<Integer> list = new ArrayList<>();
+        for(int i=1; i<=2; i++) {
+            OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
+            orderPojo.setTime(ZonedDateTime.of(LocalDateTime.now()
+                    .plusDays(1L), ZoneId.of("Asia/Kolkata")));
+            OrderPojo orderPojo1 = (OrderPojo) orderDao.insert(orderPojo);
+            list.add(orderPojo1.getId());
+            for (int j = s; j <= e; j++) {
+                OrderItemPojo pojo = new OrderItemPojo();
+                pojo.setOrderId(orderPojo1.getId());
                 pojo.setProductId(productDao.selectByBarcode("barcode" + j).getId());
                 pojo.setQuantity(2);
                 pojo.setSellingPrice(98.01);
@@ -88,19 +112,65 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testUpdateSchedulerNoOrders() throws ApiException {
-        posDaySalesDto.updateScheduler();
+    public void testUpdateScheduler() throws ApiException, InterruptedException {
+        createOrdersYesterday(1,2);
+        Thread.sleep(1000);
+        posDaySalesDto.updatePosDaySalesTable();
+        createOrdersYesterdayAnother(1, 2);
+        CronSequenceGenerator cronSequenceGenerator = new CronSequenceGenerator("0 0 0 * * ?");
+        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
+        Date nextExecutionTime = cronSequenceGenerator.next(new Date());
+        long delay = nextExecutionTime.getTime() - System.currentTimeMillis();
+        scheduledExecutorService.schedule(() ->{
+                    try{
+                        posDaySalesDto.updatePosDaySalesTable();
+                    }
+                    catch (ApiException ex){
+                        //
+                    }
+        }, delay, TimeUnit.MILLISECONDS);
     }
 
     @Test
-    public void testUpdateScheduler() throws ApiException {
-        createOrders(1,2);
-        posDaySalesDto.updateScheduler();
-    }
-
-    @Test
-    public void testGetAll(){
-        createOrders(1,2);
+    public void testGetAll() throws InterruptedException, ApiException {
+        createOrdersYesterday(1,2);
+        Thread.sleep(1000);
+        posDaySalesDto.updatePosDaySalesTable();
+        createOrdersYesterdayAnother(1,2);
+        Thread.sleep(1200);
+        posDaySalesDto.updatePosDaySalesTable();
         posDaySalesDto.getAll();
     }
+
+    @Test
+    public void testGetData() throws ApiException, InterruptedException {
+        createOrdersYesterday(1,2);
+        Thread.sleep(1000);
+        posDaySalesDto.updatePosDaySalesTable();
+        createOrdersYesterdayAnother(1,2);
+        Thread.sleep(1200);
+        posDaySalesDto.updatePosDaySalesTable();
+
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusDays(2L));
+        form.setEndDate(LocalDateTime.now());
+        posDaySalesDto.getData(form);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataInvalidStartDate() throws ApiException {
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusYears(3L));
+        form.setEndDate(LocalDateTime.MAX);
+        posDaySalesDto.getData(form);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataInvalidEndDate() throws ApiException {
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now().plusDays(2L));
+        posDaySalesDto.getData(form);
+    }
+
 }

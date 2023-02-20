@@ -7,10 +7,7 @@ import java.lang.reflect.Field;
 
 public class Normalizer {
 
-    public static void inventoryFormNormalizer(InventoryForm form) throws ApiException {
-        form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
-    }
-
+    private Normalizer() {}
     public static void normalize(Object o) throws IllegalAccessException {
         Field[] fields = o.getClass().getDeclaredFields();
         for(Field field: fields){

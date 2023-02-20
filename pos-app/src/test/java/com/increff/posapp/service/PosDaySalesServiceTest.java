@@ -42,4 +42,12 @@ public class PosDaySalesServiceTest extends AbstractUnitTest {
         List<PosDaySalesPojo> pojos = posDaySalesService.getAllByPage(0, 5).getContent();
         assertTrue(pojos.size() <= 5);
     }
+
+    @Test
+    public void testGetByInterval(){
+        ZonedDateTime startDate = ZonedDateTime.of(LocalDateTime.now().minusDays(12L),
+                ZoneId.of("Asia/Kolkata"));
+        ZonedDateTime endDate = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Asia/Kolkata"));
+        List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(startDate, endDate);
+    }
 }

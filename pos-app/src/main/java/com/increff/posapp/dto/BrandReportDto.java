@@ -48,6 +48,12 @@ public class BrandReportDto extends InventoryDto{
             }
             return (T) list;
         }
+        else if(page == null){
+            throw new ApiException("Page can't be empty");
+        }
+        else if(size == null){
+            throw new ApiException("Size can't be empty");
+        }
         else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
             Page<BrandPojo> brandPojoPage = brandService.getAllByPage(page, size);
             return (T) getPage(brandPojoPage, page, size);
@@ -65,6 +71,7 @@ public class BrandReportDto extends InventoryDto{
             Page<BrandPojo> brandPojoPage = brandService.getByCategory(category, page, size);
             return (T) getPage(brandPojoPage, page, size);
         }
+
     }
 
     private Page<BrandData> getPage(Page<BrandPojo> brandPojoPage, Integer page, Integer size){

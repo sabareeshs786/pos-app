@@ -67,6 +67,16 @@ public class ProductServiceTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
+    public void testValidateBarcodeNotAlNum() throws ApiException {
+        ProductPojo p = new ProductPojo();
+        p.setBarcode("G6./&6gr1");
+        p.setName("prodname1");
+        p.setBrandCategory(addBrand().getId());
+        p.setMrp(200.65);
+        productService.add(p);
+    }
+
+    @Test(expected = ApiException.class)
     public void testValidateProductNameNull() throws ApiException {
         ProductPojo p = new ProductPojo();
         p.setBarcode("7hjyuakja");
@@ -86,10 +96,20 @@ public class ProductServiceTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
+    public void testValidateProductNameNotAlNum() throws ApiException {
+        ProductPojo p = new ProductPojo();
+        p.setBarcode("ghu6583");
+        p.setName("12$Nm/.,8*");
+        p.setBrandCategory(1);
+        p.setMrp(200.65);
+        productService.add(p);
+    }
+
+    @Test(expected = ApiException.class)
     public void testValidateBrandCategoryNull() throws ApiException {
         ProductPojo p = new ProductPojo();
         p.setBarcode("oiuaif687");
-        p.setName("prodnameaddBrand().getId()");
+        p.setName("prodname1");
         p.setBrandCategory(null);
         p.setMrp(200.65);
         productService.add(p);

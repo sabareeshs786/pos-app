@@ -75,6 +75,12 @@ public class InventoryReportDto extends InventoryDto{
             }
             return (T) inventoryReportDataList;
         }
+        else if(page == null){
+            throw new ApiException("Page can't be empty");
+        }
+        else if(size == null){
+            throw new ApiException("Size can't be empty");
+        }
         else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());

@@ -11,6 +11,8 @@ https://stackoverflow.com/questions/4664893/how-to-manually-set-an-authenticated
 */
 public class SecurityUtil {
 
+	private SecurityUtil() {}
+
 	public static void createContext(HttpSession session) {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);

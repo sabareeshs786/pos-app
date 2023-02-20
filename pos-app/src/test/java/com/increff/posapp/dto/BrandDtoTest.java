@@ -2,6 +2,7 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.model.BrandForm;
+import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
@@ -22,7 +23,6 @@ public class BrandDtoTest extends AbstractUnitTest {
         BrandForm form = new BrandForm();
         form.setBrand("brand1");
         form.setCategory("category1");
-        System.out.println("BrandDto="+brandDto);
         return brandDto.add(form);
     }
     @Test
@@ -34,6 +34,47 @@ public class BrandDtoTest extends AbstractUnitTest {
         assertNotNull(data.getId());
     }
 
+    @Test(expected = ApiException.class)
+    public void testAddBrandNull() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand(null);
+        brandDto.add(form);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddBrandEmpty() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand("");
+        brandDto.add(form);
+    }
+    @Test(expected = ApiException.class)
+    public void testAddBrandNotAlNum() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand("/*76%$fftad...");
+        brandDto.add(form);
+    }
+    @Test(expected = ApiException.class)
+    public void testAddCategoryNull() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand("brand1");
+        form.setCategory(null);
+        brandDto.add(form);
+    }
+    @Test(expected = ApiException.class)
+    public void testAddCategoryEmpty() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand("brand1");
+        form.setCategory("");
+        brandDto.add(form);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddCategoryNotAlNum() throws ApiException, IllegalAccessException {
+        BrandForm form = new BrandForm();
+        form.setBrand("brand1");
+        form.setCategory("/&$#khihaiuf");
+        brandDto.add(form);
+    }
     @Test
     public void testGetDataIdNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
@@ -45,6 +86,20 @@ public class BrandDtoTest extends AbstractUnitTest {
     public void testGetDataIdNotNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         List<BrandData> dataList = brandDto.getData(data.getId(), null, null).getContent();
+        assertEquals(1, dataList.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataPageNull() throws ApiException, IllegalAccessException {
+        BrandData data = addBrand();
+        List<BrandData> dataList = brandDto.getData(null, null, 4).getContent();
+        assertEquals(1, dataList.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataSizeNull() throws ApiException, IllegalAccessException {
+        BrandData data = addBrand();
+        List<BrandData> dataList = brandDto.getData(null, 0, null).getContent();
         assertEquals(1, dataList.size());
     }
 

@@ -44,6 +44,24 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         assertEquals(3, list.size());
     }
 
+    @Test(expected = ApiException.class)
+    public void testGetBrandReportPageNull() throws ApiException {
+        BrandPojo p1 = addBrand(1);
+        BrandPojo p2 = addBrand(2);
+        BrandPojo p3 = addBrand(3);
+        List<BrandData> list = brandReportDto.getBrandReport("", "", null, 9);
+        assertEquals(3, list.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetBrandReportSizeNull() throws ApiException {
+        BrandPojo p1 = addBrand(1);
+        BrandPojo p2 = addBrand(2);
+        BrandPojo p3 = addBrand(3);
+        List<BrandData> list = brandReportDto.getBrandReport("", "", 0, null);
+        assertEquals(3, list.size());
+    }
+
     @Test
     public void testGetBrandReportBrandNotEmpty() throws ApiException {
         BrandPojo p1 = addBrand(1);

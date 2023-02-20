@@ -7,6 +7,8 @@ import java.lang.reflect.Field;
 
 public class Validator {
 
+	private Validator() {}
+
 	public static void orderFormValidator(OrderForm form) throws ApiException {
 		Integer len = form.getBarcodes().size();
 		for(Integer i=0; i < len; i++){
@@ -28,26 +30,12 @@ public class Validator {
 			if(form.getSellingPrices().get(i) <= 0){
 				throw new ApiException("Selling Price must be greater than zero");
 			}
-		}
-	}
-	public static void orderItemEditFormValidator(OrderItemEditForm form) throws ApiException {
-		if (StringUtil.isEmpty(form.getBarcode())) {
-			throw new ApiException("Barcode cannot be empty");
-		}
-		if(StringUtil.isNotAlNum(form.getBarcode())){
-			throw new ApiException("Only alpha-numeric characters are allowed in the entries");
-		}
-		if (form.getQuantity() == null) {
-			throw new ApiException("Quantity cannot be empty");
-		}
-		if (form.getSellingPrice() == null) {
-			throw new ApiException("Selling price cannot be empty");
-		}
-		if (form.getQuantity() <= 0) {
-			throw new ApiException("Quantity must be greater than zero");
-		}
-		if(form.getSellingPrice() <= 0.0){
-			throw new ApiException("Selling price must be greater than zero");
+			if(form.getSellingPrices().get(i).isNaN()){
+				throw new ApiException("Selling Price is not a number");
+			}
+			if(form.getSellingPrices().get(i).isInfinite()){
+				throw new ApiException("Selling price can't be infinite");
+			}
 		}
 	}
 
@@ -55,14 +43,8 @@ public class Validator {
 		if(StringUtil.isEmpty(s)){
 			throw new ApiException(field + " can't be empty");
 		}
-	}
-
-	public static void validatePageAndSize(Integer page, Integer size) throws ApiException {
-		if(page == null){
-			throw new ApiException("Page value is empty");
-		}
-		if(size == null){
-			throw new ApiException("Size is empty");
+		if(StringUtil.isNotAlNum(s)){
+			throw new ApiException(field + " should contain only alpha-numeric characters");
 		}
 	}
 
@@ -82,7 +64,7 @@ public class Validator {
 			}
 			if(field.getType().getSimpleName().equals("String")){
 				String val = (String) field.get(o);
-				if(val.isEmpty()){
+				if(StringUtil.isEmpty(val)){
 					throw new ApiException(field.getName().substring(0,1).toUpperCase() +
 							field.getName().substring(1) +
 							" can't be empty");
