@@ -2,14 +2,10 @@ package com.increff.posapp.dao;
 
 import com.increff.posapp.pojo.PosDaySalesPojo;
 import com.increff.posapp.service.ApiException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 

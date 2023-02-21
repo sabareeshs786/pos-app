@@ -2,13 +2,10 @@ package com.increff.posapp.service;
 
 import com.increff.posapp.dao.PosDaySalesDao;
 import com.increff.posapp.pojo.PosDaySalesPojo;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLOutput;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class PosDaySalesService {
 		return posDaySalesDao.selectAll(PosDaySalesPojo.class);
 	}
 
-	public Page<PosDaySalesPojo> getAllByPage(Integer page, Integer size){
-		return posDaySalesDao.selectAllByPage(PosDaySalesPojo.class, page, size);
+	public List<PosDaySalesPojo> getAll(Integer page, Integer size){
+		return posDaySalesDao.selectAll(PosDaySalesPojo.class, page, size);
 	}
 }

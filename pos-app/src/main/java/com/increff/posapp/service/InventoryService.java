@@ -5,7 +5,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.InventoryDao;
@@ -36,10 +35,12 @@ public class InventoryService {
 		return inventoryDao.selectAll(InventoryPojo.class);
 	}
 
-	public Page<InventoryPojo> getAllByPage(Integer page, Integer size){
-		return inventoryDao.selectAllByPage(InventoryPojo.class, page, size);
+	public List<InventoryPojo> getAll(Integer page, Integer size){
+		return inventoryDao.selectAll(InventoryPojo.class, page, size);
 	}
-
+	public Long getTotalElements(){
+		return inventoryDao.getTotalElements(InventoryPojo.class);
+	}
 	public InventoryPojo updateByProductId(InventoryPojo inventoryPojo) throws ApiException {
 		validate(inventoryPojo);
 		InventoryPojo ex = getByProductId(inventoryPojo.getProductId());

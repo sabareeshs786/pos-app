@@ -1,10 +1,6 @@
 package com.increff.posapp.dao;
 
-import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.ApiException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,14 +46,17 @@ public abstract class AbstractDao {
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
-	public <T> Page<T> selectAllByPage(Class<T> tClass, Integer page, Integer size){
+	public <T> List<T> selectAll(Class<T> tClass, Integer page, Integer size){
 		TypedQuery<T> query = getQuery(getSelectAllQueryString(tClass), tClass);
 		query.setFirstResult(page*size);
 		query.setMaxResults(size);
 
-		List<T> entities = query.getResultList();
-		Long totalElements = em().createQuery(getSelectAllCount(tClass), Long.class).getSingleResult();
-		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+		return query.getResultList();
+	}
+
+	@Transactional(rollbackOn = ApiException.class)
+	public <T> Long getTotalElements(Class<T> tClass){
+		return em.createQuery(getSelectAllCount(tClass), Long.class).getSingleResult();
 	}
 
 }

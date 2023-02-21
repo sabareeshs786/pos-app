@@ -3,7 +3,6 @@ package com.increff.posapp.service;
 import com.increff.posapp.dao.OrderDao;
 import com.increff.posapp.pojo.OrderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,8 +38,11 @@ public class OrderService {
 		return orderDao.selectAll(OrderPojo.class);
 	}
 
-	public Page<OrderPojo> getAllByPage(Integer page, Integer size){
-		return orderDao.selectAllByPage(OrderPojo.class, page, size);
+	public List<OrderPojo> getAll(Integer page, Integer size){
+		return orderDao.selectAll(OrderPojo.class, page, size);
+	}
+	public Long getTotalElements(){
+		return orderDao.getTotalElements(OrderPojo.class);
 	}
 	public OrderPojo updateById(Integer id, OrderPojo p) throws ApiException {
 		OrderPojo ex = getCheckById(id);

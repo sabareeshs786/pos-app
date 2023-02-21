@@ -11,10 +11,8 @@ import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.*;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
-import com.increff.posapp.util.Normalizer;
 import com.increff.posapp.util.Validator;
 import org.apache.fop.apps.FOPException;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -92,8 +90,7 @@ public class OrderDto {
 	public Page<OrderData> getAll(Integer page, Integer size) throws ApiException {
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
-		Page<OrderPojo> pojoPage = orderService.getAllByPage(page, size);
-		List<OrderPojo> list = pojoPage.getContent();
+		List<OrderPojo> list = orderService.getAll(page, size);
 		List<OrderData> list2 = new ArrayList<OrderData>();
 		Double totalAmount = 0.0;
 		for (OrderPojo orderPojo : list) {
@@ -103,7 +100,7 @@ public class OrderDto {
 			}
 			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
 		}
-		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return new PageImpl<>(list2, PageRequest.of(page, size), orderService.getTotalElements());
 	}
 
 	 @Transactional(rollbackOn = ApiException.class)
@@ -165,8 +162,7 @@ public class OrderDto {
 		Validator.isEmpty("Order id", orderId);
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
-		Page<OrderItemPojo> pojoPage = orderItemService.getPageByOrderId(orderId, page, size);
-		List<OrderItemPojo> orderItemPojoList = pojoPage.getContent();
+		List<OrderItemPojo> orderItemPojoList = orderItemService.getPageByOrderId(orderId, page, size);
 		List<OrderItemData> list = new ArrayList<>();
 		for(OrderItemPojo orderItemPojo:orderItemPojoList){
 			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
@@ -175,7 +171,7 @@ public class OrderDto {
 		return new PageImpl<>(
 				list,
 				PageRequest.of(page, size),
-				pojoPage.getTotalElements()
+				orderItemService.getByOrderIdTotalElements(orderId)
 		);
 	}
 

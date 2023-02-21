@@ -25,16 +25,4 @@ public class SalesReportData{
 		this.totalAmounts = new ArrayList<String>();
 	}
 
-	@Override
-	public String toString() {
-		return "SalesReportData{" +
-				"startDate=" + startDate +
-				", endDate=" + endDate +
-				", brands=" + brands +
-				", categories=" + categories +
-				", quantities=" + quantities +
-				", totalAmounts=" + totalAmounts +
-				", totalRevenue='" + totalRevenue + '\'' +
-				'}';
-	}
 }

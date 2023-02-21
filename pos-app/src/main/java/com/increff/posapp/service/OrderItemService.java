@@ -33,9 +33,12 @@ public class OrderItemService {
 		return getCheckByOrderId(orderId);
 	}
 
-	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
+	public List<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
 		getCheckByOrderId(orderId);
 		return orderItemDao.getPageByOrderId(orderId, page, size);
+	}
+	public Long getByOrderIdTotalElements(Integer orderId){
+		return orderItemDao.getByOrderIdTotalElements(orderId);
 	}
 
 	public Long getTotalInvoicedQuantity(Integer orderId){
@@ -45,10 +48,6 @@ public class OrderItemService {
 	public Double getTotalCost(Integer orderId){
 		return orderItemDao.getTotalCostByOrderId(orderId);
 	}
-
-//	public List<OrderItemPojo> getAll() {
-//		return orderItemDao.selectAll();
-//	}
 
 	// For update
 

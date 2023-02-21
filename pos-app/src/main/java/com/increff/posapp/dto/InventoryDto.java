@@ -50,15 +50,14 @@ public class InventoryDto {
 	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
-		Page<InventoryPojo> pojoPage = inventoryService.getAllByPage(page, size);
-		List<InventoryPojo> listInventoryPojo = pojoPage.getContent();
+		List<InventoryPojo> listInventoryPojo = inventoryService.getAll(page, size);
 		List<InventoryData> list = new ArrayList<InventoryData>();
 		for(InventoryPojo inventoryPojo: listInventoryPojo) {
 			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 			String barcode = productPojo.getBarcode();
 			list.add(Converter.convertToInventoryData(inventoryPojo, barcode));
 		}
-		return new PageImpl<>(list, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return new PageImpl<>(list, PageRequest.of(page, size), inventoryService.getTotalElements());
 	}
 	
 	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException, IllegalAccessException {

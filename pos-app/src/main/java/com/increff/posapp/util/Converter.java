@@ -25,11 +25,7 @@ public class Converter {
 		d.setId(p.getId());
 		return d;
 	}
-	public static Page<BrandPojo> convertToBrandPojoPage(BrandPojo p){
-		List<BrandPojo> brandPojoList = new ArrayList<>();
-		brandPojoList.add(p);
-		return new PageImpl<>(brandPojoList, PageRequest.of(0, 1), 1);
-	}
+
 	public static BrandPojo convertToBrandPojo(BrandForm f) {
 		BrandPojo p = new BrandPojo();
 		p.setBrand(f.getBrand());

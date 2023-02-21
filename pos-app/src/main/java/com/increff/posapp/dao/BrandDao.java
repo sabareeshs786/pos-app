@@ -1,17 +1,12 @@
 package com.increff.posapp.dao;
 
-import java.util.List;
+import com.increff.posapp.pojo.BrandPojo;
+import com.increff.posapp.service.ApiException;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-
-import com.increff.posapp.service.ApiException;
-import org.springframework.stereotype.Repository;
-import com.increff.posapp.pojo.BrandPojo;
+import java.util.List;
 
 @Repository
 @Transactional(rollbackOn = ApiException.class)
@@ -30,22 +25,21 @@ public class BrandDao extends AbstractDao {
 		return getSingle(query);
 	}
 	
-	public Page<BrandPojo> selectByBrand(String brand, Integer page, Integer size) {
+	public List<BrandPojo> selectByBrand(String brand, Integer page, Integer size) {
 
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND, BrandPojo.class);
 		query.setParameter("brand", brand);
+		query.setFirstResult(page*size);
+		query.setMaxResults(size);
 
-		int pageNumber = page;
-		int pageSize = size;
-		int firstResult = pageNumber * pageSize;
-		query.setFirstResult(firstResult);
-		query.setMaxResults(pageSize);
-
-		List<BrandPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(SELECT_BY_BRAND_COUNT, Long.class).setParameter("brand", brand).getSingleResult();
-		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+		return query.getResultList();
 	}
-
+	public Long getBrandTotalElements(String brand){
+		return em()
+				.createQuery(SELECT_BY_BRAND_COUNT, Long.class)
+				.setParameter("brand", brand)
+				.getSingleResult();
+	}
 	public List<BrandPojo> selectByBrand(String brand) {
 
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND, BrandPojo.class);
@@ -54,25 +48,22 @@ public class BrandDao extends AbstractDao {
 		return query.getResultList();
 	}
 	
-	public Page<BrandPojo> selectByCategory(String category, Integer page, Integer size) {
+	public List<BrandPojo> selectByCategory(String category, Integer page, Integer size) {
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);
 		query.setParameter("category", category);
-
-		int pageNumber = page;
-		int pageSize = size;
-		int firstResult = pageNumber * pageSize;
-		query.setFirstResult(firstResult);
-		query.setMaxResults(pageSize);
-
-		List<BrandPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(SELECT_BY_CATEGORY_COUNT, Long.class).setParameter("category", category).getSingleResult();
-		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+		query.setFirstResult(page*size);
+		query.setMaxResults(size);
+		return query.getResultList();
 	}
-
+	public Long getCategoryTotalElements(String category){
+		return em()
+				.createQuery(SELECT_BY_CATEGORY_COUNT, Long.class)
+				.setParameter("category", category)
+				.getSingleResult();
+	}
 	public List<BrandPojo> selectByCategory(String category) {
 		TypedQuery<BrandPojo> query = getQuery(SELECT_BY_CATEGORY, BrandPojo.class);
 		query.setParameter("category", category);
-
 		return query.getResultList();
 	}
 	

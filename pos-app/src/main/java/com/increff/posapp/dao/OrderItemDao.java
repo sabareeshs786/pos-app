@@ -2,12 +2,8 @@ package com.increff.posapp.dao;
 
 import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.service.ApiException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -34,15 +30,20 @@ public class OrderItemDao extends AbstractDao{
 		return query.getResultList();
 	}
 
-	public Page<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {
+	public List<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {
 		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		query.setFirstResult(page*size);
 		query.setMaxResults(size);
 
-		List<OrderItemPojo> entities = query.getResultList();
-		Long totalElements = em().createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class).setParameter("orderId", orderId).getSingleResult();
-		return new PageImpl<>(entities, PageRequest.of(page, size), totalElements);
+		return query.getResultList();
+	}
+
+	public Long getByOrderIdTotalElements(Integer orderId){
+		return em()
+				.createQuery(SELECT_BY_ORDER_ID_COUNT, Long.class)
+				.setParameter("orderId", orderId)
+				.getSingleResult();
 	}
 
 	public Long getInvoicedQuantityByOrderId(Integer orderId){

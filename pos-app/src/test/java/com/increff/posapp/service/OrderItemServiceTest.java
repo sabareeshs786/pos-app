@@ -178,7 +178,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     @Test
     public void testGetPageByOrderId() throws ApiException {
         OrderItemPojo pojo1 = addOrderItem();
-        List<OrderItemPojo> orderItemPojoList = orderItemService.getPageByOrderId(pojo1.getOrderId(), 0, 5).getContent();
+        List<OrderItemPojo> orderItemPojoList = orderItemService.getPageByOrderId(pojo1.getOrderId(), 0, 5);
         assertTrue(orderItemPojoList.size() > 0 && orderItemPojoList.size() <= 5 );
     }
 
@@ -191,13 +191,6 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     public void testTotalCost(){
         Double total = orderItemService.getTotalCost(1000007654);
     }
-
-//    @Test
-//    public void testGetAll() throws ApiException {
-//        addOrderItem();
-//        List<OrderItemPojo> orderItemPojoList = orderItemService.getAll();
-//        assertTrue(orderItemPojoList.size() > 0);
-//    }
 
     @Test
     public void testUpdate() throws ApiException {

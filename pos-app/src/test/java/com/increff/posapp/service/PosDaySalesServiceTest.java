@@ -39,7 +39,7 @@ public class PosDaySalesServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetAllByPage(){
-        List<PosDaySalesPojo> pojos = posDaySalesService.getAllByPage(0, 5).getContent();
+        List<PosDaySalesPojo> pojos = posDaySalesService.getAll(0, 5);
         assertTrue(pojos.size() <= 5);
     }
 

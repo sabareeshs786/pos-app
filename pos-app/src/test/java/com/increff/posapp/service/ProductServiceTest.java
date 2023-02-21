@@ -1,17 +1,14 @@
 package com.increff.posapp.service;
 
 import com.increff.posapp.model.BrandData;
-import com.increff.posapp.model.ProductData;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.ProductPojo;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -255,7 +252,7 @@ public class ProductServiceTest extends AbstractUnitTest {
     @Test
     public void testGetAllByPage() throws ApiException {
         ProductPojo pojo1 = addProduct();
-        List<ProductPojo> productPojoList = productService.getAllByPage(0,5).getContent();
+        List<ProductPojo> productPojoList = productService.getAll(0,5);
         assertTrue(productPojoList.size() > 0 && productPojoList.size() <= 5);
     }
 

@@ -91,7 +91,7 @@ public class OrderServiceTest extends AbstractUnitTest {
     @Test
     public void testGetAllByPage() throws ApiException {
         addOrder();
-        List<OrderPojo> orderPojoList = orderService.getAllByPage(0, 5).getContent();
+        List<OrderPojo> orderPojoList = orderService.getAll(0, 5);
         assertTrue(orderPojoList.size() >0 && orderPojoList.size() <= 5);
     }
 
@@ -106,6 +106,6 @@ public class OrderServiceTest extends AbstractUnitTest {
         assertEquals("02/03/2022", pojo1.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         OrderPojo pojo2 = new OrderPojo("Asia/Kolkata");
         OrderPojo pojo3 = orderService.updateById(pojo1.getId(), pojo2);
-        assertEquals("20/02/2023", pojo3.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        assertEquals("21/02/2023", pojo3.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 }

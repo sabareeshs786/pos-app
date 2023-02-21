@@ -58,12 +58,11 @@ public class BrandDto {
 	}
 
 	private Page<BrandData> getAll(Integer page, Integer size) throws ApiException {
-		Page<BrandPojo> pojoPage = brandService.getAllByPage(page, size);
-		List<BrandPojo> brandPojoList = pojoPage.getContent();
+		List<BrandPojo> brandPojoList = brandService.getAll(page, size);
 		List<BrandData> listBrandData = new ArrayList<>();
 		for(BrandPojo p: brandPojoList) {
 			listBrandData.add(Converter.convertToBrandData(p));
 		}
-		return new PageImpl<>(listBrandData, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return new PageImpl<>(listBrandData, PageRequest.of(page, size), brandService.getTotalElements());
 	}
 }

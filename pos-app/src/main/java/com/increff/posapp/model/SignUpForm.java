@@ -9,8 +9,6 @@ import javax.validation.constraints.Size;
 @Setter
 public class SignUpForm {
 
-	@Size(min = 5, max = 20)
 	private String email;
-	@Size(min = 8, max = 50)
 	private String password;
 }

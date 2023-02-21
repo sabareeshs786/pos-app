@@ -301,8 +301,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		Page<BrandPojo> pojoPage = brandService.getByBrand(p.getBrand(), 0, 5);
-		List<BrandPojo> pojoList = pojoPage.getContent();
+		List<BrandPojo> pojoList = brandService.getByBrand(p.getBrand(), 0, 5);
 		assertTrue(pojoList.size() <= 5);
 	}
 
@@ -312,7 +311,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		Page<BrandPojo> pojoPage = brandService.getByBrand("brand2", 0, 5);
+		brandService.getByBrand("brand2", 0, 5);
 	}
 
 	@Test(expected = ApiException.class)
@@ -348,8 +347,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		Page<BrandPojo> pojoPage = brandService.getByCategory(p.getCategory(),0, 5);
-		List<BrandPojo> pojoList = pojoPage.getContent();
+		List<BrandPojo> pojoList = brandService.getByCategory(p.getCategory(),0, 5);
 		assertTrue(pojoList.size() <= 5);
 	}
 
@@ -359,7 +357,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		Page<BrandPojo> pojoPage = brandService.getByCategory("category2", 0, 5);
+		brandService.getByCategory("category2", 0, 5);
 	}
 
 	@Test(expected = ApiException.class)
@@ -386,8 +384,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		Page<BrandPojo> pojoPage = brandService.getAllByPage(0,5);
-		List<BrandPojo> pojoList = pojoPage.getContent();
+		List<BrandPojo> pojoList = brandService.getAll(0,5);
 		assertTrue(pojoList.size() <= 5);
 	}
 
@@ -397,7 +394,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
-		brandService.getAllByPage(null,null);
+		brandService.getAll(null,null);
 	}
 
 

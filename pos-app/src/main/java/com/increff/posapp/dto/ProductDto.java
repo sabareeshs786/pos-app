@@ -82,8 +82,7 @@ public class ProductDto {
 	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
 		Validator.isEmpty("Page",page);
 		Validator.isEmpty("Size", size);
-		Page<ProductPojo> pojoPage = productService.getAllByPage(page, size);
-		List<ProductPojo> list = pojoPage.getContent();
+		List<ProductPojo> list =  productService.getAll(page, size);
 		List<ProductData> list2 = new ArrayList<>();
 		for (ProductPojo productPojo : list) {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -98,7 +97,7 @@ public class ProductDto {
 				list2.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));
 			}
 		}
-		return new PageImpl<>(list2, PageRequest.of(page, size), pojoPage.getTotalElements());
+		return new PageImpl<>(list2, PageRequest.of(page, size), productService.getTotalElements());
 	}
 	
 	public ProductData updateById(Integer id, ProductForm form) throws ApiException, IllegalAccessException {

@@ -4,9 +4,7 @@ import com.increff.posapp.model.BrandData;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.ProductPojo;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -104,7 +102,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
     @Test
     public void testGetAllByPage() throws ApiException {
         addProductInInventory();
-        List<InventoryPojo> inventoryPojoList = inventoryService.getAllByPage(0,5).getContent();
+        List<InventoryPojo> inventoryPojoList = inventoryService.getAll(0,5);
         assertTrue(inventoryPojoList.size() > 0 && inventoryPojoList.size() <= 5);
     }
 }

@@ -1,16 +1,11 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.model.BrandData;
-import com.increff.posapp.model.InventoryData;
-import com.increff.posapp.model.InventoryReportData;
 import com.increff.posapp.pojo.BrandPojo;
-import com.increff.posapp.pojo.ProductPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.BrandService;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.StringUtil;
-import com.increff.posapp.util.Validator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -55,33 +50,33 @@ public class BrandReportDto extends InventoryDto{
             throw new ApiException("Size can't be empty");
         }
         else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
-            Page<BrandPojo> brandPojoPage = brandService.getAllByPage(page, size);
-            return (T) getPage(brandPojoPage, page, size);
+            List<BrandPojo> brandList = brandService.getAll(page, size);
+            return (T) getPage(brandList, page, size, brandService.getTotalElements());
         }
         else if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
             BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);
-            Page<BrandPojo> brandPojoPage = Converter.convertToBrandPojoPage(brandPojo);
-            return (T) getPage(brandPojoPage, 0, 1);
+            List<BrandData> list = new ArrayList<>();
+            list.add(Converter.convertToBrandData(brandPojo));
+            return (T) new PageImpl<>(list, PageRequest.of(page, size), 1 );
         }
         else if(!StringUtil.isEmpty(brand)){
-            Page<BrandPojo> brandPojoPage = brandService.getByBrand(brand, page, size);
-            return (T) getPage(brandPojoPage, page, size);
+            List<BrandPojo> brandPojoList = brandService.getByBrand(brand, page, size);
+            return (T) getPage(brandPojoList, page, size, brandService.getByBrandTotalElements(brand));
         }
         else {
-            Page<BrandPojo> brandPojoPage = brandService.getByCategory(category, page, size);
-            return (T) getPage(brandPojoPage, page, size);
+            List<BrandPojo> brandList = brandService.getByCategory(category, page, size);
+            return (T) getPage(brandList, page, size,
+                    brandService.getCategoryTotalElements(category));
         }
-
     }
 
-    private Page<BrandData> getPage(Page<BrandPojo> brandPojoPage, Integer page, Integer size){
+    private Page<BrandData> getPage(List<BrandPojo> brandList, Integer page, Integer size, Long totalElements){
         List<BrandData> listBrandData = new ArrayList<>();
-        List<BrandPojo> brandPojoList = brandPojoPage.getContent();
-        for(BrandPojo p: brandPojoList) {
+        for(BrandPojo p: brandList) {
             listBrandData.add(Converter.convertToBrandData(p));
         }
         return new PageImpl<>(listBrandData,
                 PageRequest.of(page, size),
-                brandPojoPage.getTotalElements());
+                totalElements);
     }
 }
