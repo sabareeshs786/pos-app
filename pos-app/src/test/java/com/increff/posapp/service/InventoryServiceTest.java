@@ -21,7 +21,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
     @Autowired
     private InventoryService inventoryService;
 
-    private BrandData addBrand() throws ApiException {
+    private BrandPojo addBrand() throws ApiException {
         BrandPojo p = new BrandPojo();
         p.setBrand("brand1");
         p.setCategory("category1");

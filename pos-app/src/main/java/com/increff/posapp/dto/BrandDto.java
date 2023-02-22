@@ -27,7 +27,7 @@ public class BrandDto {
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		BrandPojo brandPojo = Converter.convertToBrandPojo(form);
-		return brandService.add(brandPojo);
+		return Converter.convertToBrandData(brandService.add(brandPojo));
 	}
 
 	public Page<BrandData> getData(Integer id, Integer page, Integer size) throws ApiException {

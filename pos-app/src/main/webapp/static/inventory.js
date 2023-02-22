@@ -84,6 +84,14 @@ var fileData = [];
 var errorData = [];
 var processCount = 0;
 
+function isValid(uploadObject) {
+	if(uploadObject.hasOwnProperty('barcode') &&
+		uploadObject.hasOwnProperty('quantity') &&
+		Object.keys(uploadObject).length==2){
+			return true;
+	}
+	return false;
+}
 
 function processData(){
 	var file = $('#inventoryFile')[0].files[0];
@@ -92,7 +100,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results;
-	uploadRows();
+	if(isValid(fileData[0])){
+		uploadRows();
+	}
+	else{
+		$("#error-message").notify("Invalid file", "error");
+	}
 }
 
 function uploadRows(){
@@ -127,7 +140,7 @@ function uploadRows(){
 	   error: function(response){
 	   		row.error=response.responseText;
 	   		errorData.push(row);
-	   		updateUploadDialog();
+	   		uploadRows();
 	   }
 	});
 

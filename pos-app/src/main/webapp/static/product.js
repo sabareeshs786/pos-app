@@ -82,6 +82,17 @@ var fileData = [];
 var errorData = [];
 var processCount = 0;
 
+function isValid(uploadObject) {
+	if(uploadObject.hasOwnProperty('barcode') &&
+		uploadObject.hasOwnProperty('brand') &&
+		uploadObject.hasOwnProperty('category') &&
+		uploadObject.hasOwnProperty('name') &&
+		uploadObject.hasOwnProperty('mrp') &&
+		Object.keys(uploadObject).length==5){
+			return true;
+	}
+	return false;
+}
 
 function processData(){
 	var file = $('#productFile')[0].files[0];
@@ -90,8 +101,12 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results;
-	console.log("File data; "+fileData);
-	uploadRows();
+	if(isValid(fileData[0])){
+		uploadRows();
+	}
+	else{
+		$("#error-message").notify("Invalid file", "error");
+	}
 }
 
 function uploadRows(){
@@ -124,7 +139,7 @@ function uploadRows(){
 	   error: function(response){
 	   		row.error=response.responseText;
 	   		errorData.push(row);
-			updateUploadDialog();
+			uploadRows();
 	   }
 	});
 

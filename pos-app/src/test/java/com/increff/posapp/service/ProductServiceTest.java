@@ -22,14 +22,14 @@ public class ProductServiceTest extends AbstractUnitTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private BrandData addBrand() throws ApiException {
+    private BrandPojo addBrand() throws ApiException {
         BrandPojo p = new BrandPojo();
         p.setBrand("brand1");
         p.setCategory("category1");
         return brandService.add(p);
     }
 
-    private BrandData addBrandAnother() throws ApiException {
+    private BrandPojo addBrandAnother() throws ApiException {
         BrandPojo p = new BrandPojo();
         p.setBrand("brand2");
         p.setCategory("category2");
@@ -203,13 +203,13 @@ public class ProductServiceTest extends AbstractUnitTest {
         BrandPojo brandPojo = new BrandPojo();
         brandPojo.setBrand("BrandName1");
         brandPojo.setCategory("Category1");
-        BrandData brandData = brandService.add(brandPojo);
+        BrandPojo brandPojo1 = brandService.add(brandPojo);
         productPojo.setBarcode("asfgfhj");
-        productPojo.setBrandCategory(brandData.getId());
+        productPojo.setBrandCategory(brandPojo1.getId());
         productPojo.setName("Product1");
         productPojo.setMrp(667.654);
         ProductPojo pojo = productService.add(productPojo);
-        assertEquals(brandData.getId(), productPojo.getBrandCategory());
+        assertEquals(brandPojo1.getId(), productPojo.getBrandCategory());
         assertEquals("asdfgfhj", pojo.getBarcode());
         assertEquals("product1", pojo.getName());
         assertEquals("667.65", pojo.getMrp().toString());

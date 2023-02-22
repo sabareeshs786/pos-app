@@ -84,6 +84,14 @@ var fileData = [];
 var errorData = [];
 var processCount = 0;
 
+function isValid(uploadObject) {
+	if(uploadObject.hasOwnProperty('brand') &&
+		uploadObject.hasOwnProperty('category') &&
+		Object.keys(uploadObject).length==2){
+			return true;
+	}
+	return false;
+}
 
 function processData(){
 	var file = $('#brandFile')[0].files[0];
@@ -93,16 +101,20 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results;
-	console.log(fileData);
-	uploadRows();
+	if(isValid(fileData[0])){
+		console.log(fileData);
+		uploadRows();
+	}
+	else{
+		$("#error-message").notify("Invalid file", "error");
+	}
 }
 
-function uploadRows(response){
+function uploadRows(){
 	//Update progress
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		$.notify(response, "success");
 		getBrandListUtil();
 		return;
 	}
@@ -123,12 +135,12 @@ function uploadRows(response){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		uploadRows(response);
+	   		uploadRows();
 	   },
 	   error: function(response){
 	   		row.error=response.responseText;
 	   		errorData.push(row);
-	   		updateUploadDialog();
+			uploadRows();
 	   }
 	});
 }

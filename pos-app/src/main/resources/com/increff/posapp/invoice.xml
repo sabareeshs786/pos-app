@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <invoice>
-    <date>15/02/2023</date>
-    <orderId>1</orderId>
+    <date>22/02/2023</date>
+    <orderId>28</orderId>
     <item>
-        <productName>iphone 14 pro</productName>
-        <quantity>1</quantity>
-        <mrp>200765.97</mrp>
-        <sellingPrice>200765.97</sellingPrice>
+        <productName>product1</productName>
+        <quantity>2</quantity>
+        <mrp>123.45</mrp>
+        <sellingPrice>120.68</sellingPrice>
     </item>
-    <total>200765.97</total>
+    <item>
+        <productName>product2</productName>
+        <quantity>2</quantity>
+        <mrp>12.45</mrp>
+        <sellingPrice>10.78</sellingPrice>
+    </item>
+    <total>262.92</total>
 </invoice>

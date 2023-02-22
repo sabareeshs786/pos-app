@@ -21,10 +21,10 @@ public class BrandService {
 	@Autowired
 	private BrandDao dao;
 
-	public BrandData add(BrandPojo p) throws ApiException {
+	public BrandPojo add(BrandPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
-		return Converter.convertToBrandData((BrandPojo) dao.insert(p));
+		return (BrandPojo) dao.insert(p);
 	}
 
 	public BrandPojo getById(int id) throws ApiException {

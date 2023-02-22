@@ -5,28 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/utils/DoubleUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/base64encoder/PdfService.java" beforeDir="false" afterPath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/base64encoder/PdfService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/models/InvoiceItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/models/InvoiceItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/models/InvoiceList.java" beforeDir="false" afterPath="$PROJECT_DIR$/invoice-app/src/main/java/com/increff/invoiceapp/models/InvoiceList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/css/coverage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/css/idea.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/img/arrowDown.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/img/arrowUp.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_BLOCK.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_BLOCK_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_CLASS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_CLASS_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_LINE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_LINE_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_METHOD.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_METHOD_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_NAME_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/js/highlight.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/js/highlightjs-line-numbers.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_BLOCK.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_BLOCK_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_CLASS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_CLASS_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_LINE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_LINE_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_METHOD.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_METHOD_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_NAME_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-8.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandReportDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandReportDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/PosDaySalesDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/PosDaySalesDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/BrandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/BrandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/brand.tsv" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/brand.tsv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xsl" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/salesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/salesreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/OrderDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/OrderDtoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/BrandServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/BrandServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/InventoryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/InventoryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/ProductServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

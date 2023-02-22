@@ -111,9 +111,9 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("\r\t  BraNd1   \n");
 		p.setCategory("\n   CaTeGoRy1  \t");
-		BrandData brandData = brandService.add(p);
-		assertEquals("brand1", brandData.getBrand());
-		assertEquals("category1", brandData.getCategory());
+		BrandPojo pojo = brandService.add(p);
+		assertEquals("brand1", pojo.getBrand());
+		assertEquals("category1", pojo.getCategory());
 	}
 
 	@Test(expected = ApiException.class)
@@ -121,7 +121,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand(null);
 		p.setCategory("c1");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -129,7 +129,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory(null);
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -137,7 +137,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand(null);
 		p.setCategory(null);
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -145,7 +145,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("");
 		p.setCategory("c1");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -153,7 +153,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("b1");
 		p.setCategory("");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -161,7 +161,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("");
 		p.setCategory("");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 	}
 
 	@Test
@@ -169,8 +169,8 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
-		assertNotNull(brandData.getId());
+		BrandPojo brandPojo = brandService.add(p);
+		assertNotNull(brandPojo.getId());
 	}
 
 	@Test
@@ -178,8 +178,8 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
-		BrandPojo pojo = brandService.getById(brandData.getId());
+		BrandPojo brandPojo = brandService.add(p);
+		BrandPojo pojo = brandService.getById(brandPojo.getId());
 		assertEquals("brand1", pojo.getBrand());
 		assertEquals("category1", pojo.getCategory());
 	}
@@ -189,8 +189,8 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
-		BrandPojo pojo = brandService.getById(brandData.getId() + 1000);
+		BrandPojo brandPojo = brandService.add(p);
+		BrandPojo pojo = brandService.getById(brandPojo.getId() + 1000);
 	}
 
 	@Test
@@ -198,7 +198,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		BrandPojo brandPojo = brandService.add(p);
 		List<BrandPojo> brandPojoList = new ArrayList<>();
 		brandPojoList = brandService.getByBrand("\r  Brand1   ");
 		assertEquals("brand1", brandPojoList.get(0).getBrand());
@@ -210,7 +210,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		BrandPojo brandPojo = brandService.add(p);
 		brandService.getByBrand("\r  BrandName1 \n");
 	}
 
@@ -219,7 +219,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 		brandService.getByBrand(null);
 	}
 
@@ -228,7 +228,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		BrandPojo brandPojo = brandService.add(p);
 		List<BrandPojo> brandPojoList = new ArrayList<>();
 		brandPojoList = brandService.getByCategory("\r CaTegOry1 \n");
 		assertEquals("category1", brandPojoList.get(0).getCategory());
@@ -239,7 +239,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		BrandPojo brandPojo = brandService.add(p);
 		brandService.getByCategory("\r CaTegOryName1 \n");
 	}
 
@@ -248,7 +248,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
-		BrandData brandData = brandService.add(p);
+		brandService.add(p);
 		brandService.getByCategory(null);
 	}
 
@@ -285,12 +285,12 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo pojo1 = new BrandPojo();
 		pojo1.setBrand("brand1");
 		pojo1.setCategory("category1");
-		BrandData bd = brandService.add(pojo1);
+		BrandPojo brandPojo = brandService.add(pojo1);
 		BrandPojo pojo2 = new BrandPojo();
 		pojo2.setBrand("brandname1");
 		pojo2.setCategory("categoryname1");
-		BrandData brandData = brandService.updateById(bd.getId(), pojo2);
-		assertEquals(bd.getId(), brandData.getId());
+		BrandData brandData = brandService.updateById(brandPojo.getId(), pojo2);
+		assertEquals(brandPojo.getId(), brandData.getId());
 		assertEquals("brandname1", brandData.getBrand());
 		assertEquals("categoryname1", brandData.getCategory());
 	}
