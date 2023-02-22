@@ -5,48 +5,166 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets copy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/License.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/Useful_Resources.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables-select.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables-select.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables-select2.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables-select2.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables2.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/datatables2.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/directives.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/directives.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/flag.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/flag.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/jquery.zmd.hierarchical-display.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/jquery.zmd.hierarchical-display.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/rating.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/addons/rating.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.lite.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.lite.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.lite.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/mdb.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/modules/animations-extended.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/modules/animations-extended.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/exclusive-templates/unlock-exclusive-freebies.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/mdb-favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/overlays/09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/svg/arrow_left.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/img/svg/arrow_right.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables-select.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables-select.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables-select2.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables-select2.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables2.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/datatables2.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/directives.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/directives.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/flag.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/flag.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/imagesloaded.pkgd.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/imagesloaded.pkgd.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/jquery.zmd.hierarchical-display.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/jquery.zmd.hierarchical-display.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/masonry.pkgd.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/masonry.pkgd.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/rating.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/addons/rating.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/mdb.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/mdb.lite.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/mdb.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/mdb.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/animations-extended.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/animations-extended.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/forms-free.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/forms-free.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/scrolling-navbar.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/scrolling-navbar.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/treeview.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/treeview.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/wow.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/modules/wow.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/popper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/js/popper.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/_custom-styles.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/_custom-variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_datatables-select.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_datatables-select2.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_datatables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_datatables2.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_directives.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_flag.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_hierarchical-display.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/addons/_rating.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_colors.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_global.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_helpers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_masks.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_typography.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/_waves.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/bootstrap/_functions.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/bootstrap/_rfs.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/core/bootstrap/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_animations-basic.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_badges.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_buttons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_cards.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_carousels.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_depreciated.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_dropdowns.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_footers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_forms.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_input-group.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_list-group.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_loader.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_modals.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_msc.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_navbars.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_pagination.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_steppers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_tables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/_treeview.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/modules/animations-extended/_module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/free/modules/animations-extended/animations-extended.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/mdb-free.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/scss/mdb-lite-free.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/free/forms-free.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/free/scrolling-navbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/free/treeview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/free/wow.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/datatables-select.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/datatables-select2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/datatables.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/datatables2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/imagesloaded.pkgd.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/jquery.zmd.hierarchical-display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/masonry.pkgd.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/addons/rating.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/bs-custom-file-input.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/chart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/chartjs-datalabels.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/enhanced-modals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/jquery.easing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/velocity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/mdb4/src/js/vendor/free/waves.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/AppUiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/AppUiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/BrandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/BrandController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/InventoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/PosDaySalesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/PosDaySalesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ReportsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ReportsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/InventoryData.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/InventoryData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/BrandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/BrandService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/StringUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/StringUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brandreport.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/dailysalesreport.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/inventoryreport.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/orderitems.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/order-items.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/salesreport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/spring/ControllerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/spring/ControllerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/signup.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brandreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brandreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventoryreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventoryreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders_old.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders_old.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/salesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/salesreport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/BrandDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/BrandDtoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/InventoryDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/InventoryDtoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ProductDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ProductDtoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/BrandServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/BrandServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/util/ValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/util/ValidatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +182,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -75,14 +200,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sabareeshs/Documents/pos/pos-app&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/sabareeshs/Documents/pos/pos-app"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pos-app" />
@@ -176,10 +302,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.ProductDtoTest.testGetDataIdNull" />
-        <item itemvalue="JUnit.BrandDtoTest.testGetInPage" />
-        <item itemvalue="JUnit.BrandDtoTest.testGetById" />
         <item itemvalue="JUnit.OrderDtoTest.testGetByOrderId" />
         <item itemvalue="JUnit.InventoryDtoTest.testGetDataProductIdNull" />
+        <item itemvalue="JUnit.BrandDtoTest.testGetInPage" />
+        <item itemvalue="JUnit.BrandDtoTest.testGetById" />
       </list>
     </recent_temporary>
   </component>
@@ -204,6 +330,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pos$PosDaySalesDtoTest_testUpdateScheduler.ic" NAME="PosDaySalesDtoTest.testUpdateScheduler Coverage Results" MODIFIED="1676887479387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

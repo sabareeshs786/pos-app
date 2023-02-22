@@ -145,11 +145,6 @@ function writeFileData(arr){
     tempLink.click(); 
 }
 
-function loadEmailAndPassword(){
-    $("#login-form input[name=email]").val("hari@gmail.com");
-    $("#login-form input[name=password]").val("1234");
-}
-
 function onlyNonNegativeInt() {
     $('input[type="number"]').keypress(function(event) {
       var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -253,7 +248,6 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(loadEmailAndPassword);
 $(document).ready(onlyNonNegativeInt);
 $(document).ready(decimalNumber);
 $(document).ready(noOfCharLimiter);

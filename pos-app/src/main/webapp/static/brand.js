@@ -21,8 +21,11 @@ function addBrand(event){
 		success: function(response) {
 			handleAjaxSuccess("Success!!!\nBrand "+response.brand+" and category "+response.category+" added successfully!!");
 			getBrandListUtil();
+			$('#add-brand-modal').modal('toggle');
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+		}
 		});
 	}
 	return false;
@@ -72,7 +75,7 @@ function getBrandList(pageNumber, pageSize){
 	   contentType : 'application/json; charset=utf-8',
 	   success: function(data) {
 	   		displayBrandList(data.content,pageNumber*pageSize);
-			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			paginator(data, "getBrandList", pageSize);
 	   },
 	   error: handleAjaxError
@@ -219,8 +222,18 @@ function displayBrand(data){
 	$('#edit-brand-modal').modal('toggle');
 }
 
+function addData(){
+	$('#add-brand-modal').modal('toggle');
+}
+function clearAddData(){
+	$('#brand-form input[name=brand]').val('');
+	$('#brand-form input[name=brand]').val('');
+	$('#add-brand-modal').modal('toggle');
+}
 //INITIALIZATION CODE
 function init(){
+	$('#cancel1').click()
+	$('#add-data').click(addData);
 	$('#add-brand').click(addBrand);
 	$('#update-brand').click(updateBrand);
 	$('#upload-data').click(displayUploadData);

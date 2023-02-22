@@ -59,6 +59,9 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 		registry.addResourceHandler("/static/css/**").addResourceLocations("/static/css/");
 		registry.addResourceHandler("/static/js/**").addResourceLocations("/static/js/");
+		registry.addResourceHandler("/static/mdb4/**").addResourceLocations("/static/mdb4/");
+		registry.addResourceHandler("/static/mdb4/css/**").addResourceLocations("/static/mdb4/css/");
+		registry.addResourceHandler("/static/mdb4/js/**").addResourceLocations("/static/mdb4/js/");
 	}
 
 	@Override
