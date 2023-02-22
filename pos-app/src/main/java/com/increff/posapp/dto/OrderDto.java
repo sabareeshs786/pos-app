@@ -25,9 +25,7 @@ import javax.transaction.Transactional;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Base64;
+import java.util.*;
 
 @Component
 public class OrderDto {
@@ -44,11 +42,11 @@ public class OrderDto {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public List<OrderItemData> add(OrderForm form) throws ApiException, IllegalAccessException {
-		List<OrderItemData> list = new ArrayList<>();
+		Validator.orderFormValidator(form);
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
+		List<OrderItemData> list = new ArrayList<>();
 		Integer len = form.getBarcodes().size();
-		Validator.orderFormValidator(form);
 		for(int i=0; i < len; i++) {
 
 			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));
@@ -74,33 +72,24 @@ public class OrderDto {
 	}
 
 	public List<OrderData> getAll() throws ApiException {
-		List<OrderPojo> list = orderService.getAll();
-		List<OrderData> list2 = new ArrayList<OrderData>();
-		Double totalAmount = 0.0;
-		for (OrderPojo orderPojo : list) {
-			totalAmount = 0.00;
-			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){
-				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
-			}
-			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
+		List<OrderPojo> orderPojoList = orderService.getAll();
+		Map<Integer, List<OrderItemPojo>> integerListMap = new HashMap<>();
+		for(OrderPojo pojo: orderPojoList){
+			integerListMap.put(pojo.getId(), orderItemService.getByOrderId(pojo.getId()));
 		}
-		return list2;
+		return Converter.convertToOrderDataList(orderPojoList, integerListMap);
 	}
 
 	public Page<OrderData> getAll(Integer page, Integer size) throws ApiException {
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
-		List<OrderPojo> list = orderService.getAll(page, size);
-		List<OrderData> list2 = new ArrayList<OrderData>();
-		Double totalAmount = 0.0;
-		for (OrderPojo orderPojo : list) {
-			totalAmount = 0.00;
-			for(OrderItemPojo orderItemPojo: orderItemService.getByOrderId(orderPojo.getId())){
-				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
-			}
-			list2.add(Converter.convertToOrderData(orderPojo, totalAmount));
+		List<OrderPojo> orderPojoList = orderService.getAll(page, size);
+		Map<Integer, List<OrderItemPojo>> integerListMap = new HashMap<>();
+		for(OrderPojo pojo: orderPojoList){
+			integerListMap.put(pojo.getId(), orderItemService.getByOrderId(pojo.getId()));
 		}
-		return new PageImpl<>(list2, PageRequest.of(page, size), orderService.getTotalElements());
+		List<OrderData> orderDataList =Converter.convertToOrderDataList(orderPojoList, integerListMap);
+		return new PageImpl<>(orderDataList, PageRequest.of(page, size), orderService.getTotalElements());
 	}
 
 	 @Transactional(rollbackOn = ApiException.class)
@@ -150,12 +139,11 @@ public class OrderDto {
 	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {
 		Validator.isEmpty("Order id", orderId);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
-		List<OrderItemData> list = new ArrayList<>();
-		for(OrderItemPojo orderItemPojo:orderItemPojoList){
-			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+		List<ProductPojo> productPojoList = new ArrayList<>();
+		for(OrderItemPojo p: orderItemPojoList){
+			productPojoList.add(productService.getById(p.getProductId()));
 		}
-		return list;
+		return Converter.convertToOrderItemDataList(orderItemPojoList, productPojoList);
 	}
 
 	public Page<OrderItemData> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
@@ -163,11 +151,11 @@ public class OrderDto {
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getPageByOrderId(orderId, page, size);
-		List<OrderItemData> list = new ArrayList<>();
-		for(OrderItemPojo orderItemPojo:orderItemPojoList){
-			ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			list.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+		List<ProductPojo> productPojoList = new ArrayList<>();
+		for(OrderItemPojo pojo: orderItemPojoList){
+			productPojoList.add(productService.getById(pojo.getProductId()));
 		}
+		List<OrderItemData> list = Converter.convertToOrderItemDataList(orderItemPojoList, productPojoList);
 		return new PageImpl<>(
 				list,
 				PageRequest.of(page, size),

@@ -82,10 +82,12 @@ public class ProductDto {
 	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
 		Validator.isEmpty("Page",page);
 		Validator.isEmpty("Size", size);
-		List<ProductPojo> list =  productService.getAll(page, size);
-		List<ProductData> list2 = new ArrayList<>();
-		for (ProductPojo productPojo : list) {
+		List<ProductPojo> productPojoList =  productService.getAll(page, size);
+		List<BrandPojo> brandPojoList = new ArrayList<>();
+		List<InventoryPojo> inventoryPojoList = new ArrayList<>();
+		for (ProductPojo productPojo : productPojoList) {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+			brandPojoList.add(brandPojo);
 			InventoryPojo inventoryPojo = new InventoryPojo();
 			try{
 				inventoryPojo = inventoryService.getByProductId(productPojo.getId());
@@ -94,9 +96,10 @@ public class ProductDto {
 				inventoryPojo.setQuantity(null);
 			}
 			finally {
-				list2.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));
+				inventoryPojoList.add(inventoryPojo);
 			}
 		}
+		List<ProductData> list2 = Converter.convertToProductDataList(productPojoList, brandPojoList, inventoryPojoList);
 		return new PageImpl<>(list2, PageRequest.of(page, size), productService.getTotalElements());
 	}
 	

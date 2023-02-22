@@ -122,11 +122,9 @@ function uploadRows(){
 	   		uploadRows();  
 	   },
 	   error: function(response){
-	   		row.error=response.responseText
+	   		row.error=response.responseText;
 	   		errorData.push(row);
 			updateUploadDialog();
-			handleAjaxError(response);
-	   		return;
 	   }
 	});
 

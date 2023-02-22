@@ -5,6 +5,8 @@ import com.increff.invoiceapp.models.InvoiceList;
 
 import java.net.Inet4Address;
 import java.util.Base64;
+
+import com.increff.invoiceapp.utils.DoubleUtil;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -70,7 +72,6 @@ public class PdfService {
         Integer size = orderItemsIds.size();
         for (int i = 0; i < size; i++) {
             InvoiceItem invoiceItem = new InvoiceItem();
-            invoiceItem.setId(orderItemsIds.get(i));
             invoiceItem.setProductName(productNames.get(i));
             invoiceItem.setQuantity(quantities.get(i));
             invoiceItem.setMrp(mrp.get(i));
@@ -79,7 +80,7 @@ public class PdfService {
         }
         invoiceList.setDate(date);
         invoiceList.setOrderId(orderId);
-        invoiceList.setTotal(getTotal(quantities, sellingPrices));
+        invoiceList.setTotal(DoubleUtil.roundToString(getTotal(quantities, sellingPrices)));
 
         StringWriter sw = new StringWriter();
 
@@ -112,7 +113,7 @@ public class PdfService {
         for(int i=0; i < quantities.size(); i++){
             total += Double.parseDouble(sellingPrices.get(i)) * quantities.get(i);
         }
-        return total;
+        return DoubleUtil.round(total, 2);
     }
     private static byte[] convertStream(ByteArrayOutputStream out, Charset encoding) throws IOException {
         ByteArrayInputStream original = new ByteArrayInputStream(out.toByteArray());

@@ -69,7 +69,7 @@ function displaySchedulerReportList(data){
 		+ data[i].date + "</td><td>"
 		+ data[i].invoicedOrdersCount + "</td><td>"
 		+ data[i].invoicedItemsCount + "</td><td>"
-		+ data[i].totalRevenue +"</td></tr>";
+		+ parseFloat(data[i].totalRevenue).toFixed(2) +"</td></tr>";
 		$("#scheduler-report-table-all-body").append(row);
 	}
 }

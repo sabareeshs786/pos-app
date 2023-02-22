@@ -24,7 +24,6 @@ public class BrandReportDto extends InventoryDto{
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
         if(page == null && size == null){
-            List<BrandData> list = new ArrayList<>();
             List<BrandPojo> pojos = new ArrayList<>();
             if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
                 pojos = brandService.getAll();
@@ -38,9 +37,7 @@ public class BrandReportDto extends InventoryDto{
             else {
                 pojos = brandService.getByBrand(brand);
             }
-            for(BrandPojo p : pojos){
-                list.add(Converter.convertToBrandData(p));
-            }
+            List<BrandData> list = Converter.convertToBrandDataList(pojos);
             return (T) list;
         }
         else if(page == null){

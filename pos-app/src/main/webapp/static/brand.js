@@ -126,10 +126,9 @@ function uploadRows(response){
 	   		uploadRows(response);
 	   },
 	   error: function(response){
-	   		row.error=response.responseText
+	   		row.error=response.responseText;
 	   		errorData.push(row);
 	   		updateUploadDialog();
-			return;
 	   }
 	});
 }

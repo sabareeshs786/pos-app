@@ -10,6 +10,7 @@ import com.increff.posapp.service.OrderService;
 import com.increff.posapp.service.PosDaySalesService;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DateTimeUtil;
+import com.increff.posapp.util.DoubleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -56,16 +57,13 @@ public class PosDaySalesDto {
 			pojo.setInvoicedItemsCount((int) (pojo.getInvoicedItemsCount() + orderItemService.getTotalInvoicedQuantity(p.getId())));
 			pojo.setTotalRevenue(pojo.getTotalRevenue() + orderItemService.getTotalCost(p.getId()));
 		}
+		pojo.setTotalRevenue(DoubleUtil.round(pojo.getTotalRevenue(), 2));
 		posDaySalesService.add(pojo);
 	}
 
 	public List<PosDaySalesData> getAll(){
-		List<PosDaySalesData> posDaySalesDataList = new ArrayList<>();
 		List<PosDaySalesPojo> pojos = posDaySalesService.getAll();
-		for(PosDaySalesPojo p: pojos){
-			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
-		}
-		return posDaySalesDataList;
+		return Converter.convertToPosDaySalesDataList(pojos);
 	}
 
 	public List<PosDaySalesData> getData(PosDaySalesForm form) throws ApiException {
@@ -74,13 +72,10 @@ public class PosDaySalesDto {
 		ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(form.getStartDate(), zoneId);
 		ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(form.getEndDate(), zoneId);
 
-		List<PosDaySalesData> posDaySalesDataList = new ArrayList<>();
 		List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
 				zonedDateTimeEnd);
-		for(PosDaySalesPojo p: pojos){
-			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
-		}
-		return posDaySalesDataList;
+
+		return Converter.convertToPosDaySalesDataList(pojos);
 	}
 
 	private void validate(PosDaySalesForm form) throws ApiException {

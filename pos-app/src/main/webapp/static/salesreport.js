@@ -84,7 +84,7 @@ function displaySalesReportList(data){
 		+ data.brands[i] + "</td><td>"
 		+ data.categories[i] + "</td><td>"
 		+ data.quantities[i] + "</td><td>"
-		+ data.totalAmounts[i] +"</td></tr>";
+		+ parseFloat(data.totalAmounts[i]).toFixed(2) +"</td></tr>";
 		$("#sales-report-table-all-body").append(row);
 	}
 	

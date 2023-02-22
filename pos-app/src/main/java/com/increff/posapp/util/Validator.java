@@ -10,6 +10,7 @@ public class Validator {
 	private Validator() {}
 
 	public static void orderFormValidator(OrderForm form) throws ApiException {
+
 		Integer len = form.getBarcodes().size();
 		for(Integer i=0; i < len; i++){
 			if(StringUtil.isEmpty(form.getBarcodes().get(i))){

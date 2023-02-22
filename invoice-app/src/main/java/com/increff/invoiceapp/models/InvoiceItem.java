@@ -10,8 +10,7 @@ import javax.xml.bind.annotation.*;
 @Getter
 @Setter
 public class InvoiceItem {
-    @XmlElement(name = "id")
-    private Integer id;
+
     @XmlElement(name = "productName")
     private String productName;
     @XmlElement(name = "quantity")

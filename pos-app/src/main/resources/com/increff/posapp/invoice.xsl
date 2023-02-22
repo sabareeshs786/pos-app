@@ -32,16 +32,11 @@
 					<fo:block font-size="11pt" space-before="35pt">
 						<fo:table table-layout="fixed" width="100%"
 							border-collapse="separate" line-height="25px" text-align="center">
-							<fo:table-column column-width="1cm" />
 							<fo:table-column column-width="5cm" />
 							<fo:table-column column-width="3cm" />
 							<fo:table-column column-width="3cm" />
 							<fo:table-column column-width="3cm" />
 							<fo:table-header>
-								<fo:table-cell
-									xsl:use-attribute-sets="tableBorder">
-									<fo:block font-weight="bold">Id</fo:block>
-								</fo:table-cell>
 								<fo:table-cell
 									xsl:use-attribute-sets="tableBorder">
 									<fo:block font-weight="bold">Product Name</fo:block>
@@ -75,11 +70,6 @@
 	</xsl:template>
 	<xsl:template match="item">
 		<fo:table-row>
-			<fo:table-cell xsl:use-attribute-sets="tableBorder">
-				<fo:block>
-					<xsl:value-of select="id" />
-				</fo:block>
-			</fo:table-cell>
 
 			<fo:table-cell xsl:use-attribute-sets="tableBorder">
 				<fo:block>

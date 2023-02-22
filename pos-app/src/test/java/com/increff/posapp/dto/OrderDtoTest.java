@@ -151,6 +151,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<OrderItemPojo> list1 = addOrderItems();
         Integer orderId = list1.get(0).getOrderId();
         List<OrderItemData> list2 = orderDto.getByOrderId(orderId);
+
         assertEquals(list1.size(), list2.size());
         for(int i=0; i < list1.size(); i++){
             assertEquals(list1.get(i).getOrderId(), list2.get(i).getOrderId());

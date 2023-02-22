@@ -50,13 +50,13 @@ public class InventoryDto {
 	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
 		Validator.isEmpty("Page", page);
 		Validator.isEmpty("Size", size);
-		List<InventoryPojo> listInventoryPojo = inventoryService.getAll(page, size);
-		List<InventoryData> list = new ArrayList<InventoryData>();
-		for(InventoryPojo inventoryPojo: listInventoryPojo) {
-			ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
-			String barcode = productPojo.getBarcode();
-			list.add(Converter.convertToInventoryData(inventoryPojo, barcode));
+		List<InventoryPojo> inventoryPojoList = inventoryService.getAll(page, size);
+		List<ProductPojo> productPojoList = new ArrayList<>();
+		for(InventoryPojo inventoryPojo: inventoryPojoList) {
+			productPojoList.add(productService.getById(inventoryPojo.getProductId()));
 		}
+		List<InventoryData> list = Converter.convertToInventoryDataList(inventoryPojoList,
+				productPojoList);
 		return new PageImpl<>(list, PageRequest.of(page, size), inventoryService.getTotalElements());
 	}
 	

@@ -1,21 +1,17 @@
 package com.increff.posapp.util;
 
 import com.increff.posapp.model.*;
-
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Converter {
-
 	private Converter(){}
 	private static final Logger logger = Logger.getLogger(Converter.class);
 	public static BrandData convertToBrandData(BrandPojo p) {
@@ -24,6 +20,18 @@ public class Converter {
 		d.setCategory(p.getCategory());
 		d.setId(p.getId());
 		return d;
+	}
+
+	public static List<BrandData> convertToBrandDataList(List<BrandPojo> pojos) {
+		List<BrandData> dataList = new ArrayList<>();
+		for(BrandPojo p: pojos){
+			BrandData data = new BrandData();
+			data.setId(p.getId());
+			data.setBrand(p.getBrand());
+			data.setCategory(p.getCategory());
+			dataList.add(data);
+		}
+		return dataList;
 	}
 
 	public static BrandPojo convertToBrandPojo(BrandForm f) {
@@ -44,6 +52,34 @@ public class Converter {
 		productData.setQuantity(inventoryPojo.getQuantity());
 		productData.setMrp(productPojo.getMrp());
 		return productData;
+	}
+
+	public static List<ProductData> convertToProductDataList
+			(List<ProductPojo> productPojoList,
+			 List<BrandPojo> brandPojoList,
+			 List<InventoryPojo> inventoryPojoList
+			) {
+		List<ProductData> dataList = new ArrayList<>();
+		if(
+				productPojoList.size() != brandPojoList.size() ||
+						productPojoList.size() != inventoryPojoList.size()
+		){
+			return null;
+		}
+		Integer len = productPojoList.size();
+		for(Integer i=0; i < len; i++){
+			ProductData productData = new ProductData();
+			productData.setId(productPojoList.get(i).getId());
+			productData.setBarcode(productPojoList.get(i).getBarcode());
+			productData.setName(productPojoList.get(i).getName());
+			productData.setBrand(brandPojoList.get(i).getBrand());
+			productData.setCategory(brandPojoList.get(i).getCategory());
+			productData.setQuantity(inventoryPojoList.get(i).getQuantity());
+			productData.setBrandCategory(productPojoList.get(i).getBrandCategory());
+			productData.setMrp(productPojoList.get(i).getMrp());
+			dataList.add(productData);
+		}
+		return dataList;
 	}
 
 	public static ProductPojo convertToProductPojo(ProductForm f, Integer brandCategory) {
@@ -70,8 +106,26 @@ public class Converter {
 		d.setQuantity(p.getQuantity());
 		return d;
 	}
-	
-	public static OrderData convertToOrderData(OrderPojo orderPojo, Double totalAmount) {
+
+	public static List<InventoryData> convertToInventoryDataList
+			(List<InventoryPojo> inventoryPojoList,
+			 List<ProductPojo> productPojoList) throws ApiException {
+		List<InventoryData> inventoryDataList = new ArrayList<InventoryData>();
+		if(inventoryPojoList.size() != productPojoList.size()){
+			return null;
+		}
+		Integer len = inventoryPojoList.size();
+		for(Integer i=0; i < len; i++){
+			InventoryData data = new InventoryData();
+			data.setProductId(productPojoList.get(i).getId());
+			data.setBarcode(productPojoList.get(i).getBarcode());
+			data.setQuantity(inventoryPojoList.get(i).getQuantity());
+			inventoryDataList.add(data);
+		}
+		return inventoryDataList;
+	}
+
+	private static OrderData convertToOrderData(OrderPojo orderPojo, Double totalAmount) {
 		OrderData orderData = new OrderData();
 		orderData.setId(orderPojo.getId());
 		String format = "dd/MM/yyyy - HH:mm:ss";
@@ -79,7 +133,21 @@ public class Converter {
 		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
 		return orderData;
 	}
-	
+
+	public static List<OrderData> convertToOrderDataList(List<OrderPojo> orderPojoList, Map<Integer, List<OrderItemPojo>> integerListMap) throws ApiException {
+		List<OrderData> orderDataList = new ArrayList<>();
+		Double totalAmount = 0.0;
+		for (OrderPojo orderPojo : orderPojoList) {
+			totalAmount = 0.00;
+			for(OrderItemPojo orderItemPojo: integerListMap.get(orderPojo.getId())){
+				totalAmount += orderItemPojo.getSellingPrice() * orderItemPojo.getQuantity();
+			}
+			orderDataList.add(Converter.convertToOrderData(orderPojo, totalAmount));
+		}
+		return orderDataList;
+	}
+
+
 	public static OrderItemPojo convertToOrderItemPojo(OrderForm form,  Integer i, OrderPojo orderPojo, Integer productId) throws ApiException {
 		OrderItemPojo orderItemPojo = new OrderItemPojo();
 		orderItemPojo.setOrderId(orderPojo.getId());
@@ -103,6 +171,26 @@ public class Converter {
 
 	}
 
+	public static List<OrderItemData> convertToOrderItemDataList(List<OrderItemPojo> orderItemPojoList, List<ProductPojo> productPojoList) {
+		if(orderItemPojoList.size() != productPojoList.size()){
+			return null;
+		}
+		List<OrderItemData> orderItemDataList = new ArrayList<>();
+		Integer len = orderItemPojoList.size();
+		for(Integer i=0; i < len; i++){
+			OrderItemData orderItemData = new OrderItemData();
+			orderItemData.setId(orderItemPojoList.get(i).getId());
+			orderItemData.setOrderId(orderItemPojoList.get(i).getOrderId());
+			orderItemData.setBarcode(productPojoList.get(i).getBarcode());
+			orderItemData.setProductName(productPojoList.get(i).getName());
+			orderItemData.setQuantity(orderItemPojoList.get(i).getQuantity());
+			orderItemData.setMrp(DoubleUtil.roundToString(productPojoList.get(i).getMrp()));
+			orderItemData.setSellingPrice(DoubleUtil.roundToString(orderItemPojoList.get(i).getSellingPrice()));
+			orderItemDataList.add(orderItemData);
+		}
+		return orderItemDataList;
+	}
+
 	public static InventoryReportData convertToInventoryReportData(InventoryPojo inventoryPojo, ProductPojo productPojo, BrandPojo brandPojo){
 		InventoryReportData inventoryReportData = new InventoryReportData();
 		inventoryReportData.setBrand(brandPojo.getBrand());
@@ -123,7 +211,7 @@ public class Converter {
 		return salesReportData;
 	}
 
-	public static PosDaySalesData convertToPosDaySalesData(PosDaySalesPojo pojo){
+	private static PosDaySalesData convertToPosDaySalesData(PosDaySalesPojo pojo){
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		PosDaySalesData posDaySalesData = new PosDaySalesData();
 		posDaySalesData.setDate(pojo.getDate().toLocalDate().format(dateTimeFormatter));
@@ -131,5 +219,13 @@ public class Converter {
 		posDaySalesData.setInvoicedItemsCount(pojo.getInvoicedItemsCount());
 		posDaySalesData.setTotalRevenue(pojo.getTotalRevenue());
 		return posDaySalesData;
+	}
+
+	public static List<PosDaySalesData> convertToPosDaySalesDataList(List<PosDaySalesPojo> pojos){
+		List<PosDaySalesData> posDaySalesDataList = new ArrayList<>();
+		for(PosDaySalesPojo p: pojos){
+			posDaySalesDataList.add(Converter.convertToPosDaySalesData(p));
+		}
+		return posDaySalesDataList;
 	}
 }

@@ -24,7 +24,7 @@ public class InvoiceList {
     @XmlElement(name = "item")
     private List<InvoiceItem> items;
     @XmlElement(name = "total")
-    private Double total;
+    private String total;
     public InvoiceList(){
         this.items = new ArrayList<>();
     }
