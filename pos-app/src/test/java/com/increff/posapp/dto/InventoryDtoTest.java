@@ -60,25 +60,20 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataProductIdNull() throws ApiException, IllegalAccessException {
-        ProductPojo productPojo = addProduct();
-        InventoryForm form = new InventoryForm();
-        form.setBarcode(productPojo.getBarcode());
-        form.setQuantity(12);
-        InventoryData data = inventoryDto.add(form);
-        List<InventoryData> dataList = inventoryDto.getData(null, 0, 5).getContent();
-        assertTrue(dataList.size() > 0 && dataList.size() <= 5);
-    }
-
-    @Test
     public void testGetDataProductId() throws ApiException, IllegalAccessException {
         ProductPojo productPojo = addProduct();
         InventoryForm form = new InventoryForm();
         form.setBarcode(productPojo.getBarcode());
         form.setQuantity(12);
         InventoryData data = inventoryDto.add(form);
-        List<InventoryData> dataList = inventoryDto.getData(productPojo.getId(), null, null).getContent();
-        assertEquals(1, dataList.size());
+        InventoryData inventoryData = inventoryDto.get(data.getProductId());
+        assertEquals(data.getProductId(), inventoryData.getProductId());
+        assertEquals("12", inventoryData.getQuantity().toString());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataProductIdNull() throws ApiException, IllegalAccessException {
+        inventoryDto.get(null);
     }
 
     @Test(expected = ApiException.class)
@@ -88,7 +83,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         form.setBarcode(productPojo.getBarcode());
         form.setQuantity(12);
         InventoryData data = inventoryDto.add(form);
-        List<InventoryData> dataList = inventoryDto.getData(null, null, 9).getContent();
+        List<InventoryData> dataList = inventoryDto.get(null, 9).getContent();
         assertEquals(1, dataList.size());
     }
 
@@ -99,13 +94,13 @@ public class InventoryDtoTest extends AbstractUnitTest {
         form.setBarcode(productPojo.getBarcode());
         form.setQuantity(12);
         InventoryData data = inventoryDto.add(form);
-        List<InventoryData> dataList = inventoryDto.getData(null, 0, null).getContent();
+        List<InventoryData> dataList = inventoryDto.get(0, null).getContent();
         assertEquals(1, dataList.size());
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataInvalid() throws ApiException {
-        inventoryDto.getData(null, null, null);
+        inventoryDto.get(null, null);
     }
 
     @Test
@@ -117,7 +112,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
         InventoryData data = inventoryDto.add(form);
         form.setBarcode(pojo.getBarcode());
         form.setQuantity(21);
-        InventoryData dataReturned = inventoryDto.updateByProductId(pojo.getId(), form);
+        InventoryData dataReturned = inventoryDto.update(pojo.getId(), form);
         assertEquals(pojo.getId(), dataReturned.getProductId());
         assertEquals(pojo.getBarcode(), dataReturned.getBarcode());
         assertEquals(21, dataReturned.getQuantity().intValue());

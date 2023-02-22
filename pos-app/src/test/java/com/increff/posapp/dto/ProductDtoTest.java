@@ -2,7 +2,6 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.BrandDao;
 import com.increff.posapp.dao.InventoryDao;
-import com.increff.posapp.model.InventoryData;
 import com.increff.posapp.model.ProductData;
 import com.increff.posapp.model.ProductForm;
 import com.increff.posapp.pojo.BrandPojo;
@@ -12,6 +11,7 @@ import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void testGetByIdInventoryEmpty() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        ProductData data = productDto.getById(data1.getId()).getContent().get(0);
+        ProductData data = productDto.get(data1.getId());
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product1", data.getName());
@@ -80,7 +80,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         addInventory(data1.getId());
-        ProductData data = productDto.getById(data1.getId()).getContent().get(0);
+        ProductData data = productDto.get(data1.getId());
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product1", data.getName());
@@ -92,16 +92,16 @@ public class ProductDtoTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testGetByIdInvalid() throws ApiException, IllegalAccessException {
-        BrandPojo pojo = addBrand();
+        addBrand();
         ProductData data1 = addProduct();
-        ProductData data = productDto.getById(data1.getId() + 200000).getContent().get(0);
+        productDto.get(data1.getId() + 200000);
     }
 
     @Test
     public void testGetByBarcodeInventoryEmpty() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        ProductData data = productDto.getByBarcode(data1.getBarcode());
+        ProductData data = (ProductData) productDto.get(data1.getBarcode(), null, null);
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product1", data.getName());
@@ -115,7 +115,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         addInventory(data1.getId());
-        ProductData data = productDto.getByBarcode(data1.getBarcode());
+        ProductData data = (ProductData) productDto.get(data1.getBarcode(), null, null);
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product1", data.getName());
@@ -129,14 +129,15 @@ public class ProductDtoTest extends AbstractUnitTest {
     public void testGetByBarcodeInvalid() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        ProductData data = productDto.getByBarcode("./Y7854$56^");
+        ProductData data = (ProductData) productDto.get("./Y7854$56^", null, null);
     }
 
     @Test
     public void testGetAllInventoryEmpty() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        List<ProductData> dataList = productDto.getAll(0,5).getContent();
+        Page<ProductData> page = (Page<ProductData>) productDto.get(null,0,5);
+        List<ProductData> dataList = page.getContent();
         assertTrue(dataList.size() > 0 && dataList.size() <= 5);
     }
 
@@ -145,7 +146,8 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         addInventory(data1.getId());
-        List<ProductData> dataList = productDto.getAll(0,5).getContent();
+        Page<ProductData> page = (Page<ProductData>) productDto.get(null, 0,5);
+        List<ProductData> dataList = page.getContent();
         assertTrue(dataList.size() > 0 && dataList.size() <= 5);
     }
 
@@ -159,7 +161,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         form.setCategory("category1");
         form.setName("product2");
         form.setMrp(13.45);
-        ProductData data = productDto.updateById(data1.getId(), form);
+        ProductData data = productDto.update(data1.getId(), form);
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product2", data.getName());
@@ -180,7 +182,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         form.setCategory("category1");
         form.setName("product2");
         form.setMrp(13.45);
-        ProductData data = productDto.updateById(data1.getId(), form);
+        ProductData data = productDto.update(data1.getId(), form);
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertEquals("product2", data.getName());
@@ -191,39 +193,38 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetDataIdNull() throws ApiException, IllegalAccessException {
+    public void testGetDataNull() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        List<ProductData> dataList = productDto.getData(null, 0, 5).getContent();
+        Page<ProductData> page = (Page<ProductData>) productDto.get(null, 0, 5);
+        List<ProductData> dataList = page.getContent();
         assertTrue(dataList.size()>0 && dataList.size() <=5);
     }
 
     @Test
-    public void testGetDataId() throws ApiException, IllegalAccessException {
+    public void testGetDataBarcode() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
-        List<ProductData> dataList = productDto.getData(data1.getId(), null, null).getContent();
-        assertTrue(dataList.size()>0 && dataList.size() <=5);
+        ProductData data = (ProductData) productDto.get(data1.getBarcode(), null, null);
+        assertEquals(data1.getBarcode(), data.getBarcode());
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataPageNull() throws ApiException, IllegalAccessException {
-        BrandPojo pojo = addBrand();
-        ProductData data1 = addProduct();
-        List<ProductData> dataList = productDto.getData(null, null, 9).getContent();
-        assertTrue(dataList.size()>0 && dataList.size() <=5);
+        addBrand();
+        addProduct();
+        productDto.get(null, null, 9);
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataSizeNull() throws ApiException, IllegalAccessException {
-        BrandPojo pojo = addBrand();
-        ProductData data1 = addProduct();
-        List<ProductData> dataList = productDto.getData(null, 0, null).getContent();
-        assertTrue(dataList.size()>0 && dataList.size() <=5);
+        addBrand();
+        addProduct();
+        productDto.get(null, 0, null);
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataInvalid() throws ApiException {
-        productDto.getData(null, null, null);
+        productDto.get(null, null, null);
     }
 }

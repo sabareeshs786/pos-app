@@ -2,7 +2,6 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.model.BrandForm;
-import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
 import org.apache.log4j.Logger;
@@ -76,45 +75,45 @@ public class BrandDtoTest extends AbstractUnitTest {
         brandDto.add(form);
     }
     @Test
-    public void testGetDataIdNull() throws ApiException, IllegalAccessException {
+    public void testGetById() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
-        List<BrandData> dataList = brandDto.getData(null, 0, 5).getContent();
-        assertTrue(dataList.size() > 0 && dataList.size() <= 5);
+        BrandData brandData = brandDto.get(data.getId());
+        assertEquals(data.getId(), brandData.getId());
     }
 
-    @Test
-    public void testGetDataIdNotNull() throws ApiException, IllegalAccessException {
-        BrandData data = addBrand();
-        List<BrandData> dataList = brandDto.getData(data.getId(), null, null).getContent();
-        assertEquals(1, dataList.size());
+    @Test(expected = ApiException.class)
+    public void testGetDataIdNull() throws ApiException, IllegalAccessException {
+        brandDto.get(null);
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataPageNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
-        List<BrandData> dataList = brandDto.getData(null, null, 4).getContent();
-        assertEquals(1, dataList.size());
+        brandDto.get(null, 4);
     }
 
     @Test(expected = ApiException.class)
     public void testGetDataSizeNull() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
-        List<BrandData> dataList = brandDto.getData(null, 0, null).getContent();
-        assertEquals(1, dataList.size());
+        brandDto.get(0, null);
     }
 
-    @Test(expected = ApiException.class)
-    public void testGetDataInvalid() throws ApiException {
-        brandDto.getData(null, null, null);
+    @Test
+    public void testGetInPage() throws ApiException, IllegalAccessException {
+        BrandData data = addBrand();
+        List<BrandData> brandDataList =  brandDto.get(0, 5).getContent();
+        assertEquals(data.getId(), brandDataList.get(0).getId());
+        assertEquals(data.getBrand(), brandDataList.get(0).getBrand());
+        assertEquals(data.getCategory(), brandDataList.get(0).getCategory());
+        assertTrue(brandDataList.size() >0 && brandDataList.size() <= 5);
     }
-
     @Test
     public void testUpdateById() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
         BrandForm form = new BrandForm();
         form.setBrand("brand2");
         form.setCategory("cate2");
-        BrandData brandData = brandDto.updateById(data.getId(), form);
+        BrandData brandData = brandDto.update(data.getId(), form);
         assertEquals("brand2", brandData.getBrand());
         assertEquals("cate2", brandData.getCategory());
     }

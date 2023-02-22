@@ -43,8 +43,10 @@ public class OrderDto {
 	@Transactional(rollbackOn = ApiException.class)
 	public List<OrderItemData> add(OrderForm form) throws ApiException, IllegalAccessException {
 		Validator.orderFormValidator(form);
+
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
+
 		List<OrderItemData> list = new ArrayList<>();
 		Integer len = form.getBarcodes().size();
 		for(int i=0; i < len; i++) {
@@ -81,8 +83,8 @@ public class OrderDto {
 	}
 
 	public Page<OrderData> getAll(Integer page, Integer size) throws ApiException {
-		Validator.isEmpty("Page", page);
-		Validator.isEmpty("Size", size);
+		Validator.validate("Page", page);
+		Validator.validate("Size", size);
 		List<OrderPojo> orderPojoList = orderService.getAll(page, size);
 		Map<Integer, List<OrderItemPojo>> integerListMap = new HashMap<>();
 		for(OrderPojo pojo: orderPojoList){
@@ -94,7 +96,7 @@ public class OrderDto {
 
 	 @Transactional(rollbackOn = ApiException.class)
 	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
-		Validator.isEmpty("Order id", orderId);
+		Validator.validate("Order id", orderId);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		 OrderPojo orderPojo = orderService.getById(orderId);
 		 String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), "dd/MM/yyyy");
@@ -137,7 +139,7 @@ public class OrderDto {
 	 }
 
 	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {
-		Validator.isEmpty("Order id", orderId);
+		Validator.validate("Order id", orderId);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
 		List<ProductPojo> productPojoList = new ArrayList<>();
 		for(OrderItemPojo p: orderItemPojoList){
@@ -147,9 +149,9 @@ public class OrderDto {
 	}
 
 	public Page<OrderItemData> getPageByOrderId(Integer orderId, Integer page, Integer size) throws ApiException {
-		Validator.isEmpty("Order id", orderId);
-		Validator.isEmpty("Page", page);
-		Validator.isEmpty("Size", size);
+		Validator.validate("Order id", orderId);
+		Validator.validate("Page", page);
+		Validator.validate("Size", size);
 		List<OrderItemPojo> orderItemPojoList = orderItemService.getPageByOrderId(orderId, page, size);
 		List<ProductPojo> productPojoList = new ArrayList<>();
 		for(OrderItemPojo pojo: orderItemPojoList){
@@ -164,7 +166,7 @@ public class OrderDto {
 	}
 
 	public OrderItemData getByOrderItemId(Integer id) throws ApiException {
-		Validator.isEmpty("Id", id);
+		Validator.validate("Id", id);
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
 		return Converter.convertToOrderItemData(orderItemPojo, productPojo);

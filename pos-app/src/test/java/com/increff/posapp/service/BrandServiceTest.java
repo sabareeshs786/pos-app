@@ -4,7 +4,6 @@ import com.increff.posapp.model.BrandData;
 import com.increff.posapp.pojo.BrandPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -289,7 +288,7 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo pojo2 = new BrandPojo();
 		pojo2.setBrand("brandname1");
 		pojo2.setCategory("categoryname1");
-		BrandData brandData = brandService.updateById(brandPojo.getId(), pojo2);
+		BrandData brandData = brandService.update(brandPojo.getId(), pojo2);
 		assertEquals(brandPojo.getId(), brandData.getId());
 		assertEquals("brandname1", brandData.getBrand());
 		assertEquals("categoryname1", brandData.getCategory());

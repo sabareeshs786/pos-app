@@ -38,10 +38,10 @@ public class AppUiController extends AbstractUiController {
 		return mav("orders.html");
 	}
 	
-	@RequestMapping(value = "/ui/orderitems/{orderId}/{mode}")
+	@RequestMapping(value = "/ui/order-items/{orderId}/{mode}")
 	public ModelAndView orderItem(@PathVariable Integer orderId, @PathVariable String mode)
 	{	
-		return mav("orderitems.html", orderId, mode);
+		return mav("order-items.html", orderId, mode);
 	}
 
 	@RequestMapping(value = "/ui/order-placing")
@@ -49,15 +49,15 @@ public class AppUiController extends AbstractUiController {
 		return mav("order-placing.html");
 	}
 
-	@RequestMapping(value = "/ui/brandreport")
-	public ModelAndView brandReport(){ return mav("brandreport.html"); }
+	@RequestMapping(value = "/ui/brand-report")
+	public ModelAndView brandReport(){ return mav("brand-report.html"); }
 
-	@RequestMapping(value = "/ui/inventoryreport")
-	public ModelAndView inventoryReport(){ return mav("inventoryreport.html"); }
+	@RequestMapping(value = "/ui/inventory-report")
+	public ModelAndView inventoryReport(){ return mav("inventory-report.html"); }
 
-	@RequestMapping(value = "/ui/salesreport")
-	public ModelAndView salesReport(){ return mav("salesreport.html"); }
+	@RequestMapping(value = "/ui/sales-report")
+	public ModelAndView salesReport(){ return mav("sales-report.html"); }
 
-	@RequestMapping(value = "/ui/dailysalesreport")
-	public ModelAndView scheduler(){ return mav("dailysalesreport.html"); }
+	@RequestMapping(value = "/ui/daily-sales-report")
+	public ModelAndView scheduler(){ return mav("daily-sales-report.html"); }
 }

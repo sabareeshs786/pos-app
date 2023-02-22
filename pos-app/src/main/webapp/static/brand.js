@@ -1,6 +1,6 @@
 function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/brand";
+	return baseUrl + "/api/brands";
 }
 
 //BUTTON ACTIONS
@@ -64,7 +64,7 @@ function getBrandListUtil(){
 }
 
 function getBrandList(pageNumber, pageSize){
-	var url = getBrandUrl() + '?pagenumber=' + pageNumber + '&size=' + pageSize;
+	var url = getBrandUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -169,14 +169,16 @@ function displayBrandList(data, sno){
 }
 
 function displayEditBrand(id){
-	var url = getBrandUrl() + "?id=" + id;
+	var url = getBrandUrl() + "/" + id;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayBrand(data.content);   
+	   		displayBrand(data);
 	   },
-	   error: handleAjaxError
+	   error: function(response){
+			handleAjaxError(response);
+	   }
 	});	
 }
 
@@ -211,9 +213,9 @@ function displayUploadData(){
 }
 
 function displayBrand(data){
-	$("#brand-edit-form input[name=brand]").val(data[0].brand);	
-	$("#brand-edit-form input[name=category]").val(data[0].category);
-	$("#brand-edit-form input[name=id]").val(data[0].id);
+	$("#brand-edit-form input[name=brand]").val(data.brand);	
+	$("#brand-edit-form input[name=category]").val(data.category);
+	$("#brand-edit-form input[name=id]").val(data.id);
 	$('#edit-brand-modal').modal('toggle');
 }
 

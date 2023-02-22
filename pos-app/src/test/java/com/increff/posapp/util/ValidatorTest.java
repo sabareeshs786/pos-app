@@ -75,12 +75,12 @@ public class ValidatorTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testStringValidatorNull() throws ApiException {
-        Validator.stringValidator("Field", null);
+        Validator.validate("Field", null);
     }
 
     @Test(expected = ApiException.class)
     public void testStringValidatorEmpty() throws ApiException {
-        Validator.stringValidator("Field", "");
+        Validator.validate("Field", "");
     }
 
 

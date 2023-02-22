@@ -20,4 +20,5 @@ public class StringUtil {
 		Matcher matcher = pattern.matcher(s);
 		return !matcher.matches();
 	}
+
 }

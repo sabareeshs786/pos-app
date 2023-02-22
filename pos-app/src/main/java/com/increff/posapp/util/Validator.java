@@ -10,50 +10,48 @@ public class Validator {
 	private Validator() {}
 
 	public static void orderFormValidator(OrderForm form) throws ApiException {
-
+		if((form.getBarcodes().size() != form.getQuantities().size()) || (form.getBarcodes().size() != form.getSellingPrices().size())){
+			throw new ApiException("Input form contains missing values");
+		}
 		Integer len = form.getBarcodes().size();
 		for(Integer i=0; i < len; i++){
-			if(StringUtil.isEmpty(form.getBarcodes().get(i))){
-				throw new ApiException("Barcode cannot be empty");
-			}
-			if(StringUtil.isNotAlNum(form.getBarcodes().get(i))){
-				throw new ApiException("Only alpha-numeric characters are allowed in the entries");
-			}
-			if(form.getQuantities().get(i) == null){
-				throw new ApiException("Quantity can't be empty");
-			}
-			if(form.getQuantities().get(i) <= 0){
-				throw new ApiException("Quantity must be greater than zero");
-			}
-			if(form.getSellingPrices().get(i) == null){
-				throw new ApiException("Selling price must be greater than zero");
-			}
-			if(form.getSellingPrices().get(i) <= 0){
-				throw new ApiException("Selling Price must be greater than zero");
-			}
-			if(form.getSellingPrices().get(i).isNaN()){
-				throw new ApiException("Selling Price is not a number");
-			}
-			if(form.getSellingPrices().get(i).isInfinite()){
-				throw new ApiException("Selling price can't be infinite");
-			}
+			validate("Barcode", form.getBarcodes().get(i));
+			validate("Quantity", form.getQuantities().get(i));
+			validate("Selling price", form.getSellingPrices().get(i));
 		}
 	}
 
-	public static void stringValidator(String field, String s) throws ApiException {
-		if(StringUtil.isEmpty(s)){
-			throw new ApiException(field + " can't be empty");
-		}
-		if(StringUtil.isNotAlNum(s)){
-			throw new ApiException(field + " should contain only alpha-numeric characters");
-		}
-	}
-
-	public static <T> void isEmpty(String field, T val) throws ApiException {
+	public static <T> void validate(String field, T val) throws ApiException {
 		if(val == null){
 			throw new ApiException(field + " can't be empty");
 		}
+		if(val instanceof String){
+			if(StringUtil.isEmpty((String) val)){
+				throw new ApiException(field + " is empty");
+			}
+			if(StringUtil.isNotAlNum((String) val)){
+				throw new ApiException(field + " should contain only alpha-numeric characters");
+			}
+		}
+		else if(val instanceof Integer){
+			if((Integer)val < 0){
+				throw new ApiException(field + " can't be less than zero");
+			}
+		}
+		else if(val instanceof Double){
+			Double value = (Double) val;
+			if(value < 0){
+				throw new ApiException(field + " can't be less than zero");
+			}
+			if(value.isInfinite() || value.isNaN()){
+				throw new ApiException(field + " is invalid");
+			}
+		}
+		else {
+			throw new ApiException("Invalid field type detected");
+		}
 	}
+
 	public static void validate(Object o) throws IllegalAccessException, ApiException {
 		Field[] fields = o.getClass().getDeclaredFields();
 		for(Field field: fields){

@@ -1,25 +1,14 @@
 //Global variables
 var downloadContent = "";
-function getSchedulerUrl(){
+function getDailySalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/dailysalesreport";
+	return baseUrl + "/api/reports/daily-sales-report";
 }
 
-// function toArrayOfJsonObjects(){
-//     var arr = [];
-// 	for(var i=0; i < downloadContent.brands.length; i++){
-// 		arr.push({});
-// 		arr.at(-1)['brand'] = downloadContent.brands[i];
-// 		arr.at(-1)['category'] = downloadContent.categories[i];
-// 		arr.at(-1)['quantity'] = downloadContent.quantities[i];
-// 		arr.at(-1)['revenue'] = downloadContent.totalAmounts[i];
-// 	}
-//     return arr;
-// }
 //BUTTON ACTIONS
 
-function getSchedulerReportList(){
-	var url = getSchedulerUrl();
+function getDailySalesReportList(){
+	var url = getDailySalesReportUrl();
 
 	$.ajax({
 	   url: url,
@@ -37,7 +26,7 @@ function getSchedulerReportList(){
 }
 
  function processData(){
- 	var url = getSchedulerUrl() + "/date";
+ 	var url = getDailySalesReportUrl();
  	var $form = $('#sales-report-form');
  	var json = toJson($form);
  	console.log(json);
@@ -151,10 +140,10 @@ function downloadReport(){
 //INITIALIZATION CODE
 function init(){
 	 $('#process-data').click(processData);
-	$('#refresh-data').click(getSchedulerReportList);
+	$('#refresh-data').click(getDailySalesReportList);
 	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
 $(document).ready(setdates);
-$(document).ready(getSchedulerReportList);
+$(document).ready(getDailySalesReportList);

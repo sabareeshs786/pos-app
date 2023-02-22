@@ -20,8 +20,9 @@ var $sp = $('#place-order-form input[name=sellingPrice]');
 // General functions
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
-	return baseUrl + "/api/order";
+	return baseUrl + "/api/orders";
 }
+
 
 function getInvoiceUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
@@ -29,7 +30,7 @@ function getInvoiceUrl(){
 }
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/product";
+	return baseUrl + "/api/products";
 }
 
 function getOrderListUtil(){
@@ -38,7 +39,7 @@ function getOrderListUtil(){
 }
 
 function getOrderList(pageNumber, pageSize){
-	var url = getOrderUrl()  + '/' + pageNumber + '/' + pageSize;
+	var url = getOrderUrl()  + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -87,7 +88,7 @@ function displayOrderModal(){
 // <-----------------------Product details getting functions-------------------------------->
 function getProduct(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
-	var url = getProductUrl() + '/' + barcode;
+	var url = getProductUrl() + '?barcode=' + barcode;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -144,7 +145,7 @@ function loadOriginal(){
 }
 
 function getProductForEdit(){
-	var barcode = $barcode.val();
+	var barcode = $barcode.val().toLowerCase();
 	if(dataOfItemForEditOld.barcode == barcode){
 		loadOriginal();
 		removeComments();
@@ -153,7 +154,7 @@ function getProductForEdit(){
 	}
 	console.log("Barcode: "+barcode);
 	if(barcode.length >= 4){
-	var url = getProductUrl() + '/' + barcode;
+	var url = getProductUrl() + '?barcode=' + barcode;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -472,7 +473,7 @@ function checkSellingPrice(){
 }
 
 function validateItemRequest(data){
-	var barcode = $barcode.val();
+	var barcode = $barcode.val().toLowerCase();
 	if(barcodeSet.has(barcode)){
 		console.log("Has barcode >>>");
 		console.log("Barcode"+barcode);
@@ -555,7 +556,7 @@ function placeOrder(){
 function addItem(){
 	console.log("Add item clicked");
 	if(enableOrDisableAddOrEdit()){
-		var barcode = $barcode.val();
+		var barcode = $barcode.val().toLowerCase();
 		var quantity = parseInt($quantity.val());
 		var sellingPrice =parseFloat($sp.val()).toFixed(2);
 		console.log("Barcode set length: "+barcodeSet.length);
@@ -819,11 +820,11 @@ function displayOrderItemsOfanId(data){
 }
 
 function displayOrderItemsView(id){
-	window.location.href = "./orderitems/" + id + '/' + 'view';
+	window.location.href = "./order-items/" + id + '/' + 'view';
 }
 
 function displayOrderItemsEdit(id){
-	window.location.href = "./orderitems/" + id + '/' + 'edit';
+	window.location.href = "./order-items/" + id + '/' + 'edit';
 }
 
 //INITIALIZATION CODE

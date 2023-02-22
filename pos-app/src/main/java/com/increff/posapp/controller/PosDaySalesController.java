@@ -25,14 +25,14 @@ public class PosDaySalesController {
 
 
 	@ApiOperation(value = "Gets the daily sales report")
-	@RequestMapping(path = "/api/reports/dailysalesreport", method = RequestMethod.GET)
+	@RequestMapping(path = "/api/reports/daily-sales-report", method = RequestMethod.GET)
 	public List<PosDaySalesData> getData() throws ApiException{
 		logger.info("Daily sales report controller!!");
 		return posDaySalesDto.getAll();
 	}
 
 	@ApiOperation(value = "Gets the daily sales report between specified dates")
-	@RequestMapping(path = "/api/reports/dailysalesreport/date", method = RequestMethod.POST)
+	@RequestMapping(path = "/api/reports/daily-sales-report", method = RequestMethod.POST)
 	public List<PosDaySalesData> getDataByDate(@RequestBody PosDaySalesForm form) throws ApiException {
 		logger.info("Daily sales report controller by date!!!");
 		return posDaySalesDto.getData(form);

@@ -159,10 +159,15 @@ function onlyNonNegativeInt() {
     });
 }
 
+function isAlphaNumeric(str) {
+    return /^[a-zA-Z0-9]{8,}$/.test(str);
+}
 function noOfCharLimiter(){
     $('input[type="text"]').keypress(function(event) {
         var len = $(this).val().length;
-        if (len >= 20) {
+        var str = $(this).val();
+        var isAlNum = isAlphaNumeric(str);
+        if (len >= 20 && isAlNum) {
             event.preventDefault();
         }
       });

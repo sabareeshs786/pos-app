@@ -99,10 +99,11 @@ public class Converter {
 		return p;
 	}
 	
-	public static InventoryData convertToInventoryData(InventoryPojo p, String barcode) {
+	public static InventoryData convertToInventoryData(InventoryPojo p, ProductPojo productPojo) {
 		InventoryData d = new InventoryData();
 		d.setProductId(p.getProductId());
-		d.setBarcode(barcode);
+		d.setName(productPojo.getName());
+		d.setBarcode(productPojo.getBarcode());
 		d.setQuantity(p.getQuantity());
 		return d;
 	}
@@ -118,6 +119,7 @@ public class Converter {
 		for(Integer i=0; i < len; i++){
 			InventoryData data = new InventoryData();
 			data.setProductId(productPojoList.get(i).getId());
+			data.setName(productPojoList.get(i).getName());
 			data.setBarcode(productPojoList.get(i).getBarcode());
 			data.setQuantity(inventoryPojoList.get(i).getQuantity());
 			inventoryDataList.add(data);

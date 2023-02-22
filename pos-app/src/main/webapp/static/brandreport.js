@@ -1,6 +1,6 @@
 function getBrandReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
-	return baseUrl + "/api/reports/brandreport";
+	return baseUrl + "/api/reports/brand-report";
 }
 
 function getBrandListUtil(){
@@ -18,8 +18,8 @@ function getBrandList(brand, category, pageNumber, pageSize){
 	var url = getBrandReportUrl() + 
 	'?brand=' + brand + 
 	'&category=' + category + 
-	'&pagenumber=' + pageNumber + 
-	'&size=' + pageSize;
+	'&page-number=' + pageNumber + 
+	'&page-size=' + pageSize;
 	console.log(url);
 	$.ajax({
 	   url: url,
@@ -99,8 +99,8 @@ function downloadReport(){
 	var url = getBrandReportUrl() + 
 	'?brand=' + brand + 
 	'&category=' + category + 
-	'&pagenumber='+ 
-	'&size=';
+	'&page-number='+ 
+	'&page-size=';
 
 	console.log(url);
 	$.ajax({

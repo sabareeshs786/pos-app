@@ -1,6 +1,6 @@
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/inventoryreport";
+	return baseUrl + "/api/reports/inventory-report";
 }
 
 //Global variables
@@ -22,8 +22,8 @@ function getInventoryList(brand, category, pageNumber, pageSize){
 	var url = getInventoryReportUrl()+ 
 	'?brand=' + brand + 
 	'&category=' + category + 
-	'&pagenumber=' + pageNumber + 
-	'&size=' + pageSize;
+	'&page-number=' + pageNumber + 
+	'&page-size=' + pageSize;
 
 	$.ajax({
 	   url: url,
@@ -112,8 +112,8 @@ function downloadReport(){
 	var url = getInventoryReportUrl()+ 
 	'?brand=' + brand + 
 	'&category=' + category + 
-	'&pagenumber=' + 
-	'&size=';
+	'&page-number=' + 
+	'&page-size=';
 	console.log(url);
 	$.ajax({
 	   url: url,

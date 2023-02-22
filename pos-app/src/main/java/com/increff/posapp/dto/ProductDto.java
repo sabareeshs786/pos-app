@@ -31,8 +31,8 @@ public class ProductDto {
 	private InventoryService inventoryService;
 	@Autowired
 	private BrandService brandService;
-
 	private Logger logger = Logger.getLogger(ProductDto.class);
+
 	public ProductData add(ProductForm form) throws ApiException, IllegalAccessException {
 		Validator.validate(form);
 		Normalizer.normalize(form);
@@ -45,10 +45,61 @@ public class ProductDto {
 		return Converter.convertToProductData(p, brandPojo, inventoryPojo);
 	}
 
-	public Page<ProductData> getById(Integer id) throws ApiException {
-		Validator.isEmpty("Id", id);
+	public ProductData get(Integer id) throws ApiException {
+		Validator.validate("Id", id);
 		ProductPojo productPojo = productService.getById(id);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
+		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
+	}
+
+	public Object get(String barcode, Integer page, Integer size) throws ApiException {
+		if(barcode == null && page != null && size != null){
+			return getAll(page, size);
+		}
+		if(barcode != null){
+			return getByBarcode(barcode);
+		}
+		throw new ApiException("Invalid request");
+	}
+
+	public ProductData update(Integer id, ProductForm form) throws ApiException, IllegalAccessException {
+		Validator.validate("Id", id);
+		Validator.validate(form);
+		Normalizer.normalize(form);
+		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
+		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
+		productPojo.setId(id);
+		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
+		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);
+	}
+
+	private ProductData getByBarcode(String barcode) throws ApiException {
+		Validator.validate("Barcode", barcode);
+		barcode = StringUtil.toLowerCase(barcode);
+		ProductPojo productPojo = productService.getByBarcode(barcode);
+		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
+		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
+	}
+	
+	private Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
+		Validator.validate("Page",page);
+		Validator.validate("Size", size);
+		List<ProductPojo> productPojoList =  productService.getAll(page, size);
+		List<BrandPojo> brandPojoList = new ArrayList<>();
+		List<InventoryPojo> inventoryPojoList = new ArrayList<>();
+		for (ProductPojo productPojo : productPojoList) {
+			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+			brandPojoList.add(brandPojo);
+			InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
+			inventoryPojoList.add(inventoryPojo);
+		}
+		List<ProductData> productDataList = Converter.convertToProductDataList(productPojoList, brandPojoList, inventoryPojoList);
+		return new PageImpl<>(productDataList, PageRequest.of(page, size), productService.getTotalElements());
+	}
+
+	private InventoryPojo getInventoryStatus(ProductPojo productPojo){
 		InventoryPojo inventoryPojo = new InventoryPojo();
 		try{
 			logger.info("Executing try block");
@@ -58,76 +109,6 @@ public class ProductDto {
 			inventoryPojo.setProductId(null);
 			inventoryPojo.setQuantity(null);
 		}
-		List<ProductData> list = new ArrayList<>();
-		list.add(Converter.convertToProductData(productPojo, brandPojo, inventoryPojo));
-		return new PageImpl<>(list, PageRequest.of(0, 1), 1);
-	}
-	
-	public ProductData getByBarcode(String barcode) throws ApiException {
-		Validator.stringValidator("Barcode", barcode);
-		barcode = StringUtil.toLowerCase(barcode);
-		ProductPojo productPojo = productService.getByBarcode(barcode);
-		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-		InventoryPojo inventoryPojo = new InventoryPojo();
-		try {
-			inventoryPojo =inventoryService.getByProductId(productPojo.getId());
-		}
-		catch (ApiException ex){
-			inventoryPojo.setProductId(null);
-			inventoryPojo.setQuantity(null);
-		}
-		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
-	}
-	
-	public Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
-		Validator.isEmpty("Page",page);
-		Validator.isEmpty("Size", size);
-		List<ProductPojo> productPojoList =  productService.getAll(page, size);
-		List<BrandPojo> brandPojoList = new ArrayList<>();
-		List<InventoryPojo> inventoryPojoList = new ArrayList<>();
-		for (ProductPojo productPojo : productPojoList) {
-			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-			brandPojoList.add(brandPojo);
-			InventoryPojo inventoryPojo = new InventoryPojo();
-			try{
-				inventoryPojo = inventoryService.getByProductId(productPojo.getId());
-			} catch (ApiException ex){
-				inventoryPojo.setProductId(null);
-				inventoryPojo.setQuantity(null);
-			}
-			finally {
-				inventoryPojoList.add(inventoryPojo);
-			}
-		}
-		List<ProductData> list2 = Converter.convertToProductDataList(productPojoList, brandPojoList, inventoryPojoList);
-		return new PageImpl<>(list2, PageRequest.of(page, size), productService.getTotalElements());
-	}
-	
-	public ProductData updateById(Integer id, ProductForm form) throws ApiException, IllegalAccessException {
-		Validator.isEmpty("Id", id);
-		Validator.validate(form);
-		Normalizer.normalize(form);
-		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
-		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
-		productPojo.setId(id);
-		InventoryPojo inventoryPojo = new InventoryPojo();
-		try{
-			inventoryPojo = inventoryService.getByProductId(id);
-		}
-		catch (ApiException ex){
-			inventoryPojo.setProductId(null);
-			inventoryPojo.setQuantity(null);
-		}
-		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);
-	}
-
-	public Page<ProductData> getData(Integer id, Integer page, Integer size) throws ApiException {
-		if(id == null && page != null && size != null){
-			return getAll(page, size);
-		}
-		if (id != null){
-			return getById(id);
-		}
-		throw new ApiException("Invalid request");
+		return inventoryPojo;
 	}
 }

@@ -20,27 +20,31 @@ public class BrandController {
 	@Autowired
 	private BrandDto brandDto;
 
-	@ApiOperation(value = "Adds a new item of a particular brand and category")
-	@RequestMapping(path = "/api/brand", method = RequestMethod.POST)
+	@ApiOperation(value = "Adds a new brand and category")
+	@RequestMapping(path = "/api/brands", method = RequestMethod.POST)
 	public BrandData add(@RequestBody BrandForm form) throws ApiException, IllegalAccessException {
 		return brandDto.add(form);
 	}
 
-	@ApiOperation(value = "Gets the requested brand data")
-	@RequestMapping(path = "/api/brand", method = RequestMethod.GET)
-	public Page<BrandData> getData(
-			@RequestParam(required = false) Integer id,
-			@RequestParam(name = "pagenumber", required = false) Integer page,
-			@RequestParam(required = false) Integer size
+	@ApiOperation(value = "Gets brand and category by id")
+	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.GET)
+	public BrandData get(@PathVariable Integer id) throws ApiException, IllegalAccessException {
+		return brandDto.get(id);
+	}
+
+	@ApiOperation(value = "Gets brand and category in a particular page")
+	@RequestMapping(path = "/api/brands", method = RequestMethod.GET)
+	public Page<BrandData> get(
+			@RequestParam(name = "page-number", required = false) Integer page,
+			@RequestParam(name = "page-size", required = false) Integer size
 	) throws ApiException {
-		logger.info("Id="+id+"Page number="+page+"Size="+size);
-		return brandDto.getData(id, page, size);
+		return brandDto.get(page, size);
 	}
 
 	@ApiOperation(value = "Updates a brand and category")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.PUT)
 	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException, IllegalAccessException {
-		return brandDto.updateById(id, form);
+		return brandDto.update(id, form);
 	}
 
 }

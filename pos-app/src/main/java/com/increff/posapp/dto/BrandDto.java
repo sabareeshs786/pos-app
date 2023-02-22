@@ -1,6 +1,5 @@
 package com.increff.posapp.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.posapp.util.Converter;
@@ -30,34 +29,23 @@ public class BrandDto {
 		return Converter.convertToBrandData(brandService.add(brandPojo));
 	}
 
-	public Page<BrandData> getData(Integer id, Integer page, Integer size) throws ApiException {
-		if(id == null && page != null && size != null){
-			return getAll(page, size);
-		}
-		if (id != null){
-			return get(id);
-		}
-		throw new ApiException("Invalid request");
-	}
-
-	public BrandData updateById(Integer id, BrandForm form) throws ApiException, IllegalAccessException {
-		Validator.isEmpty("Id", id);
+	public BrandData update(Integer id, BrandForm form) throws ApiException, IllegalAccessException {
+		Validator.validate("Id", id);
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		BrandPojo p = Converter.convertToBrandPojo(form);
-		return brandService.updateById(id, p);
+		return brandService.update(id, p);
 	}
 
-	// Private methods
-	private Page<BrandData> get(Integer id) throws ApiException {
-		Validator.isEmpty("Id", id);
-		BrandPojo brandPojo = brandService.getById(id);
-		List<BrandData> listBrandData = new ArrayList<>();
-		listBrandData.add(Converter.convertToBrandData(brandPojo));
-		return new PageImpl<>(listBrandData, PageRequest.of(0,1), 1);
+	public BrandData get(Integer id) throws ApiException, IllegalAccessException {
+		Validator.validate("Id", id);
+		Validator.validate(id);
+		return Converter.convertToBrandData(brandService.getById(id));
 	}
 
-	private Page<BrandData> getAll(Integer page, Integer size) throws ApiException {
+	public Page<BrandData> get(Integer page, Integer size) throws ApiException {
+		Validator.validate("Page", page);
+		Validator.validate("Size", size);
 		List<BrandPojo> brandPojoList = brandService.getAll(page, size);
 		List<BrandData> listBrandData = Converter.convertToBrandDataList(brandPojoList);
 		return new PageImpl<>(listBrandData, PageRequest.of(page, size), brandService.getTotalElements());

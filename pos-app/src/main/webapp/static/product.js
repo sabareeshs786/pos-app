@@ -1,6 +1,6 @@
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/product";
+	return baseUrl + "/api/products";
 }
 
 //BUTTON ACTIONS
@@ -62,7 +62,7 @@ function getProductListUtil(){
 }
 
 function getProductList(pageNumber, pageSize){
-	var url = getProductUrl() + '?pagenumber=' + pageNumber + '&size=' + pageSize;
+	var url = getProductUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -172,15 +172,14 @@ function displayProductList(data, sno){
 }
 
 function displayEditProduct(id){
-	var url = getProductUrl() + "?id=" + id;
+	var url = getProductUrl() + "/" + id;
 	console.log(url);
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-			console.log("Content="+data.content);
 			console.log(data);
-	   		displayProduct(data.content); 
+	   		displayProduct(data); 
 	   },
 	   error: handleAjaxError
 	});	
@@ -217,12 +216,12 @@ function displayUploadData(){
 }
 
 function displayProduct(data){
-	$("#product-edit-form input[name=id]").val(data[0].id)
-	$("#product-edit-form input[name=barcode]").val(data[0].barcode);	
-	$("#product-edit-form input[name=brand]").val(data[0].brand);
-	$("#product-edit-form input[name=category]").val(data[0].category);
-	$("#product-edit-form input[name=name]").val(data[0].name);
-	$("#product-edit-form input[name=mrp]").val(data[0].mrp);
+	$("#product-edit-form input[name=id]").val(data.id)
+	$("#product-edit-form input[name=barcode]").val(data.barcode);	
+	$("#product-edit-form input[name=brand]").val(data.brand);
+	$("#product-edit-form input[name=category]").val(data.category);
+	$("#product-edit-form input[name=name]").val(data.name);
+	$("#product-edit-form input[name=mrp]").val(data.mrp);
 	$('#edit-product-modal').modal('toggle');
 }
 

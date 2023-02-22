@@ -11,8 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @Api
 @RestController
 public class ReportsController {
@@ -26,34 +24,34 @@ public class ReportsController {
 
     private static final Logger logger = Logger.getLogger(ReportsController.class);
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/brandreport", method = RequestMethod.GET)
+    @RequestMapping(path = "/api/reports/brand-report", method = RequestMethod.GET)
     public <T> T getBrandReport(
            @RequestParam(required = false) String brand,
            @RequestParam(required = false) String category,
-            @RequestParam(name = "pagenumber", required = false) Integer page,
-            @RequestParam(required = false) Integer size
+            @RequestParam(name = "page-number", required = false) Integer page,
+            @RequestParam(name = "page-size", required = false) Integer size
     ) throws ApiException {
         return brandReportDto.getBrandReport(brand, category, page, size);
     }
 
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/inventoryreport", method = RequestMethod.GET)
+    @RequestMapping(path = "/api/reports/inventory-report", method = RequestMethod.GET)
     public <T> T getInventoryReport(
-            @RequestParam(name = "brand") String brand,
-            @RequestParam(name = "category") String category,
-            @RequestParam(name = "pagenumber") Integer page,
-            @RequestParam Integer size
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String category,
+            @RequestParam(name = "page-number") Integer page,
+            @RequestParam(name = "page-size") Integer size
     ) throws ApiException {
         logger.info("Inventory Report >> "+"Brand="+brand+" Category="+category);
         return inventoryReportDto.getInventoryReport(brand, category, page, size);
     }
 
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/salesreport", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/reports/sales-report", method = RequestMethod.POST)
     public <T> T getSalesReport(
             @RequestBody SalesReportForm salesReportForm,
-            @RequestParam(name = "pagenumber") Integer page,
-            @RequestParam Integer size
+            @RequestParam(name = "page-number") Integer page,
+            @RequestParam(name = "page-size") Integer size
             ) throws ApiException {
             logger.info("SalesReportForm: "+salesReportForm);
             logger.info("Page number: "+page+" Size: "+size);

@@ -2,7 +2,7 @@
 var downloadContent = "";
 function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/salesreport";
+	return baseUrl + "/api/reports/sales-report";
 }
 
 function toArrayOfJsonObjects(){
@@ -23,8 +23,8 @@ function getSalesReportListUtil(){
 }
 function getSalesReportList(pageNumber, pageSize){
 	var url = getSalesReportUrl() 
-	+ '?pagenumber='
-	+ '&size=';
+	+ '?page-number='
+	+ '&page-size=';
 
 	var $form = $('#sales-report-form');
 	var json = toJson($form);
@@ -46,7 +46,7 @@ function getSalesReportList(pageNumber, pageSize){
 }
 
 function processData(){
-	var url = getSalesReportUrl() + '?pagenumber=&size=';
+	var url = getSalesReportUrl() + '?page-number=&page-size=';
 	var $form = $('#sales-report-form');
 	var json = toJson($form);
 	console.log(json);
@@ -87,7 +87,6 @@ function displaySalesReportList(data){
 		+ parseFloat(data.totalAmounts[i]).toFixed(2) +"</td></tr>";
 		$("#sales-report-table-all-body").append(row);
 	}
-	
 }
 
 function setdates(){

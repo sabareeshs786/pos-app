@@ -7,12 +7,12 @@ function getHtmlContent(){
 
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/order";
+	return baseUrl + "/api/orders";
 }
 
 function getOrderItemsUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
-	return baseUrl + "/api/orderitems";
+	return baseUrl + "/api/order-items";
 }
 
 function getOrderId(){
@@ -31,7 +31,7 @@ function getOrderItemsUtil(){
 }
 
 function getOrderItems(pageNumber, pageSize){
-	var url = getOrderUrl() + "?orderId=" + getOrderId() + '&pagenumber=' + pageNumber + '&size=' + pageSize;
+	var url = getOrderItemsUrl() + "?order-id=" + getOrderId() + '&page-number=' + pageNumber + '&page-size=' + pageSize;
 	console.log(url);
 	$.ajax({
 	   url: url,
@@ -69,6 +69,7 @@ function getOrderItems(pageNumber, pageSize){
 
 function displayOrderItems(data, sno){
 	$('#order-items-table-body').empty();
+	console.log(data);
 	if(getMode() == 'edit'){
 		$('#order-items-table-head').append('<th scope="col">Actions</th>');
 	}

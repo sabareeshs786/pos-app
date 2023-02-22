@@ -1,8 +1,12 @@
 package com.increff.posapp.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.increff.posapp.model.InventoryData;
+import com.increff.posapp.model.InventoryForm;
+import com.increff.posapp.pojo.InventoryPojo;
+import com.increff.posapp.pojo.ProductPojo;
+import com.increff.posapp.service.ApiException;
+import com.increff.posapp.service.InventoryService;
+import com.increff.posapp.service.ProductService;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.Normalizer;
 import com.increff.posapp.util.Validator;
@@ -12,13 +16,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.increff.posapp.model.InventoryData;
-import com.increff.posapp.model.InventoryForm;
-import com.increff.posapp.pojo.InventoryPojo;
-import com.increff.posapp.pojo.ProductPojo;
-import com.increff.posapp.service.ApiException;
-import com.increff.posapp.service.InventoryService;
-import com.increff.posapp.service.ProductService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class InventoryDto {
@@ -35,33 +34,35 @@ public class InventoryDto {
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
-		return Converter.convertToInventoryData(inventoryService.add(inventoryPojo),productPojo.getBarcode());
+		return Converter.convertToInventoryData(inventoryService.add(inventoryPojo), productPojo);
 	}
 
-	private Page<InventoryData> getByProductId(Integer productId) throws ApiException {
-		Validator.isEmpty("Product id", productId);
+	public InventoryData get(Integer productId) throws ApiException {
+		Validator.validate("Product id", productId);
 		InventoryPojo inventoryPojo = inventoryService.getByProductId(productId);
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
-		List<InventoryData> list = new ArrayList<InventoryData>();
-		list.add(Converter.convertToInventoryData(inventoryPojo, productPojo.getBarcode()));
-		return new PageImpl<>(list, PageRequest.of(0,1), 1);
+		return Converter.convertToInventoryData(inventoryPojo, productPojo);
 	}
 
-	private Page<InventoryData> getAll(Integer page, Integer size) throws ApiException{
-		Validator.isEmpty("Page", page);
-		Validator.isEmpty("Size", size);
+	public Page<InventoryData> get(Integer page, Integer size) throws ApiException{
+		Validator.validate("Page", page);
+		Validator.validate("Size", size);
 		List<InventoryPojo> inventoryPojoList = inventoryService.getAll(page, size);
 		List<ProductPojo> productPojoList = new ArrayList<>();
 		for(InventoryPojo inventoryPojo: inventoryPojoList) {
 			productPojoList.add(productService.getById(inventoryPojo.getProductId()));
 		}
-		List<InventoryData> list = Converter.convertToInventoryDataList(inventoryPojoList,
+		List<InventoryData> inventoryDataList = Converter.convertToInventoryDataList(
+				inventoryPojoList,
 				productPojoList);
-		return new PageImpl<>(list, PageRequest.of(page, size), inventoryService.getTotalElements());
+		return new PageImpl<>(inventoryDataList, PageRequest.of(page, size), inventoryService.getTotalElements());
 	}
 	
-	public InventoryData updateByProductId(Integer id, InventoryForm form) throws ApiException, IllegalAccessException {
-		Validator.isEmpty("Id", id);
+	public InventoryData update(
+			Integer id,
+			InventoryForm form)
+			throws ApiException, IllegalAccessException {
+		Validator.validate("Id", id);
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
@@ -69,19 +70,7 @@ public class InventoryDto {
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
 		return Converter.convertToInventoryData(
 				inventoryService.updateByProductId(inventoryPojo),
-				productPojo.getBarcode()
+				productPojo
 		);
-	}
-
-	public Page<InventoryData> getData(Integer productId, Integer page, Integer size) throws ApiException {
-		if(productId == null && page != null && size != null){
-			return getAll(page, size);
-		}
-		else if (productId != null){
-			return getByProductId(productId);
-		}
-		else {
-			throw new ApiException("Invalid request");
-		}
 	}
 }

@@ -8,7 +8,6 @@ import com.increff.posapp.model.BrandData;
 import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.increff.posapp.dao.BrandDao;
@@ -43,8 +42,8 @@ public class BrandService {
 
 	public List<BrandPojo> getByBrand(String brand, Integer page, Integer size) throws ApiException {
 		brand = validateAndNormalizeString(brand, "Brand");
-		Validator.isEmpty("Page", page);
-		Validator.isEmpty("Size", size);
+		Validator.validate("Page", page);
+		Validator.validate("Size", size);
 		return getCheckByBrand(brand, page, size);
 	}
 	public Long getByBrandTotalElements(String brand) throws ApiException {
@@ -54,8 +53,8 @@ public class BrandService {
 
 	public List<BrandPojo> getByCategory(String category, Integer page, Integer size) throws ApiException {
 		category = validateAndNormalizeString(category, "Category");
-		Validator.isEmpty("Page",page);
-		Validator.isEmpty("Size", size);
+		Validator.validate("Page",page);
+		Validator.validate("Size", size);
 		return getCheckByCategory(category, page, size);
 	}
 	public Long getCategoryTotalElements(String category) throws ApiException {
@@ -73,14 +72,14 @@ public class BrandService {
 		return dao.selectAll(BrandPojo.class);
 	}
 	public List<BrandPojo> getAll(Integer page, Integer size) throws ApiException {
-		Validator.isEmpty("Page",page);
-		Validator.isEmpty("Size", size);
+		Validator.validate("Page",page);
+		Validator.validate("Size", size);
 		return dao.selectAll(BrandPojo.class, page, size);
 	}
 	public Long getTotalElements(){
 		return dao.getTotalElements(BrandPojo.class);
 	}
-	public BrandData updateById(int id, BrandPojo p) throws ApiException {
+	public BrandData update(int id, BrandPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
 		BrandPojo ex = getCheckById(id);

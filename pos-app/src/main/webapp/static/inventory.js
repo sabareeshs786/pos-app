@@ -62,7 +62,7 @@ function getInventoryListUtil(){
 }
 
 function getInventoryList(pageNumber, pageSize){
-	var url = getInventoryUrl() + '?pagenumber=' + pageNumber + '&size=' + pageSize;
+	var url = getInventoryUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	console.log(url);
 	$.ajax({
 	   url: url,
@@ -162,6 +162,7 @@ function displayInventoryList(data, sno){
 		row = "<tr><td>" 
 		+ sno + "</td><td>" 
 		+ data[i].barcode + "</td><td>"
+		+ data[i].name + "</td><td>"
 		+ data[i].quantity + "</td><td>" 
 		+ buttonHtml 
 		+ "</td></tr>";
@@ -171,12 +172,12 @@ function displayInventoryList(data, sno){
 }
 
 function displayEditInventory(productId){
-	var url = getInventoryUrl() + "?productId=" + productId;
+	var url = getInventoryUrl() + "/" + productId;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayInventory(data.content);   
+	   		displayInventory(data);
 	   },
 	   error: handleAjaxError
 	});	
@@ -213,9 +214,9 @@ function displayUploadData(){
 }
 
 function displayInventory(data){
-	$("#inventory-edit-form input[name=barcode]").val(data[0].barcode);
-	$("#inventory-edit-form input[name=quantity]").val(data[0].quantity);
-	$("#inventory-edit-form input[name=productId]").val(data[0].productId);
+	$("#inventory-edit-form input[name=barcode]").val(data.barcode);
+	$("#inventory-edit-form input[name=quantity]").val(data.quantity);
+	$("#inventory-edit-form input[name=productId]").val(data.productId);
 	$('#edit-inventory-modal').modal('toggle');
 }
 

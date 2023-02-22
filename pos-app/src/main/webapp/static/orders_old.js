@@ -338,11 +338,11 @@ function displayOrderItemsOfanId(data){
 }
 
 function displayOrderItemsView(id){
-	window.location.href = "./orderitems/" + id + '/' + 'view';
+	window.location.href = "./order-items/" + id + '/' + 'view';
 }
 
 function displayOrderItemsEdit(id){
-	window.location.href = "./orderitems/" + id + '/' + 'edit';
+	window.location.href = "./order-items/" + id + '/' + 'edit';
 }
 function clearAll(){
 	barcodes = [];

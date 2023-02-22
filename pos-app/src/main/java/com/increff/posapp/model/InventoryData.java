@@ -10,4 +10,5 @@ import lombok.ToString;
 public class InventoryData extends InventoryForm{
 
 	private Integer productId;
+	private String name;
 }

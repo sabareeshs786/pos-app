@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Api
-@Validated
 @RestController
 public class OrderController {
 
@@ -31,35 +30,36 @@ public class OrderController {
 	private static final Logger logger = Logger.getLogger(OrderController.class);
 
 	@ApiOperation(value = "Adds an order")
-	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public void add(@Valid @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
+	@RequestMapping(path = "/api/orders", method = RequestMethod.POST)
+	public void add(@RequestBody OrderForm form) throws ApiException, IllegalAccessException {
 		logger.info(form);
 		orderDto.add(form);
 	}
 
 	@ApiOperation(value = "Gets list of all ordered items by order id")
-	@RequestMapping(path = "/api/order/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/api/orders/{orderId}", method = RequestMethod.GET)
 	public List<OrderItemData> getByOrderId(@PathVariable Integer orderId) throws ApiException {
 		return orderDto.getByOrderId(orderId);
 	}
 
 	@ApiOperation(value = "Gets list of all ordered items by order id")
-	@RequestMapping(path = "/api/order", method = RequestMethod.GET)
-	public Page<OrderItemData> getPageByOrderId(@RequestParam Integer orderId,
-												@RequestParam(name = "pagenumber") Integer page,
-												@RequestParam Integer size) throws ApiException {
-		logger.info("OrderId: "+orderId+"\nPage: "+page+"\nSize: "+size);
+	@RequestMapping(path = "/api/order-items", method = RequestMethod.GET)
+	public Page<OrderItemData> getPageByOrderId(@RequestParam(name = "order-id") Integer orderId,
+												@RequestParam(name = "page-number") Integer page,
+												@RequestParam(name = "page-size") Integer size) throws ApiException {
 		return orderDto.getPageByOrderId(orderId, page, size);
 	}
 
 	@ApiOperation(value = "Gets list of all orders")
-	@RequestMapping(path = "/api/order/{pageNo}/{size}", method = RequestMethod.GET)
-	public Page<OrderData> getAll(@PathVariable Integer pageNo, @PathVariable Integer size) throws ApiException {
-		return orderDto.getAll(pageNo, size);
+	@RequestMapping(path = "/api/orders", method = RequestMethod.GET)
+	public Page<OrderData> getAll(
+			@RequestParam(name = "page-number") Integer page,
+			@RequestParam(name = "page-size") Integer size) throws ApiException {
+		return orderDto.getAll(page, size);
 	}
 
 	@ApiOperation(value = "Gets an order item by id")
-	@RequestMapping(path = "/api/orderitems/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/api/order-items/{id}", method = RequestMethod.GET)
 	public OrderItemData getOrderItem(@PathVariable Integer id) throws ApiException {
 		return orderDto.getByOrderItemId(id);
 	}
