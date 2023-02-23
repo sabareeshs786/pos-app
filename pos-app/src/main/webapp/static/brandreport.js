@@ -123,9 +123,12 @@ function downloadReport(){
 	});
 	return false;
 }
-
+function displayFilterModal(){
+	$('#filter-modal').modal('toggle');
+}
 //INITIALIZATION CODE
 function init(){
+	$('#filter-data').click(displayFilterModal);
 	$('#process-data').click(getBrandListUtil);
 	$('#reset-data').click(getBrandListUtil);
 	$('#download-data').click(downloadReport);

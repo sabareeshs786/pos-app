@@ -137,8 +137,14 @@ function downloadReport(){
 	return false;
 	
 }
+
+function displayFilterModal(){
+	$('#filter-modal').modal('toggle');
+}
+
 //INITIALIZATION CODE
 function init(){
+	$('#filter-data').click(displayFilterModal);
 	$('#process-data').click(getInventoryListUtil);
 	$('#download-data').click(downloadReport);
 	$('#reset-data').click(getInventoryListUtil);

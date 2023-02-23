@@ -5,73 +5,88 @@
 <head th:replace="snippets.html :: name_head"></head>
 
 <body>
-<div th:replace="snippets.html :: pos_app_messages"></div>
-<nav th:replace="snippets.html :: name_app_navbar"></nav>
 
-<div class="container">
+	<header th:replace="snippets.html :: name_app_navbar"></header>
+	<main>
+		<div class="container">
+			<div th:replace="snippets.html :: pos_app_messages"></div>
+			<h3>Inventory Report</h3>
 
-<h3>Inventory Report</h3>
+			<!-- Top row -->
+			<div class="row">
+				<div class="col-8 align-items-right">
+					<button type="button" class="btn btn-success" id="filter-data">Filter</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" class="btn btn-success" id="download-data">Download</button>
+				</div>
+			</div>
 
-<div class="row" th:replace="snippets.html :: pos_app_select_page_size">
-</div>
-<div class="row" th:replace="snippets.html :: pos_app_selected_rows">
-</div>
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
 
-<!-- Top row with form-->
-<div class="row">
-	<div class="col-12">
-		<h5>Filter Inventory Reports By: </h5>
-		   <form class="form-inline" id="inventory-report-form">
-			 <div class="form-group">
-			   <label for="inputBrandName" class="col-sm-2 col-form-label">Brand name</label>
-			   <div class="col-sm-5">
-				 <input type="text" class="form-control" name="brand" id="inputBrandName" placeholder="Enter brand name">
-			   </div>
-			 </div>
-			 <div class="form-group">
-			   <label for="inputCategory" class="col-sm-2 col-form-label">Brand Category</label>
-			   <div class="col-sm-5">
-				 <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter brand category">
-			   </div>
-			 </div>
-			 <button type="button" class="btn btn-primary" id="process-data">Apply</button>
-			 &nbsp;
-			 <button type="reset" class="btn btn-danger" id="reset-data">Reset</button>
-			 &nbsp;
-			 <button type="button" class="btn btn-success" id="download-data">Download</button>
-		   </form>
-	</div>	
-</div>
+			<div class="card d-flex w-75">
+				<div th:replace="snippets.html :: card_header"></div>
+				<div class="card-body">
+					<table class="table table-striped" id="inventory-table">
+						<thead>
+							<tr>
+								<th scope="col">SNo.</th>
+								<th scope="col">Barcode</th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Brand</th>
+								<th scope="col">Category</th>
+								<th scope="col">Quantity</th>
+							</tr>
+						</thead>
+						<tbody id="inventory-table-body">
+						</tbody>
+					</table>
+				</div>
+				<div th:replace="snippets.html :: card_footer">
+				</div>
+			</div>
 
-<div class="row">
+			<!-- Filter modal -->
+			<div class="modal" tabindex="-1" role="dialog" id="filter-modal">
+				<div class="modal-dialog mw-100 w-25" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Filter reports by: </h5>
+							<button type="button" class="close" aria-label="Close" id="cancel2">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form class="row g-4 needs-validation" id="inventory-report-form">
+								<div class="col-md-12">
+									<label for="inputBrandName" class="form-label">Brand name</label>
+									<input type="text" class="form-control" name="brand" id="inputBrandName"
+										placeholder="Enter brand">
+								</div>
+								<div class="col-md-12">
+									<label for="inputCategory" class="form-label">Brand Category</label>
+									<input type="text" class="form-control" name="category" id="inputCategory"
+										placeholder="Enter category">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" id="cancel1">Cancel</button>
+							&nbsp;
+							&nbsp;
+							<button type="button" class="btn btn-primary" id="process-data">Apply</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- Container end-->
+	</main>
+	<footer th:replace="snippets.html :: name_footer"></footer>
+	<script th:src="@{/static/inventoryreport.js}"></script>
 
- <!-- Table -->
- <div class="col-12">
-	<table class="table table-striped" id="brand-table">
-	  <thead>
-	    <tr>
-	      <th scope="col">SNo.</th>
-		  <th scope="col">Barcode</th>
-		  <th scope="col">Product Name</th>
-	      <th scope="col">Brand</th>
-	      <th scope="col">Category</th>
-		  <th scope="col">Quantity</th>
-	    </tr>
-	  </thead>
-	  <tbody id="inventory-table-body">
-	  </tbody>
-	</table>
-
- </div>
-</div>
-
-
-
-</div> <!-- Container end-->
-
-<footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/inventoryreport.js}"></script>
-
-</body>	
+</body>
 
 </html>

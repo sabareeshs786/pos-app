@@ -43,6 +43,8 @@ function enableOrDisable(){
 	if(getRole() != 'supervisor'){
 		$('input').attr('disabled', true);
 		$('button').attr('disabled', true);
+        $('input').attr('title', 'Only supervisors have access');
+        $('button').attr('title', 'Only supervisors have access');
         $('#adminButton').attr("style", "display:none;");
 	}
 	else{

@@ -225,8 +225,16 @@ function displayProduct(data){
 	$('#edit-product-modal').modal('toggle');
 }
 
+function displayAddModal(){
+	$('#add-product-modal').modal('toggle');
+}
 //INITIALIZATION CODE
 function init(){
+	// $('#cancel1').click(clearAddData);
+	// $('#cancel2').click(clearAddData);
+	// $('#cancel3').click(clearEditData);
+	// $('#cancel4').click(clearEditData);
+	$('#add-data').click(displayAddModal);
 	$('#add-product').click(addProduct);
 	$('#update-product').click(updateProduct);
 	$('#upload-data').click(displayUploadData);
