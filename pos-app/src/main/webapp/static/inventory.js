@@ -220,8 +220,12 @@ function displayInventory(data){
 	$('#edit-inventory-modal').modal('toggle');
 }
 
+function displayAddModal(){
+	$('#add-inventory-modal').modal('toggle');
+}
 //INITIALIZATION CODE
 function init(){
+	$('#add-data').click(displayAddModal);
 	$('#add-inventory').click(addInventory);
 	$('#update-inventory').click(updateInventory);
 	$('#upload-data').click(displayUploadData);

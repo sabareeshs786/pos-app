@@ -43,6 +43,8 @@ function enableOrDisable(){
 	if(getRole() != 'supervisor'){
 		$('input').attr('disabled', true);
 		$('button').attr('disabled', true);
+        $('input').attr('title', 'Only supervisors have access');
+        $('button').attr('title', 'Only supervisors have access');
         $('#adminButton').attr("style", "display:none;");
 	}
 	else{
@@ -143,11 +145,6 @@ function writeFileData(arr){
     tempLink.href = fileUrl;
     tempLink.setAttribute('download', 'downloadbrand.tsv');
     tempLink.click(); 
-}
-
-function loadEmailAndPassword(){
-    $("#login-form input[name=email]").val("hari@gmail.com");
-    $("#login-form input[name=password]").val("1234");
 }
 
 function onlyNonNegativeInt() {
@@ -253,7 +250,6 @@ function init(){
 }
 
 $(document).ready(init);
-$(document).ready(loadEmailAndPassword);
 $(document).ready(onlyNonNegativeInt);
 $(document).ready(decimalNumber);
 $(document).ready(noOfCharLimiter);

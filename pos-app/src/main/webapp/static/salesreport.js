@@ -163,9 +163,12 @@ function downloadReport(){
 	arr = toArrayOfJsonObjects();
 	writeSalesReportFileData(arr);
 }
-
+function displayFilterModal(){
+	$('#filter-modal').modal('toggle');
+}
 //INITIALIZATION CODE
 function init(){
+	$('#filter-data').click(displayFilterModal);
 	$('#process-data').click(processData);
 	$('#refresh-data').click(getSalesReportListUtil);
 	$('#download-data').click(downloadReport);
