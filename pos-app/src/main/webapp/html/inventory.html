@@ -10,14 +10,22 @@
 
 	<main>
 		<div class="container">
-			<div th:replace="snippets.html :: pos_app_messages"></div>
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
+
 			<h3>Inventory</h3>
 			<div class="row">
 				<div class="col-8 align-items-right">
-						<button type="button" class="btn btn-primary" id="add-data">+&nbsp;Add</button>
-						&nbsp;
-						&nbsp;
-						<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+					<button type="button" class="btn btn-primary" id="add-data">+&nbsp;Add</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
 				</div>
 			</div>
 			<!-- Blank Row -->
@@ -25,7 +33,7 @@
 				&nbsp;
 			</div>
 
-			<div class="card d-flex w-75">
+			<div class="card d-flex w-100">
 				<div th:replace="snippets.html :: card_header"></div>
 				<div class="card-body">
 					<table class="table table-striped" id="inventory-table">
@@ -57,23 +65,42 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form class="row g-4 needs-validation" id="inventory-form">
-								<div class="col-md-12" id="error-message1" style="color: red;">
-								</div>
+							<form class="row g-4 needs-validation" id="inventory-form" novalidate>
 								<div class="col-md-12">
-									<label class="form-label" for="inputEditBarcode">Barcode</label>
+									<label class="form-label required" for="inputEditBarcode">Barcode</label>
+									<div class="input-group has-validation">
 										<input type="text" class="form-control" id="inputEditBarcode" name="barcode"
-											placeholder="Enter barcode">
+											placeholder="Enter barcode" onfocus="validateAddBarcodeUtil()">
+										<span class="input-group-append">
+											<button type="button" class="btn btn-success" id="check-barcode">
+												<i class="fa fa-search"></i>
+											</button>
+										</span>
+										<div class="valid-feedback" id="bvf1">
+											Product available
+										</div>
+										<div class="invalid-feedback" id="bif1">
+											Please enter barcode
+										</div>
+										<div class="invalid-feedback" id="bif2">
+											Product not available
+										</div>
+									</div>
+
 								</div>
 								<div class="col-md-12">
-									<label for="inputQuantity" class="form-label">Quantity</label>
-										<input type="number" class="form-control" name="quantity"
-											placeholder="Enter quantity">
+									<label for="inputQuantity" class="form-label required">Quantity</label>
+									<input type="number" class="form-control" name="quantity"
+										placeholder="Enter quantity" onfocus="validateAddQuantityUtil()">
+									<div class="invalid-feedback" id="qif1">
+										Please enter quantity
+									</div>
 								</div>
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel1">Cancel</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal"
+								id="cancel1">Cancel</button>
 							<button type="button" class="btn btn-primary" id="add-inventory">Add</button>
 						</div>
 					</div>
@@ -92,18 +119,35 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form class="row g-4 needs-validation" id="inventory-edit-form">
-								<div class="col-md-12" id="error-message2" style="color: red;">
-								</div>
+							<form class="row g-4 needs-validation" id="inventory-edit-form" novalidate>
 								<div class="col-md-12">
-									<label class="form-label" for="inputEditBarcode">Barcode</label>
+									<label class="form-label required" for="inputEditBarcode">Barcode</label>
+									<div class="input-group has-validation">
 										<input type="text" class="form-control" id="inputEditBarcode" name="barcode"
 											placeholder="Enter barcode">
+										<span class="input-group-append">
+											<button type="button" class="btn btn-success" id="check-barcode-edit">
+												<i class="fa fa-search"></i>
+											</button>
+										</span>
+										<div class="valid-feedback" id="ebvf1">
+											Product available
+										</div>
+										<div class="invalid-feedback" id="ebif1">
+											Please enter barcode
+										</div>
+										<div class="invalid-feedback" id="ebif2">
+											Product not available
+										</div>
+									</div>
 								</div>
 								<div class="col-md-12">
-									<label for="inputQuantity" class="form-label">Quantity</label>
-										<input type="number" class="form-control" name="quantity"
-											placeholder="Enter quantity">
+									<label for="inputQuantity" class="form-label required">Quantity</label>
+									<input type="number" class="form-control" name="quantity"
+										placeholder="Enter quantity">
+										<div class="invalid-feedback" id="eqif1">
+											Please enter barcode
+										</div>
 								</div>
 								<input type="hidden" name="productId">
 							</form>
@@ -143,7 +187,8 @@
 						</div>
 
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel6">Cancel</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal"
+								id="cancel6">Cancel</button>
 							<button type="button" class="btn btn-primary" id="process-data">Upload</button>
 							<button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
 						</div>

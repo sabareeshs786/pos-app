@@ -5,10 +5,11 @@
 <head th:replace="snippets.html :: name_head"></head>
 
 <body>
-	<div th:replace="snippets.html :: pos_app_messages"></div>
 	<nav th:replace="snippets.html :: name_site_navbar"></nav>
-
 	<main class="container">
+		<div class="alert alert-danger" role="alert">
+			[[${info.getMessage()}]]
+		</div>
 		<div class="card col-4">
 			<div class="card-header">
 				Sign Up
@@ -16,11 +17,11 @@
 			<div class="card-body">
 				<form class="form" id="signup-form" method="POST" th:action="@{/session/signup}">
 					<div class="form-outline mb-4">
-						<input type="email" id="forEmail" class="form-control" name="email">
+						<input type="email" id="forEmail" class="form-control" name="email" required>
 						<label class="form-label" for="forEmail">Email address</label>
 					</div>
 					<div class="form-outline mb-4">
-						<input type="password" id="forPassword" class="form-control" name="password">
+						<input type="password" id="forPassword" class="form-control" name="password" required>
 						<label class="form-label" for="forPassword">Password</label>
 					</div>
 					<button type="submit" class="btn btn-primary btn-block mb-4" id="signup">Sign Up</button>
@@ -28,9 +29,6 @@
 						<p>Already a member? <a th:href="@{/site/login}">Login</a></p>
 					</div>
 				</form>
-			</div>
-			<div class="card-footer text-danger">
-				[[${info.getMessage()}]]
 			</div>
 
 		</div>

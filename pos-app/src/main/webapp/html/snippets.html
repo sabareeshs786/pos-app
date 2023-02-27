@@ -16,6 +16,7 @@
 <!-- <script th:src="@{/static/js/jquery.validate.min.js}"></script>
 <script th:src="@{/static/js/additional-methods.min.js}"></script> -->
 <link rel="stylesheet" th:href="@{/static/app.css}">
+
 <!-- Font Awesome -->
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -33,30 +34,7 @@
 />
 </head>
 
-<head th:fragment="name_head_2">
 
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="baseUrl" th:attr="content=${baseUrl}">
-  <meta name="orderId" th:attr="content=${orderId}">
-  <!-- <meta name="info" th:attr="content=${info}"> -->
-  <meta name="role" th:attr="content=${info.getRole()}">
-  <meta name="mode" th:attr="content=${mode}">
-
-
-</head>
-<div th:fragment="pos_app_messages">
-  <div id="success-message" style="display:none;">
-    <p>Success: Operation completed successfully!</p>
-    <button id="close-button">Close</button>
-  </div>
-
-  <div id="error-message" style="display:none;">
-    <p>Error: Something went wrong!</p>
-    <button id="close-button">Close</button>
-  </div>
-</div>
 <header class="fixed-top" th:fragment="name_site_navbar">
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-1">
   <a class="navbar-brand" th:href="@{/}">
@@ -90,6 +68,41 @@
 
   </div>
 </nav>
+</header>
+
+<header class="fixed-top" th:fragment="name_site_navbar_login_signup">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-1">
+    <a class="navbar-brand" th:href="@{/}">
+      <img th:src="@{/static/logo.jpg}" class="d-inline-block align-top" alt="">
+    </a>
+  
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/site/features}">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/site/pricing}">Pricing</a>
+        </li>
+      </ul>
+  
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="btn btn-primary" th:href="@{/site/login}" id="loginButton">Login</a>
+        </li>
+        &nbsp;
+        &nbsp;
+        <li class="nav-item">
+          <a class="btn btn-primary" th:href="@{/site/signup}" id="signupButton">Sign&nbsp;Up</a>
+        </li>
+      </ul>
+  
+    </div>
+  </nav>
 </header>
 
 <header class="fixed-top" th:fragment="name_app_navbar">
@@ -172,10 +185,7 @@
     </ul>
   </nav>
 </div>
-<!-- <div class="row" th:fragment="pos_app_selected_rows">
-  <div class="col-6" id="selected-rows">
-  </div>
-</div> -->
+
 <footer class="footer fixed-bottom mt-1" th:fragment="name_footer">
   &copy;Copyright Increff 2019
   &nbsp;
