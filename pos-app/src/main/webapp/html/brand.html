@@ -9,7 +9,17 @@
 
 <main>
 	<div class="container">
-		<div th:replace="snippets.html :: pos_app_messages"></div>
+
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+
 		<h3>Brands</h3>
 		<div class="row">
 			<div class="col-8 align-items-right">
@@ -25,7 +35,7 @@
 			&nbsp;
 		</div>
 
-		<div class="card d-flex w-75">
+		<div class="card d-flex w-100">
 			<div th:replace="snippets.html :: card_header"></div>
 			<div class="card-body">
 			<table class="table table-striped" id="brand-table">
@@ -56,28 +66,22 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="row g-4 needs-validation" id="brand-form">
+					<form class="row g-4 needs-validation" id="brand-form" novalidate>
 						<div class="col-md-12" id="error-message1" style="color: red;">
 						</div>
 						<div class="col-md-12">
-							<label for="inputBrandName" class="form-label">Brand</label>
+							<label for="inputBrandName" class="form-label required">Brand</label>
 								<input type="text" class="form-control" name="brand" id="inputBrandName"
 									placeholder="Enter brand" onfocus="validateAddBrandUtil()">
-									<div class="valid-feedback" id="bvf1">
-										Looks good!!!
-									</div>
 									<div class="invalid-feedback" id="bivf1">
 										Please enter brand
 									</div>
 						</div>
 						<div class="col-md-12">
-							<label for="inputCategory" class="form-label">Category</label>
+							<label for="inputCategory" class="form-label required">Category</label>
 								<input type="text" class="form-control" name="category" id="inputCategory"
 									placeholder="Enter category" onfocus="validateAddCategoryUtil()">
-									<div class="valid-feedback" id="cvf1">
-										Looks good!!!
-									</div>
-									<div class="invalid-feedback" id="civf1">
+								<div class="invalid-feedback" id="civf1">
 									Please enter category
 								</div>
 						</div>
@@ -102,18 +106,18 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form class="row g-4 needs-validation" id="brand-edit-form">
+						<form class="row g-4 needs-validation" id="brand-edit-form" novalidate>
 							<div class="col-md-12" id="error-message2" style="color: red;">
 							</div>
 							<div class="col-md-12">
-								<label for="inputBrandName" class="form-label">Brand</label>
+								<label for="inputBrandName" class="form-label required">Brand</label>
 									<input type="text" class="form-control" name="brand" placeholder="Enter brand">
 									<div class="invalid-feedback" id="ebif1">
 										Please enter brand
 									</div>
 							</div>
 							<div class="col-md-12">
-								<label for="inputCategory" class="form-label">Category</label>
+								<label for="inputCategory" class="form-label required">Category</label>
 									<input type="text" class="form-control" name="category"
 										placeholder="Enter category">
 									<div class="invalid-feedback" id="ecif1">
@@ -132,7 +136,7 @@
 		</div>
 
 
-		<!-- Brand Edit Modal -->
+		<!-- Brand Upload Modal -->
 		<div class="modal" tabindex="-1" role="dialog" id="upload-brand-modal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -159,7 +163,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel6">Cancel</button>
 						<button type="button" class="btn btn-primary" id="process-data">Upload</button>
-						<button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+						<button type="button" class="btn btn-warning" id="download-errors" disabled>Download Errors</button>
 					</div>
 				</div>
 			</div>

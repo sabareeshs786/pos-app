@@ -5,25 +5,21 @@
 <head th:replace="snippets.html :: name_head"></head>
 
 <body>
-  <div th:replace="snippets.html :: pos_app_messages"></div>
   <header th:replace="snippets.html :: name_site_navbar"></header>
 
-  <main>
-    <div class="container">
+  <main class="container">
       <div class="row">
         <div class="col-6">
 
           <div class="jumbotron">
             <h1 class="display-4">Hello, world!</h1>
-            <p class="lead">Welcome to Increff Spring Tutorial</p>
-            <hr class="my-4">
-            <p>This application teaches you Spring concepts and creating awesome web applications</p>
+            <p class="lead">Welcome to Point of Sales application</p>
+            
             <a class="btn btn-primary btn-lg" th:href="@{/site/login}" role="button">Get Started</a>
           </div>
 
         </div>
       </div>
-    </div> <!--Container-->
   </main>
   <footer th:replace="snippets.html :: name_footer"></footer>
 

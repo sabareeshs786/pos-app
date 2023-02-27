@@ -156,7 +156,7 @@ public class BrandService {
 			throw new ApiException("Characters other than alpha-numeric is not allowed");
 		}
 		if(dao.selectByBrandAndCategory(p.getBrand(), p.getCategory()) != null) {
-			throw new ApiException("The entered brand and category combination already exists\nEnter a different brand or category");
+			throw new ApiException("The entered brand and category combination already exists");
 		}
 	}
 

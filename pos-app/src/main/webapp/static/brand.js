@@ -1,187 +1,24 @@
+// GLOBAL VARIABLES
+// 1) For add brand
 var $brand = $('#brand-form input[name=brand]');
 var $category = $('#brand-form input[name=category]');
 var $add = $('#add-brand');
-var $error1 = $('#error-message1');
+// 2) For edit brand
 var $editBrand = $('#brand-edit-form input[name=brand]');
 var $editCategory = $('#brand-edit-form input[name=category]');
-var $error2 = $('#error-message2');
 var $update = $('#update-brand');
+// 3) For tracking edit data
 var oldData = "";
 var newData = "";
+
+// BRAND URL FUNCTION
 function getBrandUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/brands";
 }
 
-//BUTTON ACTIONS
-function addBrand(event){
-	//Set the values to update
-	var $form = $("#brand-form");
-	var json = toJson($form);
-	if(validator(json)){
-		var url = getBrandUrl();
-		
-		$.ajax({
-		url: url,
-		type: 'POST',
-		data: json,
-		headers: {
-			'Content-Type': 'application/json'
-		},	   
-		success: function(response) {
-			$error1.attr('style', 'display:none;');
-			$error1.text('');
-			handleAjaxSuccess("Success!!!\nBrand "+response.brand+" and category "+response.category+" added successfully!!");
-			getBrandListUtil();
-			$('#add-brand-modal').modal('toggle');
-		},
-		error: function(response){
-			var response = JSON.parse(response.responseText);
-			$error1.attr('style', 'display:block; color:red;');
-			$error1.text(response.message);
-			disableAdd();
-			}
-		});
-	}
-	return false;
-}
-function validateAddBrandUtil(){
-	$brand.off();
-	$brand.on('input', validateAddBrand);
-}
-function validateAddCategoryUtil(){
-	$category.off();
-	$category.on('input', validateAddCategory);
-}
-function validateAddBrand(){
-	if($brand.val().length == 0){
-		if($brand.hasClass('is-valid')){
-			$brand.removeClass('is-valid');
-		}
-		$brand.addClass('is-invalid');
-		$('#bvf1').attr('style', 'display:none;');
-		$('#bivf1').attr('style', 'display:block;');
-		disableAdd();
-	}
-	else{
-		if($brand.hasClass('is-invalid')){
-			$brand.removeClass('is-invalid');
-		}
-		$brand.addClass('is-valid');
-		$('#bivf1').attr('style', 'display:none;');
-		$('#bvf1').attr('style', 'display:block;');
-		enableAdd();
-	}
-}
-
-function validateAddCategory(){
-	if($category.val().length == 0){
-		if($category.hasClass('is-valid')){
-			$category.removeClass('is-valid');
-		}
-		$category.addClass('is-invalid');
-		$('#cvf1').attr('style', 'display:none;');
-		$('#civf1').attr('style', 'display:block;');
-		enableOrDisableAdd()
-	}
-	else{
-		if($category.hasClass('is-invalid')){
-			$category.removeClass('is-invalid');
-		}
-		$category.addClass('is-valid');
-		$('#civf1').attr('style', 'display:none;');
-		$('#cvf1').attr('style', 'display:block;');
-		enableOrDisableAdd();
-	}
-}
-
-function validateEditForm(){
-	if($editBrand.val().length == 0){
-		if($editBrand.hasClass('is-vaild')){
-			$editBrand.removeClass('is-valid');
-		}
-		$('#ebif1').attr("style", "display:block;");
-		$editBrand.addClass('is-invalid');
-		$update.attr('disabled', true);
-	}
-	else{
-		if($editBrand.hasClass('is-invalid')){
-			$editBrand.removeClass('is-invalid');
-		}
-		$('#ebif1').attr("style", "display:none;");
-		$editBrand.addClass('is-valid');
-	}
-	if($editCategory.val().length == 0){
-		if($editCategory.hasClass('is-vaild')){
-			$editCategory.removeClass('is-valid');
-		}
-		$('#ecif1').attr("style", "display:block;");
-		$editCategory.addClass('is-invalid');
-		$update.attr('disabled', true);
-	}
-	else{
-		if($editCategory.hasClass('is-invalid')){
-			$editCategory.removeClass('is-invalid');
-		}
-		$('#ecif1').attr("style", "display:none;");
-		$editCategory.addClass('is-valid');
-	}
-	
-	newData = {
-		'brand': $editBrand.val(),
-		'category': $editCategory.val()
-	};
-
-	console.log("Old");
-	console.log(oldData);
-	console.log("New");
-	console.log(newData);
-
-	if((oldData.brand == newData.brand && oldData.category == newData.category)
-		|| ($editBrand.hasClass('is-invalid') || $editCategory.hasClass('is-invalid'))){
-		$update.attr('disabled', true);
-	}
-	else{
-		$update.attr('disabled', false);
-	}
-}
-
-function updateBrand(event){
-	//Get the ID
-	var id = $("#brand-edit-form input[name=id]").val();	
-	var url = getBrandUrl() + "/" + id;
-
-
-	//Set the values to update
-	var $form = $("#brand-edit-form");
-	var json = toJson($form);
-	if(validator(json)){
-		$.ajax({
-		url: url,
-		type: 'PUT',
-		data: json,
-		headers: {
-			'Content-Type': 'application/json'
-		},	   
-		success: function(response) {
-			$error2.attr('style', 'display:none;');
-			$error2.text('');
-			var jsonObj = JSON.parse(json);
-			handleAjaxSuccess("Update successfull!!!");
-			getBrandListUtil();
-			$('#edit-brand-modal').modal('toggle');
-		},
-		error: function(response){
-			var response = JSON.parse(response.responseText);
-			$error2.attr('style', 'display:block; color:red;');
-			$error2.text(response.message);
-		}
-		});
-	}
-	
-	return false;
-}
-
+// GET AND DISPLAY BRAND LIST FUNCTIONS
+// 1) Get functions
 function getBrandListUtil(){
 	var pageSize = $('#inputPageSize').val();
 	getBrandList(0, pageSize);
@@ -202,6 +39,212 @@ function getBrandList(pageNumber, pageSize){
 	   error: handleAjaxError
 	});
 }
+// 2) UI Display functions
+function displayBrandList(data, sno){
+	$("#brand-table-body").empty();
+    var row = "";
+	for (var i = 0; i < data.length; i++) {
+	sno += 1;
+	var buttonHtml = '<button onclick="displayEditBrand(' + data[i].id + ')" class="btn btn-warning">edit</button>'
+	row = "<tr><td>" 
+	+ sno + "</td><td>" 
+	+ data[i].brand + "</td><td>"
+	+ data[i].category + "</td><td>" 
+	+ buttonHtml 
+	+ "</td></tr>";
+	$("#brand-table-body").append(row);
+	}
+	enableOrDisable();
+}
+
+function displayEditBrand(id){
+	var url = getBrandUrl() + "/" + id;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		displayBrand(data);
+	   },
+	   error: function(response){
+			handleAjaxError(response);
+	   }
+	});
+}
+
+function displayBrand(data){
+	$("#brand-edit-form input[name=brand]").val(data.brand);	
+	$("#brand-edit-form input[name=category]").val(data.category);
+	$("#brand-edit-form input[name=id]").val(data.id);
+	$('#edit-brand-modal').modal('toggle');
+	$update.attr('disabled', true);
+	oldData = {
+		'brand': $editBrand.val(),
+		'category': $editCategory.val()
+	};
+	newData = {
+		'brand': $editBrand.val(),
+		'category': $editCategory.val()
+	};
+}
+
+// VALIDATION FUNCTIONS FOR ADD BRAND
+// 1) Utils
+function validateAddBrandUtil(){
+	$brand.off();
+	$brand.on('input', validateAddBrand);
+}
+
+function validateAddCategoryUtil(){
+	$category.off();
+	$category.on('input', validateAddCategory);
+}
+// 2) Actual functions
+function validateAddBrand(){
+	if($brand.val().length == 0){
+		$brand.addClass('is-invalid');
+		$('#bivf1').attr('style', 'display:block;');
+	}
+	else{
+		if($brand.hasClass('is-invalid')){
+			$brand.removeClass('is-invalid');
+		}
+		$('#bivf1').attr('style', 'display:none;');
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddCategory(){
+	if($category.val().length == 0){
+		$category.addClass('is-invalid');
+		$('#civf1').attr('style', 'display:block;');
+	}
+	else{
+		if($category.hasClass('is-invalid')){
+			$category.removeClass('is-invalid');
+		}
+		$('#civf1').attr('style', 'display:none;');
+	}
+	enableOrDisableAdd();
+}
+
+// VALIDATION FUNCTIONS FOR EDIT BRAND
+function validateEditForm(){
+	if($editBrand.val().length == 0){
+		$editBrand.addClass('is-invalid');
+		$('#ebif1').attr("style", "display:block;");
+	}
+	else{
+		if($editBrand.hasClass('is-invalid')){
+			$editBrand.removeClass('is-invalid');
+		}
+		$('#ebif1').attr("style", "display:none;");
+	}
+	if($editCategory.val().length == 0){
+		$editCategory.addClass('is-invalid');
+		$('#ecif1').attr("style", "display:block;");
+	}
+	else{
+		if($editCategory.hasClass('is-invalid')){
+			$editCategory.removeClass('is-invalid');
+		}
+		$('#ecif1').attr("style", "display:none;");
+	}
+	
+	newData = {
+		'brand': $editBrand.val(),
+		'category': $editCategory.val()
+	};
+
+	if((oldData.brand == newData.brand && oldData.category == newData.category)
+		|| ($editBrand.hasClass('is-invalid') || $editCategory.hasClass('is-invalid'))){
+		$update.attr('disabled', true);
+	}
+	else{
+		$update.attr('disabled', false);
+	}
+}
+
+//BUTTON ACTIONS
+// 1) Add brand button
+function addBrand(event){
+	//Set the values to update
+	var $form = $("#brand-form");
+	var json = toJson($form);
+	if(validator(json)){
+		var url = getBrandUrl();
+		
+		$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+			handleAjaxSuccess("Brand "+response.brand+" and category "+response.category+" added successfully");
+			getBrandListUtil();
+			clearAddData();
+		},
+		error: function(response){
+			handleAjaxError(response);
+			disableAdd();
+			}
+		});
+	}
+	return false;
+}
+// 2) Update brand button
+function updateBrand(event){
+	//Get the ID
+	var id = $("#brand-edit-form input[name=id]").val();	
+	var url = getBrandUrl() + "/" + id;
+
+
+	//Set the values to update
+	var $form = $("#brand-edit-form");
+	var json = toJson($form);
+	if(validator(json)){
+		$.ajax({
+		url: url,
+		type: 'PUT',
+		data: json,
+		headers: {
+			'Content-Type': 'application/json'
+		},	   
+		success: function(response) {
+			handleAjaxSuccess("Update successfull!!!");
+			getBrandListUtil();
+			clearEditData();
+		},
+		error: function(response){
+			handleAjaxError(response);
+		}
+		});
+	}
+	
+	return false;
+}
+
+// ENABLE AND DISABLE FUNCTIONS
+function enableAdd(){
+	$add.attr('disabled', false);
+}
+
+function disableAdd(){
+	$add.attr('disabled', true);
+}
+
+function enableOrDisableAdd(){
+	var brand = $brand.val();
+	var category = $category.val();
+	if(brand.length > 0 && category.length > 0 && 
+		!$brand.hasClass('is-invalid') && !$category.hasClass('is-invalid')){
+		$add.attr('disabled', false);
+	}
+	else{
+		$add.attr('disabled', true);
+	}
+}
 
 // FILE UPLOAD METHODS
 var fileData = [];
@@ -219,19 +262,20 @@ function isValid(uploadObject) {
 
 function processData(){
 	var file = $('#brandFile')[0].files[0];
-	console.log(file);
+	resetUploadDialog();
 	readFileData(file, readFileDataCallback);
+	enableOrDisableDownloadErrors();
 }
 
 function readFileDataCallback(results){
 	fileData = results;
 	if(isValid(fileData[0])){
-		console.log(fileData);
 		uploadRows();
 	}
 	else{
-		$("#error-message").notify("Invalid file", "error");
+		$.notify("Invalid file", "error");
 	}
+	$('#process-data').attr('disabled', true);
 }
 
 function uploadRows(){
@@ -262,7 +306,8 @@ function uploadRows(){
 	   		uploadRows();
 	   },
 	   error: function(response){
-	   		row.error=response.responseText;
+			var response = JSON.parse(response.responseText);
+			row.error = response.message;
 	   		errorData.push(row);
 			uploadRows();
 	   }
@@ -271,39 +316,6 @@ function uploadRows(){
 
 function downloadErrors(){
 	writeFileData(errorData);
-}
-
-//UI DISPLAY METHODS
-
-function displayBrandList(data, sno){
-	$("#brand-table-body").empty();
-    var row = "";
-	for (var i = 0; i < data.length; i++) {
-	sno += 1;
-	var buttonHtml = '<button onclick="displayEditBrand(' + data[i].id + ')">edit</button>'
-	row = "<tr><td>" 
-	+ sno + "</td><td>" 
-	+ data[i].brand + "</td><td>"
-	+ data[i].category + "</td><td>" 
-	+ buttonHtml 
-	+ "</td></tr>";
-	$("#brand-table-body").append(row);
-	}
-	enableOrDisable();
-}
-
-function displayEditBrand(id){
-	var url = getBrandUrl() + "/" + id;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayBrand(data);
-	   },
-	   error: function(response){
-			handleAjaxError(response);
-	   }
-	});
 }
 
 function resetUploadDialog(){
@@ -315,6 +327,9 @@ function resetUploadDialog(){
 	processCount = 0;
 	fileData = [];
 	errorData = [];
+	// Reset buttons
+	$('#process-data').attr('disabled', true);
+	$('#download-errors').attr('disabled', true);
 	//Update counts	
 	updateUploadDialog();
 }
@@ -328,64 +343,80 @@ function updateUploadDialog(){
 function updateFileName(){
 	var $file = $('#brandFile');
 	var fileName = $file.val();
-	$('#brandFileName').html(fileName);
+	$('#process-data').attr('disabled', false);
+	$('#brandFileName').html(fileName.split('\\')[2]);
 }
 
 function displayUploadData(){
- 	resetUploadDialog(); 	
+ 	resetUploadDialog();
 	$('#upload-brand-modal').modal('toggle');
 }
 
-function displayBrand(data){
-	$("#brand-edit-form input[name=brand]").val(data.brand);	
-	$("#brand-edit-form input[name=category]").val(data.category);
-	$("#brand-edit-form input[name=id]").val(data.id);
-	$('#edit-brand-modal').modal('toggle');
-	$update.attr('disabled', true);
-	oldData = {
-		'brand': $editBrand.val(),
-		'category': $editCategory.val()
-	};
-	newData = {
-		'brand': $editBrand.val(),
-		'category': $editCategory.val()
-	};
-}
-
-function enableAdd(){
-	$add.attr('disabled', false);
-}
-function disableAdd(){
-	$add.attr('disabled', true);
-}
-function enableOrDisableAdd(){
-	var brand = $brand.val();
-	var category = $category.val();
-	if(brand.length > 0 && category.length > 0 && 
-		!$brand.hasClass('is-invalid') && !$category.hasClass('is-invalid')){
-		$add.attr('disabled', false);
+function enableOrDisableDownloadErrors(){
+	if(errorData.length > 0){
+		$('#download-errors').attr('disabled', false);
 	}
 	else{
-		$add.attr('disabled', true);
+		$('#download-errors').attr('disabled', true);
 	}
-}
-function addData(){
-	$('#add-brand-modal').modal('toggle');
+	$('#process-data').attr('disabled', true);
 }
 
+// RESETTING AND CLEARING FUNCTIONS
 function clearEditData(){
 	$editBrand.val('');
 	$editCategory.val('');
-	$error2.val('');
 	$update.attr('disabled', true);
-	$('#edit-brand-modal').modal('toggle');
+	clearCommentsEditForm();
+	if($('#edit-brand-modal').length){
+		$('#edit-brand-modal').modal('toggle');
+	}
 }
+
+function clearCommentsAddForm(){
+	if($brand.hasClass('is-valid')){
+		$brand.removeClass('is-valid');
+	}
+	if($brand.hasClass('is-invalid')){
+		$brand.removeClass('is-invalid');
+	}
+	if($category.hasClass('is-valid')){
+		$category.removeClass('is-valid');
+	}
+	if($category.hasClass('is-invalid')){
+		$category.removeClass('is-invalid');
+	}
+	$('#bivf1').attr('style', 'display:none;');
+	$('#civf1').attr('style', 'display:none;')
+}
+
+function clearCommentsEditForm(){
+	if($editBrand.hasClass('is-valid')){
+		$editBrand.removeClass('is-valid');
+	}
+	if($editBrand.hasClass('is-invalid')){
+		$editBrand.removeClass('is-invalid');
+	}
+	if($editCategory.hasClass('is-valid')){
+		$editCategory.removeClass('is-valid');
+	}
+	if($editCategory.hasClass('is-invalid')){
+		$editCategory.removeClass('is-invalid');
+	}
+	$('#ebif1').attr('style', 'display:none;');
+	$('#ecif1').attr('style', 'display:none;');
+} 
+
 function clearAddData(){
-	$('#brand-form input[name=brand]').val('');
-	$('#brand-form input[name=brand]').val('');
-	$error1.val('');
+	$brand.val('');
+	$category.val('');
 	$add.attr('disabled', true);
-	$('#add-brand-modal').modal('toggle');
+
+	clearCommentsAddForm();
+
+	if($('#add-brand-modal').length){
+		$('#add-brand-modal').modal('toggle');
+	}
 }
 
 function clearUploadData(){
@@ -393,7 +424,15 @@ function clearUploadData(){
 	$('#processCount').text('0');
 	$('#errorCount').text('0');
 	$('#brandFile').val('');
+	$('#process-data').attr('disabled', true);
+	$('#download-errors').attr('disabled', true);
+	if($('#upload-brand-modal').length)
 	$('#upload-brand-modal').modal('toggle');
+}
+
+// ADD MODAL TOGGLER
+function addData(){
+	$('#add-brand-modal').modal('toggle');
 }
 
 //INITIALIZATION CODE
@@ -419,4 +458,7 @@ function init(){
 $(document).ready(init);
 $(document).ready(getBrandListUtil);
 $(document).ready(enableOrDisable);
-
+$(document).ready(function(){
+	$add.attr('disabled', true);
+	$update.attr('disabled', true);
+})

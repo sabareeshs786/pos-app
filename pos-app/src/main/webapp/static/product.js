@@ -1,9 +1,419 @@
+// GLOBAL VARIABLES
+// 1) For add product
+var $barcode = $('#product-form input[name=barcode]');
+var $brand = $('#product-form input[name=brand]');
+var $category = $('#product-form input[name=category]');
+var $name = $('#product-form input[name=name]');
+var $mrp = $('#product-form input[name=mrp]');
+var $add = $('#add-product');
+var $checkBarcode = $('#check-barcode');
+// 2) For edit product
+var $editBarcode = $('#product-edit-form input[name=barcode]');
+var $editBrand = $('#product-edit-form input[name=brand]');
+var $editCategory = $('#product-edit-form input[name=category]');
+var $editName = $('#product-edit-form input[name=name]');
+var $editMrp = $('#product-edit-form input[name=mrp]');
+var $update = $('#update-product');
+var $checkBarcodeEdit = $('#check-barcode-edit');
+// 3) For tracking edit data
+var oldData = null;
+var newData = null;
+
+// PRODUCT URL FUNCTION
 function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/products";
 }
 
+// GET AND DISPLAY PRODUCT LIST FUNCTIONS
+// 1) Get functions
+function getProductListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getProductList(0, pageSize);
+}
+
+function getProductList(pageNumber, pageSize){
+	var url = getProductUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+	   		displayProductList(data.content, pageNumber*pageSize);
+			$('#selected-rows').html('Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
+			paginator(data, "getProductList", pageSize);
+	   },
+	   error: function(response){
+		handleAjaxError(response);
+	   }
+	});
+}
+// 2) UI Display functions
+function displayProductList(data, sno){
+	$("#product-table-body").empty();
+    var row = "";
+	for (var i = 0; i < data.length; i++) {
+	sno += 1;
+	var buttonHtml = ' <button onclick="displayEditProduct(' + data[i].id + ')" class="btn btn-warning">edit</button>'
+	row = "<tr><td>" 
+	+ sno + "</td><td>" 
+	+ data[i].barcode + "</td><td>"
+	+ data[i].brand + "</td><td>"
+	+ data[i].category + "</td><td>"
+	+ data[i].name + "</td><td>" 
+	+ data[i].mrp + "</td><td>"
+	+ buttonHtml 
+	+ "</td></tr>";
+	$("#product-table-body").append(row);
+	}
+	enableOrDisable();
+}
+
+function displayEditProduct(id){
+	var url = getProductUrl() + "/" + id;
+	console.log(url);
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		displayProduct(data);
+	   },
+	   error: handleAjaxError
+	});	
+}
+
+function displayProduct(data){
+	$("#product-edit-form input[name=id]").val(data.id)
+	$("#product-edit-form input[name=barcode]").val(data.barcode);	
+	$("#product-edit-form input[name=brand]").val(data.brand);
+	$("#product-edit-form input[name=category]").val(data.category);
+	$("#product-edit-form input[name=name]").val(data.name);
+	$("#product-edit-form input[name=mrp]").val(data.mrp);
+	$('#edit-product-modal').modal('toggle');
+
+	$update.attr('disabled', true);
+	oldData = {
+		'barcode' : data.barcode,
+		'brand' : data.brand,
+		'category': data.category,
+		'name': data.name,
+		'mrp': data.mrp
+	};
+	newData = {
+		'barcode' : data.barcode,
+		'brand' : data.brand,
+		'category': data.category,
+		'name': data.name,
+		'mrp': data.mrp
+	};
+}
+
+// VALIDATION FUNCTIONS FOR ADD PRODUCT
+// 1) Utils
+function validateAddBarcodeUtil(){
+	$barcode.off();
+	$barcode.on('input', validateAddBarcode);
+}
+
+function validateAddBrandUtil(){
+	$brand.off();
+	$brand.on('input', validateAddBrand);
+}
+
+function validateAddCategoryUtil(){
+	$category.off();
+	$category.on('input', validateAddCategory);
+}
+
+function validateAddNameUtil(){
+	$name.off();
+	$name.on('input', validateAddProductName);
+}
+
+function validateAddMrpUtil(){
+	$mrp.off();
+	$mrp.on('input', validateAddMrp);
+}
+// 2) Actual functions
+function validateAddBarcode(){
+	if($barcode.val().length == 0){
+		if($barcode.hasClass('is-valid')){
+			$barcode.removeClass('is-valid');
+		}
+		$barcode.addClass('is-invalid');
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:block;');
+		$('#bif2').attr('style', 'display:none;');
+		$checkBarcode.attr('disabled', true);
+	}
+	else{
+		if($barcode.hasClass('is-invalid')){
+			$barcode.removeClass('is-invalid');
+		}
+		if($barcode.hasClass('is-valid')){
+			$barcode.removeClass('is-valid');
+		}
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:none;');
+		$('#bif2').attr('style', 'display:none;');
+		$checkBarcode.attr('disabled', false);
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddBrand(){
+	if($brand.val().length == 0){
+		$brand.addClass('is-invalid');
+		$('#brif1').attr('style', 'display:block;');
+	}
+	else{
+		if($brand.hasClass('is-invalid')){
+			$brand.removeClass('is-invalid');
+		}
+		$('#brif1').attr('style', 'display:none;');
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddCategory(){
+	if($category.val().length == 0){
+		$category.addClass('is-invalid');
+		$('#cif1').attr('style', 'display:block;');
+	}
+	else{
+		if($category.hasClass('is-invalid')){
+			$category.removeClass('is-invalid');
+		}
+		$('#cif1').attr('style', 'display:none;')
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddProductName(){
+	if($name.val().length == 0){
+		$name.addClass('is-invalid');
+		$('#pnif1').attr('style', 'display:block;');
+	}
+	else{
+		if($name.hasClass('is-invalid')){
+			$name.removeClass('is-invalid');
+		}
+		$('#pnif1').attr('style', 'display:none;')
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddMrp(){
+	if($mrp.val().length == 0){
+		$mrp.addClass('is-invalid');
+		$('#mrpif1').attr('style', 'display:block;');
+	}
+	else{
+		if($mrp.hasClass('is-invalid')){
+			$mrp.removeClass('is-invalid');
+		}
+		$('#mrpif1').attr('style', 'display:none;')
+	}
+	enableOrDisableAdd();
+}
+
+function validateAddProductForm(){
+	if($brand.val().length == 0){
+		$brand.addClass('is-invalid');
+		$('#brif1').attr('style', 'display:block;');
+	}
+	else{
+		if($brand.hasClass('is-invalid')){
+			$brand.removeClass('is-invalid');
+		}
+		$('#brif1').attr('style', 'display:none;');
+	}
+
+	if($category.val().length == 0){
+		$category.addClass('is-invalid');
+		$('#cif1').attr('style', 'display:block;');
+	}
+	else{
+		if($category.hasClass('is-invalid')){
+			$category.removeClass('is-invalid');
+		}
+		$('#cif1').attr('style', 'display:none;');
+	}
+
+	if($name.val().length == 0){
+		$name.addClass('is-invalid');
+		$('#pnif1').attr('style', 'display:block;');
+	}
+	else{
+		if($name.hasClass('is-invalid')){
+			$name.removeClass('is-invalid');
+		}
+		$('#pnif1').attr('style', 'display:none;');
+	}
+
+	if($mrp.val().length == 0){
+		$mrp.addClass('is-invalid');
+		$('#mrpif1').attr('style', 'display:block;');
+	}
+	else{
+		if($mrp.hasClass('is-invalid')){
+			$mrp.removeClass('is-invalid');
+		}
+		$('#mrpif1').attr('style', 'display:none;');
+	}
+	enableOrDisableAdd();
+}
+
+// VALIDATION FUNCTIONS FOR EDIT PRODUCT
+// Edit form validation
+function validateEditProductForm(){
+
+	if($editBrand.val().length == 0){
+		$editBrand.addClass('is-invalid');
+		$('#ebrif1').attr('style', 'display:block;');
+	}
+	else{
+		if($editBrand.hasClass('is-invalid')){
+			$editBrand.removeClass('is-invalid');
+		}
+		$('#ebrif1').attr('style', 'display:none;');
+	}
+
+	if($editCategory.val().length == 0){
+		$editCategory.addClass('is-invalid');
+		$('#ecif1').attr('style', 'display:block;');
+	}
+	else{
+		if($editCategory.hasClass('is-invalid')){
+			$editCategory.removeClass('is-invalid');
+		}
+		$('#ecif1').attr('style', 'display:none;')
+	}
+
+	if($editName.val() == 0){
+		$editName.addClass('is-invalid');
+		$('#enif1').attr('style', 'display: block;');
+	}
+	else{
+		if($editName.hasClass('is-invalid')){
+			$editName.removeClass('is-invalid');
+		}
+		$('#enif1').attr('style', 'display: none;')
+	}
+
+	if($editMrp.val().length == 0){
+		$editMrp.addClass('is-invalid');
+		$('#emrpif1').attr('style', 'display: block;')
+	}
+	else{
+		if($editMrp.hasClass('is-invalid')){
+			$editMrp.removeClass('is-invalid');
+		}
+		$('#emrpif1').attr('style', 'display: none;');
+	}
+	enableOrDisableEdit();
+}
+// Barcode validation
+function validateEditBarcode(){
+	if($barcode.val().length == 0){
+		if($barcode.hasClass('is-valid')){
+			$barcode.removeClass('is-valid');
+		}
+		$barcode.addClass('is-invalid');
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:block;');
+		$('#bif2').attr('style', 'display:none;');
+		$checkBarcodeEdit.attr('disabled', true);
+	}
+	else{
+		if($barcode.hasClass('is-invalid')){
+			$barcode.removeClass('is-invalid');
+		}
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:none;');
+		$('#bif2').attr('style', 'display:none;');
+		$checkBarcodeEdit.attr('disabled', false);
+	}
+	enableOrDisableEdit();
+}
+
+//CHECKING BARCODE AVAILABILITY
+function checkBarcodeAvailability(){
+	var barcode = null;
+	if($('#add-product-modal').length){
+		barcode = $barcode.val();
+	}
+	else{
+		barcode = $editBarcode.val();
+	}
+	var url = getProductUrl() + '?barcode=' + barcode;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+			$checkBarcode.attr('disabled', true);
+			barcodeAvailable();
+	   },
+	   error: function(data){
+			$checkBarcode.attr('disabled', true);
+			barcodeNotAvailable();
+	   }
+	});
+	return false;
+}
+
+// BARCODE AVAILABILITY DISPLAYING FUNCTIONS
+function barcodeNotAvailable(){
+	if($('#add-product-modal').length){
+		if($barcode.hasClass('is-invalid')){
+			$barcode.removeClass('is-invalid');
+		}
+		$barcode.addClass('is-valid');
+		$('#bif1').attr("style", "display:none;");
+		$('#bif2').attr("style", "display:none;");
+		$('#bvf1').attr('style', 'display:block;');
+		enableOrDisableAdd();
+	}
+	else{
+		if($editBarcode.hasClass('is-invalid')){
+			$editBarcode.removeClass('is-invalid');
+		}
+		$editBarcode.addClass('is-valid');
+		$('#ebvf1').attr('style', 'display:block;');
+		$('#ebif1').attr('style', 'display: none;');
+		$('#ebif2').attr('style', 'display: none;');
+		enableOrDisableEdit();
+	}
+}
+
+function barcodeAvailable(){
+	if($('#add-product-modal').length){
+		if($barcode.hasClass('is-valid')){
+			$barcode.removeClass('is-valid');
+		}
+		$barcode.addClass("is-invalid");
+		$('#bif2').attr("style", "display;block;");
+		$('#bif1').attr('style', 'display:none;');
+		$('#bvf1').attr('style', 'display:none;');
+		enableOrDisableAdd();
+	}
+	else{
+		if($editBarcode.hasClass('is-valid')){
+			$editBarcode.removeClass('is-valid');
+		}
+		$editBarcode.addClass('is-invalid');
+		$('#ebif2').attr('style', 'display: block;');
+		$('#ebif1').attr('style', 'display: none;');
+		$('#ebvf1').attr('style', 'display: none;');
+		enableOrDisableEdit();
+	}
+}
+
 //BUTTON ACTIONS
+// 1) Add product button
 function addProduct(event){
 	//Set the values to update
 	var $form = $("#product-form");
@@ -19,17 +429,20 @@ function addProduct(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess("Product added successfully!!!");
+			handleAjaxSuccess("Product added successfully");
 			getProductListUtil();
+			clearAddData();
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+			$add.attr('disabled', true);
+		}
 		});
 	}
 	return false;
 }
-
+// 2) Update product button
 function updateProduct(event){
-	$('#edit-product-modal').modal('toggle');
 	//Get the ID
 	var id = $("#product-edit-form input[name=id]").val();
 	var url = getProductUrl() + "/" + id;
@@ -48,33 +461,56 @@ function updateProduct(event){
 		},	   
 		success: function(response) {
 			handleAjaxSuccess("Product updated successfully!!!");
-			getProductListUtil();   
+			getProductListUtil();
+			clearEditData();
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+		}
 		});
 	}
 	return false;
 }
 
-function getProductListUtil(){
-	var pageSize = $('#inputPageSize').val();
-	getProductList(0, pageSize);
+// ENABLE OR DISABLE FUNCTIONS
+function enableOrDisableAdd(){
+	var barcode = $barcode.val();
+	var brand = $brand.val();
+	var category = $category.val();
+	var name = $name.val();
+	var mrp = $mrp.val();
+	if(barcode.length > 0 && brand.length > 0 && category.length > 0
+		&& name.length > 0 && mrp.length > 0 && !$barcode.hasClass('is-invalid') 
+		&& !$brand.hasClass('is-invalid') && !$category.hasClass('is-invalid')
+		&& !$name.hasClass('is-invalid') && !$mrp.hasClass('is-invalid')
+		&& $barcode.hasClass('is-valid')){
+			$add.attr('disabled', false);
+		}
+	else{
+		$add.attr('disabled', true);
+	}
 }
 
-function getProductList(pageNumber, pageSize){
-	var url = getProductUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   dataType : 'json',
-	   contentType : 'application/json',
-	   success: function(data) {
-	   		displayProductList(data.content, pageNumber*pageSize);
-			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
-			paginator(data, "getProductList", pageSize);
-	   },
-	   error: handleAjaxError
-	});
+function enableOrDisableEdit(){
+
+	if(oldData.barcode == newData.barcode 
+		&& oldData.brand == newData.brand
+		&& oldData.category == newData.category
+		&& oldData.name == newData.name
+		&& oldData.mrp == newData.mrp 
+		|| 
+		($editBarcode.hasClass('is-invalid') 
+		|| $editBrand.hasClass('is-invalid')
+		|| $editCategory.hasClass('is-invalid')
+		|| $editName.hasClass('is-invalid')
+		|| $editMrp.hasClass('is-invalid')
+		|| !$editBarcode.hasClass('is-valid'))
+		){
+		$update.attr('disabled', true);
+	}
+	else{
+		$update.attr('disabled', false);
+	}
 }
 
 // FILE UPLOAD METHODS
@@ -96,7 +532,9 @@ function isValid(uploadObject) {
 
 function processData(){
 	var file = $('#productFile')[0].files[0];
+	resetUploadDialog();
 	readFileData(file, readFileDataCallback);
+	enableOrDisableDownloadErrors();
 }
 
 function readFileDataCallback(results){
@@ -105,8 +543,9 @@ function readFileDataCallback(results){
 		uploadRows();
 	}
 	else{
-		$("#error-message").notify("Invalid file", "error");
+		$.notify("Invalid file", "error");
 	}
+	$('#process-data').attr('disabled', true);
 }
 
 function uploadRows(){
@@ -134,10 +573,12 @@ function uploadRows(){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		uploadRows();  
+	   		uploadRows();
+			getInventoryListUtil(); 
 	   },
 	   error: function(response){
-	   		row.error=response.responseText;
+			var response = JSON.parse(response.responseText);
+	   		row.error = response.message;
 	   		errorData.push(row);
 			uploadRows();
 	   }
@@ -149,42 +590,6 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-//UI DISPLAY METHODS
-
-function displayProductList(data, sno){
-	$("#product-table-body").empty();
-    var row = "";
-	for (var i = 0; i < data.length; i++) {
-	sno += 1;
-	var buttonHtml = ' <button onclick="displayEditProduct(' + data[i].id + ')">edit</button>'
-	row = "<tr><td>" 
-	+ sno + "</td><td>" 
-	+ data[i].barcode + "</td><td>"
-	+ data[i].brand + "</td><td>"
-	+ data[i].category + "</td><td>"
-	+ data[i].name + "</td><td>" 
-	+ data[i].mrp + "</td><td>"
-	+ buttonHtml 
-	+ "</td></tr>";
-	$("#product-table-body").append(row);
-	}
-	enableOrDisable();
-}
-
-function displayEditProduct(id){
-	var url = getProductUrl() + "/" + id;
-	console.log(url);
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-			console.log(data);
-	   		displayProduct(data); 
-	   },
-	   error: handleAjaxError
-	});	
-}
-
 function resetUploadDialog(){
 	//Reset file name
 	var $file = $('#productFile');
@@ -194,6 +599,9 @@ function resetUploadDialog(){
 	processCount = 0;
 	fileData = [];
 	errorData = [];
+	//Reset buttons
+	$('#process-data').attr('disabled', true);
+	$('#download-errors').attr('disabled', true);
 	//Update counts	
 	updateUploadDialog();
 }
@@ -207,7 +615,8 @@ function updateUploadDialog(){
 function updateFileName(){
 	var $file = $('#productFile');
 	var fileName = $file.val();
-	$('#productFileName').html(fileName);
+	$('#process-data').attr('disabled', false);
+	$('#productFileName').html(fileName.split('\\')[2]);
 }
 
 function displayUploadData(){
@@ -215,25 +624,127 @@ function displayUploadData(){
 	$('#upload-product-modal').modal('toggle');
 }
 
-function displayProduct(data){
-	$("#product-edit-form input[name=id]").val(data.id)
-	$("#product-edit-form input[name=barcode]").val(data.barcode);	
-	$("#product-edit-form input[name=brand]").val(data.brand);
-	$("#product-edit-form input[name=category]").val(data.category);
-	$("#product-edit-form input[name=name]").val(data.name);
-	$("#product-edit-form input[name=mrp]").val(data.mrp);
-	$('#edit-product-modal').modal('toggle');
+function enableOrDisableDownloadErrors(){
+	if(errorData.length > 0){
+		$('#download-errors').attr('disabled', false);
+	}
+	else{
+		$('#download-errors').attr('disabled', true);
+	}
+	$('#process-data').attr('disabled', true);
 }
 
+// RESETTING AND CLEARING FUNCTIONS
+function clearCommentsAddProduct(){
+	if($barcode.hasClass('is-valid')){
+		$barcode.removeClass('is-valid');
+	}
+	if($barcode.hasClass('is-invalid')){
+		$barcode.removeClass('is-invalid');
+	}
+	if($brand.hasClass('is-invalid')){
+		$brand.removeClass('is-invalid');
+	}
+	if($category.hasClass('is-invalid')){
+		$category.removeClass('is-invalid');
+	}
+	if($name.hasClass('is-invalid')){
+		$name.removeClass('is-invalid');
+	}
+	if($mrp.hasClass('is-invalid')){
+		$mrp.removeClass('is-invalid');
+	}
+	$('#bvf1').attr('style', 'display:none;');
+	$('#bif1').attr('style', 'display:none;');
+	$('#bif2').attr('style', 'display:none;');
+	$('#brif1').attr('style', 'display:none;');
+	$('#cif1').attr('style', 'display:none;');
+	$('#pnif1').attr('style', 'display:none;');
+	$('#mrpif1').attr('style', 'display:none;');
+}
+
+function clearCommentsEditProduct(){
+	if($editBarcode.hasClass('is-valid')){
+		$editBarcode.removeClass('is-valid');
+	}
+	if($editBarcode.hasClass('is-invalid')){
+		$editBarcode.removeClass('is-invalid');
+	}
+	if($editBrand.hasClass('is-invalid')){
+		$editBrand.removeClass('is-invalid');
+	}
+	if($editCategory.hasClass('is-invalid')){
+		$editCategory.removeClass('is-invalid');
+	}
+	if($editName.hasClass('is-invalid')){
+		$editName.removeClass('is-invalid');
+	}
+	if($editMrp.hasClass('is-invalid')){
+		$editMrp.removeClass('is-invalid');
+	}
+	$('#ebvf1').attr('style', 'display:none;');
+	$('#ebif1').attr('style', 'display:none;');
+	$('#ebif2').attr('style', 'display:none;');
+	$('#ebrif1').attr('style', 'display:none;');
+	$('#ecif1').attr('style', 'display:none;');
+	$('#enif1').attr('style', 'display:none;');
+	$('#emrpif1').attr('style', 'display:none;');
+}
+
+function clearAddData(){
+	$barcode.val('');
+	$brand.val('');
+	$category.val('');
+	$name.val('');
+	$mrp.val('');
+	$add.attr('disabled', true);
+	$checkBarcode.attr('disabled', true);
+
+	clearCommentsAddProduct();
+	if($('#add-product-modal').length){
+		$('#add-product-modal').modal('toggle');
+	}
+}
+
+function clearEditData(){
+	$editBarcode.val('');
+	$editBrand.val('');
+	$editCategory.val('');
+	$editName.val('');
+	$editMrp.val('');
+	$update.attr('disabled', true);
+	$checkBarcodeEdit.attr('disabled', true);
+
+	clearCommentsEditProduct();
+
+	if($('#edit-product-modal').length){
+		$('#edit-product-modal').modal('toggle');
+	}
+}
+
+function clearUploadData(){
+	$('#rowCount').text('0');
+	$('#processCount').text('0');
+	$('#errorCount').text('0');
+	$('#productFile').val('');
+	$('#upload-product-modal').modal('toggle');
+	$('#process-data').attr('disabled', true);
+	$('#download-errors').attr('disabled', true);
+}
+
+// ADD MODAL TOGGLER
 function displayAddModal(){
 	$('#add-product-modal').modal('toggle');
 }
+
 //INITIALIZATION CODE
 function init(){
-	// $('#cancel1').click(clearAddData);
-	// $('#cancel2').click(clearAddData);
-	// $('#cancel3').click(clearEditData);
-	// $('#cancel4').click(clearEditData);
+	$('#cancel1').click(clearAddData);
+	$('#cancel2').click(clearAddData);
+	$('#cancel3').click(clearEditData);
+	$('#cancel4').click(clearEditData);
+	$('#cancel5').click(clearUploadData);
+	$('#cancel6').click(clearUploadData);
 	$('#add-data').click(displayAddModal);
 	$('#add-product').click(addProduct);
 	$('#update-product').click(updateProduct);
@@ -242,8 +753,20 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName);
 	$('#inputPageSize').on('change', getProductListUtil);
+	$('#check-barcode').click(checkBarcodeAvailability);
+	$('#check-barcode-edit').click(checkBarcodeAvailability);
+
+	$editBarcode.on('input', validateEditBarcode);
+	$editBrand.on('input', validateEditProductForm);
+	$editCategory.on('input', validateEditProductForm);
+	$editName.on('input', validateEditProductForm);
+	$editMrp.on('input', validateEditProductForm);
 }
 
 $(document).ready(init);
 $(document).ready(getProductListUtil);
 $(document).ready(enableOrDisable);
+$(document).ready(function(){
+	$add.attr('disabled', true);
+	$update.attr('disabled', true);
+})

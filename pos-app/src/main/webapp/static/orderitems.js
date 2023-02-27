@@ -76,7 +76,7 @@ function displayOrderItems(data, sno){
 	var row = '';
 	console.log(data);
 	for(var i = 0; i < data.length; i++){
-		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')">Edit</button>'
+		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')" class="btn btn-warning">Edit</button>'
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
 		+ '<td>' + data[i].barcode + '</td>'

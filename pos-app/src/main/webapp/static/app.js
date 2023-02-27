@@ -89,11 +89,23 @@ function toJsonArray($form){
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-    $("#error-message").notify(response.message, "error");
+    $.notify(response.message, {
+        position: "bottom right",
+        autoHideDelay: 5000,
+        horizontalAlign: "right",
+        zIndex: 99999,
+        className: "error"
+    });
 }
 
 function handleAjaxSuccess(response){
- $("#success-message").notify(response, "success");
+ $.notify(response, {
+    position: "bottom right",
+    autoHideDelay: 3000,
+    horizontalAlign: "right",
+    zIndex: 99999,
+    className: "success"
+ });
 }
 
 function readFileData(file, callback){
@@ -253,3 +265,6 @@ $(document).ready(init);
 $(document).ready(onlyNonNegativeInt);
 $(document).ready(decimalNumber);
 $(document).ready(noOfCharLimiter);
+$(document).ready(function(){
+    $('.card').addClass('shadow');
+})

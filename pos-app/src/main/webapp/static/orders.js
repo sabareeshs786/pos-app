@@ -47,7 +47,7 @@ function getOrderList(pageNumber, pageSize){
 	   contentType : 'application/json',
 	   success: function(data) {
 	   		displayOrderList(data.content, pageNumber*pageSize);
-			   $('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			   $('#selected-rows').html('Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			   paginator(data, "getOrderList", pageSize);
 	   },
 	   error: function(){
@@ -789,9 +789,9 @@ function displayOrderList(data, sno){
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')">View</button>&nbsp;&nbsp;'
-					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" style=\"display:none;\">Edit</button>&nbsp;&nbsp;'
-					 + '<button onclick="generateInvoicePdf(' + data[i].id + ')">Download Invoice</button>';
+	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-success">View</button>&nbsp;&nbsp;'
+					 + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" style="display:none;" class="btn btn-warning">Edit</button>&nbsp;&nbsp;'
+					 + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary">Download Invoice</button>';
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].id + "</td><td>"
