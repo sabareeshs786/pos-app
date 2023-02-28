@@ -1,3 +1,5 @@
+var spanBegin = '<span class="d-inline-block" tabindex="0" data-toggle="tooltip">';
+var spanEnd = '</span>'
 function getRole(){
 	var role = $("meta[name=role]").attr("content");
 	return role;
@@ -39,18 +41,12 @@ function generateInvoicePdf(id){
 }
 
 function enableOrDisable(){
-    console.log("Current users role: "+getRole());
 	if(getRole() != 'supervisor'){
-		$('input').attr('disabled', true);
-		$('button').attr('disabled', true);
-        $('input').attr('title', 'Only supervisors have access');
-        $('button').attr('title', 'Only supervisors have access');
-        $('#adminButton').attr("style", "display:none;");
+		$('.only-supervisor').attr('disabled', true);
+        $('[data-toggle="tooltip"]').attr('title', 'Only supervisors have access');
 	}
 	else{
-		$('input').attr('disabled', false);
-		$('button').attr('disabled', false);
-        $('#adminButton').attr("style", "display:block;");
+		$('.only-supervisor').attr('disabled', false);
 	}
 }
 
@@ -93,7 +89,7 @@ function handleAjaxError(response){
         position: "bottom right",
         autoHideDelay: 5000,
         horizontalAlign: "right",
-        zIndex: 99999,
+        zIndex: 9999999,
         className: "error"
     });
 }
@@ -103,7 +99,7 @@ function handleAjaxSuccess(response){
     position: "bottom right",
     autoHideDelay: 3000,
     horizontalAlign: "right",
-    zIndex: 99999,
+    zIndex: 9999,
     className: "success"
  });
 }
@@ -259,12 +255,15 @@ function init(){
     $("#close-button").click(function() {
         $("#success-message").hide();
     });
+    $('.card').addClass('shadow');
+    if(getRole() != 'supervisor'){
+        $('#adminButton').attr('style', 'display: none;');
+    }
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 $(document).ready(init);
 $(document).ready(onlyNonNegativeInt);
 $(document).ready(decimalNumber);
 $(document).ready(noOfCharLimiter);
-$(document).ready(function(){
-    $('.card').addClass('shadow');
-})
+$(document).ready(enableOrDisable);

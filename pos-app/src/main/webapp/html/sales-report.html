@@ -26,6 +26,9 @@
 					<button type="button" class="btn btn-success" id="filter-data">Filter</button>
 					&nbsp;
 					&nbsp;
+					<button type="button" class="btn btn-success" id = "reset-data">Clear Filters</button>
+					&nbsp;
+					&nbsp;
 					<button type="button" class="btn btn-success" id="download-data">Download</button>
 				</div>
 			</div>
@@ -35,14 +38,12 @@
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<h4>Start Date:
-						<span id="start-date"></span>
-					</h4>
+					Start Date:
+					<span id="start-date"></span>
 				</div>
 				<div class="col-6">
-					<h4>End Date:
-						<span id="end-date"></span>
-					</h4>
+					End Date:
+					<span id="end-date"></span>
 				</div>
 			</div>
 			<!-- Blank Row -->
@@ -50,11 +51,12 @@
 				&nbsp;
 			</div>
 			<div class="card d-flex w-100">
-				<div th:replace="snippets.html :: card_header"></div>
+				<!-- <div th:replace="snippets.html :: card_header"></div> -->
 				<div class="card-body">
 					<table class="table table-striped" id="sales-report-table-all">
 						<thead>
 							<tr>
+								<th scope="col">SNo.</th>
 								<th scope="col">Brand</th>
 								<th scope="col">Category</th>
 								<th scope="col">Quantity</th>
@@ -65,8 +67,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div th:replace="snippets.html :: card_footer">
-				</div>
+				<!-- <div th:replace="snippets.html :: card_footer">
+				</div> -->
 			</div>
 
 			<!-- Filter modal -->
@@ -92,14 +94,14 @@
 									<input type="datetime-local" class="form-control" name="endDate" id="inputEndDate">
 								</div>
 								<div class="col-md-6">
-									<label for="inputBrandName" class="form-label">Brand name</label>
+									<label for="inputBrandName" class="form-label">Brand</label>
 									<input type="text" class="form-control" name="brand" id="inputBrandName"
-										placeholder="enter brand name">
+										placeholder="Enter brand">
 								</div>
 								<div class="col-md-6">
-									<label for="inputCategory" class="form-label">Brand Category</label>
+									<label for="inputCategory" class="form-label">Category</label>
 									<input type="text" class="form-control" name="category" id="inputCategory"
-										placeholder="enter brand category">
+										placeholder="Enter category">
 								</div>
 							</form>
 						</div>

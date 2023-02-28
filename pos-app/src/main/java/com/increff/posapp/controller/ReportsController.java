@@ -53,8 +53,6 @@ public class ReportsController {
             @RequestParam(name = "page-number") Integer page,
             @RequestParam(name = "page-size") Integer size
             ) throws ApiException {
-            logger.info("SalesReportForm: "+salesReportForm);
-            logger.info("Page number: "+page+" Size: "+size);
             return salesReportDto.getData(salesReportForm);
     }
 }

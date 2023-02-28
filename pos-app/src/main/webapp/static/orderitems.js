@@ -38,7 +38,7 @@ function getOrderItems(pageNumber, pageSize){
 	   type: 'GET',
 	   success: function(data) {
 			displayOrderItems(data.content, pageNumber*pageSize);
-			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			var pagination = "";
 			   for (var i = data.number; i < data.number + 3 && i < data.totalPages; i++) {
 				   var active = "";
@@ -76,7 +76,7 @@ function displayOrderItems(data, sno){
 	var row = '';
 	console.log(data);
 	for(var i = 0; i < data.length; i++){
-		var buttonHtml = ' <button onclick="displayEditOrderItem(' + data[i].id + ')" class="btn btn-warning">Edit</button>'
+		var buttonHtml = spanBegin + ' <button onclick="displayEditOrderItem(' + data[i].id + ')" class="btn btn-secondary only-supervisor">Edit</button>' + spanEnd;
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
 		+ '<td>' + data[i].barcode + '</td>'
@@ -106,7 +106,6 @@ function displayEditOrderItem(id){
 }
 
 function displayOrderItem(data){
-	console.log("Order item data: " + data);
 	$("#edit-order-item-form input[name=barcode]").val(data.barcode);	
 	$("#edit-order-item-form input[name=quantity]").val(data.quantity);
 	$("#edit-order-item-form input[name=sellingPrice]").val(parseFloat(data.sellingPrice).toFixed(2));

@@ -22,9 +22,12 @@
 			<!-- Top row -->
 			<div class="row">
 				<div class="col-8 align-items-right">
-					<!-- <button type="button" class="btn btn-primary" id="filter-data">Filter</button>
-					&nbsp; -->
-					<!-- &nbsp; -->
+					<button type="button" class="btn btn-primary" id="filter-data">Filter</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" class="btn btn-success" id = "reset-data">Clear Filters</button>
+					&nbsp;
+					&nbsp;
 					<button type="button" class="btn btn-primary" id="download-data">Download</button>
 				</div>
 			</div>
@@ -49,7 +52,7 @@
 				&nbsp;
 			</div>
 			<div class="card d-flex w-100">
-				<div th:replace="snippets.html :: card_header"></div>
+				<!-- <div th:replace="snippets.html :: card_header"></div> -->
 				<div class="card-body">
 					<table class="table table-striped" id="scheduler-report-table-all">
 						<thead>

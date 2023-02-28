@@ -48,7 +48,6 @@ public class ProductService {
 	public ProductPojo updateById(int id, ProductPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
-		validateBarcode(p);
 		ProductPojo ex = getCheckById(id);
 		ex.setBarcode(p.getBarcode());
 		ex.setBrandCategory(p.getBrandCategory());

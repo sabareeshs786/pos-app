@@ -98,7 +98,7 @@ public class SalesReportDtoTest extends AbstractUnitTest {
         createOrders(1,2);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
-        form.setEndDate(LocalDateTime.now().plusMinutes(10L));
+        form.setEndDate(LocalDateTime.now());
         form.setBrand("");
         form.setCategory("");
         SalesReportData data = salesReportDto.getData(form);

@@ -28,13 +28,19 @@ function getBrandList(brand, category, pageNumber, pageSize){
 	   contentType : 'application/json',
 	   success: function(data) {
 	   		displayBrandList(data.content,pageNumber*pageSize);
-			$('#selected-rows').html('<h5>Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements +'</h5>');
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			paginatorForReport(data, "getBrandList", brand, category, pageSize);
-	   },
+			if($('#filter-modal').hasClass('show')){
+				$('#filter-modal').modal('toggle');
+			}
+		},
 	   error: function(response){
-			handleAjaxError(response);
-			$('#brand-report-form input[name=brand]').val('');
-			$('#brand-report-form input[name=category]').val('');
+			displayBrandList([],0);
+			$('#selected-rows').html('Nothing to show');
+			paginatorForReport([], "getBrandList", brand, category, pageSize);
+			if($('#filter-modal').hasClass('show')){
+				$('#filter-modal').modal('toggle');
+			}
 	   }
 	});
 	return false;
@@ -81,7 +87,7 @@ function rearrange(downloadContent){
 	var downloadContentRearranged = [];
 	for(var i=0; i < downloadContent.length; i++){
 		var rearrangedObj = {};
-		rearrangedObj.id = downloadContent[i].id;
+		rearrangedObj.sno = i+1;
 		rearrangedObj.brand = downloadContent[i].brand;
 		rearrangedObj.category = downloadContent[i].category;
 		downloadContentRearranged.push(rearrangedObj);
@@ -110,27 +116,37 @@ function downloadReport(){
 	   contentType : 'application/json',
 	   success: function(data) {
 		downloadContent = rearrange(data);
-		downloadContent.sort(function(a, b){
-			return a.id - b.id;
-		})
 		writeBrandReportFileData(downloadContent);
 	   },
 	   error: function(response){
-			handleAjaxError(response);
-			$('#brand-report-form input[name=brand]').val('');
-			$('#brand-report-form input[name=category]').val('');
+			downloadContent = [{'sno': '\0', 'brand': '\0', 'category': '\0'}];
+			writeBrandReportFileData(downloadContent);
 	   }
 	});
 	return false;
 }
+
 function displayFilterModal(){
 	$('#filter-modal').modal('toggle');
 }
+
+function resetModal(){
+	$('#filter-modal').modal('toggle');
+}
+
+function clearData(){
+	$('#brand-report-form input[name=brand]').val('');
+	$('#brand-report-form input[name=category]').val('');
+	getBrandListUtil();
+}
+
 //INITIALIZATION CODE
 function init(){
+	$('#cancel1').click(resetModal);
+	$('#cancel2').click(resetModal);
 	$('#filter-data').click(displayFilterModal);
+	$('#reset-data').click(clearData);
 	$('#process-data').click(getBrandListUtil);
-	$('#reset-data').click(getBrandListUtil);
 	$('#download-data').click(downloadReport);
 }
 

@@ -1,5 +1,5 @@
 // GLOBAL VARIABLES
-// 1) For add product
+// For add product
 var $barcode = $('#product-form input[name=barcode]');
 var $brand = $('#product-form input[name=brand]');
 var $category = $('#product-form input[name=category]');
@@ -7,7 +7,7 @@ var $name = $('#product-form input[name=name]');
 var $mrp = $('#product-form input[name=mrp]');
 var $add = $('#add-product');
 var $checkBarcode = $('#check-barcode');
-// 2) For edit product
+// For edit product
 var $editBarcode = $('#product-edit-form input[name=barcode]');
 var $editBrand = $('#product-edit-form input[name=brand]');
 var $editCategory = $('#product-edit-form input[name=category]');
@@ -15,7 +15,7 @@ var $editName = $('#product-edit-form input[name=name]');
 var $editMrp = $('#product-edit-form input[name=mrp]');
 var $update = $('#update-product');
 var $checkBarcodeEdit = $('#check-barcode-edit');
-// 3) For tracking edit data
+// For tracking edit data
 var oldData = null;
 var newData = null;
 
@@ -26,7 +26,7 @@ function getProductUrl(){
 }
 
 // GET AND DISPLAY PRODUCT LIST FUNCTIONS
-// 1) Get functions
+// Get functions
 function getProductListUtil(){
 	var pageSize = $('#inputPageSize').val();
 	getProductList(0, pageSize);
@@ -41,7 +41,7 @@ function getProductList(pageNumber, pageSize){
 	   contentType : 'application/json',
 	   success: function(data) {
 	   		displayProductList(data.content, pageNumber*pageSize);
-			$('#selected-rows').html('Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			paginator(data, "getProductList", pageSize);
 	   },
 	   error: function(response){
@@ -49,13 +49,13 @@ function getProductList(pageNumber, pageSize){
 	   }
 	});
 }
-// 2) UI Display functions
+// UI Display functions
 function displayProductList(data, sno){
 	$("#product-table-body").empty();
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var buttonHtml = ' <button onclick="displayEditProduct(' + data[i].id + ')" class="btn btn-warning">edit</button>'
+	var buttonHtml = spanBegin + ' <button onclick="displayEditProduct(' + data[i].id + ')" class="btn btn-secondary only-supervisor">edit</button>' + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].barcode + "</td><td>"
@@ -268,7 +268,14 @@ function validateAddProductForm(){
 // VALIDATION FUNCTIONS FOR EDIT PRODUCT
 // Edit form validation
 function validateEditProductForm(){
-
+	console.log("validate edit product form");
+	newData = {
+		'barcode': $editBarcode.val(),
+		'brand': $editBrand.val(),
+		'category': $editCategory.val(),
+		'name': $editName.val(),
+		'mrp': $editMrp.val()
+	};
 	if($editBrand.val().length == 0){
 		$editBrand.addClass('is-invalid');
 		$('#ebrif1').attr('style', 'display:block;');
@@ -316,19 +323,28 @@ function validateEditProductForm(){
 }
 // Barcode validation
 function validateEditBarcode(){
-	if($barcode.val().length == 0){
-		if($barcode.hasClass('is-valid')){
-			$barcode.removeClass('is-valid');
+	
+	newData = {
+		'barcode': $editBarcode.val(),
+		'brand': $editBrand.val(),
+		'category': $editCategory.val(),
+		'name': $editName.val(),
+		'mrp': $editMrp.val()
+	};
+
+	if($editBarcode.val().length == 0){
+		if($editBarcode.hasClass('is-valid')){
+			$editBarcode.removeClass('is-valid');
 		}
-		$barcode.addClass('is-invalid');
+		$editBarcode.addClass('is-invalid');
 		$('#bvf1').attr('style', 'display:none;');
 		$('#bif1').attr('style', 'display:block;');
 		$('#bif2').attr('style', 'display:none;');
 		$checkBarcodeEdit.attr('disabled', true);
 	}
 	else{
-		if($barcode.hasClass('is-invalid')){
-			$barcode.removeClass('is-invalid');
+		if($editBarcode.hasClass('is-invalid')){
+			$editBarcode.removeClass('is-invalid');
 		}
 		$('#bvf1').attr('style', 'display:none;');
 		$('#bif1').attr('style', 'display:none;');
@@ -341,10 +357,12 @@ function validateEditBarcode(){
 //CHECKING BARCODE AVAILABILITY
 function checkBarcodeAvailability(){
 	var barcode = null;
-	if($('#add-product-modal').length){
+	if($('#add-product-modal').hasClass('show')){
+		console.log('add barcode open');
 		barcode = $barcode.val();
 	}
 	else{
+		console.log('edit barcode open');
 		barcode = $editBarcode.val();
 	}
 	var url = getProductUrl() + '?barcode=' + barcode;
@@ -354,11 +372,21 @@ function checkBarcodeAvailability(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			$checkBarcode.attr('disabled', true);
+			if($('#add-product-modal').hasClass('show')){
+				$checkBarcode.attr('disabled', true);	
+			}
+			else{
+				$checkBarcodeEdit.attr('disabled', true);
+			}
 			barcodeAvailable();
 	   },
 	   error: function(data){
-			$checkBarcode.attr('disabled', true);
+			if($('#add-product-modal').hasClass('show')){
+				$checkBarcode.attr('disabled', true);
+			}
+			else{
+				$checkBarcodeEdit.attr('disabled', true);
+			}
 			barcodeNotAvailable();
 	   }
 	});
@@ -367,7 +395,7 @@ function checkBarcodeAvailability(){
 
 // BARCODE AVAILABILITY DISPLAYING FUNCTIONS
 function barcodeNotAvailable(){
-	if($('#add-product-modal').length){
+	if($('#add-product-modal').hasClass('show')){
 		if($barcode.hasClass('is-invalid')){
 			$barcode.removeClass('is-invalid');
 		}
@@ -390,7 +418,8 @@ function barcodeNotAvailable(){
 }
 
 function barcodeAvailable(){
-	if($('#add-product-modal').length){
+	if($('#add-product-modal').hasClass('show')){
+		console.log('Add product modal -->');
 		if($barcode.hasClass('is-valid')){
 			$barcode.removeClass('is-valid');
 		}
@@ -401,6 +430,7 @@ function barcodeAvailable(){
 		enableOrDisableAdd();
 	}
 	else{
+		console.log('Edit product modal -->');
 		if($editBarcode.hasClass('is-valid')){
 			$editBarcode.removeClass('is-valid');
 		}
@@ -413,7 +443,7 @@ function barcodeAvailable(){
 }
 
 //BUTTON ACTIONS
-// 1) Add product button
+// Add product button
 function addProduct(event){
 	//Set the values to update
 	var $form = $("#product-form");
@@ -441,8 +471,9 @@ function addProduct(event){
 	}
 	return false;
 }
-// 2) Update product button
+// Update product button
 function updateProduct(event){
+	console.log('Update button clicked');
 	//Get the ID
 	var id = $("#product-edit-form input[name=id]").val();
 	var url = getProductUrl() + "/" + id;
@@ -493,19 +524,24 @@ function enableOrDisableAdd(){
 
 function enableOrDisableEdit(){
 
-	if(oldData.barcode == newData.barcode 
+	if((oldData.barcode == newData.barcode 
 		&& oldData.brand == newData.brand
 		&& oldData.category == newData.category
 		&& oldData.name == newData.name
 		&& oldData.mrp == newData.mrp 
+		)
 		|| 
 		($editBarcode.hasClass('is-invalid') 
 		|| $editBrand.hasClass('is-invalid')
 		|| $editCategory.hasClass('is-invalid')
 		|| $editName.hasClass('is-invalid')
-		|| $editMrp.hasClass('is-invalid')
-		|| !$editBarcode.hasClass('is-valid'))
+		|| $editMrp.hasClass('is-invalid'))
 		){
+		$update.attr('disabled', true);
+		console.log("branch 1");
+	}
+	else if(oldData.barcode != newData.barcode && !$editBarcode.hasClass('is-valid') ){
+		console.log("Branch 2");
 		$update.attr('disabled', true);
 	}
 	else{
@@ -701,7 +737,7 @@ function clearAddData(){
 	$checkBarcode.attr('disabled', true);
 
 	clearCommentsAddProduct();
-	if($('#add-product-modal').length){
+	if($('#add-product-modal').hasClass('show')){
 		$('#add-product-modal').modal('toggle');
 	}
 }
@@ -717,7 +753,7 @@ function clearEditData(){
 
 	clearCommentsEditProduct();
 
-	if($('#edit-product-modal').length){
+	if($('#edit-product-modal').hasClass('show')){
 		$('#edit-product-modal').modal('toggle');
 	}
 }
@@ -767,6 +803,4 @@ $(document).ready(init);
 $(document).ready(getProductListUtil);
 $(document).ready(enableOrDisable);
 $(document).ready(function(){
-	$add.attr('disabled', true);
-	$update.attr('disabled', true);
-})
+});

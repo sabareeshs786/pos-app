@@ -45,7 +45,7 @@ function displayBrandList(data, sno){
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var buttonHtml = '<button onclick="displayEditBrand(' + data[i].id + ')" class="btn btn-warning">edit</button>'
+	var buttonHtml = spanBegin + '<button onclick="displayEditBrand(' + data[i].id + ')" class="btn btn-secondary only-supervisor">edit</button>' + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].brand + "</td><td>"
