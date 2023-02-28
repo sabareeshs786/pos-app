@@ -22,7 +22,7 @@ public class InfoData implements Serializable {
 	private String role;
 
 	public InfoData() {
-		message = "no message";
+		message = "";
 		email = "no email";
 	}
 

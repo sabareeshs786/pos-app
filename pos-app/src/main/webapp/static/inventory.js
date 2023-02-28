@@ -5,10 +5,8 @@ var $quantity = $('#inventory-form input[name=quantity]');
 var $add = $('#add-inventory');
 var $checkBarcode = $('#check-barcode');
 // 2) For edit inventory
-var $editBarcode = $('#inventory-edit-form input[name=barcode]');
 var $editQuantity = $('#inventory-edit-form input[name=quantity]');
 var $update = $('#update-inventory');
-var $checkBarcodeEdit = $('#check-barcode-edit');
 // For tracking edit data
 var oldData = null;
 var newData = null;
@@ -41,10 +39,9 @@ function getInventoryList(pageNumber, pageSize){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			console.log(data);
 	   		displayInventoryList(data.content, pageNumber*pageSize);
-			   $('#selected-rows').html('Selected ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
-			   paginator(data, "getInventoryList", pageSize);
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
+			paginator(data, "getInventoryList", pageSize);
 	   },
 	   error: function(response){
 		handleAjaxError(response);
@@ -58,7 +55,7 @@ function displayInventoryList(data, sno){
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 		sno += 1;
-		var buttonHtml = ' <button onclick="displayEditInventory(' + data[i].productId + ')" class="btn btn-warning">edit</button>';
+		var buttonHtml = spanBegin + ' <button onclick="displayEditInventory(' + data[i].productId + ')" class="btn btn-secondary only-supervisor">edit</button>' + spanEnd;
 		row = "<tr><td>" 
 		+ sno + "</td><td>" 
 		+ data[i].barcode + "</td><td>"
@@ -91,13 +88,12 @@ function displayInventory(data){
 	$("#inventory-edit-form input[name=productId]").val(data.productId);
 	$('#edit-inventory-modal').modal('toggle');
 
+	$('#inventory-edit-form input[name=barcode]').attr('disabled', true);
 	$update.attr('disabled', true);
 	oldData = {
-		'barcode': data.barcode,
 		'quantity': data.quantity
 	};
 	newData = {
-		'barcode': data.barcode,
 		'quantity': data.quantity
 	}
 }
@@ -155,6 +151,9 @@ function validateAddQuantity(){
 // VALIDATION FUNCTIONS FOR EDIT INVENTORY 
 // Edit form validation
 function validateEditInventoryForm(){
+	newData = {
+		'quantity': $editQuantity.val()
+	}
 	if($editQuantity.val().length == 0){
 		$editQuantity.addClass('is-invalid');
 		$('#eqif1').attr('style', 'display:block;');
@@ -167,38 +166,10 @@ function validateEditInventoryForm(){
 	}
 	enableOrDisableEdit();
 }
-// Barcode validation
-function validateEditBarcode(){
-	if($barcode.val().length == 0){
-		if($barcode.hasClass('is-valid')){
-			$barcode.removeClass('is-valid');
-		}
-		$barcode.addClass('is-invalid');
-		$('#bvf1').attr('style', 'display:none;');
-		$('#bif1').attr('style', 'display:block;');
-		$('#bif2').attr('style', 'display:none;');
-		$checkBarcodeEdit.attr('disabled', true);
-	}
-	else{
-		if($barcode.hasClass('is-invalid')){
-			$barcode.removeClass('is-invalid');
-		}
-		$('#bvf1').attr('style', 'display:none;');
-		$('#bif1').attr('style', 'display:none;');
-		$('#bif2').attr('style', 'display:none;');
-		$checkBarcodeEdit.attr('disabled', false);
-	}
-	enableOrDisableEdit();
-}
+
 //CHECKING BARCODE AVAILABILITY
 function checkBarcodeAvailability(){
-	var barcode = null;
-	if($('#add-inventory-modal').length){
-		barcode = $barcode.val();
-	}
-	else{
-		barcode = $editBarcode.val();
-	}
+	var barcode = $barcode.val();
 	var url = getProductUrl() + '?barcode=' + barcode;
 	$.ajax({
 	   url: url,
@@ -219,7 +190,6 @@ function checkBarcodeAvailability(){
 
 // BARCODE AVAILABILITY DISPLAYING FUNCTIONS
 function barcodeAvailable(data){
-	if($('#add-inventory-modal').length){
 		if($barcode.hasClass('is-invalid')){
 			$barcode.removeClass('is-invalid');
 		}
@@ -229,41 +199,17 @@ function barcodeAvailable(data){
 		$('#bif2').attr("style", "display:none;");
 		$('#bvf1').attr('style', 'display:block;');
 		enableOrDisableAdd();
-	}
-	else{
-		if($editBarcode.hasClass('is-invalid')){
-			$editBarcode.removeClass('is-invalid');
-		}
-		$editBarcode.addClass('is-valid');
-		$('#ebvf1').html('Product name: '+data.name);
-		$('#ebvf1').attr('style', 'display:block;');
-		$('#ebif1').attr('style', 'display: none;');
-		$('#ebif2').attr('style', 'display: none;');
-		enableOrDisableEdit();
-	}
 }
 
 function barcodeNotAvailable(){
-	if($('#add-inventory-modal').length){
-		if($barcode.hasClass('is-valid')){
-			$barcode.removeClass('is-valid');
-		}
-		$barcode.addClass("is-invalid");
-		$('#bif2').attr("style", "display;block;");
-		$('#bif1').attr('style', 'display:none;');
-		$('#bvf1').attr('style', 'display:none;');
-		enableOrDisableAdd();
+	if($barcode.hasClass('is-valid')){
+		$barcode.removeClass('is-valid');
 	}
-	else{
-		if($editBarcode.hasClass('is-valid')){
-			$editBarcode.removeClass('is-valid');
-		}
-		$editBarcode.addClass('is-invalid');
-		$('#ebif2').attr('style', 'display: block;');
-		$('#ebif1').attr('style', 'display: none;');
-		$('#ebvf1').attr('style', 'display: none;');
-		enableOrDisableEdit();
-	}
+	$barcode.addClass("is-invalid");
+	$('#bif2').attr("style", "display;block;");
+	$('#bif1').attr('style', 'display:none;');
+	$('#bvf1').attr('style', 'display:none;');
+	enableOrDisableAdd();
 }
 
 //BUTTON ACTIONS
@@ -283,17 +229,20 @@ function addInventory(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess("Inventory updated!!!");
-			getInventoryListUtil();  
+			handleAjaxSuccess("Inventory updated successfully");
+			getInventoryListUtil(); 
+			clearAddData();
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+		}
 		});
 	}
 	return false;
 }
 // Update inventory button
 function updateInventory(event){
-	$('#edit-inventory-modal').modal('toggle');
+	$('#inventory-edit-form input[name=barcode]').attr('disabled', false);
 	//Get the ProductID
 	var productId = $("#inventory-edit-form input[name=productId]").val();
 	var url = getInventoryUrl() + "/" + productId;
@@ -301,6 +250,7 @@ function updateInventory(event){
 	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
+	$('#inventory-edit-form input[name=barcode]').attr('disabled', true);
 	if(validator(json)){
 		$.ajax({
 		url: url,
@@ -310,10 +260,13 @@ function updateInventory(event){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess(response);
+			handleAjaxSuccess("Inventory updated successfully");
 			getInventoryListUtil();   
+			clearEditData();
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+		}
 		});
 	}
 	return false;
@@ -335,11 +288,9 @@ function enableOrDisableAdd(){
 }
 
 function enableOrDisableEdit(){
-	if((oldData.barcode == newData.barcode && oldData.quantity == newData.quantity)
+	if((oldData.quantity == newData.quantity)
 	||
-	($editBarcode.hasClass('is-invalid')
-	|| !$editBarcode.hasClass('is-valid')
-	|| $editQuantity.hasClass('is-invalid'))){
+	($editQuantity.hasClass('is-invalid'))){
 		$update.attr('disabled', true);
 	}
 	else{
@@ -384,7 +335,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-		handleAjaxSuccess("Uploaded successfully!!!");
+		handleAjaxSuccess("Uploaded completed successfully");
 		getInventoryListUtil();
 		return;
 	}
@@ -484,18 +435,9 @@ function clearCommentsAddInventory(){
 }
 
 function clearCommentsEditInventory(){
-	if($editBarcode.hasClass('is-valid')){
-		$editBarcode.removeClass('is-valid');
-	}
-	if($editBarcode.hasClass('is-invalid')){
-		$editBarcode.removeClass('is-invalid');
-	}
 	if($editQuantity.hasClass('is-invalid')){
 		$editQuantity.removeClass('is-invalid');
 	}
-	$('#ebvf1').attr('style', 'display:none;');
-	$('#ebif1').attr('style', 'display:none;');
-	$('#ebif2').attr('style', 'display:none;');
 	$('#eqif1').attr('style', 'display:none;');
 }
 
@@ -506,19 +448,18 @@ function clearAddData(){
 	$checkBarcode.attr('disabled', true);
 
 	clearCommentsAddInventory();
-	if($('#add-inventory-modal').length){
+	if($('#add-inventory-modal').hasClass('show')){
 		$('#add-inventory-modal').modal('toggle');
 	}
 }
 
 function clearEditData(){
-	$editBarcode.val('');
+	$('#inventory-edit-form input[name=barcode]').val('');
 	$editQuantity.val('');
 	$update.attr('disabled', true);
-	$checkBarcodeEdit.attr('disabled', true);
 
 	clearCommentsEditInventory();
-	if($('#edit-inventory-modal').length){
+	if($('#edit-inventory-modal').hasClass('show')){
 		$('#edit-inventory-modal').modal('toggle');
 	}
 }
@@ -554,16 +495,10 @@ function init(){
     $('#inventoryFile').on('change', updateFileName);
 	$('#inputPageSize').on('change', getInventoryListUtil);
 	$('#check-barcode').click(checkBarcodeAvailability);
-	$('#check-barcode-edit').click(checkBarcodeAvailability);
 
-	$editBarcode.on('input', validateEditBarcode);
 	$editQuantity.on('input', validateEditInventoryForm);
 }
 
 $(document).ready(init);
 $(document).ready(getInventoryListUtil);
 $(document).ready(enableOrDisable);
-$(document).ready(function(){
-	$add.attr('disabled', true);
-	$update.attr('disabled', true);
-})

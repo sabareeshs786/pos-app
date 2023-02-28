@@ -22,10 +22,14 @@
 			<h3>Inventory</h3>
 			<div class="row">
 				<div class="col-8 align-items-right">
-					<button type="button" class="btn btn-primary" id="add-data">+&nbsp;Add</button>
+					<span class="d-inline-block" tabindex="0" data-toggle="tooltip">
+						<button type="button" class="btn btn-primary only-supervisor" id="add-data">+&nbsp;Add</button>
+					</span>
 					&nbsp;
 					&nbsp;
-					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+					<span class="d-inline-block" tabindex="0" data-toggle="tooltip">
+						<button type="button" class="btn btn-primary only-supervisor" id="upload-data">Upload</button>
+					</span>
 				</div>
 			</div>
 			<!-- Blank Row -->
@@ -122,32 +126,16 @@
 							<form class="row g-4 needs-validation" id="inventory-edit-form" novalidate>
 								<div class="col-md-12">
 									<label class="form-label required" for="inputEditBarcode">Barcode</label>
-									<div class="input-group has-validation">
-										<input type="text" class="form-control" id="inputEditBarcode" name="barcode"
-											placeholder="Enter barcode">
-										<span class="input-group-append">
-											<button type="button" class="btn btn-success" id="check-barcode-edit">
-												<i class="fa fa-search"></i>
-											</button>
-										</span>
-										<div class="valid-feedback" id="ebvf1">
-											Product available
-										</div>
-										<div class="invalid-feedback" id="ebif1">
-											Please enter barcode
-										</div>
-										<div class="invalid-feedback" id="ebif2">
-											Product not available
-										</div>
-									</div>
+									<input type="text" class="form-control" id="inputEditBarcode" name="barcode"
+										placeholder="Enter barcode" disabled>
 								</div>
 								<div class="col-md-12">
 									<label for="inputQuantity" class="form-label required">Quantity</label>
 									<input type="number" class="form-control" name="quantity"
 										placeholder="Enter quantity">
-										<div class="invalid-feedback" id="eqif1">
-											Please enter barcode
-										</div>
+									<div class="invalid-feedback" id="eqif1">
+										Please enter barcode
+									</div>
 								</div>
 								<input type="hidden" name="productId">
 							</form>

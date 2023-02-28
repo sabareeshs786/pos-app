@@ -23,10 +23,14 @@
 			<h3>Products</h3>
 			<div class="row">
 				<div class="col-8 align-items-right">
-					<button type="button" class="btn btn-primary" id="add-data">+&nbsp;Add</button>
+					<span class="d-inline-block" tabindex="0" data-toggle="tooltip">
+						<button type="button" class="btn btn-primary only-supervisor" id="add-data">+&nbsp;Add</button>
+					</span>
 					&nbsp;
 					&nbsp;
-					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+					<span class="d-inline-block" tabindex="0" data-toggle="tooltip">
+						<button type="button" class="btn btn-primary only-supervisor" id="upload-data">Upload</button>
+					</span>
 				</div>
 			</div>
 
@@ -77,7 +81,8 @@
 										<input type="text" class="form-control" name="barcode" id="inputBarcode"
 											placeholder="Enter product barcode" onfocus="validateAddBarcodeUtil()">
 										<span class="input-group-append">
-											<button type="button" class="btn btn-success" id="check-barcode" disabled>Check
+											<button type="button" class="btn btn-success" id="check-barcode"
+												disabled>Check
 												availability</button>
 										</span>
 										<div class="valid-feedback" id="bvf1">
@@ -152,7 +157,8 @@
 										<input type="text" class="form-control" name="barcode" id="inputBarcode"
 											placeholder="Enter product barcode">
 										<span class="input-group-append">
-											<button type="button" class="btn btn-success" id="check-barcode-edit" disabled>Check
+											<button type="button" class="btn btn-success" id="check-barcode-edit"
+												disabled>Check
 												availability</button>
 										</span>
 										<div class="valid-feedback" id="ebvf1">
@@ -239,7 +245,8 @@
 							<button type="button" class="btn btn-secondary" data-dismiss="modal"
 								id="cancel6">Cancel</button>
 							<button type="button" class="btn btn-primary" id="process-data">Upload</button>
-							<button type="button" class="btn btn-warning" id="download-errors" disabled>Download Errors</button>
+							<button type="button" class="btn btn-warning" id="download-errors" disabled>Download
+								Errors</button>
 						</div>
 					</div>
 				</div>

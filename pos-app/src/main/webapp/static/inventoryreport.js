@@ -34,12 +34,14 @@ function getInventoryList(brand, category, pageNumber, pageSize){
 			console.log(data);
 			downloadContent = data.content;
 	   		displayInventoryList(data.content, pageNumber*pageSize);
+			   $('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			paginatorForReport(data, "getInventoryList", brand, category, pageSize);
+			if($('#filter-modal').hasClass('show')){
+				$('#filter-modal').modal('toggle');
+			}
 	   },
 	   error: function(response){
-		handleAjaxError(response);
-		$('#inventory-report-form input[name=brand]').val('');
-		$('#inventory-report-form input[name=category]').val('');
+			downloadContent = [{'sno': '\0', 'productID': '\0', 'barcode':'\0', 'productName':'\0', 'brand':'\0', 'category': '\0', 'quantity': '\0'}];
 	   }
 	});
 	return false;
@@ -90,11 +92,12 @@ function rearrange(downloadContent){
 	var downloadContentRearranged = [];
 	for(var i=0; i < downloadContent.length; i++){
 		var rearrangedObj = {};
+		rearrangedObj.sno = i + 1;
 		rearrangedObj.productId = downloadContent[i].productId;
+		rearrangedObj.barcode = downloadContent[i].barcode;
+		rearrangedObj.productName = downloadContent[i].productName;
 		rearrangedObj.brand = downloadContent[i].brand;
 		rearrangedObj.category = downloadContent[i].category;
-		rearrangedObj.productName = downloadContent[i].productName;
-		rearrangedObj.barcode = downloadContent[i].barcode;
 		rearrangedObj.quantity = downloadContent[i].quantity;
 		downloadContentRearranged.push(rearrangedObj);
 	}
@@ -123,15 +126,14 @@ function downloadReport(){
 	   success: function(data) {
 		data = rearrange(data);
 		downloadContent.sort(function(a, b){
-			return a.barcode - b.barcode;
+			return a.productId - b.productId;
 		})
 		writeInventoryReportFileData(data);
 	   },
 	   error: function(response){
-		handleAjaxError(response);
-		$('#inventory-report-form input[name=brand]').val('');
-		$('#inventory-report-form input[name=category]').val('');
-	   }
+		downloadContent = [{'sno': '\0', 'productID': '\0',  'barcode':'\0', 'productName':'\0', 'brand':'\0', 'category': '\0','quantity': '\0'}];
+		writeInventoryReportFileData(downloadContent);
+	}
 	});
 
 	return false;
@@ -142,12 +144,24 @@ function displayFilterModal(){
 	$('#filter-modal').modal('toggle');
 }
 
+function resetModal(){
+	$('#filter-modal').modal('toggle');
+}
+
+function clearData(){
+	$('#inventory-report-form input[name=brand]').val('');
+	$('#inventory-report-form input[name=category]').val('');
+	getInventoryListUtil();
+}
+
 //INITIALIZATION CODE
 function init(){
+	$('#cancel1').click(resetModal);
+	$('#cancel2').click(resetModal);
 	$('#filter-data').click(displayFilterModal);
 	$('#process-data').click(getInventoryListUtil);
 	$('#download-data').click(downloadReport);
-	$('#reset-data').click(getInventoryListUtil);
+	$('#reset-data').click(clearData);
 }
 
 $(document).ready(init);
