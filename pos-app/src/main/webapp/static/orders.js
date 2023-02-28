@@ -62,8 +62,8 @@ function updateAddedItemsTable(){
 	var sno = 0;
 	for(var i=0; i < barcodes.length; i++){
 		sno += 1;
-		var buttonHtml = '<button onclick="editAddedItem(' + i + ')" class="btn btn-warning">Edit</button>'
-		+ '&nbsp;<button onclick="deleteAddedItem(' + i + ')" class="btn btn-danger">Delete</button>';
+		var buttonHtml = '<button onclick="editAddedItem(' + i + ')" class="btn btn-secondary">Edit</button>'
+		+ '&nbsp;<button onclick="deleteAddedItem(' + i + ')" class="btn btn-secondary">Delete</button>';
 		var row = "<tr><td>"
 		+ sno + "</td><td>"
 		+ barcodes[i] + "</td><td>"
@@ -832,7 +832,6 @@ function updateAddedItem(){
 		sellingPrices[i] = $('#edit-added-item-form input[name=sellingPrice]').val();
 		totals[i] = quantities[i] * parseFloat(sellingPrices[i]);
 		availableQuantities[i] += originalQuantity - quantities[i];
-		names[i] = dataOfItemForEdit.name;
 		barcodeSet.add(barcodes[i]);
 		$barcode.val('');
 		changeToPlaceOrderAttributes();
@@ -847,7 +846,7 @@ function displayOrderList(data, sno){
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd
-					 + spanBegin + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" style="display:none;" class="btn btn-warning">Edit</button>&nbsp;&nbsp;' + spanEnd
+					 + spanBegin + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" style="display:none;" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' + spanEnd
 					 + spanBegin + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Download Invoice</button>' + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 

@@ -264,7 +264,6 @@ function processData(){
 	var file = $('#brandFile')[0].files[0];
 	resetUploadDialog();
 	readFileData(file, readFileDataCallback);
-	enableOrDisableDownloadErrors();
 }
 
 function readFileDataCallback(results){
@@ -309,6 +308,7 @@ function uploadRows(){
 			var response = JSON.parse(response.responseText);
 			row.error = response.message;
 	   		errorData.push(row);
+			$('#download-errors').attr('disabled', false);
 			uploadRows();
 	   }
 	});
@@ -350,16 +350,6 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-brand-modal').modal('toggle');
-}
-
-function enableOrDisableDownloadErrors(){
-	if(errorData.length > 0){
-		$('#download-errors').attr('disabled', false);
-	}
-	else{
-		$('#download-errors').attr('disabled', true);
-	}
-	$('#process-data').attr('disabled', true);
 }
 
 // RESETTING AND CLEARING FUNCTIONS
