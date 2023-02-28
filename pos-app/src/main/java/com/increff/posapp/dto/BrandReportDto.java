@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BrandReportDto extends InventoryDto{
+public class BrandReportDto {
 
     @Autowired
     private BrandService brandService;
+
     public <T> T getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);

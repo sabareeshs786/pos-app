@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderDao extends AbstractDao{
 
 	private static final String SELECT_BY_ID = "select p from OrderPojo p where id=:id";
-	private static final String SELECT_BY_INTERVAL = "select p from OrderPojo p where time >= :startTime and time <=:endTime";
+	private static final String SELECT_BY_INTERVAL_INVOICED = "select p from OrderPojo p where time >= :startTime and time <=:endTime and isInvoiced=1";
 
 	public OrderPojo selectById(Integer id) {
 		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_ID, OrderPojo.class);
@@ -22,12 +22,13 @@ public class OrderDao extends AbstractDao{
 		return getSingle(query);
 	}
 
-	public List<OrderPojo> selectByInterval(ZonedDateTime startTime, ZonedDateTime endTime){
-		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_INTERVAL, OrderPojo.class);
+	public List<OrderPojo> selectByIntervalInvoiced(ZonedDateTime startTime, ZonedDateTime endTime){
+		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_INTERVAL_INVOICED, OrderPojo.class);
 		query.setParameter("startTime", startTime);
 		query.setParameter("endTime", endTime);
 		return query.getResultList();
 	}
+
 
 	public void update(OrderPojo p) {
 		// Implemented by Spring itself

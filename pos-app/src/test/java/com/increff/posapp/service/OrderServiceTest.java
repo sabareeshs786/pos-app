@@ -101,11 +101,12 @@ public class OrderServiceTest extends AbstractUnitTest {
         LocalDateTime localDateTime = LocalDateTime.of(2022, Month.MARCH, 2, 0, 10, 0);
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Kolkata"));
         p.setTime(zonedDateTime);
+        p.setIsInvoiced(false);
         String localDate  = zonedDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         OrderPojo pojo1 = orderService.add(p);
         assertEquals("02/03/2022", pojo1.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         OrderPojo pojo2 = new OrderPojo("Asia/Kolkata");
         OrderPojo pojo3 = orderService.updateById(pojo1.getId(), pojo2);
-        assertEquals("28/02/2023", pojo3.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        assertEquals("01/03/2023", pojo3.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 }

@@ -1,5 +1,20 @@
 //GLOBAL VARIABLES
 var htmlContent = '';
+var quantityVF = 'Available quantity: ';
+var quantityIVF = 'Quantity cannot exceed ';
+var sellingPriceVF = 'MRP: ';
+var sellingPriceIVF = 'Selling price is greater than MRP. MRP: ';
+
+var $editBarcode = $("#edit-order-item-form input[name=barcode]");
+var $editQuantity = $('#edit-order-item-form input[name=quantity]');
+var $editSellingPrice = $('#edit-order-item-form input[name=sellingPrice]');
+var $editModal = $('#edit-order-item-modal');
+var $update = $('#update-order-item');
+
+var olddata = null;
+var newData = null;
+
+var dataOfOrderItem = null;
 
 function getHtmlContent(){
 	htmlContent = $('#place-order-form').html();
@@ -28,6 +43,11 @@ function getMode(){
 function getOrderItemsUtil(){
 	var pageSize = $('#inputPageSize').val();
 	getOrderItems(0, pageSize);
+}
+
+function getProductUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/products";
 }
 
 function getOrderItems(pageNumber, pageSize){
@@ -65,6 +85,89 @@ function getOrderItems(pageNumber, pageSize){
 	});	
 }
 
+function getProductForEdit(){
+	var barcode = $('#edit-order-item-form input[name=barcode]').val();
+	console.log('Barcode->>'+barcode);
+	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   dataType : 'json',
+	   contentType : 'application/json',
+	   success: function(data) {
+			console.log("Returned data");
+			console.log(data);
+			dataOfOrderItem = data;
+			console.log(dataOfOrderItem.quantity);
+	   },
+	   error: function(response){
+			dataOfOrderItem = null;
+			handleAjaxError(response);
+	   }
+	});
+	return false;
+}
+
+// VALIDATION FUNCTIONS
+function validateEditForm(){
+	var quantity = $editQuantity.val();
+	var sp = $editSellingPrice.val();
+	newData = {
+		'quantity': quantity,
+		'sellingPrice': sp
+	}
+	
+	if(quantity == ''){
+		setItemQuantityInvalid('Please enter quantity');
+	}
+	else if(parseInt(quantity) > dataOfOrderItem.quantity){
+		setItemQuantityInvalid(quantityIVF + dataOfOrderItem.quantity);
+	}
+	else{
+		setItemQuantityValid();
+	}
+
+	if(sp == ''){
+		setItemSellingPriceInvalid('Please enter selling price');
+	}
+	else if(parseFloat(sp) > dataOfOrderItem.mrp){
+		setItemSellingPriceInvalid(sellingPriceIVF + dataOfOrderItem.mrp);
+	}
+	else{
+		setItemSellingPriceValid();
+	}
+	enableAddOrEdit();
+}
+
+function enableAddOrEdit(){
+	if((olddata.quantity == newData.quantity && olddata.sellingPrice == newData.sellingPrice) || (!$editQuantity.hasClass('is-valid') || !$editSellingPrice.hasClass('is-valid'))){
+		$update.attr('disabled', true);
+	}
+	else{
+		$update.attr('disabled', false);
+	}
+}
+
+function setItemQuantityInvalid(message){
+	if($editQuantity.hasClass('is-valid')){
+		$editQuantity.removeClass('is-valid');
+	}
+	$editQuantity.addClass('is-invalid');
+	$('#eqvf').attr('style', 'display: none;');
+	$('#eqif').html(message);
+	$('#eqif').attr('style', 'display: block;');
+}
+
+function setItemSellingPriceInvalid(message){
+	if($editSellingPrice.hasClass('is-valid')){
+		$editSellingPrice.removeClass('is-valid');
+	}
+	$editSellingPrice.addClass('is-invalid');
+	$('espvf').attr('style', 'display: none;');
+	$('#espif').html(message);
+	$('#espif').attr('style', 'display: block;');
+}
+
 //UI DISPLAY METHODS
 
 function displayOrderItems(data, sno){
@@ -99,22 +202,52 @@ function displayEditOrderItem(id){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayOrderItem(data);   
+			olddata = data;
+	   		displayOrderItem(data);
+			getProductForEdit();
+			setItemQuantityValid();
+			setItemSellingPriceValid();
+			$editBarcode.attr('disabled', true);
+			$editQuantity.on('input', validateEditForm);
+			$editSellingPrice.on('input', validateEditForm);
 	   },
-	   error: handleAjaxError
+	   error: function(response){
+			handleAjaxError(response);
+	   }
 	});	
 }
 
+function setItemQuantityValid(){
+	if($editQuantity.hasClass('is-invalid')){
+		$editQuantity.removeClass('is-invalid');
+	}
+	$('#eqif').attr('style', 'display:none;');
+	$editQuantity.addClass('is-valid');
+	$('#eqvf').attr('style', 'display: block;');
+	$('#eqvf').html(quantityVF + dataOfOrderItem.quantity);
+}
+
+function setItemSellingPriceValid(){
+	if($editSellingPrice.hasClass('is-invalid')){
+		$editSellingPrice.removeClass('is-invalid');
+	}
+	$('#espif').attr('style', 'display: none');
+	$editSellingPrice.addClass('is-valid');
+	$('#espvf').attr('style', 'display: block;');
+	$('#espvf').html(sellingPriceVF + dataOfOrderItem.mrp);
+}
+
 function displayOrderItem(data){
+	$editBarcode.attr('disabled', false);
 	$("#edit-order-item-form input[name=barcode]").val(data.barcode);	
 	$("#edit-order-item-form input[name=quantity]").val(data.quantity);
 	$("#edit-order-item-form input[name=sellingPrice]").val(parseFloat(data.sellingPrice).toFixed(2));
 	$("#edit-order-item-form input[name=id]").val(data.id);
+	$update.attr('disabled', true);
 	$('#edit-order-item-modal').modal('toggle');
 }
 
 function updateOrderItem(){
-	$('#edit-order-item-modal').modal('toggle');
 	var id = $("#edit-order-item-form input[name=id]").val();
 
 	var url = getOrderItemsUrl() + "/" + id;
@@ -134,32 +267,26 @@ function updateOrderItem(){
 		success: function(response) {
 			handleAjaxSuccess(response);
 			getOrderItemsUtil();
+			$('#edit-order-item-modal').modal('toggle');
 		},
-		error: handleAjaxError
+		error: function(response){
+			handleAjaxError(response);
+		}
 		});
 	}
 	return false;
 }
 
-//BUTTON ACTIONS
-function addItemToExistingOrder(event){
-	var $form = $("#place-order-form");
-	var orderId =  getOrderId();
-	var json = toJsonArray($form);
-	for(var i=0; i < json.length; i++){
-		json[i]['quantity'] = parseInt(json[i]['quantity']);
-		json[i]['sellingPrice'] = parseFloat(json[i]['sellingPrice']);
+function closeModal(){
+	if($editModal.hasClass('show')){
+		$editModal.modal('toggle');
 	}
-	json = JSON.stringify(json);
-	var url = getOrderUrl();
-	console.log(json);
-	return false;
 }
 
 //INITIALIZATION CODE
 function init(){
-	// $('#place-order-confirm').click(addItemToExistingOrder);
-	// $('#add-row').click(addRow);
+	$('#cancel1').click(closeModal);
+	$('#cancel2').click(closeModal);
 	$('#update-order-item').click(updateOrderItem);
 	$('#inputPageSize').on('change', getOrderItemsUtil);
 }

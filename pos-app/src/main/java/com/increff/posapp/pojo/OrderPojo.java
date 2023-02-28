@@ -28,10 +28,14 @@ public class OrderPojo {
 	@Column(nullable = false)
 	private ZonedDateTime time;
 
+	@Column(nullable = false)
+	private Boolean isInvoiced;
+
 	public OrderPojo(){}
 	public OrderPojo(String zone){
 		LocalDateTime localDateTime = LocalDateTime.now();
 		ZoneId india = ZoneId.of(zone);
 		this.time = ZonedDateTime.of(localDateTime, india);
+		this.isInvoiced = false;
 	}
 }

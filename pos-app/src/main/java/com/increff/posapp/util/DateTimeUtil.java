@@ -19,4 +19,10 @@ public class DateTimeUtil {
         return localDateTime.format(formatter);
     }
 
+    public static ZonedDateTime getZonedDateTime(String zone){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of(zone);
+        return ZonedDateTime.of(localDateTime, zoneId);
+    }
+
 }

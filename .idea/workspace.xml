@@ -5,21 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets copy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/ProductInventoryData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product copy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dao/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dao/OrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandReportDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/BrandReportDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryReportDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryReportDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/SalesReportDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/SalesReportDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/OrderData.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/OrderData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/ProductData.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/ProductData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/pojo/OrderPojo.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/pojo/OrderPojo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Converter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/DateTimeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/DateTimeUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/inventory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/order-items.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/order-items.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/orders.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/product.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/product.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/snippets.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ProductDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ProductDtoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +48,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="experiments" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="experiments" />
       </map>
     </option>
   </component>
@@ -69,11 +83,12 @@
       <recent name="$PROJECT_DIR$/pos-app" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.increff.posapp.model" />
       <recent name="com.increff.invoiceapp.utils" />
       <recent name="com.increff.posapp.util" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ProductDtoTest.testGetDataIdNull">
+  <component name="RunManager" selected="JUnit.BrandDtoTest.testGetById">
     <configuration name="BrandDtoTest.testGetById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="pos-app" />
       <extension name="coverage">
@@ -188,6 +203,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pos$PosDaySalesDtoTest_testUpdateScheduler.ic" NAME="PosDaySalesDtoTest.testUpdateScheduler Coverage Results" MODIFIED="1676887479387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

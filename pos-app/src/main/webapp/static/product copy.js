@@ -337,24 +337,19 @@ function validateEditBarcode(){
 			$editBarcode.removeClass('is-valid');
 		}
 		$editBarcode.addClass('is-invalid');
-		$('#ebvf1').attr('style', 'display:none;');
-		$('#ebif1').attr('style', 'display:block;');
-		$('#ebif2').attr('style', 'display:none;');
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:block;');
+		$('#bif2').attr('style', 'display:none;');
 		$checkBarcodeEdit.attr('disabled', true);
 	}
 	else{
 		if($editBarcode.hasClass('is-invalid')){
 			$editBarcode.removeClass('is-invalid');
 		}
-		$('#ebvf1').attr('style', 'display:none;');
-		$('#ebif1').attr('style', 'display:none;');
-		$('#ebif2').attr('style', 'display:none;');
-		if($editBarcode.val() == oldData.barcode){
-			$checkBarcodeEdit.attr('disabled', true);
-		}
-		else{
-			$checkBarcodeEdit.attr('disabled', false);
-		}
+		$('#bvf1').attr('style', 'display:none;');
+		$('#bif1').attr('style', 'display:none;');
+		$('#bif2').attr('style', 'display:none;');
+		$checkBarcodeEdit.attr('disabled', false);
 	}
 	enableOrDisableEdit();
 }
@@ -369,11 +364,6 @@ function checkBarcodeAvailability(){
 	else{
 		console.log('edit barcode open');
 		barcode = $editBarcode.val();
-		if(oldData.barcode == barcode){
-			clearCommentsEditProduct();
-			return;
-		}
-		
 	}
 	var url = getProductUrl() + '?barcode=' + barcode;
 	$.ajax({
@@ -388,8 +378,7 @@ function checkBarcodeAvailability(){
 			else{
 				$checkBarcodeEdit.attr('disabled', true);
 			}
-			barcodeNotAvailable();
-			console.log('Barcode is there->');
+			barcodeAvailable();
 	   },
 	   error: function(data){
 			if($('#add-product-modal').hasClass('show')){
@@ -398,15 +387,14 @@ function checkBarcodeAvailability(){
 			else{
 				$checkBarcodeEdit.attr('disabled', true);
 			}
-			barcodeAvailable();
-			console.log('Barcode is not there->');
+			barcodeNotAvailable();
 	   }
 	});
 	return false;
 }
 
 // BARCODE AVAILABILITY DISPLAYING FUNCTIONS
-function barcodeAvailable(){
+function barcodeNotAvailable(){
 	if($('#add-product-modal').hasClass('show')){
 		if($barcode.hasClass('is-invalid')){
 			$barcode.removeClass('is-invalid');
@@ -429,7 +417,7 @@ function barcodeAvailable(){
 	}
 }
 
-function barcodeNotAvailable(){
+function barcodeAvailable(){
 	if($('#add-product-modal').hasClass('show')){
 		console.log('Add product modal -->');
 		if($barcode.hasClass('is-valid')){
@@ -628,6 +616,7 @@ function uploadRows(){
 			var response = JSON.parse(response.responseText);
 	   		row.error = response.message;
 	   		errorData.push(row);
+			$('#download-errors').attr('disabled', false);
 			uploadRows();
 	   }
 	});
@@ -670,16 +659,6 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog(); 	
 	$('#upload-product-modal').modal('toggle');
-}
-
-function enableOrDisableDownloadErrors(){
-	if(errorData.length > 0){
-		$('#download-errors').attr('disabled', false);
-	}
-	else{
-		$('#download-errors').attr('disabled', true);
-	}
-	$('#process-data').attr('disabled', true);
 }
 
 // RESETTING AND CLEARING FUNCTIONS

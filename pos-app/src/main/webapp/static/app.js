@@ -1,5 +1,5 @@
 var spanBegin = '<span class="d-inline-block" tabindex="0" data-toggle="tooltip">';
-var spanEnd = '</span>'
+var spanEnd = '</span>';
 function getRole(){
 	var role = $("meta[name=role]").attr("content");
 	return role;
@@ -12,32 +12,11 @@ function validator(jsonStr){
             value = value.trim();
         }
         if(value == null || value == undefined || value == ''){
-            $("#error-message").notify("Value for "+ key + " is not entered or can't be interpreted");
+            $.notify("Value for "+ key + " is not entered or can't be interpreted");
             return false;
         }
     }
     return true;
-}
-
-function generateInvoicePdf(id){
-	var url = getInvoiceUrl() + "/" + id;
-	$.ajax({
-		url: url,
-		type: 'GET',
-		xhrFields: {
-			responseType: 'blob'
-		 },
-		success: function(blob) {
-			console.log(blob.length);
-			var link=document.createElement('a');
-			link.href=window.URL.createObjectURL(blob);
-			link.download="Invoice" + new Date() + ".pdf";
-			link.click();
-				
-		},
-		error: handleAjaxError
-	 });
-	 return false;
 }
 
 function enableOrDisable(){
@@ -249,12 +228,6 @@ function paginatorForReport(data, func, brand, category, pageSize){
 }
 
 function init(){
-    $("#close-button").click(function() {
-        $("#error-message").hide();
-    });
-    $("#close-button").click(function() {
-        $("#success-message").hide();
-    });
     $('.card').addClass('shadow');
     if(getRole() != 'supervisor'){
         $('#adminButton').attr('style', 'display: none;');

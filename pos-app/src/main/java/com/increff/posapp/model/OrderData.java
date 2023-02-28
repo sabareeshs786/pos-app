@@ -11,8 +11,8 @@ public class OrderData {
 	
 	private Integer id;
 	private String time;
-
 	private String totalAmount;
+	private Boolean isInvoiced;
 	
 	@Override
 	public String toString() {

@@ -3,6 +3,7 @@ package com.increff.posapp.util;
 import com.increff.posapp.model.*;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.ApiException;
+import com.increff.posapp.service.InventoryService;
 import org.apache.log4j.Logger;
 
 import java.time.format.DateTimeFormatter;
@@ -41,7 +42,7 @@ public class Converter {
 		return p;
 	}
 	
-	public static ProductData convertToProductData(ProductPojo productPojo, BrandPojo brandPojo, InventoryPojo inventoryPojo) {
+	public static ProductData convertToProductData(ProductPojo productPojo, BrandPojo brandPojo) {
 		ProductData productData = new ProductData();
 		productData.setId(productPojo.getId());
 		productData.setBarcode(productPojo.getBarcode());
@@ -49,22 +50,17 @@ public class Converter {
 		productData.setCategory(brandPojo.getCategory());
 		productData.setBrandCategory(productPojo.getBrandCategory());
 		productData.setName(productPojo.getName());
-		productData.setQuantity(inventoryPojo.getQuantity());
 		productData.setMrp(productPojo.getMrp());
 		return productData;
 	}
 
-	public static List<ProductData> convertToProductDataList
-			(List<ProductPojo> productPojoList,
-			 List<BrandPojo> brandPojoList,
-			 List<InventoryPojo> inventoryPojoList
-			) {
+	public static List<ProductData> convertToProductDataList(
+			List<ProductPojo> productPojoList,
+			 List<BrandPojo> brandPojoList
+			) throws ApiException {
 		List<ProductData> dataList = new ArrayList<>();
-		if(
-				productPojoList.size() != brandPojoList.size() ||
-						productPojoList.size() != inventoryPojoList.size()
-		){
-			return null;
+		if(productPojoList.size() != brandPojoList.size()){
+			throw new ApiException("Invalid pojo lists");
 		}
 		Integer len = productPojoList.size();
 		for(Integer i=0; i < len; i++){
@@ -74,7 +70,6 @@ public class Converter {
 			productData.setName(productPojoList.get(i).getName());
 			productData.setBrand(brandPojoList.get(i).getBrand());
 			productData.setCategory(brandPojoList.get(i).getCategory());
-			productData.setQuantity(inventoryPojoList.get(i).getQuantity());
 			productData.setBrandCategory(productPojoList.get(i).getBrandCategory());
 			productData.setMrp(productPojoList.get(i).getMrp());
 			dataList.add(productData);
@@ -82,6 +77,16 @@ public class Converter {
 		return dataList;
 	}
 
+	public static ProductInventoryData convertToProductInventoryData(ProductPojo productPojo, BrandPojo brandPojo, InventoryPojo inventoryPojo){
+		ProductInventoryData data = new ProductInventoryData();
+		data.setBarcode(productPojo.getBarcode());
+		data.setName(productPojo.getName());
+		data.setBrand(brandPojo.getBrand());
+		data.setCategory(brandPojo.getCategory());
+		data.setMrp(productPojo.getMrp());
+		data.setQuantity(inventoryPojo.getQuantity());
+		return data;
+	}
 	public static ProductPojo convertToProductPojo(ProductForm f, Integer brandCategory) {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());
@@ -133,6 +138,7 @@ public class Converter {
 		String format = "dd/MM/yyyy - HH:mm:ss";
 		orderData.setTime(DateTimeUtil.getDateTimeString(orderPojo.getTime(), format));
 		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
+		orderData.setIsInvoiced(orderPojo.getIsInvoiced());
 		return orderData;
 	}
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <invoice>
-    <date>16/02/2023</date>
-    <orderId>5</orderId>
+    <date>01/03/2023</date>
+    <orderId>28</orderId>
     <item>
-        <productName>xl men's jeans</productName>
-        <quantity>1</quantity>
-        <mrp>2000.67</mrp>
-        <sellingPrice>2000.67</sellingPrice>
+        <productName>product1</productName>
+        <quantity>2</quantity>
+        <mrp>123.45</mrp>
+        <sellingPrice>120.68</sellingPrice>
     </item>
     <item>
-        <productName>xl women's jeans</productName>
-        <quantity>7</quantity>
-        <mrp>2100.56</mrp>
-        <sellingPrice>1900.00</sellingPrice>
+        <productName>product2</productName>
+        <quantity>2</quantity>
+        <mrp>12.45</mrp>
+        <sellingPrice>10.78</sellingPrice>
     </item>
-    <total>15300.67</total>
+    <total>262.92</total>
 </invoice>

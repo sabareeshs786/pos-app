@@ -36,10 +36,11 @@ public class ProductController {
 	@RequestMapping(path = "/api/products", method = RequestMethod.GET)
 	public Object get(
 			@RequestParam(required = false) String barcode,
+			@RequestParam(name = "inventory-status", required = false, defaultValue = "false") Boolean inventoryStatus,
 			@RequestParam(name = "page-number", required = false) Integer page,
 			@RequestParam(name = "page-size", required = false) Integer size
 	) throws ApiException, UnsupportedEncodingException {
-		return productDto.get(barcode, page, size);
+		return productDto.get(barcode, inventoryStatus, page, size);
 	}
 
 	@ApiOperation(value = "Updates a product")

@@ -4,6 +4,7 @@ import com.increff.posapp.dto.OrderDto;
 import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.model.OrderItemData;
+import com.increff.posapp.model.OrderItemEditForm;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,5 +75,11 @@ public class OrderController {
 		logger.info("Response content type: "+response.getContentType());
 		logger.info("Response status: "+response.getStatus());
 		logger.info("Response content length: "+response.getOutputStream().toString().length());
+	}
+
+	@ApiOperation(value = "Edits an order item by id")
+	@RequestMapping(path = "/api/order-items/{id}", method = RequestMethod.PUT)
+	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
+		orderDto.update(id, orderItemEditForm);
 	}
 }

@@ -2,6 +2,7 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.model.ProductData;
 import com.increff.posapp.model.ProductForm;
+import com.increff.posapp.model.ProductInventoryData;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.ProductPojo;
@@ -39,26 +40,26 @@ public class ProductDto {
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brandCategory = brandPojo.getId();
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandCategory);
-		ProductPojo p = productService.add(productPojo);
-		InventoryPojo inventoryPojo = new InventoryPojo();
-		inventoryPojo.setQuantity(null);
-		return Converter.convertToProductData(p, brandPojo, inventoryPojo);
+		ProductPojo pojo = productService.add(productPojo);
+		return Converter.convertToProductData(pojo, brandPojo);
 	}
 
 	public ProductData get(Integer id) throws ApiException {
 		Validator.validate("Id", id);
 		ProductPojo productPojo = productService.getById(id);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
-		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
+		return Converter.convertToProductData(productPojo, brandPojo);
 	}
 
-	public Object get(String barcode, Integer page, Integer size) throws ApiException {
+	public Object get(String barcode, Boolean inventoryStatus, Integer page, Integer size) throws ApiException {
 		if(barcode == null && page != null && size != null){
 			return getAll(page, size);
 		}
+		if(barcode != null && inventoryStatus){
+			return getDataAndIventoryStatus(barcode);
+		}
 		if(barcode != null){
-			return getByBarcode(barcode);
+			return getData(barcode);
 		}
 		throw new ApiException("Invalid request");
 	}
@@ -70,17 +71,24 @@ public class ProductDto {
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
 		productPojo.setId(id);
-		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
-		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo, inventoryPojo);
+		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo);
 	}
 
-	private ProductData getByBarcode(String barcode) throws ApiException {
+	private ProductInventoryData getDataAndIventoryStatus(String barcode) throws ApiException {
 		Validator.validate("Barcode", barcode);
 		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-		InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
-		return Converter.convertToProductData(productPojo, brandPojo, inventoryPojo);
+		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+		return Converter.convertToProductInventoryData(productPojo, brandPojo, inventoryPojo);
+	}
+
+	private ProductData getData(String barcode) throws ApiException {
+		Validator.validate("Barcode", barcode);
+		barcode = StringUtil.toLowerCase(barcode);
+		ProductPojo productPojo = productService.getByBarcode(barcode);
+		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+		return Converter.convertToProductData(productPojo, brandPojo);
 	}
 	
 	private Page<ProductData> getAll(Integer page, Integer size) throws ApiException{
@@ -92,23 +100,8 @@ public class ProductDto {
 		for (ProductPojo productPojo : productPojoList) {
 			BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
 			brandPojoList.add(brandPojo);
-			InventoryPojo inventoryPojo = getInventoryStatus(productPojo);
-			inventoryPojoList.add(inventoryPojo);
 		}
-		List<ProductData> productDataList = Converter.convertToProductDataList(productPojoList, brandPojoList, inventoryPojoList);
+		List<ProductData> productDataList = Converter.convertToProductDataList(productPojoList, brandPojoList);
 		return new PageImpl<>(productDataList, PageRequest.of(page, size), productService.getTotalElements());
-	}
-
-	private InventoryPojo getInventoryStatus(ProductPojo productPojo){
-		InventoryPojo inventoryPojo = new InventoryPojo();
-		try{
-			logger.info("Executing try block");
-			inventoryPojo = inventoryService.getByProductId(productPojo.getId());
-		}
-		catch (ApiException ex){
-			inventoryPojo.setProductId(null);
-			inventoryPojo.setQuantity(null);
-		}
-		return inventoryPojo;
 	}
 }

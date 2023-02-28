@@ -25,7 +25,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 @Component
-public class SalesReportDto extends InventoryDto {
+public class SalesReportDto {
     @Autowired
     private BrandService brandService;
     @Autowired
@@ -92,6 +92,8 @@ public class SalesReportDto extends InventoryDto {
             Integer quantity = sm2.get(entry.getKey());
             Converter.convertToSalesReportData(salesReportData, entry.getKey(), entry.getValue(), quantity);
         }
+
+
 
         return (T) salesReportData;
     }

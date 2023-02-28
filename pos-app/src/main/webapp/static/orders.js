@@ -16,7 +16,6 @@ var $barcode = $('#place-order-form input[name=barcode]');
 var $quantity = $('#place-order-form input[name=quantity]');
 var $sp = $('#place-order-form input[name=sellingPrice]');
 
-
 // General functions
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
@@ -85,7 +84,7 @@ function displayOrderModal(){
 // <-----------------------Product details getting functions-------------------------------->
 function getProduct(){
 	var barcode = $('#place-order-form input[name=barcode]').val();
-	var url = getProductUrl() + '?barcode=' + barcode;
+	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -154,7 +153,7 @@ function getProductForEdit(){
 		// $quantity.val();
 		return false;
 	}
-	var url = getProductUrl() + '?barcode=' + barcode;
+	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
@@ -230,6 +229,7 @@ function setSellingPriceValid(){
 }
 
 // <---------------------------------------Resetting functions -------------------------------->
+
 
 function resetToDefaults(){
 	dataOfItem = null;
@@ -731,6 +731,8 @@ function changeToEditAddedItemsAttributes(){
 
 		$('#update-added-item').off();
 		$('#update-added-item').click(updateAddedItem);
+
+		removeComments();
 	}
 }
 
@@ -792,6 +794,8 @@ function changeToPlaceOrderAttributes(){
 
 		$('#cancel1').click(clearAll);
 		$('#cancel2').click(clearAll);
+
+		removeComments();
 	}
 	else{
 	}
@@ -842,11 +846,16 @@ function updateAddedItem(){
 
 function displayOrderList(data, sno){
 	$("#order-table-body").empty();
+	var spanBeginEdit = '<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cannot edit invoiced orders">';
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
+	var editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;';
+	if(data[i].isInvoiced){
+		editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor disabled" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' 
+	}
 	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd
-					 + spanBegin + '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" style="display:none;" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' + spanEnd
+					 + spanBeginEdit + editButton + spanEnd
 					 + spanBegin + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Download Invoice</button>' + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
@@ -881,6 +890,29 @@ function displayOrderItemsView(id){
 function displayOrderItemsEdit(id){
 	window.location.href = "./order-items/" + id + '/' + 'edit';
 }
+
+function generateInvoicePdf(id){
+	var url = getInvoiceUrl() + "/" + id;
+	$.ajax({
+		url: url,
+		type: 'GET',
+		xhrFields: {
+			responseType: 'blob'
+		 },
+		success: function(blob) {
+			console.log(blob.length);
+			var link=document.createElement('a');
+			link.href=window.URL.createObjectURL(blob);
+			link.download="Invoice" + new Date() + ".pdf";
+			link.click();
+			getOrderListUtil();
+				
+		},
+		error: handleAjaxError
+	 });
+	 return false;
+}
+
 
 //INITIALIZATION CODE
 function init(){

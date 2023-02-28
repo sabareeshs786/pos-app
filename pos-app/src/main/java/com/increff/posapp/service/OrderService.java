@@ -60,7 +60,7 @@ public class OrderService {
 	}
 
 	private List<OrderPojo> getCheckByInterval(ZonedDateTime startDate, ZonedDateTime endDate) throws ApiException {
-		return orderDao.selectByInterval(startDate, endDate);
+		return orderDao.selectByIntervalInvoiced(startDate, endDate);
 	}
 	private void validate(OrderPojo p) throws ApiException {
 		if(p.getTime() == null) {
