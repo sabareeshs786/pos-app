@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderDao extends AbstractDao{
 
 	private static final String SELECT_BY_ID = "select p from OrderPojo p where id=:id";
-	private static final String SELECT_BY_INTERVAL_INVOICED = "select p from OrderPojo p where time >= :startTime and time <=:endTime and isInvoiced=1";
+	private static final String SELECT_BY_INTERVAL_INVOICED = "select p from OrderPojo p where time >= :startTime and time <=:endTime and orderStatus='INVOICED'";
 
 	public OrderPojo selectById(Integer id) {
 		TypedQuery<OrderPojo> query = getQuery(SELECT_BY_ID, OrderPojo.class);

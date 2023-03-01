@@ -39,6 +39,7 @@ public class LoginController {
 		boolean authenticated = (p != null && Objects.equals(p.getPassword(), f.getPassword()));
 		if (!authenticated) {
 			info.setMessage("Invalid username or password");
+			info.setPageType("Login");
 			return new ModelAndView("redirect:/site/login");
 		}
 

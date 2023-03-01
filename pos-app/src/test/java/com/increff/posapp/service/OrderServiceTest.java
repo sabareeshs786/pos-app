@@ -1,5 +1,6 @@
 package com.increff.posapp.service;
 
+import com.increff.posapp.model.OrderStatus;
 import com.increff.posapp.pojo.OrderPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         LocalDateTime localDateTime = LocalDateTime.of(2022, Month.MARCH, 2, 0, 10, 0);
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Kolkata"));
         p.setTime(zonedDateTime);
-        p.setIsInvoiced(false);
+        p.setOrderStatus(OrderStatus.NOT_INVOICED);
         String localDate  = zonedDateTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         OrderPojo pojo1 = orderService.add(p);
         assertEquals("02/03/2022", pojo1.getTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));

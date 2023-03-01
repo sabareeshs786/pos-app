@@ -47,6 +47,7 @@ public class SignUpController {
 		boolean authenticated = (service.get(p.getEmail()) == null );
 		if (!authenticated) {
 			info.setMessage("Email Id already exists");
+			info.setPageType("Sign Up");
 			return new ModelAndView("redirect:/site/signup");
 		}
 		if(emailSet.contains(form.getEmail()))

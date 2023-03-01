@@ -46,8 +46,15 @@ main{
 	padding-right: 0;
 }
 
+main.login-signup-form{
+	overflow-y: hidden;
+}
+
 .card {
     max-height: 100%;
     overflow-y: auto;
     padding: 10px; /* reduce padding */
+}
+.modal{
+	z-index: 99;
 }

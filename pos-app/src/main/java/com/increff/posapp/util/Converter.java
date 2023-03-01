@@ -138,7 +138,7 @@ public class Converter {
 		String format = "dd/MM/yyyy - HH:mm:ss";
 		orderData.setTime(DateTimeUtil.getDateTimeString(orderPojo.getTime(), format));
 		orderData.setTotalAmount(DoubleUtil.roundToString(totalAmount));
-		orderData.setIsInvoiced(orderPojo.getIsInvoiced());
+		orderData.setOrderStatus(orderPojo.getOrderStatus());
 		return orderData;
 	}
 

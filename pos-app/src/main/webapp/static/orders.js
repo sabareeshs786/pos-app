@@ -845,13 +845,15 @@ function updateAddedItem(){
 //<---------------------------UI DISPLAY METHODS---------------------------------------------->
 
 function displayOrderList(data, sno){
+	console.log("Order data -->");
+	console.log(data);
 	$("#order-table-body").empty();
 	var spanBeginEdit = '<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cannot edit invoiced orders">';
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
 	var editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;';
-	if(data[i].isInvoiced){
+	if(data[i].orderStatus == 'INVOICED'){
 		editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor disabled" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' 
 	}
 	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd

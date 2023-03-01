@@ -17,9 +17,9 @@ public class OrderForm {
 	private List<Double> sellingPrices;
 
 	public OrderForm(){
-		this.barcodes = new ArrayList<String>();
-		this.quantities = new ArrayList<Integer>();
-		this.sellingPrices = new ArrayList<Double>();
+		this.barcodes = new ArrayList<>();
+		this.quantities = new ArrayList<>();
+		this.sellingPrices = new ArrayList<>();
 	}
 
 }
