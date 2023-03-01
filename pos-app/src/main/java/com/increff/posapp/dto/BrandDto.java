@@ -22,14 +22,14 @@ public class BrandDto {
 	@Autowired
 	private BrandService brandService;
 	
-	public BrandData add(BrandForm form) throws ApiException, IllegalAccessException {
+	public BrandData add(BrandForm form) throws ApiException {
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		BrandPojo brandPojo = Converter.convertToBrandPojo(form);
 		return Converter.convertToBrandData(brandService.add(brandPojo));
 	}
 
-	public BrandData update(Integer id, BrandForm form) throws ApiException, IllegalAccessException {
+	public BrandData update(Integer id, BrandForm form) throws ApiException{
 		Validator.validate("Id", id);
 		Validator.validate(form);
 		Normalizer.normalize(form);
@@ -37,7 +37,7 @@ public class BrandDto {
 		return brandService.update(id, p);
 	}
 
-	public BrandData get(Integer id) throws ApiException, IllegalAccessException {
+	public BrandData get(Integer id) throws ApiException{
 		Validator.validate("Id", id);
 		Validator.validate(id);
 		return Converter.convertToBrandData(brandService.getById(id));

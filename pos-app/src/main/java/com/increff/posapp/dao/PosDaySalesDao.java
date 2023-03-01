@@ -15,6 +15,7 @@ public class PosDaySalesDao extends AbstractDao{
 
 	private static final String SELECT_BY_INTERVAL = "select p from PosDaySalesPojo p where date >= :startDate and date <= :endDate";
 	private static final String SELECT_LAST_DATE_TIME = "select max(date) from PosDaySalesPojo p";
+	private static final String SELECT_INTERVAL_TOTAL_COUNT = "select count(p) from PosDaySalesPojo p where date >= :startDate and date <= :endDate";
 
 	public void insert(PosDaySalesPojo p) {
 		em().persist(p);
@@ -29,6 +30,14 @@ public class PosDaySalesDao extends AbstractDao{
 
 	public ZonedDateTime getLastDateTime(){
 		return em().createQuery(SELECT_LAST_DATE_TIME, ZonedDateTime.class).getSingleResult();
+	}
+
+	public Long getByIntervalTotalElements(ZonedDateTime startDate, ZonedDateTime endDate){
+		return em()
+				.createQuery(SELECT_INTERVAL_TOTAL_COUNT, Long.class)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate)
+				.getSingleResult();
 	}
 
 }

@@ -143,7 +143,7 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetData() throws ApiException, InterruptedException {
+    public void testGetData() throws ApiException, InterruptedException, IllegalAccessException {
         createOrdersYesterday(1,2);
         Thread.sleep(1000);
         posDaySalesDto.updatePosDaySalesTable();
@@ -154,23 +154,23 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         PosDaySalesForm form = new PosDaySalesForm();
         form.setStartDate(LocalDateTime.now().minusDays(2L));
         form.setEndDate(LocalDateTime.now());
-        posDaySalesDto.getData(form);
+        posDaySalesDto.getData(form, 0, 5);
     }
 
     @Test(expected = ApiException.class)
-    public void testGetDataInvalidStartDate() throws ApiException {
+    public void testGetDataInvalidStartDate() throws ApiException, IllegalAccessException {
         PosDaySalesForm form = new PosDaySalesForm();
         form.setStartDate(LocalDateTime.now().minusYears(3L));
         form.setEndDate(LocalDateTime.MAX);
-        posDaySalesDto.getData(form);
+        posDaySalesDto.getData(form, 0, 5);
     }
 
     @Test(expected = ApiException.class)
-    public void testGetDataInvalidEndDate() throws ApiException {
+    public void testGetDataInvalidEndDate() throws ApiException, IllegalAccessException {
         PosDaySalesForm form = new PosDaySalesForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now().plusDays(2L));
-        posDaySalesDto.getData(form);
+        posDaySalesDto.getData(form, 0, 5);
     }
 
 }

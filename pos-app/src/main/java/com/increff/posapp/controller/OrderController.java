@@ -32,7 +32,7 @@ public class OrderController {
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/orders", method = RequestMethod.POST)
-	public void add(@RequestBody OrderForm form) throws ApiException, IllegalAccessException {
+	public void add(@RequestBody OrderForm form) throws ApiException{
 		logger.info(form);
 		orderDto.add(form);
 	}
@@ -68,13 +68,12 @@ public class OrderController {
 	@ApiOperation(value = "Used to download invoice")
 	@RequestMapping(path = "/api/invoice/download/{orderId}", method = RequestMethod.GET)
 	public void convertToPdf(@PathVariable Integer orderId, HttpServletResponse response)
-			throws IOException, FOPException, TransformerException, ApiException, JAXBException {
+			throws ApiException{
 		logger.info("OrderId = "+orderId);
 		orderDto.convertToPdf(orderId, response);
 		logger.info("Response character encoding: "+response.getCharacterEncoding());
 		logger.info("Response content type: "+response.getContentType());
 		logger.info("Response status: "+response.getStatus());
-		logger.info("Response content length: "+response.getOutputStream().toString().length());
 	}
 
 	@ApiOperation(value = "Edits an order item by id")

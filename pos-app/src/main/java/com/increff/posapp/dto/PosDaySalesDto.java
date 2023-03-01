@@ -9,9 +9,11 @@ import com.increff.posapp.service.OrderItemService;
 import com.increff.posapp.service.OrderService;
 import com.increff.posapp.service.PosDaySalesService;
 import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.DateTimeUtil;
 import com.increff.posapp.util.DoubleUtil;
+import com.increff.posapp.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 @Component
 public class PosDaySalesDto {
@@ -66,16 +63,28 @@ public class PosDaySalesDto {
 		return Converter.convertToPosDaySalesDataList(pojos);
 	}
 
-	public List<PosDaySalesData> getData(PosDaySalesForm form) throws ApiException {
+	public Object getData(PosDaySalesForm form, Integer page, Integer size) throws ApiException {
+		Validator.validate(form);
 		validate(form);
 		ZoneId zoneId = ZoneId.of("Asia/Kolkata");
 		ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(form.getStartDate(), zoneId);
 		ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(form.getEndDate(), zoneId);
 
-		List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
-				zonedDateTimeEnd);
+		if(page == null & size == null){
+			List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
+					zonedDateTimeEnd);
+			return Converter.convertToPosDaySalesDataList(pojos);
+		}
+		else if (page != null && size != null){
+			List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
+					zonedDateTimeEnd);
+			List<PosDaySalesData> list = Converter.convertToPosDaySalesDataList(pojos);
+			return new PageImpl<>(list, PageRequest.of(page, size), posDaySalesService.getByIntervalTotalElements(zonedDateTimeStart, zonedDateTimeEnd));
+		}
+		else {
+			throw new ApiException("Invalid request");
+		}
 
-		return Converter.convertToPosDaySalesDataList(pojos);
 	}
 
 	private void validate(PosDaySalesForm form) throws ApiException {

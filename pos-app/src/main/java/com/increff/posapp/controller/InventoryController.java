@@ -19,12 +19,12 @@ public class InventoryController {
 
 	@ApiOperation(value = "Adds a product to inventory if not exists or updates if exists")
 	@RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm form) throws ApiException, IllegalAccessException {
+	public void add(@RequestBody InventoryForm form) throws ApiException{
 		inventoryDto.add(form);
 	}
 	@ApiOperation(value = "Gets an item in the inventory by id")
 	@RequestMapping(path = "/api/inventory/{productId}", method = RequestMethod.GET)
-	public InventoryData get(@PathVariable Integer productId) throws ApiException, IllegalAccessException {
+	public InventoryData get(@PathVariable Integer productId) throws ApiException {
 		return inventoryDto.get(productId);
 	}
 	@ApiOperation(value = "Gets the requested inventory data")
@@ -38,7 +38,9 @@ public class InventoryController {
 
 	@ApiOperation(value = "Updates the inventory")
 	@RequestMapping(path = "/api/inventory/{productId}", method = RequestMethod.PUT)
-	public InventoryData update(@PathVariable Integer productId, @RequestBody InventoryForm f) throws ApiException, IllegalAccessException {
+	public InventoryData update(
+			@PathVariable Integer productId,
+			@RequestBody InventoryForm f) throws ApiException{
 		return inventoryDto.update(productId, f);
 	}
 

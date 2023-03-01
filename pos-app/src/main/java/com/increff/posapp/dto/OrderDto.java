@@ -42,7 +42,7 @@ public class OrderDto {
 
 
 	@Transactional(rollbackOn = ApiException.class)
-	public List<OrderItemData> add(OrderForm form) throws ApiException, IllegalAccessException {
+	public List<OrderItemData> add(OrderForm form) throws ApiException{
 		Validator.orderFormValidator(form);
 
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
@@ -96,48 +96,53 @@ public class OrderDto {
 	}
 
 	 @Transactional(rollbackOn = ApiException.class)
-	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws TransformerException, FOPException, ApiException, IOException, JAXBException {
-		Validator.validate("Order id", orderId);
-		List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
-		OrderPojo orderPojo = orderService.getById(orderId);
-		orderPojo.setIsInvoiced(true);
-		 String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), "dd/MM/yyyy");
-		 List<OrderItemData> orderItemDataList = new ArrayList<>();
-		 for(OrderItemPojo orderItemPojo:orderItemPojoList){
-			 ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
-			 orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
-		 }
+	 public void convertToPdf(Integer orderId, HttpServletResponse response) throws ApiException{
+		try{
+			Validator.validate("Order id", orderId);
+			List<OrderItemPojo> orderItemPojoList = orderItemService.getByOrderId(orderId);
+			OrderPojo orderPojo = orderService.getById(orderId);
+			orderPojo.setIsInvoiced(true);
+			String date = DateTimeUtil.getDateTimeString(orderPojo.getTime(), "dd/MM/yyyy");
+			List<OrderItemData> orderItemDataList = new ArrayList<>();
+			for(OrderItemPojo orderItemPojo:orderItemPojoList){
+				ProductPojo productPojo = productService.getById(orderItemPojo.getProductId());
+				orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
+			}
 
-		 List<Integer> orderItemsIds = new ArrayList<>();
-		 List<String> productNames = new ArrayList<>();
-		 List<Integer> quantities = new ArrayList<>();
-		 List<String> sellingPrices = new ArrayList<>();
-		 List<String> mrps = new ArrayList<>();
-		for(OrderItemData orderItemData: orderItemDataList){
-			orderItemsIds.add(orderItemData.getId());
-			productNames.add(orderItemData.getProductName());
-			quantities.add(orderItemData.getQuantity());
-			sellingPrices.add(orderItemData.getSellingPrice());
-			mrps.add(orderItemData.getMrp());
+			List<Integer> orderItemsIds = new ArrayList<>();
+			List<String> productNames = new ArrayList<>();
+			List<Integer> quantities = new ArrayList<>();
+			List<String> sellingPrices = new ArrayList<>();
+			List<String> mrps = new ArrayList<>();
+			for(OrderItemData orderItemData: orderItemDataList){
+				orderItemsIds.add(orderItemData.getId());
+				productNames.add(orderItemData.getProductName());
+				quantities.add(orderItemData.getQuantity());
+				sellingPrices.add(orderItemData.getSellingPrice());
+				mrps.add(orderItemData.getMrp());
+			}
+
+			// invoice-app is called
+			String base64EncodedString = PdfService.getBase64String(
+					date,
+					orderId,
+					orderItemsIds,
+					productNames,
+					quantities,
+					sellingPrices,
+					mrps
+			);
+
+			byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
+
+			response.setContentType("application/pdf");
+			response.setContentLength(decodedBytes.length);
+			response.getOutputStream().write(decodedBytes);
+			response.getOutputStream().flush();
 		}
-
-		// invoice-app is called
-		String base64EncodedString = PdfService.getBase64String(
-				date,
-				orderId,
-				orderItemsIds,
-				productNames,
-				quantities,
-				sellingPrices,
-				mrps
-		);
-
-		 byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
-
-		 response.setContentType("application/pdf");
-		 response.setContentLength(decodedBytes.length);
-		 response.getOutputStream().write(decodedBytes);
-		 response.getOutputStream().flush();
+		catch (Exception ex){
+			throw new ApiException("Cannot generate invoice pdf");
+		}
 	 }
 
 	public List<OrderItemData> getByOrderId(Integer orderId) throws ApiException {

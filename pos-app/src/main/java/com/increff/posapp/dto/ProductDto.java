@@ -34,7 +34,7 @@ public class ProductDto {
 	private BrandService brandService;
 	private Logger logger = Logger.getLogger(ProductDto.class);
 
-	public ProductData add(ProductForm form) throws ApiException, IllegalAccessException {
+	public ProductData add(ProductForm form) throws ApiException{
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
@@ -64,7 +64,7 @@ public class ProductDto {
 		throw new ApiException("Invalid request");
 	}
 
-	public ProductData update(Integer id, ProductForm form) throws ApiException, IllegalAccessException {
+	public ProductData update(Integer id, ProductForm form) throws ApiException {
 		Validator.validate("Id", id);
 		Validator.validate(form);
 		Normalizer.normalize(form);

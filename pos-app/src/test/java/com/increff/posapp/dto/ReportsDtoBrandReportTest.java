@@ -2,11 +2,9 @@ package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.BrandDao;
 import com.increff.posapp.model.BrandData;
-import com.increff.posapp.model.BrandForm;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,10 +13,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class BrandReportDtoTest extends AbstractUnitTest {
+public class ReportsDtoBrandReportTest extends AbstractUnitTest {
 
     @Autowired
-    private BrandReportDto brandReportDto;
+    private ReportsDto reportsDto;
     @Autowired
     private BrandDao brandDao;
 
@@ -40,7 +38,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("", "", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("", "", null, null);
         assertEquals(3, list.size());
     }
 
@@ -49,7 +47,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("", "", null, 9);
+        List<BrandData> list = reportsDto.getBrandReport("", "", null, 9);
         assertEquals(3, list.size());
     }
 
@@ -58,7 +56,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("", "", 0, null);
+        List<BrandData> list = reportsDto.getBrandReport("", "", 0, null);
         assertEquals(3, list.size());
     }
 
@@ -67,7 +65,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("brand1", "", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("brand1", "", null, null);
         assertEquals(1, list.size());
     }
 
@@ -76,7 +74,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("", "category1", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("", "category1", null, null);
         assertEquals(1, list.size());
     }
 
@@ -85,7 +83,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = brandReportDto.getBrandReport("brand1", "category1", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("brand1", "category1", null, null);
         assertEquals(1, list.size());
     }
 
@@ -94,7 +92,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        Page<BrandData> page = brandReportDto.getBrandReport("", "", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("", "", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(2, list.size());
         assertEquals("brand1", list.get(0).getBrand());
@@ -109,7 +107,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(1, 2);
         BrandPojo p3 = addBrand(1, 3);
         BrandPojo p4 = addBrand(2, 1);
-        Page<BrandData> page = brandReportDto.getBrandReport("brand1", "", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("brand1", "", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(3, page.getTotalElements());
         assertEquals(2, list.size());
@@ -125,7 +123,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(2, 1);
         BrandPojo p3 = addBrand(3, 1);
         BrandPojo p4 = addBrand(4, 1);
-        Page<BrandData> page = brandReportDto.getBrandReport("", "category1", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("", "category1", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(4, page.getTotalElements());
         assertEquals(2, list.size());
@@ -141,7 +139,7 @@ public class BrandReportDtoTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(2, 1);
         BrandPojo p3 = addBrand(3, 1);
         BrandPojo p4 = addBrand(4, 1);
-        Page<BrandData> page = brandReportDto.getBrandReport("brand1", "category1", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("brand1", "category1", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(1, page.getTotalElements());
         assertEquals(1, list.size());

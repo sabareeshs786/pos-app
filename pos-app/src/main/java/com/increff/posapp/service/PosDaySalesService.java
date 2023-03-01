@@ -29,6 +29,11 @@ public class PosDaySalesService {
 	public List<PosDaySalesPojo> getByInterval(ZonedDateTime startDate, ZonedDateTime endDate){
 		return posDaySalesDao.selectByInterval(startDate, endDate);
 	}
+
+	public Long getByIntervalTotalElements(ZonedDateTime startDate, ZonedDateTime endDate){
+		return posDaySalesDao.getByIntervalTotalElements(startDate, endDate);
+	}
+
 	public List<PosDaySalesPojo> getAll(){
 		return posDaySalesDao.selectAll(PosDaySalesPojo.class);
 	}

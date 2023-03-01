@@ -14,15 +14,15 @@ function toArrayOfJsonObjects(){
 		arr.at(-1)['category'] = downloadContent.categories[i];
 		arr.at(-1)['quantity'] = downloadContent.quantities[i];
 		arr.at(-1)['revenue'] = downloadContent.totalAmounts[i];
+		if(downloadContent.brands[i] == '\0'){
+			arr.at(-1)['sno'] = '\0'
+		}
 	}
     return arr;
 }
 //BUTTON ACTIONS
-function getSalesReportListUtil(){
-	var pageSize = $('#inputPageSize').val();
-	getSalesReportList(0, pageSize);
-}
-function getSalesReportList(pageNumber, pageSize){
+
+function getSalesReportList(){
 	var url = getSalesReportUrl() 
 	+ '?page-number='
 	+ '&page-size=';
@@ -38,8 +38,6 @@ function getSalesReportList(pageNumber, pageSize){
 	   contentType : 'application/json',
 	   success: function(data) {
 			downloadContent = data;
-	   		displaySalesReportList(data);
-			// $('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 		},
 	   error: function(response){
 			data = {'brands': ['\0'], 'categories': ['\0'], 
@@ -48,14 +46,18 @@ function getSalesReportList(pageNumber, pageSize){
 			'startdate': $('#sales-report-form input[name=startDate]').val(), 
 			'endDate': $('#sales-report-form input[name=endDate]').val()};
 			downloadContent = data;
-			displaySalesReportList(data);
 	   }
 	});
 	return false;
 }
 
-function processData(){
-	var url = getSalesReportUrl() + '?page-number=&page-size=';
+function processDataUtil(){
+	var pageSize = $('#inputPageSize').val();
+	processData(0, pageSize);
+}
+
+function processData(pageNumber, pageSize){
+	var url = getSalesReportUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	var $form = $('#sales-report-form');
 	var json = toJson($form);
 	console.log(json);
@@ -69,7 +71,14 @@ function processData(){
 		},	   
 		success: function(data) {
 				downloadContent = data;
-				displaySalesReportList(data);
+				displaySalesReportList(data, pageNumber*pageSize);
+				$('#selected-rows').html('Showing ' + 
+				(pageNumber*pageSize + 1) + 
+				' to ' + 
+				(pageNumber*pageSize + data.brands.length) + 
+				' of ' + 
+				data.totalElements);
+				paginate(data, pageNumber, pageSize);
 				if($('#filter-modal').hasClass('show')){
 					$('#filter-modal').modal('toggle');
 				}
@@ -81,7 +90,8 @@ function processData(){
 			'startdate': $('#sales-report-form input[name=startDate]').val(), 
 			'endDate': $('#sales-report-form input[name=endDate]').val()};
 			downloadContent = data;
-			displaySalesReportList(data);
+			$('#selected-rows').html('Nothing to show');
+			displaySalesReportList(data, null);
 			if($('#filter-modal').hasClass('show')){
 				$('#filter-modal').modal('toggle');
 			}
@@ -91,16 +101,48 @@ function processData(){
 	 return false;
 }
 
+// PAGINATING METHODS
+function paginate(data,pageNumber, pageSize){
+	var totalPages = Math.ceil(data.totalElements / pageSize);
+	var pagination = '';
+			for (var i = pageNumber - 2; i < pageNumber + 5 && i < totalPages; i++) {
+				if(i < 0)
+					continue;
+				var active = "";
+				if (i == pageNumber) {
+				active = "active";
+				}
+				pagination += "<li class='page-item " + active 
+                + "'><a class='page-link' href='#pageNumber=" + (i+1) 
+                +"' onclick='processData(" + i + ", " + pageSize +")'>" + (i + 1) + "</a></li>";
+			}
+			if (pageNumber > 0) {
+				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + pageNumber +"' id='previous'>Previous</a></li>" + pagination;
+			}
+			if (pageNumber < totalPages - 1) {    
+				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (pageNumber + 2) + "' id='next'>Next</a></li>";
+			}
+			$("#paginationContainer").html(pagination);
+			$("#previous").click(function() {
+				processData(pageNumber - 1, pageSize);
+			});
+			$("#next").click(function() {
+				processData(pageNumber + 1, pageSize);
+			});
+}
+
 //UI DISPLAY METHODS
 
-function displaySalesReportList(data){
+function displaySalesReportList(data, sno){
 	$('#start-date').empty();
 	$('#start-date').append(data.startDate);
 	$('#end-date').empty();
 	$('#end-date').append(data.endDate);
 	$("#sales-report-table-all-body").empty();
     var row = "";
-	var sno = 0;
+	if(sno == null){
+		return;
+	}
 	for (var i = 0; i < data.brands.length; i++) {
 		sno += 1;
 		row = "<tr><td>"
@@ -111,7 +153,7 @@ function displaySalesReportList(data){
 		+ parseFloat(data.totalAmounts[i]).toFixed(2) +"</td></tr>";
 		$("#sales-report-table-all-body").append(row);
 	}
-	$('#sales-report-table-all').DataTable();
+
 }
 
 function setdates(){
@@ -184,6 +226,7 @@ function writeSalesReportFileData(arr){
 }
 
 function downloadReport(){
+	getSalesReportList();
 	arr = toArrayOfJsonObjects();
 	writeSalesReportFileData(arr);
 }
@@ -195,7 +238,7 @@ function clearData(){
 	setdates();
 	$('#sales-report-form input[name=brand]').val('');
 	$('#sales-report-form input[name=category]').val('');
-	getSalesReportListUtil();
+	processDataUtil();
 }
 function resetModal(){
 	$('#filter-modal').modal('toggle');
@@ -207,10 +250,10 @@ function init(){
 	$('#cancel2').click(resetModal);
 	$('#filter-data').click(displayFilterModal);
 	$('#reset-data').click(clearData);
-	$('#process-data').click(processData);
+	$('#process-data').click(processDataUtil);
 	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
 $(document).ready(setdates);
-$(document).ready(getSalesReportListUtil);
+$(document).ready(processDataUtil);

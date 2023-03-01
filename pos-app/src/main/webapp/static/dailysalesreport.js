@@ -1,149 +1,209 @@
 //Global variables
-var downloadContent = "";
-function getDailySalesReportUrl(){
+var downloadContent = null;
+
+function getDailySalesReportUrl() {
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/reports/daily-sales-report";
 }
 
 //BUTTON ACTIONS
 
-function getDailySalesReportList(){
-	var url = getDailySalesReportUrl();
+function getDailySalesReportList() {
+	var url = getDailySalesReportUrl() + '?page-number=&page-size=';
+	var $form = $('#daily-sales-report-form');
+	var json = toJson($form);
 
 	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   dataType : 'json',
-	   contentType : 'application/json',
-	   success: function(data) {
+		url: url,
+		type: 'POST',
+		data: json,
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function (data) {
 			downloadContent = data;
-			console.log(data);
-	   		displaySchedulerReportList(data);
-	   },
-	   error: handleAjaxError
+		},
+		error: function(response){
+			downloadContent = [];
+		}
 	});
 	return false;
 }
+function processDataUtil() {
+	var pageSize = $('#inputPageSize').val();
+	processData(0, pageSize);
+	console.log("page size"+pageSize);
+}
 
- function processData(){
- 	var url = getDailySalesReportUrl();
- 	var $form = $('#sales-report-form');
- 	var json = toJson($form);
- 	console.log(json);
- 	$.ajax({
- 		url: url,
- 		type: 'POST',
- 		data: json,
- 		dataType : 'json',
- 		headers: {
- 			'Content-Type': 'application/json'
- 		},
- 		success: function(data) {
- 				downloadContent = data;
- 				displaySchedulerReportList(data);
- 		},
- 		error: handleAjaxError
- 	 });
- 
- 	 return false;
- }
+function processData(pageNumber, pageSize) {
+	var url = getDailySalesReportUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
+	var $form = $('#daily-sales-report-form');
+	var json = toJson($form);
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: json,
+		dataType: 'json',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function (data) {
+			displaySchedulerReportList(data.content, pageNumber*pageSize);
+			$('#selected-rows').html(
+				'Showing ' 
+				+ (pageNumber*pageSize + 1) 
+				+ ' to ' 
+				+ (pageNumber*pageSize 
+				+ data.content.length) 
+				+ ' of ' 
+				+ data.totalElements);
+			paginator(data, "processData", pageSize);
+			if($('#filter-modal').hasClass('show')){
+				$('#filter-modal').modal('toggle');
+			}
+		},
+		error: function(response){
+			$("#scheduler-report-table-all-body").empty();
+			$('#selected-rows').html('Nothing to show');
+		if($('#filter-modal').hasClass('show')){
+			$('#filter-modal').modal('toggle');
+		}
+		}
+	});
+
+	return false;
+}
 
 //UI DISPLAY METHODS
 
-function displaySchedulerReportList(data){
+function displaySchedulerReportList(data, sno) {
 	$("#scheduler-report-table-all-body").empty();
-    var row = "";
+	var row = "";
 	for (var i = 0; i < data.length; i++) {
+		sno += 1
 		row = "<tr><td>"
-		+ data[i].date + "</td><td>"
-		+ data[i].invoicedOrdersCount + "</td><td>"
-		+ data[i].invoicedItemsCount + "</td><td>"
-		+ parseFloat(data[i].totalRevenue).toFixed(2) +"</td></tr>";
+			+ sno + "</td><td>"
+			+ data[i].date + "</td><td>"
+			+ data[i].invoicedOrdersCount + "</td><td>"
+			+ data[i].invoicedItemsCount + "</td><td>"
+			+ parseFloat(data[i].totalRevenue).toFixed(2) + "</td></tr>";
 		$("#scheduler-report-table-all-body").append(row);
 	}
 }
 
- function setdates(){
- 	console.log($('#sales-report-form input[name=startDate]').val());
- 	$('#sales-report-form input[name=startDate]').val(getDateAsstring(6));
- 	$('#sales-report-form input[name=endDate]').val(getDateAsstring());
- }
+function setdates() {
+	$('#daily-sales-report-form input[name=startDate]').val(getDateAsstring(6));
+	$('#daily-sales-report-form input[name=endDate]').val(getDateAsstring());
+}
 
- function getDateAsstring(offsetMonths=0){
- 	const d = new Date();
- 	var date = d.getDate();
- 	var month = d.getMonth();
- 	var year = d.getFullYear();
- 	var hour = d.getHours();
- 	var minute = d.getMinutes();
- 	var second = d.getSeconds();
+function getDateAsstring(offsetMonths = 0) {
+	const d = new Date();
+	var date = d.getDate();
+	var month = d.getMonth();
+	var year = d.getFullYear();
+	var hour = d.getHours();
+	var minute = d.getMinutes();
+	var second = d.getSeconds();
 
- 	month += 1;
- 	month -= offsetMonths;
- 	while(month < 0){
- 		month += 12;
- 		year -= 1;
- 	}
- 	if(month == 2 && date > 28){
- 		date = 28;
- 	}
+	month += 1;
+	month -= offsetMonths;
+	while (month < 0) {
+		month += 12;
+		year -= 1;
+	}
+	if (month == 2 && date > 28) {
+		date = 28;
+	}
 
- 	if(date.toString().length == 1){
- 		date = '0' + date.toString();
- 	}
- 	if(month.toString().length == 1){
- 		month = '0' + month.toString();
- 	}
- 	if(hour.toString().length == 1){
- 		hour = '0' + hour.toString();
- 	}
- 	if(minute.toString().length == 1){
- 		minute = '0' + minute.toString();
- 	}
- 	if(second.toString().length == 1){
- 		second = '0' + second.toString();
- 	}
+	if (date.toString().length == 1) {
+		date = '0' + date.toString();
+	}
+	if (month.toString().length == 1) {
+		month = '0' + month.toString();
+	}
+	if (hour.toString().length == 1) {
+		hour = '0' + hour.toString();
+	}
+	if (minute.toString().length == 1) {
+		minute = '0' + minute.toString();
+	}
+	if (second.toString().length == 1) {
+		second = '0' + second.toString();
+	}
 
- 	year = year.toString();
- 	var dateString = year + "-"+ month + "-" + date +"T" +
- 	hour + ":" + minute + ":" + second;
- 	console.log(dateString);
- 	return dateString;
- }
+	year = year.toString();
+	var dateString = year + "-" + month + "-" + date + "T" +
+		hour + ":" + minute + ":" + second;
+	console.log(dateString);
+	return dateString;
+}
 
-function writeSalesReportFileData(arr){
+function writeReportData(arr) {
 	var config = {
 		quoteChar: '',
 		escapeChar: '',
 		delimiter: "\t"
 	};
-	
-	var data = Papa.unparse(arr, config);
-    var blob = new Blob([data], {type: 'text/tab-separated-values;charset=utf-8;'});
-	var fileUrl =  null;
 
-    if (navigator.msSaveBlob) {
-        fileUrl = navigator.msSaveBlob(blob, 'posdaysales.tsv');
-    } else {
-        fileUrl = window.URL.createObjectURL(blob);
-    }
-    var tempLink = document.createElement('a');
-    tempLink.href = fileUrl;
-    tempLink.setAttribute('download', 'posdaysales.tsv');
-    tempLink.click();
+	var data = Papa.unparse(arr, config);
+	var blob = new Blob([data], { type: 'text/tab-separated-values;charset=utf-8;' });
+	var fileUrl = null;
+
+	if (navigator.msSaveBlob) {
+		fileUrl = navigator.msSaveBlob(blob, 'posdaysales.tsv');
+	} else {
+		fileUrl = window.URL.createObjectURL(blob);
+	}
+	var tempLink = document.createElement('a');
+	tempLink.href = fileUrl;
+	tempLink.setAttribute('download', 'posdaysales.tsv');
+	tempLink.click();
 }
 
-function downloadReport(){
-	writeSalesReportFileData(downloadContent);
+function addSno(){
+		var downloadContentEdited = [];
+		for(var i=0; i < downloadContent.length; i++){
+			var editedObj = {};
+			editedObj.sno = i+1;
+			editedObj.date = downloadContent[i].date;
+			editedObj.invoicedOrdersCount = downloadContent[i].invoicedOrdersCount;
+			editedObj.invoicedItemsCount = downloadContent[i].invoicedItemsCount;
+			editedObj.totalRevenue = parseFloat(downloadContent[i].totalRevenue).toFixed(2);
+			downloadContentEdited.push(editedObj);
+		}
+		return downloadContentEdited;
+}
+
+function downloadReport() {
+	getDailySalesReportList();
+	console.log(downloadContent);
+	var downloadContentEditedReturned = addSno();
+	console.log(downloadContentEditedReturned);
+	writeReportData(downloadContentEditedReturned);
+}
+
+function displayFilterModal(){
+	$('#filter-modal').modal('toggle');
+}
+
+function clearData(){
+	setdates();
+	processDataUtil();
+}
+
+function resetModal(){
+	$('#filter-modal').modal('toggle');
 }
 
 //INITIALIZATION CODE
-function init(){
-	 $('#process-data').click(processData);
-	$('#refresh-data').click(getDailySalesReportList);
+function init() {
+	$('#cancel1').click(resetModal);
+	$('#cancel2').click(resetModal);
+	$('#filter-data').click(displayFilterModal);
+	$('#process-data').click(processDataUtil);
+	$('#reset-data').click(clearData);
 	$('#download-data').click(downloadReport);
 }
 
 $(document).ready(init);
 $(document).ready(setdates);
-$(document).ready(getDailySalesReportList);
+$(document).ready(processDataUtil);

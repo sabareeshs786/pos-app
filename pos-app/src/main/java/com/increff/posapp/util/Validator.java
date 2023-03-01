@@ -52,29 +52,34 @@ public class Validator {
 		}
 	}
 
-	public static void validate(Object o) throws IllegalAccessException, ApiException {
+	public static void validate(Object o) throws ApiException {
 		Field[] fields = o.getClass().getDeclaredFields();
 		for(Field field: fields){
 			field.setAccessible(true);
-			if(field.get(o) == null){
-				throw new ApiException(field.getName().substring(0,1).toUpperCase() +
-						field.getName().substring(1) +
-						" can't be empty");
-			}
-			if(field.getType().getSimpleName().equals("String")){
-				String val = (String) field.get(o);
-				if(StringUtil.isEmpty(val)){
+			try{
+				if(field.get(o) == null){
 					throw new ApiException(field.getName().substring(0,1).toUpperCase() +
 							field.getName().substring(1) +
 							" can't be empty");
 				}
-				if(StringUtil.isNotAlNum(val)){
-					throw new ApiException(field.getName().substring(0,1).toUpperCase() +
-							field.getName().substring(1) +
-							" should contain only alpha-numeric characters");
+				if(field.getType().getSimpleName().equals("String")){
+					String val = (String) field.get(o);
+					if(StringUtil.isEmpty(val)){
+						throw new ApiException(field.getName().substring(0,1).toUpperCase() +
+								field.getName().substring(1) +
+								" can't be empty");
+					}
+					if(StringUtil.isNotAlNum(val)){
+						throw new ApiException(field.getName().substring(0,1).toUpperCase() +
+								field.getName().substring(1) +
+								" should contain only alpha-numeric characters");
+					}
 				}
+				field.setAccessible(false);
 			}
-			field.setAccessible(false);
+			catch (IllegalAccessException illegalAccessException){
+				throw new ApiException("Unknown error occurred");
+			}
 		}
 	}
 

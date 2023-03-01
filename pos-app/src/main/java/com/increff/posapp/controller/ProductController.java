@@ -22,13 +22,13 @@ public class ProductController {
 
 	@ApiOperation(value = "Adds a product")
 	@RequestMapping(path = "/api/products", method = RequestMethod.POST)
-	public ProductData add(@RequestBody ProductForm form) throws ApiException, IllegalAccessException {
+	public ProductData add(@RequestBody ProductForm form) throws ApiException{
 		return productDto.add(form);
 	}
 
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/api/products/{id}", method = RequestMethod.GET)
-	public ProductData get(@PathVariable Integer id) throws ApiException, IllegalAccessException {
+	public ProductData get(@PathVariable Integer id) throws ApiException{
 		return productDto.get(id);
 	}
 
@@ -39,13 +39,13 @@ public class ProductController {
 			@RequestParam(name = "inventory-status", required = false, defaultValue = "false") Boolean inventoryStatus,
 			@RequestParam(name = "page-number", required = false) Integer page,
 			@RequestParam(name = "page-size", required = false) Integer size
-	) throws ApiException, UnsupportedEncodingException {
+	) throws ApiException{
 		return productDto.get(barcode, inventoryStatus, page, size);
 	}
 
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/api/products/{id}", method = RequestMethod.PUT)
-	public ProductData update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException, IllegalAccessException {
+	public ProductData update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException{
 		return productDto.update(id, form);
 	}
 

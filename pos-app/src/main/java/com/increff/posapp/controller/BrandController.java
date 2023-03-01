@@ -22,7 +22,7 @@ public class BrandController {
 
 	@ApiOperation(value = "Adds a new brand and category")
 	@RequestMapping(path = "/api/brands", method = RequestMethod.POST)
-	public BrandData add(@RequestBody BrandForm form) throws ApiException, IllegalAccessException {
+	public BrandData add(@RequestBody BrandForm form) throws ApiException{
 		return brandDto.add(form);
 	}
 
@@ -43,7 +43,7 @@ public class BrandController {
 
 	@ApiOperation(value = "Updates a brand and category")
 	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.PUT)
-	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException, IllegalAccessException {
+	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException {
 		return brandDto.update(id, form);
 	}
 

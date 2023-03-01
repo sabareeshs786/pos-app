@@ -17,6 +17,7 @@ public class SalesReportData{
 	private List<Integer> quantities;
 	private List<String> totalAmounts;
 	private String totalRevenue;
+	private Long totalElements;
 
 	public SalesReportData(){
 		this.brands = new ArrayList<String>();

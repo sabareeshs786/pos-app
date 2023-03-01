@@ -17,10 +17,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class InventoryReportDtoTest extends AbstractUnitTest {
+public class ReportsDtoInventoryReportTest extends AbstractUnitTest {
 
     @Autowired
-    private InventoryReportDto inventoryReportDto;
+    private ReportsDto reportsDto;
     @Autowired
     private BrandDao brandDao;
     @Autowired
@@ -67,7 +67,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportPageAndSizeNull() throws ApiException {
         createInventory();
 
-        List<InventoryReportData> list = inventoryReportDto.getInventoryReport("", "", null, null);
+        List<InventoryReportData> list = reportsDto.getInventoryReport("", "", null, null);
         assertEquals(8, list.size());
         Integer k = 1;
 
@@ -80,20 +80,20 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testGetInventoryReportPageNull() throws ApiException {
         createInventory();
-        inventoryReportDto.getInventoryReport("", "", null, 9);
+        reportsDto.getInventoryReport("", "", null, 9);
     }
 
     @Test(expected = ApiException.class)
     public void testGetInventoryReportSizeNull() throws ApiException {
         createInventory();
-        inventoryReportDto.getInventoryReport("", "", 0, null);
+        reportsDto.getInventoryReport("", "", 0, null);
     }
 
     @Test
     public void testGetInventoryReportBrandNotEmpty() throws ApiException {
         createInventory();
 
-        List<InventoryReportData> list = inventoryReportDto.getInventoryReport("brand1", "", null, null);
+        List<InventoryReportData> list = reportsDto.getInventoryReport("brand1", "", null, null);
         assertEquals(4, list.size());
 
         for(Integer k=1; k <= 4; k++){
@@ -106,7 +106,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportCategoryNotEmpty() throws ApiException {
         createInventory();
 
-        List<InventoryReportData> list = inventoryReportDto.getInventoryReport("", "category1", null, null);
+        List<InventoryReportData> list = reportsDto.getInventoryReport("", "category1", null, null);
         assertEquals(4, list.size());
 
         Integer[] integers = {1,2,5,6};
@@ -120,7 +120,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportBrandAndCategory() throws ApiException {
         createInventory();
 
-        List<InventoryReportData> list = inventoryReportDto.getInventoryReport("brand1", "category1", null, null);
+        List<InventoryReportData> list = reportsDto.getInventoryReport("brand1", "category1", null, null);
         assertEquals(2, list.size());
 
         for(Integer k=1; k <=2; k++) {
@@ -134,7 +134,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportByPage() throws ApiException {
         createInventory();
 
-        Page<InventoryReportData> page = inventoryReportDto.getInventoryReport("", "", 0, 2);
+        Page<InventoryReportData> page = reportsDto.getInventoryReport("", "", 0, 2);
         List<InventoryReportData> list = page.getContent();
 
         assertEquals(2, list.size());
@@ -151,14 +151,14 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     @Test
     public void testGetInventoryReportByPageInvalid() throws ApiException {
         createInventory();
-        Page<InventoryReportData> data = inventoryReportDto.getInventoryReport("", "", 100, 200);
+        Page<InventoryReportData> data = reportsDto.getInventoryReport("", "", 100, 200);
         assertEquals(0L, data.getContent().size());
     }
 
     @Test
     public void testGetInventoryReportByPageBrand() throws ApiException {
         createInventory();
-        Page<InventoryReportData> page = inventoryReportDto.getInventoryReport("brand1", "", 0, 2);
+        Page<InventoryReportData> page = reportsDto.getInventoryReport("brand1", "", 0, 2);
         List<InventoryReportData> list = page.getContent();
         assertEquals(4, page.getTotalElements());
         assertEquals(2, list.size());
@@ -172,7 +172,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportByPageCategory() throws ApiException {
         createInventory();
 
-        Page<InventoryReportData> page = inventoryReportDto.getInventoryReport("", "category1", 1, 2);
+        Page<InventoryReportData> page = reportsDto.getInventoryReport("", "category1", 1, 2);
         List<InventoryReportData> list = page.getContent();
         assertEquals(4, page.getTotalElements());
         assertEquals(2, list.size());
@@ -186,7 +186,7 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     public void testGetInventoryReportByPageBoth() throws ApiException {
         createInventory();
 
-        Page<InventoryReportData> page = inventoryReportDto.getInventoryReport("brand1", "category1", 0, 2);
+        Page<InventoryReportData> page = reportsDto.getInventoryReport("brand1", "category1", 0, 2);
         List<InventoryReportData> list = page.getContent();
         assertEquals(2, page.getTotalElements());
         assertEquals(2, list.size());
@@ -201,6 +201,6 @@ public class InventoryReportDtoTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testValidate() throws ApiException {
         createInventory();
-        inventoryReportDto.getInventoryReport("brand8", "category1", null, null);
+        reportsDto.getInventoryReport("brand8", "category1", null, null);
     }
 }

@@ -1,8 +1,6 @@
 package com.increff.posapp.controller;
 
-import com.increff.posapp.dto.BrandReportDto;
-import com.increff.posapp.dto.InventoryReportDto;
-import com.increff.posapp.dto.SalesReportDto;
+import com.increff.posapp.dto.ReportsDto;
 import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
@@ -16,11 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReportsController {
 
     @Autowired
-    private BrandReportDto brandReportDto;
-    @Autowired
-    private InventoryReportDto inventoryReportDto;
-    @Autowired
-    private SalesReportDto salesReportDto;
+    private ReportsDto reportsDto;
 
     private static final Logger logger = Logger.getLogger(ReportsController.class);
     @ApiOperation(value = "Used to get the brand report")
@@ -31,7 +25,7 @@ public class ReportsController {
             @RequestParam(name = "page-number", required = false) Integer page,
             @RequestParam(name = "page-size", required = false) Integer size
     ) throws ApiException {
-        return brandReportDto.getBrandReport(brand, category, page, size);
+        return reportsDto.getBrandReport(brand, category, page, size);
     }
 
     @ApiOperation(value = "Used to get the brand report")
@@ -43,7 +37,7 @@ public class ReportsController {
             @RequestParam(name = "page-size") Integer size
     ) throws ApiException {
         logger.info("Inventory Report >> "+"Brand="+brand+" Category="+category);
-        return inventoryReportDto.getInventoryReport(brand, category, page, size);
+        return reportsDto.getInventoryReport(brand, category, page, size);
     }
 
     @ApiOperation(value = "Used to get the brand report")
@@ -53,6 +47,6 @@ public class ReportsController {
             @RequestParam(name = "page-number") Integer page,
             @RequestParam(name = "page-size") Integer size
             ) throws ApiException {
-            return salesReportDto.getData(salesReportForm);
+            return reportsDto.getSalesReport(salesReportForm, page, size);
     }
 }

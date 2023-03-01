@@ -28,7 +28,7 @@ public class InventoryDto {
 	@Autowired
 	private ProductService productService;
 	
-	public InventoryData add(InventoryForm form) throws ApiException, IllegalAccessException {
+	public InventoryData add(InventoryForm form) throws ApiException{
 		Validator.validate(form);
 		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
@@ -61,7 +61,7 @@ public class InventoryDto {
 	public InventoryData update(
 			Integer id,
 			InventoryForm form)
-			throws ApiException, IllegalAccessException {
+			throws ApiException{
 		Validator.validate("Id", id);
 		Validator.validate(form);
 		Normalizer.normalize(form);

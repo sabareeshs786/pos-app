@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,8 +30,11 @@ public class PosDaySalesController {
 
 	@ApiOperation(value = "Gets the daily sales report between specified dates")
 	@RequestMapping(path = "/api/reports/daily-sales-report", method = RequestMethod.POST)
-	public List<PosDaySalesData> getDataByDate(@RequestBody PosDaySalesForm form) throws ApiException {
+	public Object getDataByDate(
+			@RequestBody PosDaySalesForm form,
+			@RequestParam(name = "page-number") Integer page,
+			@RequestParam(name = "page-size") Integer size) throws ApiException{
 		logger.info("Daily sales report controller by date!!!");
-		return posDaySalesDto.getData(form);
+		return posDaySalesDto.getData(form, page, size);
 	}
 }
