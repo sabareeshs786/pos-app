@@ -2,3 +2,6 @@ target/
 pos/.idea/
 *.log
 *.log.1
+node_modules/
+*.json
+*.json.swp
