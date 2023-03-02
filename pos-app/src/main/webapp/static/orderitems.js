@@ -1,24 +1,21 @@
 //GLOBAL VARIABLES
-var htmlContent = '';
 var quantityVF = 'Available quantity: ';
 var quantityIVF = 'Quantity cannot exceed ';
 var sellingPriceVF = 'MRP: ';
 var sellingPriceIVF = 'Selling price is greater than MRP. MRP: ';
 
+var canAddActionCol = true;
 var $editBarcode = $("#edit-order-item-form input[name=barcode]");
 var $editQuantity = $('#edit-order-item-form input[name=quantity]');
 var $editSellingPrice = $('#edit-order-item-form input[name=sellingPrice]');
 var $editModal = $('#edit-order-item-modal');
 var $update = $('#update-order-item');
 
-var olddata = null;
+var oldData = null;
 var newData = null;
 
 var dataOfOrderItem = null;
 
-function getHtmlContent(){
-	htmlContent = $('#place-order-form').html();
-}
 
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -85,27 +82,26 @@ function getOrderItems(pageNumber, pageSize){
 	});	
 }
 
-function getProductForEdit(){
-	var barcode = $('#edit-order-item-form input[name=barcode]').val();
+function getProductForEdit(barcode){
 	console.log('Barcode->>'+barcode);
 	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
+	console.log("URL: "+url);
+
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			console.log("Returned data");
-			console.log(data);
 			dataOfOrderItem = data;
-			console.log(dataOfOrderItem.quantity);
+			clearCommentsOrderEditForm();
+			setData();
 	   },
 	   error: function(response){
 			dataOfOrderItem = null;
-			handleAjaxError(response);
+			console.log("error");
 	   }
 	});
-	return false;
 }
 
 // VALIDATION FUNCTIONS
@@ -120,8 +116,11 @@ function validateEditForm(){
 	if(quantity == ''){
 		setItemQuantityInvalid('Please enter quantity');
 	}
-	else if(parseInt(quantity) > dataOfOrderItem.quantity){
-		setItemQuantityInvalid(quantityIVF + dataOfOrderItem.quantity);
+	else if(parseInt(quantity) > dataOfOrderItem.quantity + oldData.quantity){
+		setItemQuantityInvalid(quantityIVF + (dataOfOrderItem.quantity + oldData.quantity));
+	}
+	else if(parseInt(quantity) <= 0){
+		setItemQuantityInvalid('Quantity must be greater than zero');
 	}
 	else{
 		setItemQuantityValid();
@@ -133,6 +132,9 @@ function validateEditForm(){
 	else if(parseFloat(sp) > dataOfOrderItem.mrp){
 		setItemSellingPriceInvalid(sellingPriceIVF + dataOfOrderItem.mrp);
 	}
+	else if(parseFloat(sp) <= 0){
+		setItemSellingPriceInvalid('Selling price must be greater than zero');
+	}
 	else{
 		setItemSellingPriceValid();
 	}
@@ -140,7 +142,7 @@ function validateEditForm(){
 }
 
 function enableAddOrEdit(){
-	if((olddata.quantity == newData.quantity && olddata.sellingPrice == newData.sellingPrice) || (!$editQuantity.hasClass('is-valid') || !$editSellingPrice.hasClass('is-valid'))){
+	if((oldData.quantity == newData.quantity && oldData.sellingPrice == newData.sellingPrice) || (!$editQuantity.hasClass('is-valid') || !$editSellingPrice.hasClass('is-valid'))){
 		$update.attr('disabled', true);
 	}
 	else{
@@ -163,7 +165,7 @@ function setItemSellingPriceInvalid(message){
 		$editSellingPrice.removeClass('is-valid');
 	}
 	$editSellingPrice.addClass('is-invalid');
-	$('espvf').attr('style', 'display: none;');
+	$('#espvf').attr('style', 'display: none;');
 	$('#espif').html(message);
 	$('#espif').attr('style', 'display: block;');
 }
@@ -173,7 +175,7 @@ function setItemSellingPriceInvalid(message){
 function displayOrderItems(data, sno){
 	$('#order-items-table-body').empty();
 	console.log(data);
-	if(getMode() == 'edit'){
+	if(getMode() == 'edit' && canAddActionCol){
 		$('#order-items-table-head').append('<th scope="col">Actions</th>');
 	}
 	var row = '';
@@ -196,25 +198,41 @@ function displayOrderItems(data, sno){
 		$('#order-items-table-body').append(row);
 	}
 }
+
+function offAll(){
+	$editBarcode.off();
+	$editQuantity.off();
+	$editSellingPrice.off();
+}
 function displayEditOrderItem(id){
 	var url = getOrderItemsUrl() + "/" + id;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-			olddata = data;
-	   		displayOrderItem(data);
-			getProductForEdit();
-			setItemQuantityValid();
-			setItemSellingPriceValid();
-			$editBarcode.attr('disabled', true);
-			$editQuantity.on('input', validateEditForm);
-			$editSellingPrice.on('input', validateEditForm);
+		oldData = data;
+		executeInOrder(data);
 	   },
 	   error: function(response){
 			handleAjaxError(response);
 	   }
 	});	
+}
+
+function executeInOrder(data){
+	console.log(data);
+	console.log("-->");
+	offAll();
+	getProductForEdit(data.barcode);
+	displayOrderItem(data);
+	$editBarcode.attr('disabled', true);
+	$editQuantity.on('input', validateEditForm);
+	$editSellingPrice.on('input', validateEditForm);
+	console.log("First");
+	if(dataOfOrderItem != null){
+		setData();
+		return;
+	}
 }
 
 function setItemQuantityValid(){
@@ -224,7 +242,14 @@ function setItemQuantityValid(){
 	$('#eqif').attr('style', 'display:none;');
 	$editQuantity.addClass('is-valid');
 	$('#eqvf').attr('style', 'display: block;');
-	$('#eqvf').html(quantityVF + dataOfOrderItem.quantity);
+	if(dataOfOrderItem != null){
+		$('#eqvf').html(quantityVF + (dataOfOrderItem.quantity + oldData.quantity));
+	}
+}
+
+function setData(){
+	setItemQuantityValid();
+	setItemSellingPriceValid();
 }
 
 function setItemSellingPriceValid(){
@@ -239,15 +264,16 @@ function setItemSellingPriceValid(){
 
 function displayOrderItem(data){
 	$editBarcode.attr('disabled', false);
-	$("#edit-order-item-form input[name=barcode]").val(data.barcode);	
-	$("#edit-order-item-form input[name=quantity]").val(data.quantity);
-	$("#edit-order-item-form input[name=sellingPrice]").val(parseFloat(data.sellingPrice).toFixed(2));
+	$editBarcode.val(data.barcode);	
+	$editQuantity.val(data.quantity);
+	$editSellingPrice.val(parseFloat(data.sellingPrice).toFixed(2));
 	$("#edit-order-item-form input[name=id]").val(data.id);
 	$update.attr('disabled', true);
-	$('#edit-order-item-modal').modal('toggle');
+	$editModal.modal('toggle');
 }
 
 function updateOrderItem(){
+	$editBarcode.attr('disabled', false);
 	var id = $("#edit-order-item-form input[name=id]").val();
 
 	var url = getOrderItemsUrl() + "/" + id;
@@ -256,6 +282,7 @@ function updateOrderItem(){
 	//Set the values to update
 	var $form = $("#edit-order-item-form");
 	var json = toJson($form);
+	console.log(json);
 	if(validator(json)){
 		$.ajax({
 		url: url,
@@ -266,6 +293,7 @@ function updateOrderItem(){
 		},
 		success: function(response) {
 			handleAjaxSuccess(response);
+			canAddActionCol = false;
 			getOrderItemsUtil();
 			$('#edit-order-item-modal').modal('toggle');
 		},
@@ -277,7 +305,41 @@ function updateOrderItem(){
 	return false;
 }
 
+function clearCommentsOrderEditForm(){
+	if($editBarcode.hasClass('is-valid')){
+		$editBarcode.removeClass('is-valid');
+	}
+	if($editBarcode.hasClass('is-invalid')){
+		$editBarcode.removeClass('is-invalid');
+	}
+	if($editQuantity.hasClass('is-valid')){
+		$editQuantity.removeClass('is-valid');
+	}
+	if($editQuantity.hasClass('is-invalid')){
+		$editQuantity.removeClass('is-invalid');
+	}
+	if($editSellingPrice.hasClass('is-valid')){
+		$editSellingPrice.removeClass('is-valid');
+	}
+	if($editSellingPrice.hasClass('is-invalid')){
+		$editSellingPrice.removeClass('is-invalid');
+	}
+
+	$('#eqvf').html('');
+	$('#eqvf').attr('style', 'display: none;');
+	$('#eqif').html('');
+	$('#eqif').attr('style', 'display: none;');
+	$('#espvf').html('');
+	$('#espvf').attr('style', 'display: none;');
+	$('#espif').html('');
+	$('#espif').attr('style', 'display: none;');
+}
+
 function closeModal(){
+	$editBarcode.val('');
+	$editQuantity.val('');
+	$editSellingPrice.val('');
+	clearCommentsOrderEditForm();
 	if($editModal.hasClass('show')){
 		$editModal.modal('toggle');
 	}
@@ -289,6 +351,8 @@ function init(){
 	$('#cancel2').click(closeModal);
 	$('#update-order-item').click(updateOrderItem);
 	$('#inputPageSize').on('change', getOrderItemsUtil);
+	$editQuantity.on('input', validateEditForm);
+	$editSellingPrice.on('input', validateEditForm);
 }
 
 $(document).ready(init);

@@ -5,3 +5,4 @@ pos/.idea/
 node_modules/
 *.json
 *.json.swp
+gulpfile.js

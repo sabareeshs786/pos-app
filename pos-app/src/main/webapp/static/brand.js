@@ -358,7 +358,7 @@ function clearEditData(){
 	$editCategory.val('');
 	$update.attr('disabled', true);
 	clearCommentsEditForm();
-	if($('#edit-brand-modal').length){
+	if($('#edit-brand-modal').hasClass('show')){
 		$('#edit-brand-modal').modal('toggle');
 	}
 }

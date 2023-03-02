@@ -11,12 +11,23 @@
 	<header th:replace="snippets.html :: name_app_navbar"></header>
 	<main>
 		<div class="container">
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
 			<div class="row">
 				<div class="col-8 align-items-right">
 					<a role="button" class="btn btn-secondary" onclick="history.back()">&#60;Back</a>
 				</div>	
 			</div> 
-
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
 			<h3>Ordered Items</h3>
 
 			<!-- Blank Row -->
@@ -57,7 +68,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form class="row g-3 needs-validation" id="edit-order-item-form">
+							<form class="row g-4 needs-validation" id="edit-order-item-form">
 								<div class="col-md-12">
 									<label for="inputBarcode" class="form-label">Barcode</label>
 										<input type="text" class="form-control" id="inputBarcode" name="barcode"

@@ -32,6 +32,14 @@ public class UserService {
 		return dao.select(email);
 	}
 
+	public UserPojo get(Integer id) throws ApiException {
+		UserPojo pojo = dao.select(id);
+		if(pojo == null){
+			throw new ApiException("No user with the given id");
+		}
+		return pojo;
+	}
+
 	public List<UserPojo> getAll() {
 		return dao.selectAll(UserPojo.class);
 	}

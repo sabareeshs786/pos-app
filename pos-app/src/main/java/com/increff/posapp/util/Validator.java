@@ -4,6 +4,8 @@ import com.increff.posapp.model.*;
 import com.increff.posapp.service.ApiException;
 
 import java.lang.reflect.Field;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Validator {
 
@@ -21,16 +23,60 @@ public class Validator {
 		}
 	}
 
+	public static void isEmailValid(String s) throws ApiException {
+		if(s == null){
+			throw new ApiException("Email can't be empty");
+		}
+		if(s.length() > 30){
+			throw new ApiException("Email length can't be greater tha 30");
+		}
+		String regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(s);
+		if(!matcher.matches()){
+			throw new ApiException("Invalid email");
+		}
+	}
+
+	public static void isPasswordValid(String s) throws ApiException {
+		if(s == null){
+			throw new ApiException("Password can't be empty");
+		}
+		int count = 0;
+		if(s.length() >= 8 && s.length() <= 32){
+			if(Pattern.compile(".*\\\\d.*").matcher(s).matches()){
+				count ++;
+			}
+			if(Pattern.compile(".*[a-z].*").matcher(s).matches()){
+				count ++;
+			}
+			if(Pattern.compile(".*[A-Z].*").matcher(s).matches()){
+				count ++;
+			}
+			if(!Pattern.compile("[A-Za-z0-9\\s]").matcher(s).matches()){
+				count ++;
+			}
+		}
+
+		if(count < 3){
+			throw new ApiException("Invalid password");
+		}
+	}
+
 	public static <T> void validate(String field, T val) throws ApiException {
 		if(val == null){
 			throw new ApiException(field + " can't be empty");
 		}
 		if(val instanceof String){
-			if(StringUtil.isEmpty((String) val)){
+			String value = (String) val;
+			if(StringUtil.isEmpty(value)){
 				throw new ApiException(field + " is empty");
 			}
-			if(StringUtil.isNotAlNum((String) val)){
+			if(StringUtil.isNotAlNum(value)){
 				throw new ApiException(field + " should contain only alpha-numeric characters");
+			}
+			if(value.length() > 20){
+				throw new ApiException("Number of characters in the field " + field + "can't be more than 20");
 			}
 		}
 		else if(val instanceof Integer){

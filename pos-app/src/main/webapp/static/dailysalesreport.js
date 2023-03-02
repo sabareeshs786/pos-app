@@ -21,6 +21,7 @@ function getDailySalesReportList() {
 		contentType: 'application/json',
 		success: function (data) {
 			downloadContent = data;
+			writeReportData(addSno());
 		},
 		error: function(response){
 			downloadContent = [];
@@ -160,6 +161,9 @@ function writeReportData(arr) {
 }
 
 function addSno(){
+	if(downloadContent == null){
+		return null;
+	}
 		var downloadContentEdited = [];
 		for(var i=0; i < downloadContent.length; i++){
 			var editedObj = {};
@@ -175,10 +179,6 @@ function addSno(){
 
 function downloadReport() {
 	getDailySalesReportList();
-	console.log(downloadContent);
-	var downloadContentEditedReturned = addSno();
-	console.log(downloadContentEditedReturned);
-	writeReportData(downloadContentEditedReturned);
 }
 
 function displayFilterModal(){

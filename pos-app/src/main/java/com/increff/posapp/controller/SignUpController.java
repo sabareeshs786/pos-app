@@ -8,6 +8,7 @@ import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.UserService;
 import com.increff.posapp.util.SecurityUtil;
 import com.increff.posapp.util.UserPrincipal;
+import com.increff.posapp.util.Validator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
@@ -39,8 +40,8 @@ public class SignUpController {
 	@ApiOperation(value = "User is getting added")
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signUp(HttpServletRequest req, SignUpForm form) throws ApiException {
-		logger.info("Signup Form received");
-		logger.info("Content of signup form: "+form.toString());
+		Validator.isEmailValid(form.getEmail());
+		Validator.isPasswordValid(form.getPassword());
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convertToUserPojo(form);

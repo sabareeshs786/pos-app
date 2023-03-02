@@ -40,6 +40,7 @@ public class ProductController {
 			@RequestParam(name = "page-number", required = false) Integer page,
 			@RequestParam(name = "page-size", required = false) Integer size
 	) throws ApiException{
+		System.out.println("Page"+page);
 		return productDto.get(barcode, inventoryStatus, page, size);
 	}
 

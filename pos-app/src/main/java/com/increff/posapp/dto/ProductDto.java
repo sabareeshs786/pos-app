@@ -56,7 +56,7 @@ public class ProductDto {
 			return getAll(page, size);
 		}
 		if(barcode != null && inventoryStatus){
-			return getDataAndIventoryStatus(barcode);
+			return getDataAndInventoryStatus(barcode);
 		}
 		if(barcode != null){
 			return getData(barcode);
@@ -74,7 +74,7 @@ public class ProductDto {
 		return Converter.convertToProductData(productService.updateById(id, productPojo), brandPojo);
 	}
 
-	private ProductInventoryData getDataAndIventoryStatus(String barcode) throws ApiException {
+	private ProductInventoryData getDataAndInventoryStatus(String barcode) throws ApiException {
 		Validator.validate("Barcode", barcode);
 		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);

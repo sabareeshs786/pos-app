@@ -3,6 +3,8 @@ package com.increff.posapp.controller;
 import java.sql.SQLOutput;
 import java.util.*;
 
+import com.increff.posapp.model.UserEditForm;
+import com.increff.posapp.util.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,8 @@ public class AdminApiController {
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
-		logger.info("Emails>>"+emails);
+		Validator.isEmailValid(form.getEmail());
+		Validator.isPasswordValid(form.getPassword());
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convert(form);
@@ -51,6 +54,12 @@ public class AdminApiController {
 		service.delete(id);
 	}
 
+	@ApiOperation(value = "Deletes a user")
+	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.GET)
+	public void getUser(@PathVariable int id) throws ApiException {
+		service.get(id);
+	}
+
 	@ApiOperation(value = "Gets list of all users")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.GET)
 	public List<UserData> getAllUser() {
@@ -60,6 +69,17 @@ public class AdminApiController {
 			list2.add(convert(p));
 		}
 		return list2;
+	}
+
+	@ApiOperation(value = "Deletes a user")
+	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.PUT)
+	public void updateUser(@PathVariable int id, @RequestBody UserEditForm form) throws ApiException {
+		Validator.isEmailValid(form.getEmail());
+		Validator.validate("Role", form.getRole());
+		UserPojo pojo = service.get(id);
+		pojo.setEmail(form.getEmail());
+		pojo.setRole(form.getRole());
+		service.update(id, pojo);
 	}
 
 	private static UserData convert(UserPojo p) {
