@@ -44,12 +44,14 @@ function updateAddedItemsTable(){
 		+ buttonHtml + "</td></tr>";
 		$('#added-items').append(row);
 	}
-	placeOrderEnableDisable();
+	addItemsButtonEnableOrDisable();
 }
 
 function displayAddItemsModal(){
 	$('#add-item').attr("disabled", true);
+	console.log('came-->1');
 	clearAll();
+	console.log('came-->2');
 	updateAddedItemsTable();
 }
 // <-----------------------Product details getting functions-------------------------------->
@@ -67,7 +69,7 @@ function getProduct(){
 			$('#bif2').attr("style", "display:none;");
 			$('#bif3').attr("style", "display:none;");
 			$('#searchForBarcode').attr('disabled', true);
-			validateItemRequest(data);
+			validateAddItemRequest(data);
 	   },
 	   error: function(data){
 			dataOfItem = null;
@@ -113,17 +115,8 @@ function loadOriginal(){
 	$sp.val(dataOfItemForEditOld.sellingPrice);
 }
 
-function getProductForEdit(){
+function getProductForEditAddItems(){
 	var barcode = $barcode.val().toLowerCase();
-	if(dataOfItemForEditOld.barcode == barcode){
-		loadOriginal();
-		removeComments();
-		enableOrDisableAddOrEdit();
-		dataOfItemForEdit = dataOfItemForEditOld;
-		validateItemRequest(dataOfItemForEditOld);
-		// $quantity.val();
-		return false;
-	}
 	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
 	$.ajax({
 	   url: url,
@@ -135,7 +128,7 @@ function getProductForEdit(){
 			$('#bif1').attr("style", "display:none;");
 			$('#bif2').attr("style", "display:none;");
 			$('#bif3').attr("style", "display:none;");
-			validateItemRequest(data);
+			validateAddItemRequest(data);
 	   },
 	   error: function(response){
 			dataOfItemForEdit = null;
@@ -286,7 +279,7 @@ function clearAll(){
 	mrps = [];
 	availableQuantities = [];
 	barcodeSet = new Set();
-	if($('#add-items-form').length){
+	if($('#add-items-modal').hasClass('show')){
 		$('#add-items-form input[name=barcode]').val('');
 	}
 	else{
@@ -296,12 +289,12 @@ function clearAll(){
 	removeComments();
 	resetToDefaults();
 	$("#added-items").empty();
-	$('#place-order-modal').modal('toggle');
+	$('#add-items-modal').modal('toggle');
 }
 
 // <-----------------------------------Enable or disable Functions----------------------------->
 
-function placeOrderEnableDisable(){
+function addItemsButtonEnableOrDisable(){
 	if($('#add-items-confirm').length){
 		if(barcodes.length == 0){
 			$('#add-items-confirm').attr("disabled", true);
@@ -312,7 +305,7 @@ function placeOrderEnableDisable(){
 	}
 }
 
-function enableAddOrEdit(){
+function enableAddOrEditAddItems(){
 	if($('#add-item').length){
 		$('#add-item').attr("disabled", false);
 	}
@@ -349,14 +342,14 @@ function enableOrDisableAddOrEdit(){
 	&& $sp.hasClass('is-valid') 
 	&& !isOldAndNewSame()
 	){
-		enableAddOrEdit();
+		enableAddOrEditAddItems();
 		return true;
 	}
 	else if(!$barcode.hasClass('is-invalid') 
 	&& !$quantity.hasClass('is-invalid') 
 	&& !$sp.hasClass('is-invalid')
 	&& !isOldAndNewSame()){
-		enableAddOrEdit();
+		enableAddOrEditAddItems();
 		return true;
 	}
 	else{
@@ -411,7 +404,7 @@ function validateBarcode(){
 
 function checkQuantity(){
 	var data = null;
-	if($('#place-order-modal').length){
+	if($('#add-items-modal').hasClass('show')){
 		data = Object.assign({}, dataOfItem);
 	}
 	else{
@@ -459,7 +452,7 @@ function checkQuantity(){
 }
 
 function checkSellingPrice(){
-	if($('#place-order-modal').length){
+	if($('#add-items-modal').hasClass('show')){
 		data = Object.assign({}, dataOfItem);
 	}
 	else{
@@ -505,7 +498,7 @@ function checkSellingPrice(){
 	enableOrDisableAddOrEdit();
 }
 
-function validateItemRequest(data){
+function validateAddItemRequest(data){
 	var barcode = $barcode.val().toLowerCase();
 	if(barcodeSet.has(barcode)){
 		var index = barcodes.indexOf(barcode);
@@ -541,7 +534,7 @@ function validateItemRequest(data){
 		$('#spvf1').empty();
 		$('#spvf1').append("MRP: "+data.mrp);
 
-		enableAddOrEdit();
+		enableAddOrEditAddItems();
 	}
 }
 
@@ -560,27 +553,28 @@ function deleteAddedItem(i){
 
 // <--------------------------------------For Placing orders ------------------------------>
 
-function placeOrder(){
-	$('#place-order-modal').modal('toggle');
+function addItems(){
+	$('#add-items-modal').modal('toggle');
 	var json = { 'barcodes':barcodes, 
 				'quantities': quantities, 
 				'sellingPrices':sellingPrices
 			};
 	var json = JSON.stringify(json);
 	if(validator(json)){
-		var url = getOrderItemsUrl();
+		var url = getOrderItemsUrl() + '/add/' + getOrderId();
 		$.ajax({
 			url: url,
-			type: 'POST',
+			type: 'PUT',
 			data: json,
 			headers: {
 				'Content-Type': 'application/json'
 			},	   
 			success: function(response) {
-				handleAjaxSuccess("Order Placed Successsfully!!!");
+				handleAjaxSuccess("Added items Successsfully");
+				getOrderItemsUtil();
 			},
-			error: function(){
-				
+			error: function(response){
+				handleAjaxError(response);
 			}
 	 });
 	}
@@ -645,15 +639,15 @@ function addItem(){
 
 // <---------------------------Edit added items functions------------------------------------>
 
-function changeToEditAddedItemsAttributes(){
-	if($('#place-order-modal').length){
+function changeToEditAddedItemAttributesAdd(){
+	if($('#add-items-modal').hasClass('show')){
 
 		$('.modal-title').text('Edit order');
 		
 		$('#searchForBarcode').attr("id", "searchForBarcodeEdit");
 		$('#searchForBarcodeEdit').off();
 		$('#searchForBarcodeEdit').attr('disabled', true);
-		$('#searchForBarcodeEdit').click(getProductForEdit);
+		$('#searchForBarcodeEdit').click(getProductForEditAddItems);
 
 		$('#table-div').attr("style", "display:none;");
 
@@ -683,7 +677,7 @@ function changeToEditAddedItemsAttributes(){
 
 		$('#add-items-form').attr("id", "edit-added-item-form");
 
-		$('#place-order-modal').attr("id", "edit-added-item-modal");
+		$('#add-items-modal').attr("id", "edit-added-item-modal");
 
 		$barcode = $("#edit-added-item-form input[name=barcode]");
 		$quantity = $("#edit-added-item-form input[name=quantity]");
@@ -737,7 +731,7 @@ function changeToPlaceOrderAttributes(){
 		$("#edit-added-item-form input[name=sellingPrice]").attr("id", "add-items-form input[name=sellingPrice]");
 
 		$("#edit-added-item-form").attr("id", "add-items-form");
-		$("#edit-added-item-modal").attr("id", "place-order-modal");
+		$("#edit-added-item-modal").attr("id", "add-items-modal");
 
 		$barcode = $('#add-items-form input[name=barcode]');
 		$quantity = $('#add-items-form input[name=quantity]');
@@ -753,7 +747,7 @@ function changeToPlaceOrderAttributes(){
 		$('#add-items-confirm').off();
 
 		$('#add-item').click(addItem);
-		$('#add-items-confirm').click(placeOrder);
+		$('#add-items-confirm').click(addItems);
 		resetToDefaults();
 
 		updateAddedItemsTable();
@@ -781,11 +775,11 @@ function editAddedItem(i){
 	}
 	dataOfItemForEditOld = Object.assign({}, dataOfItemForEdit);
 	dataOfItemForEditOld.quantity = quantities[i];
-	changeToEditAddedItemsAttributes();
-	displayEditAddedItem(i);
+	changeToEditAddedItemAttributesAdd();
+	displayEditAddedIemAdd(i);
 }
 
-function displayEditAddedItem(i){
+function displayEditAddedIemAdd(i){
 	$barcode.val(barcodes[i]);
 	$quantity.val(quantities[i]);
 	$sp.val(sellingPrices[i]);
@@ -863,19 +857,27 @@ function displayOrderItemsEdit(id){
 	window.location.href = "./order-items/" + id + '/' + 'edit';
 }
 
+
 //INITIALIZATION CODE
 function init(){
 	$('#add-items').click(displayAddItemsModal);
 	$('#add-item').click(addItem);
-	$('#cancel1').click(clearAll);
-	$('#cancel2').click(clearAll);
-	$('#add-items-confirm').click(placeOrder);
-	$('#inputPageSize').on('change', getOrderItemsUtil);
+	$('#cancel3').click(clearAll);
+	$('#cancel4').click(clearAll);
+	$('#add-items-confirm').click(addItems);
 	$('#add-items-form input[name=barcode]').on('input',resetToDefaults);
 	$('#add-items-form input[name=quantity]').on('input', checkQuantity);
 	$('#add-items-form input[name=sellingPrice]').on('input', checkSellingPrice);
 	$('#searchForBarcode').click(getProduct);
 }
 
-$(document).ready(init);
-$(document).ready(enableOrDisable);
+$(document).ready(function(){
+	$('#add-items').attr('style', 'display:none;');
+	if(getMode() == 'edit'){
+		init();
+		$('#add-items').attr('style', 'display:inline;');
+	}
+	else{
+		$('#add-items').attr('style', 'display:none;');
+	}
+});

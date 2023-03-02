@@ -8,6 +8,15 @@
 	<header th:replace="snippets.html :: name_app_navbar"></header>
 	<main>
 		<div class="container">
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
+
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
 			
 			<h3>Brand Report</h3>
 
@@ -17,7 +26,7 @@
 					<button type="button" class="btn btn-success" id="filter-data">Filter</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" class="btn btn-success" id = "reset-data">Clear Filters</button>
+					<button type="button" class="btn btn-success" id="reset-data">Clear Filters</button>
 					&nbsp;
 					&nbsp;
 					<button type="button" class="btn btn-success" id="download-data">Download</button>
@@ -54,7 +63,7 @@
 						<div class="modal-header">
 							<h5 class="modal-title">Filter reports by</h5>
 							<button type="button" class="close" aria-label="Close" id="cancel2">
-							<span aria-hidden="true">&times;</span>
+								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
@@ -80,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-		
+
 		</div> <!-- Container end-->
 	</main>
 	<footer th:replace="snippets.html :: name_footer"></footer>

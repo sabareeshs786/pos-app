@@ -148,6 +148,7 @@ function init(){
 	$('#reset-data').click(clearData);
 	$('#process-data').click(getBrandListUtil);
 	$('#download-data').click(downloadReport);
+	$('#inputPageSize').on('change', getBrandListUtil);
 }
 
 $(document).ready(init);

@@ -304,6 +304,7 @@ function init(){
 	$('#cancel4').click(clearEditData);
 	$('#add-data').click(addData);
 	$('#add-user').click(addUser);
+	$('#inputPageSize').on('change', getUserListUtil);
 	$add.attr('disabled', true);
 	$update.attr('disabled', true);
 	$editEmail.on('input', validateEditForm);

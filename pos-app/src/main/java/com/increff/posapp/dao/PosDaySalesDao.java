@@ -28,6 +28,15 @@ public class PosDaySalesDao extends AbstractDao{
 		return query.getResultList();
 	}
 
+	public List<PosDaySalesPojo> selectByIntervalInPage(ZonedDateTime startDate, ZonedDateTime endDate, Integer page, Integer size){
+		TypedQuery<PosDaySalesPojo> query = getQuery(SELECT_BY_INTERVAL, PosDaySalesPojo.class);
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		query.setFirstResult(page*size);
+		query.setMaxResults(size);
+		return query.getResultList();
+	}
+
 	public ZonedDateTime getLastDateTime(){
 		return em().createQuery(SELECT_LAST_DATE_TIME, ZonedDateTime.class).getSingleResult();
 	}

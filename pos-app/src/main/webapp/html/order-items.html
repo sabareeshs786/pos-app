@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="snippets.html :: name_head">
 </head>
@@ -33,6 +33,10 @@
 					<a role="button" class="btn btn-secondary" id="add-items">Add items</a>
 				</div>	
 			</div> 
+			<!-- Blank Row -->
+			<div class="row">
+				&nbsp;
+			</div>
 			<h3>Ordered Items</h3>
 
 			<!-- Blank Row -->
@@ -41,7 +45,7 @@
 			</div>
 
 			<div class="card d-flex w-100">
-				<div th:replace="snippets.html :: card_header"></div>
+				<div th:insert="snippets.html :: card_header"></div>
 				<div class="card-body">
 					<table class="table table-striped" id="order-items-table">
 						<thead>
@@ -52,6 +56,7 @@
 								<th scope="col">Quantity</th>
 								<th scope="col">Selling Price</th>
 								<th scope="col">MRP</th>
+								<th scope="col">Sub Total</th>
 							</tr>
 						</thead>
 						<tbody id="order-items-table-body">
@@ -102,14 +107,15 @@
 						</div>
 					</div>
 				</div>
+			</div>
 
 				<!--Add Items Modal -->
 			<div class="modal fade" tabindex="-1" role="dialog" id="add-items-modal">
 				<div class="modal-dialog mw-100 w-100" role="document" style="height: auto; overflow: auto;">
 					<div class="modal-content container">
 						<div class="modal-header">
-							<h5 class="modal-title">Place Order</h5>
-							<button type="button" class="close" aria-label="Close">
+							<h5 class="modal-title">Add Items</h5>
+							<button type="button" class="close" aria-label="Close" id="cancel4">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
@@ -198,13 +204,11 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" id="add-items-confirm" disabled>Place
-								Order</button>
-							<button type="button" class="btn btn-secondary">Cancel</button>
+							<button type="button" class="btn btn-primary" id="add-items-confirm" disabled>Add Items</button>
+							<button type="button" class="btn btn-secondary" id="cancel3">Cancel</button>
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div> <!-- Container end-->
 	</main>

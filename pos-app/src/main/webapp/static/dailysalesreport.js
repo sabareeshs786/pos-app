@@ -48,6 +48,7 @@ function processData(pageNumber, pageSize) {
 			'Content-Type': 'application/json'
 		},
 		success: function (data) {
+			console.log(data);
 			displaySchedulerReportList(data.content, pageNumber*pageSize);
 			$('#selected-rows').html(
 				'Showing ' 
@@ -202,6 +203,7 @@ function init() {
 	$('#process-data').click(processDataUtil);
 	$('#reset-data').click(clearData);
 	$('#download-data').click(downloadReport);
+	$('#inputPageSize').on('change', processDataUtil);
 }
 
 $(document).ready(init);

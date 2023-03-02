@@ -162,6 +162,7 @@ function init(){
 	$('#process-data').click(getInventoryListUtil);
 	$('#download-data').click(downloadReport);
 	$('#reset-data').click(clearData);
+	$('#inputPageSize').on('change', getInventoryListUtil);
 }
 
 $(document).ready(init);

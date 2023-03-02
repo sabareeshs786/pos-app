@@ -813,6 +813,8 @@ function editAddedItem(i){
 	dataOfItemForEditOld.quantity = quantities[i];
 	changeToEditAddedItemsAttributes();
 	displayEditAddedItem(i);
+	setQuantityValid();
+		setSellingPriceValid();
 }
 
 function displayEditAddedItem(i){

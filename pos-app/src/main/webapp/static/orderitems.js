@@ -174,14 +174,14 @@ function setItemSellingPriceInvalid(message){
 
 function displayOrderItems(data, sno){
 	$('#order-items-table-body').empty();
-	console.log(data);
 	if(getMode() == 'edit' && canAddActionCol){
 		$('#order-items-table-head').append('<th scope="col">Actions</th>');
 		canAddActionCol = false;
 	}
+	var total = 0;
 	var row = '';
-	console.log(data);
 	for(var i = 0; i < data.length; i++){
+		total = parseFloat(parseFloat(data[i].sellingPrice) * parseInt(data[i].quantity)).toFixed(2);
 		var buttonHtml = spanBegin + ' <button onclick="displayEditOrderItem(' + data[i].id + ')" class="btn btn-secondary only-supervisor">Edit</button>' + spanEnd;
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
@@ -189,7 +189,8 @@ function displayOrderItems(data, sno){
 		+ '<td>' + data[i].productName + '</td>'
 		+ '<td>' + data[i].quantity + '</td>'
 		+ '<td>' + parseFloat(data[i].sellingPrice).toFixed(2) + '</td>'
-		+ '<td>' + data[i].mrp + '</td>';
+		+ '<td>' + data[i].mrp + '</td>'
+		+ '<td>' + total + '</td>';
 		if(getMode() == 'edit'){
 			row += '<td>' + buttonHtml + '</td></tr>';
 		}
@@ -198,6 +199,8 @@ function displayOrderItems(data, sno){
 		}
 		$('#order-items-table-body').append(row);
 	}
+	$('#total').html(total);
+	$('#total').attr('style', 'font-weight: bold;');
 }
 
 function offAll(){

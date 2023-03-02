@@ -34,7 +34,7 @@ public class Validator {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(s);
 		if(!matcher.matches()){
-			throw new ApiException("Invalid email");
+			throw new ApiException("Invalid email id entered as per email id standards");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class Validator {
 		}
 
 		if(count < 3){
-			throw new ApiException("Invalid password");
+			throw new ApiException("Password doesn't meet the standard requirements");
 		}
 	}
 

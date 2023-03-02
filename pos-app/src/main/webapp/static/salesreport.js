@@ -15,7 +15,7 @@ function toArrayOfJsonObjects(){
 		arr.at(-1)['quantity'] = downloadContent.quantities[i];
 		arr.at(-1)['revenue'] = downloadContent.totalAmounts[i];
 		if(downloadContent.brands[i] == '\0'){
-			arr.at(-1)['sno'] = '\0'
+			arr.at(-1)['sno'] = '\0';
 		}
 	}
     return arr;
@@ -252,6 +252,7 @@ function init(){
 	$('#reset-data').click(clearData);
 	$('#process-data').click(processDataUtil);
 	$('#download-data').click(downloadReport);
+	$('#inputPageSize').on('change', processDataUtil);
 }
 
 $(document).ready(init);

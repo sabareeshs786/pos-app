@@ -41,8 +41,14 @@ public class SignUpController {
 	@ApiOperation(value = "User is getting added")
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signUp(HttpServletRequest req, SignUpForm form) throws ApiException {
-		Validator.isEmailValid(form.getEmail());
-		Validator.isPasswordValid(form.getPassword());
+		try{
+			Validator.isEmailValid(form.getEmail());
+		}
+		catch (ApiException ex){
+			info.setMessage(ex.getMessage());
+			info.setPageType("Sign Up");
+			return new ModelAndView("redirect:/site/signup");
+		}
 		form.setEmail(StringUtil.toLowerCase(form.getEmail()));
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
@@ -50,6 +56,14 @@ public class SignUpController {
 		boolean authenticated = (service.get(p.getEmail()) == null );
 		if (!authenticated) {
 			info.setMessage("Email Id already exists");
+			info.setPageType("Sign Up");
+			return new ModelAndView("redirect:/site/signup");
+		}
+		try {
+			Validator.isPasswordValid(form.getPassword());
+		}
+		catch (ApiException ex){
+			info.setMessage(ex.getMessage());
 			info.setPageType("Sign Up");
 			return new ModelAndView("redirect:/site/signup");
 		}
