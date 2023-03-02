@@ -41,6 +41,11 @@ public class OrderDto {
 		OrderPojo orderPojo = new OrderPojo("Asia/Kolkata");
 		orderService.add(orderPojo);
 
+
+		return addItems(orderPojo, form);
+	}
+
+	private List<OrderItemData> addItems(OrderPojo orderPojo, OrderForm form) throws ApiException {
 		List<OrderItemData> list = new ArrayList<>();
 		Integer len = form.getBarcodes().size();
 		for(int i=0; i < len; i++) {
@@ -66,7 +71,6 @@ public class OrderDto {
 		}
 		return list;
 	}
-
 	public List<OrderData> getAll() throws ApiException {
 		List<OrderPojo> orderPojoList = orderService.getAll();
 		Map<Integer, List<OrderItemPojo>> integerListMap = new HashMap<>();
@@ -189,6 +193,7 @@ public class OrderDto {
 
 	public void update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
 		Validator.validate(orderItemEditForm);
+		isInvoiced(orderService.getById(id));
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		checkInventory(orderItemEditForm, orderItemPojo);
 		isSellingPriceValid(orderItemEditForm);
@@ -234,6 +239,7 @@ public class OrderDto {
 		orderService.updateById(orderPojo.getId(), orderPojo);
 	}
 
+
 	// Validating methods
 	private void checkInventory(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
@@ -252,6 +258,20 @@ public class OrderDto {
 		Double sellingPrice = orderItemEditForm.getSellingPrice();
 		if(sellingPrice > mrp){
 			throw new ApiException("Selling price can't be greater than MRP");
+		}
+	}
+
+	public void addNewItems(Integer id, OrderForm form) throws ApiException {
+		OrderPojo orderPojo = orderService.getById(id);
+		addItems(orderPojo, form);
+		orderPojo.setOrderStatus(OrderStatus.NOT_INVOICED);
+		orderPojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
+		orderService.updateById(id, orderPojo);
+	}
+
+	private void isInvoiced(OrderPojo pojo) throws ApiException {
+		if(pojo.getOrderStatus().equals(OrderStatus.INVOICED)){
+			throw new ApiException("Invoiced orders can't be edited");
 		}
 	}
 }

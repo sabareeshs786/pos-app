@@ -7,6 +7,7 @@ var $add = $('#add-user');
 var $editModal = $('#edit-user-modal');
 var $editEmail = $('#edit-user-form input[name=email]');
 var $editPassword = $('#edit-user-form input[name=password]');
+var $editRole = $('#edit-user-form select[name=role]');
 var $update = $('#update-user');
 
 var oldData = "";
@@ -36,25 +37,32 @@ function addUser(event){
 	   success: function(response) {
 			handleAjaxSuccess('User added successfully');
 			$addModal.modal('toggle');
-	   		getUserList();   
+	   		getUserListUtil();   
 	   },
 	   error: function(response){
 			handleAjaxError(response);
-			clearAddData();
 	   }
 	});
 	}
 	return false;
 }
 
-function getUserList(){
-	var url = getUserUrl();
+function getUserListUtil(){
+	var pageSize = $('#inputPageSize').val();
+	getUserList(0, pageSize);
+}
+
+function getUserList(pageNumber, pageSize){
+	var url = getUserUrl() + '?page-number=' + pageNumber + '&page-size=' + pageSize;
 	$.ajax({
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayUserList(data);   
-	   },
+			console.log(data);
+	   		displayUserList(data.content, pageNumber*pageSize); 
+			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
+			paginator(data, "getUserList", pageSize);
+		},
 	   error: handleAjaxError
 	});
 }
@@ -66,7 +74,7 @@ function deleteUser(id){
 	   url: url,
 	   type: 'DELETE',
 	   success: function(data) {
-	   		getUserList();    
+	   		getUserListUtil();    
 	   },
 	   error: handleAjaxError
 	});
@@ -74,10 +82,10 @@ function deleteUser(id){
 
 //UI DISPLAY METHODS
 
-function displayUserList(data){
+function displayUserList(data, sno){
+	console.log(data);
 	var $tbody = $('#user-table-body');
 	$tbody.empty();
-	var sno = 0;
 	for(var i in data){
 		var e = data[i];
 		sno += 1;
@@ -99,7 +107,7 @@ function displayEditUser(id){
 
 	$.ajax({
 	   url: url,
-	   type: 'DELETE',
+	   type: 'GET',
 	   success: function(data) {
 			displayUserEdit(data);
 	   },
@@ -110,17 +118,21 @@ function displayEditUser(id){
 }
 
 function displayUserEdit(data){
+	console.log(data);
 	$('#edit-user-form input[name=id]').val(data.id);
 	$editEmail.val(data.email);
 	if(data.role == 'supervisor'){
-		$('#supervisor').attr('checked', true);
+		$('#supervisor').attr('selected', true);
+		$('#operator').attr('selected', false)
 	}
 	else{
-		$('#operator').attr('checked', false);
+		$('#operator').attr('selected', true);
+		$('#supervisor').attr('selected', false);
 	}
 	$update.attr('disabled', true);
 	oldData = data;
 	newData = data;
+	$editModal.modal('toggle');
 }
 
 function setEmailInvalid(message){
@@ -132,8 +144,11 @@ function setEmailInvalid(message){
 function validateEditForm(){
 	newData = {
 		'email': $editEmail.val(),
-		'role': $('select[name=role]').val()
+		'role': $editRole.val()
 	}
+	console.log('New Data');
+	console.log(newData);
+	console.log('Password'+$editPassword.val());
 	if($editEmail.val() == ''){
 		setEmailInvalid('Please enter email');
 	}
@@ -143,7 +158,7 @@ function validateEditForm(){
 		}
 		$update.attr('disabled', false);
 	}
-	if(oldData.email == newData.email && oldData.role == newData.role){
+	if(oldData.email == newData.email && oldData.role == newData.role && $editPassword.val() == ''){
 		$update.attr('disabled', true);
 	}
 	else{
@@ -156,6 +171,7 @@ function addData(){
 }
 
 function clearEditData(){
+	$editPassword.val('');
 	if($editModal.hasClass('show')){
 		$editModal.modal('toggle');
 	}
@@ -215,20 +231,50 @@ function clearAddData(){
 	$email.val('');
 	$password.val('');
 	$add.attr('disabled', true);
+	clearAddComments();
 	if($addModal.hasClass('show')){
 		$addModal.modal('toggle');
 	}
 }
 
+function clearAddComments(){
+	if($email.hasClass('is-invalid')){
+		$email.removeClass('is-invalid')
+	}
+	if($password.hasClass('is-invalid')){
+		$password.removeClass('is-invalid');
+	}
+	$('#eivf').attr('style', 'display: none;');
+	$('#pivf').attr('style', 'display: none;');
+}
+
+function validateUserEditForm(jsonStr){
+	jsonObj = JSON.parse(jsonStr);
+    for (var [key, value] of Object.entries(jsonObj)) {
+		if(key == "password"){
+			continue;
+		}
+        if(typeof(value) == "string"){
+            value = value.trim();
+        }
+        if(value == null || value == undefined || value == ''){
+            $.notify("Value for "+ key + " is not entered or can't be interpreted");
+            return false;
+        }
+    }
+    return true;
+}
+
 function updateUser(){
 	var id = $("#edit-user-form input[name=id]").val();	
 	var url = getUserUrl() + "/" + id;
-
+	console.log("URL: "+url);
 
 	//Set the values to update
 	var $form = $("#edit-user-form");
 	var json = toJson($form);
-	if(validator(json)){
+	console.log(json);
+	if(validateUserEditForm(json)){
 		$.ajax({
 		url: url,
 		type: 'PUT',
@@ -237,8 +283,8 @@ function updateUser(){
 			'Content-Type': 'application/json'
 		},	   
 		success: function(response) {
-			handleAjaxSuccess("Update successfull!!!");
-			getUserList();
+			handleAjaxSuccess("Update successfull");
+			getUserListUtil();
 			clearEditData();
 		},
 		error: function(response){
@@ -258,13 +304,14 @@ function init(){
 	$('#cancel4').click(clearEditData);
 	$('#add-data').click(addData);
 	$('#add-user').click(addUser);
-	$('#refresh-data').click(getUserList);
 	$add.attr('disabled', true);
 	$update.attr('disabled', true);
 	$editEmail.on('input', validateEditForm);
-	$update.click(updateUser);
+	$editRole.on('change', validateEditForm);
+	$editPassword.on('input', validateEditForm);
+	$('#update-user').click(updateUser);
 }
 
 $(document).ready(init);
-$(document).ready(getUserList);
+$(document).ready(getUserListUtil);
 $(document).ready(enableOrDisable);

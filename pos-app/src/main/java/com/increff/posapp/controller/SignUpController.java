@@ -7,6 +7,7 @@ import com.increff.posapp.pojo.UserPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.UserService;
 import com.increff.posapp.util.SecurityUtil;
+import com.increff.posapp.util.StringUtil;
 import com.increff.posapp.util.UserPrincipal;
 import com.increff.posapp.util.Validator;
 import io.swagger.annotations.Api;
@@ -42,6 +43,7 @@ public class SignUpController {
 	public ModelAndView signUp(HttpServletRequest req, SignUpForm form) throws ApiException {
 		Validator.isEmailValid(form.getEmail());
 		Validator.isPasswordValid(form.getPassword());
+		form.setEmail(StringUtil.toLowerCase(form.getEmail()));
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convertToUserPojo(form);

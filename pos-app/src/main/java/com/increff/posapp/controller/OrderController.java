@@ -33,7 +33,6 @@ public class OrderController {
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/orders", method = RequestMethod.POST)
 	public void add(@RequestBody OrderForm form) throws ApiException{
-		logger.info(form);
 		orderDto.add(form);
 	}
 
@@ -77,8 +76,14 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "Edits an order item by id")
-	@RequestMapping(path = "/api/order-items/{id}", method = RequestMethod.PUT)
-	public void updateOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
+	@RequestMapping(path = "/api/order-items/edit/{id}", method = RequestMethod.PUT)
+	public void updateExistingOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
 		orderDto.update(id, orderItemEditForm);
+	}
+
+	@ApiOperation(value = "Edits an order item by id")
+	@RequestMapping(path = "/api/order-items/add/{id}", method = RequestMethod.PUT)
+	public void addNewOrderItems(@PathVariable Integer id, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
+		orderDto.addNewItems(id, form);
 	}
 }

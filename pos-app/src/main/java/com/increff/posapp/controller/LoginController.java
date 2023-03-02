@@ -6,7 +6,9 @@ import com.increff.posapp.pojo.UserPojo;
 import com.increff.posapp.service.ApiException;
 import com.increff.posapp.service.UserService;
 import com.increff.posapp.util.SecurityUtil;
+import com.increff.posapp.util.StringUtil;
 import com.increff.posapp.util.UserPrincipal;
+import com.increff.posapp.util.Validator;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,6 +37,8 @@ public class LoginController {
 	@ApiOperation(value = "Logs in a user")
 	@RequestMapping(path = "/session/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm f) throws ApiException {
+		Validator.isEmailValid(f.getEmail());
+		f.setEmail(StringUtil.toLowerCase(f.getEmail()));
 		UserPojo p = service.get(f.getEmail());
 		boolean authenticated = (p != null && Objects.equals(p.getPassword(), f.getPassword()));
 		if (!authenticated) {

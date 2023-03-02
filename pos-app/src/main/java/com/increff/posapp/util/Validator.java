@@ -30,7 +30,7 @@ public class Validator {
 		if(s.length() > 30){
 			throw new ApiException("Email length can't be greater tha 30");
 		}
-		String regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+		String regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+[.][a-zA-Z0-9.-]+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(s);
 		if(!matcher.matches()){
@@ -60,6 +60,12 @@ public class Validator {
 
 		if(count < 3){
 			throw new ApiException("Invalid password");
+		}
+	}
+
+	public static void isRoleValid(String role) throws ApiException {
+		if(!role.equals("supervisor") && !role.equals("operator")){
+			throw new ApiException("Invalid role");
 		}
 	}
 

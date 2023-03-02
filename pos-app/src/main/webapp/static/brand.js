@@ -416,7 +416,7 @@ function clearUploadData(){
 	$('#brandFile').val('');
 	$('#process-data').attr('disabled', true);
 	$('#download-errors').attr('disabled', true);
-	if($('#upload-brand-modal').length)
+	if($('#upload-brand-modal').hasClass('show'))
 	$('#upload-brand-modal').modal('toggle');
 }
 

@@ -5,28 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gulpfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/UserEditForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitemsadd.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/..gitignore.swp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/posapp.properties" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/posapp.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/AdminApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/AdminApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/SignUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/SignUpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/UserEditForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/UserEditForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/util/Validator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/brand.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/order-items.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/order-items.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/html/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/html/user.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brand.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/product.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

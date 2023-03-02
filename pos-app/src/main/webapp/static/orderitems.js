@@ -177,6 +177,7 @@ function displayOrderItems(data, sno){
 	console.log(data);
 	if(getMode() == 'edit' && canAddActionCol){
 		$('#order-items-table-head').append('<th scope="col">Actions</th>');
+		canAddActionCol = false;
 	}
 	var row = '';
 	console.log(data);
@@ -221,7 +222,6 @@ function displayEditOrderItem(id){
 
 function executeInOrder(data){
 	console.log(data);
-	console.log("-->");
 	offAll();
 	getProductForEdit(data.barcode);
 	displayOrderItem(data);
@@ -276,7 +276,7 @@ function updateOrderItem(){
 	$editBarcode.attr('disabled', false);
 	var id = $("#edit-order-item-form input[name=id]").val();
 
-	var url = getOrderItemsUrl() + "/" + id;
+	var url = getOrderItemsUrl() + "/edit/" + id;
 
 
 	//Set the values to update

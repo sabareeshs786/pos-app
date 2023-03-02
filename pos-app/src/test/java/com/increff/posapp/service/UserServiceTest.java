@@ -78,7 +78,7 @@ public class UserServiceTest extends AbstractUnitTest {
     @Test
     public void testGetAll() throws ApiException {
         addUser();
-        List<UserPojo> userPojoList = userService.getAll();
+        List<UserPojo> userPojoList = userService.getAllInPage(0, 5);
         assertTrue(userPojoList.size() > 0);
     }
 

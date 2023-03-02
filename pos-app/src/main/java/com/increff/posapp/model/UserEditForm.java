@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class UserEditForm {
 	private String email;
+	private String password;
 	private String role;
 }

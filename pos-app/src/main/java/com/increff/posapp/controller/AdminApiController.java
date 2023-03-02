@@ -1,18 +1,17 @@
 package com.increff.posapp.controller;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import com.increff.posapp.model.UserEditForm;
+import com.increff.posapp.util.StringUtil;
 import com.increff.posapp.util.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 
 import com.increff.posapp.model.UserData;
 import com.increff.posapp.model.UserForm;
@@ -56,29 +55,36 @@ public class AdminApiController {
 
 	@ApiOperation(value = "Deletes a user")
 	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.GET)
-	public void getUser(@PathVariable int id) throws ApiException {
-		service.get(id);
+	public UserData getUser(@PathVariable int id) throws ApiException {
+		return convert(service.get(id));
 	}
 
 	@ApiOperation(value = "Gets list of all users")
 	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.GET)
-	public List<UserData> getAllUser() {
-		List<UserPojo> list = service.getAll();
+	public Page<UserData> getAllUser(@RequestParam(name = "page-number") Integer page, @RequestParam(name = "page-size") Integer size) {
+		List<UserPojo> list = service.getAllInPage(page, size);
 		List<UserData> list2 = new ArrayList<UserData>();
 		for (UserPojo p : list) {
 			list2.add(convert(p));
 		}
-		return list2;
+		return new PageImpl<>(list2, PageRequest.of(page, size), service.getTotalUsers());
 	}
 
 	@ApiOperation(value = "Deletes a user")
 	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.PUT)
 	public void updateUser(@PathVariable int id, @RequestBody UserEditForm form) throws ApiException {
 		Validator.isEmailValid(form.getEmail());
+		form.setEmail(StringUtil.toLowerCase(form.getEmail()));
 		Validator.validate("Role", form.getRole());
+		Validator.isRoleValid(form.getRole());
+		form.setRole(StringUtil.toLowerCase(form.getRole()));
 		UserPojo pojo = service.get(id);
 		pojo.setEmail(form.getEmail());
 		pojo.setRole(form.getRole());
+		if(!StringUtil.isEmpty(form.getPassword())){
+			Validator.isPasswordValid(form.getPassword());
+		}
+		pojo.setPassword(form.getPassword());
 		service.update(id, pojo);
 	}
 

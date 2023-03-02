@@ -206,9 +206,15 @@ function paginator(data, func, pageSize){
 			if (data.number > 0) {
 				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
 			}
+            else{
+                pagination = "<li class='page-item'><a class='page-link disabled' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+            }
 			if (data.number < data.totalPages - 1) {
 				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
 			}
+            else{
+                pagination = pagination + "<li class='page-item'><a class='page-link disabled' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+            }
 			$("#paginationContainer").html(pagination);
 			$("#previous").click(function() {
 				eval(func)(data.number - 1, pageSize);
@@ -234,9 +240,15 @@ function paginatorForReport(data, func, brand, category, pageSize){
 			if (data.number > 0) {
 				pagination = "<li class='page-item'><a class='page-link' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
 			}
+            else{
+                pagination = "<li class='page-item'><a class='page-link disabled' href='#pageNumber=" + data.number +"' id='previous'>Previous</a></li>" + pagination;
+            }
 			if (data.number < data.totalPages - 1) {
 				pagination = pagination + "<li class='page-item'><a class='page-link' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
 			}
+            else{
+                pagination = pagination + "<li class='page-item'><a class='page-link disabled' href='#pageNumber=" + (data.number + 2) + "' id='next'>Next</a></li>";
+            }
 			$("#paginationContainer").html(pagination);
 			$("#previous").click(function() {
 				eval(func)(brand, category, data.number - 1, pageSize);

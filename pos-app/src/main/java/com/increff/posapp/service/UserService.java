@@ -40,8 +40,12 @@ public class UserService {
 		return pojo;
 	}
 
-	public List<UserPojo> getAll() {
-		return dao.selectAll(UserPojo.class);
+	public List<UserPojo> getAllInPage(Integer page, Integer size) {
+		return dao.selectAll(UserPojo.class, page, size);
+	}
+
+	public Long getTotalUsers(){
+		return dao.getTotalElements(UserPojo.class);
 	}
 
 	public void delete(int id) {
