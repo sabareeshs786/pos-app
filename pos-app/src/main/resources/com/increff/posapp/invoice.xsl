@@ -7,6 +7,7 @@
 	<xsl:attribute-set name="tableBorder">
 		<xsl:attribute name="border">solid 0.1mm black</xsl:attribute>
 	</xsl:attribute-set>
+
 	<xsl:template match="invoice">
 		<fo:root>
 			<fo:layout-master-set>
@@ -32,11 +33,17 @@
 					<fo:block font-size="11pt" space-before="35pt">
 						<fo:table table-layout="fixed" width="100%"
 							border-collapse="separate" line-height="25px" text-align="center">
+							<fo:table-column column-width="1cm" />
 							<fo:table-column column-width="5cm" />
 							<fo:table-column column-width="3cm" />
 							<fo:table-column column-width="3cm" />
 							<fo:table-column column-width="3cm" />
+							<fo:table-column column-width="3cm"/>
 							<fo:table-header>
+								<fo:table-cell
+										xsl:use-attribute-sets="tableBorder">
+									<fo:block font-weight="bold">SNo.</fo:block>
+								</fo:table-cell>
 								<fo:table-cell
 									xsl:use-attribute-sets="tableBorder">
 									<fo:block font-weight="bold">Product Name</fo:block>
@@ -53,16 +60,25 @@
 									xsl:use-attribute-sets="tableBorder">
 									<fo:block font-weight="bold">Selling Price</fo:block>
 								</fo:table-cell>
+								<fo:table-cell
+										xsl:use-attribute-sets="tableBorder">
+									<fo:block font-weight="bold">Sub Total</fo:block>
+								</fo:table-cell>
 							</fo:table-header>
 							<fo:table-body>
 								<xsl:apply-templates select="item" />
+								<fo:table-row font-weight="bold">
+									<fo:table-cell number-columns-spanned="5" text-align="right" padding-right="3pt">
+										<fo:block>Total</fo:block>
+									</fo:table-cell>
+									<fo:table-cell  text-align="right" padding-right="3pt" background-color="#f5f5f5" border="1px solid #b8b6b6" >
+										<fo:block>
+											<xsl:value-of select="total" />
+										</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
 							</fo:table-body>
 						</fo:table>
-					</fo:block>
-					<fo:block text-align="center" font-size="16pt" font-family="Helvetica"
-							  color="black" font-weight="bold" space-after="5mm" space-before="20pt">
-						Total:
-							<xsl:value-of select="total"/>
 					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>
@@ -70,7 +86,11 @@
 	</xsl:template>
 	<xsl:template match="item">
 		<fo:table-row>
-
+			<fo:table-cell xsl:use-attribute-sets="tableBorder">
+				<fo:block>
+					<xsl:value-of select="sno" />
+				</fo:block>
+			</fo:table-cell>
 			<fo:table-cell xsl:use-attribute-sets="tableBorder">
 				<fo:block>
 					<xsl:value-of select="productName" />
@@ -89,6 +109,11 @@
 			<fo:table-cell xsl:use-attribute-sets="tableBorder">
 				<fo:block>
 					<xsl:value-of select="sellingPrice" />
+				</fo:block>
+			</fo:table-cell>
+			<fo:table-cell xsl:use-attribute-sets="tableBorder">
+				<fo:block>
+					<xsl:value-of select="subTotal" />
 				</fo:block>
 			</fo:table-cell>
 		</fo:table-row>

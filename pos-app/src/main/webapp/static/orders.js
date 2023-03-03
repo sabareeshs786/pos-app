@@ -450,9 +450,9 @@ function checkQuantity(){
 			var index = barcodes.indexOf(dataOfItemForEdit.barcode);
 			data = {
 				"barcode": dataOfItemForEditOld.barcode,
-				"quantity": availableQuantities[index] + quantities[index],
+				"quantity": parseInt(availableQuantities[index]) + parseInt(quantities[index]),
 				"mrp": mrps[index],
-				"sellingPrice": sellingPrices[index]
+				"sellingPrice": parseFloat(sellingPrices[index]).toFixed(2)
 			}
 			dataOfItemForEdit = Object.assign({}, data);
 			dataOfItemForEdit.quantity = $quantity.val();
@@ -498,9 +498,9 @@ function checkSellingPrice(){
 			var index = barcodes.indexOf(dataOfItemForEdit.barcode);
 			data = {
 				"barcode": dataOfItemForEditOld.barcode,
-				"quantity": availableQuantities[index] + quantities[index],
+				"quantity": parseInt(availableQuantities[index]) + parseInt(quantities[index]),
 				"mrp": mrps[index],
-				"sellingPrice": sellingPrices[index]
+				"sellingPrice": parseFloat(sellingPrices[index]).toFixed(2)
 			}
 			dataOfItemForEdit = Object.assign({}, data);
 			dataOfItemForEdit.quantity = $quantity.val();
@@ -538,16 +538,16 @@ function validateItemRequest(data){
 	var barcode = $barcode.val().toLowerCase();
 	if(barcodeSet.has(barcode)){
 		var index = barcodes.indexOf(barcode);
-		if($('#edit-added-item-modal').length){
-			data.quantity = availableQuantities[index] + quantities[index];
+		if($('#edit-added-item-modal').hasClass('show')){
+			data.quantity = parseInt(availableQuantities[index]) + parseInt(quantities[index]);
 		}
 		else{
-			data.quantity = availableQuantities[index];
+			data.quantity = parseInt(availableQuantities[index]);
 		}
 		if(dataOfItem != null)
-			dataOfItem.quantity = availableQuantities[index];
+			dataOfItem.quantity = parseInt(availableQuantities[index]);
 		else
-			dataOfItemForEdit.quantity = availableQuantities[index] + quantities[index];
+			dataOfItemForEdit.quantity = parseInt(availableQuantities[index]) + parseInt(quantities[index]);
 	}
 	if(data.quantity == null || data.quantity == undefined || data.quantity <= 0 || 
 		data.mrp == null || data.mrp == undefined || data.mrp <= 0.00){
@@ -593,9 +593,10 @@ function placeOrder(){
 	$('#place-order-modal').modal('toggle');
 	var json = { 'barcodes':barcodes, 
 				'quantities': quantities, 
-				'sellingPrices':sellingPrices
+				'sellingPrices': sellingPrices
 			};
 	var json = JSON.stringify(json);
+	console.log(json);
 	if(validator(json)){
 		var url = getOrderUrl();
 		$.ajax({
@@ -609,8 +610,8 @@ function placeOrder(){
 				handleAjaxSuccess("Order Placed Successsfully!!!");
 				getOrderListUtil();
 			},
-			error: function(){
-				
+			error: function(response){
+				handleAjaxError(response);
 			}
 	 });
 	}
@@ -632,9 +633,9 @@ function addItem(){
 			if(validator(json)){
 				barcodes[index] = barcode;
 				quantities[index] = parseInt(quantities[index]) + parseInt(quantity);
-				sellingPrices[index] = sellingPrice;
-				totals[index] = parseFloat(quantities[index]) * parseFloat(sellingPrices[index]);
-				availableQuantities[index] -= parseInt(quantity);
+				sellingPrices[index] = parseFloat(sellingPrice);
+				totals[index] = parseFloat( parseInt(quantities[index]) * parseFloat(sellingPrices[index])).toFixed(2);
+				availableQuantities[index] = parseInt(availableQuantities[index]) - parseInt(quantity);
 				$barcode.val('');
 				resetToDefaults();
 				updateAddedItemsTable();
@@ -653,10 +654,10 @@ function addItem(){
 			if(validator(json)){
 				barcodes.push(barcode);
 				quantities.push(parseInt(quantity));
-				sellingPrices.push(parseFloat(sellingPrice));
+				sellingPrices.push(parseFloat(sellingPrice).toFixed(2));
 				names.push(dataOfItem.name);
 				totals.push(parseFloat(quantity) * parseFloat(sellingPrice));
-				availableQuantities.push(dataOfItem.quantity - parseInt(quantity));
+				availableQuantities.push(parseInt(dataOfItem.quantity) - parseInt(quantity));
 				mrps.push(dataOfItem.mrp);
 				$barcode.val('');
 				resetToDefaults();
@@ -804,17 +805,16 @@ function changeToPlaceOrderAttributes(){
 function editAddedItem(i){
 	dataOfItemForEdit = {
 		"barcode": barcodes[i],
-		"quantity": (availableQuantities[i] + quantities[i]),
+		"quantity": (parseInt(availableQuantities[i]) + parseInt(quantities[i])),
 		"mrp": mrps[i],
 		"name": names[i],
 		"sellingPrice": sellingPrices[i]
 	}
 	dataOfItemForEditOld = Object.assign({}, dataOfItemForEdit);
-	dataOfItemForEditOld.quantity = quantities[i];
+	dataOfItemForEditOld.quantity = parseInt(quantities[i]);
 	changeToEditAddedItemsAttributes();
+	validateItemRequest(dataOfItemForEdit);
 	displayEditAddedItem(i);
-	setQuantityValid();
-		setSellingPriceValid();
 }
 
 function displayEditAddedItem(i){
@@ -834,12 +834,13 @@ function updateAddedItem(){
 		var originalQuantity = quantities[i];
 		barcodeSet.delete(barcodes[i]);
 		barcodes[i] = $('#edit-added-item-form input[name=barcode]').val();
-		quantities[i] = $('#edit-added-item-form input[name=quantity]').val();
-		sellingPrices[i] = $('#edit-added-item-form input[name=sellingPrice]').val();
-		totals[i] = quantities[i] * parseFloat(sellingPrices[i]);
-		availableQuantities[i] += originalQuantity - quantities[i];
+		quantities[i] = parseInt($('#edit-added-item-form input[name=quantity]').val());
+		sellingPrices[i] = parseFloat($('#edit-added-item-form input[name=sellingPrice]').val()).toFixed(2);
+		totals[i] = parseFloat(parseInt(quantities[i]) * parseFloat(sellingPrices[i])).toFixed(2);
+		availableQuantities[i] = parseInt(availableQuantities[i]) + parseInt(originalQuantity) - parseInt(quantities[i]);
 		barcodeSet.add(barcodes[i]);
 		$barcode.val('');
+		console.log('Available quantities: '+availableQuantities[i]);
 		changeToPlaceOrderAttributes();
 	}
 }

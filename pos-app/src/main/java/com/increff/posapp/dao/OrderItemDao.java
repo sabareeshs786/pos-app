@@ -18,6 +18,8 @@ public class OrderItemDao extends AbstractDao{
 	private static final String TOTAL_COST_BY_ORDER_ID = "select sum(quantity*sellingPrice) from OrderItemPojo p where orderId=:orderId";
 	private static final String SELECT_BY_ORDER_ID_COUNT = "select count(p) from OrderItemPojo p where orderId=:orderId";
 
+	private static final String SELECT_BY_ORDER_ID_AND_PRODUCT_ID = "select p from OrderItemPojo p where orderId=:orderId and productId=:productId";
+
 	public OrderItemPojo selectById(Integer id) {
 		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ID, OrderItemPojo.class);
 		query.setParameter("id", id);
@@ -28,6 +30,13 @@ public class OrderItemDao extends AbstractDao{
 		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID, OrderItemPojo.class);
 		query.setParameter("orderId", orderId);
 		return query.getResultList();
+	}
+
+	public OrderItemPojo selectByOrderIdAndProductId(Integer orderId, Integer productId){
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ORDER_ID_AND_PRODUCT_ID, OrderItemPojo.class);
+		query.setParameter("orderId", orderId);
+		query.setParameter("productId", productId);
+		return getSingle(query);
 	}
 
 	public List<OrderItemPojo> getPageByOrderId(Integer orderId, Integer page, Integer size) {

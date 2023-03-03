@@ -1,6 +1,7 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.*;
+import com.increff.posapp.model.OrderStatus;
 import com.increff.posapp.model.PosDaySalesForm;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.AbstractUnitTest;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import static org.junit.Assert.assertNotNull;
 
 public class PosDaySalesDtoTest extends AbstractUnitTest {
 
@@ -111,6 +113,13 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         return list;
     }
 
+    private void invoiceOrders(List<Integer> orderIds){
+        for(Integer orderId: orderIds){
+            OrderPojo pojo = orderDao.selectById(orderId);
+            pojo.setOrderStatus(OrderStatus.INVOICED);
+            orderDao.update(pojo);
+        }
+    }
     @Test
     public void testUpdateScheduler() throws ApiException, InterruptedException {
         createOrdersYesterday(1,2);
@@ -132,11 +141,31 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAll() throws InterruptedException, ApiException {
-        createOrdersYesterday(1,2);
+    public void testUpdateSchedulerInvoiced() throws ApiException, InterruptedException {
+        invoiceOrders(createOrdersYesterday(1,2));
         Thread.sleep(1000);
         posDaySalesDto.updatePosDaySalesTable();
-        createOrdersYesterdayAnother(1,2);
+        invoiceOrders(createOrdersYesterdayAnother(1, 2));
+        CronSequenceGenerator cronSequenceGenerator = new CronSequenceGenerator("0 0 0 * * ?");
+        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
+        Date nextExecutionTime = cronSequenceGenerator.next(new Date());
+        long delay = nextExecutionTime.getTime() - System.currentTimeMillis();
+        scheduledExecutorService.schedule(() ->{
+            try{
+                posDaySalesDto.updatePosDaySalesTable();
+            }
+            catch (ApiException ex){
+                //
+            }
+        }, delay, TimeUnit.MILLISECONDS);
+    }
+
+    @Test
+    public void testGetAll() throws InterruptedException, ApiException {
+        invoiceOrders(createOrdersYesterday(1,2));
+        Thread.sleep(1000);
+        posDaySalesDto.updatePosDaySalesTable();
+        invoiceOrders(createOrdersYesterdayAnother(1,2));
         Thread.sleep(1200);
         posDaySalesDto.updatePosDaySalesTable();
         posDaySalesDto.getAll();
@@ -144,17 +173,30 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
 
     @Test
     public void testGetData() throws ApiException, InterruptedException, IllegalAccessException {
-        createOrdersYesterday(1,2);
+        invoiceOrders(createOrdersYesterday(1,2));
         Thread.sleep(1000);
         posDaySalesDto.updatePosDaySalesTable();
-        createOrdersYesterdayAnother(1,2);
+        invoiceOrders(createOrdersYesterdayAnother(1,2));
         Thread.sleep(1200);
         posDaySalesDto.updatePosDaySalesTable();
-
         PosDaySalesForm form = new PosDaySalesForm();
         form.setStartDate(LocalDateTime.now().minusDays(2L));
         form.setEndDate(LocalDateTime.now());
-        posDaySalesDto.getData(form, 0, 5);
+        assertNotNull(posDaySalesDto.getData(form, 0, 5));
+    }
+
+    @Test
+    public void testGetDataPageAndSizeNull() throws ApiException, InterruptedException, IllegalAccessException {
+        invoiceOrders(createOrdersYesterday(1,2));
+        Thread.sleep(1000);
+        posDaySalesDto.updatePosDaySalesTable();
+        invoiceOrders(createOrdersYesterdayAnother(1,2));
+        Thread.sleep(1200);
+        posDaySalesDto.updatePosDaySalesTable();
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusDays(2L));
+        form.setEndDate(LocalDateTime.now());
+        assertNotNull(posDaySalesDto.getData(form, null, null));
     }
 
     @Test(expected = ApiException.class)
@@ -173,4 +215,19 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
         posDaySalesDto.getData(form, 0, 5);
     }
 
+    @Test(expected = ApiException.class)
+    public void testGetDataPageNull() throws ApiException, IllegalAccessException {
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now());
+        posDaySalesDto.getData(form, null, 5);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testGetDataSizeNull() throws ApiException, IllegalAccessException {
+        PosDaySalesForm form = new PosDaySalesForm();
+        form.setStartDate(LocalDateTime.now().minusDays(10L));
+        form.setEndDate(LocalDateTime.now());
+        posDaySalesDto.getData(form, 0, null);
+    }
 }

@@ -33,11 +33,7 @@ public class UserService {
 	}
 
 	public UserPojo get(Integer id) throws ApiException {
-		UserPojo pojo = dao.select(id);
-		if(pojo == null){
-			throw new ApiException("No user with the given id");
-		}
-		return pojo;
+		return getCheckById(id);
 	}
 
 	public List<UserPojo> getAllInPage(Integer page, Integer size) {
@@ -48,12 +44,21 @@ public class UserService {
 		return dao.getTotalElements(UserPojo.class);
 	}
 
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
+		getCheckById(id);
 		dao.delete(id);
 	}
 
-	public UserPojo update(Integer id, UserPojo p){
-		UserPojo ex = dao.select(id);
+	private UserPojo getCheckById(Integer id) throws ApiException {
+		UserPojo pojo = dao.select(id);
+		if(pojo == null){
+			throw new ApiException("No user with the given id");
+		}
+		return pojo;
+	}
+
+	public UserPojo update(Integer id, UserPojo p) throws ApiException {
+		UserPojo ex = getCheckById(id);
 		ex.setEmail(p.getEmail());
 		ex.setPassword(p.getPassword());
 		ex.setRole(p.getRole());

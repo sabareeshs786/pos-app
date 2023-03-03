@@ -27,7 +27,7 @@ function getProductUrl(){
 	return baseUrl + "/api/products";
 }
 
-function updateAddedItemsTable(){
+function updateAddedItemsTableAddItem(){
 	$('#added-items').empty();
 	var sno = 0;
 	for(var i=0; i < barcodes.length; i++){
@@ -52,7 +52,7 @@ function displayAddItemsModal(){
 	console.log('came-->1');
 	clearAll();
 	console.log('came-->2');
-	updateAddedItemsTable();
+	updateAddedItemsTableAddItem();
 }
 // <-----------------------Product details getting functions-------------------------------->
 function getProduct(){
@@ -117,6 +117,15 @@ function loadOriginal(){
 
 function getProductForEditAddItems(){
 	var barcode = $barcode.val().toLowerCase();
+	if(dataOfItemForEditOld.barcode == barcode){
+		loadOriginal();
+		removeComments();
+		enableOrDisableAddOrEdit();
+		dataOfItemForEdit = dataOfItemForEditOld;
+		validateItemRequest(dataOfItemForEditOld);
+		// $quantity.val();
+		return false;
+	}
 	var url = getProductUrl() + '?barcode=' + barcode + '&inventory-status=' + true;
 	$.ajax({
 	   url: url,
@@ -414,7 +423,7 @@ function checkQuantity(){
 			var index = barcodes.indexOf(dataOfItemForEdit.barcode);
 			data = {
 				"barcode": dataOfItemForEditOld.barcode,
-				"quantity": availableQuantities[index] + quantities[index],
+				"quantity":parseInt(availableQuantities[index]) + parseInt(quantities[index]),
 				"mrp": mrps[index],
 				"sellingPrice": sellingPrices[index]
 			}
@@ -462,7 +471,7 @@ function checkSellingPrice(){
 			var index = barcodes.indexOf(dataOfItemForEdit.barcode);
 			data = {
 				"barcode": dataOfItemForEditOld.barcode,
-				"quantity": availableQuantities[index] + quantities[index],
+				"quantity": parseInt(availableQuantities[index]) + parseInt(quantities[index]),
 				"mrp": mrps[index],
 				"sellingPrice": sellingPrices[index]
 			}
@@ -503,15 +512,15 @@ function validateAddItemRequest(data){
 	if(barcodeSet.has(barcode)){
 		var index = barcodes.indexOf(barcode);
 		if($('#edit-added-item-modal').length){
-			data.quantity = availableQuantities[index] + quantities[index];
+			data.quantity = parseInt(availableQuantities[index]) + parseInt(quantities[index]);
 		}
 		else{
-			data.quantity = availableQuantities[index];
+			data.quantity = parseInt(availableQuantities[index]);
 		}
 		if(dataOfItem != null)
-			dataOfItem.quantity = availableQuantities[index];
+			dataOfItem.quantity = parseInt(availableQuantities[index]);
 		else
-			dataOfItemForEdit.quantity = availableQuantities[index] + quantities[index];
+			dataOfItemForEdit.quantity = parseInt(availableQuantities[index]) + parseInt(quantities[index]);
 	}
 	if(data.quantity == null || data.quantity == undefined || data.quantity <= 0 || 
 		data.mrp == null || data.mrp == undefined || data.mrp <= 0.00){
@@ -548,7 +557,7 @@ function deleteAddedItem(i){
 	totals.splice(i, 1);
 	availableQuantities.splice(i, 1);
 	mrps.splice(i, 1);
-	updateAddedItemsTable();
+	updateAddedItemsTableAddItem();
 }
 
 // <--------------------------------------For Placing orders ------------------------------>
@@ -597,11 +606,11 @@ function addItem(){
 				barcodes[index] = barcode;
 				quantities[index] = parseInt(quantities[index]) + parseInt(quantity);
 				sellingPrices[index] = sellingPrice;
-				totals[index] = parseFloat(quantities[index]) * parseFloat(sellingPrices[index]);
-				availableQuantities[index] -= parseInt(quantity);
+				totals[index] = parseFloat(parseInt(quantities[index]) * parseFloat(sellingPrices[index]).toFixed(2)).toFixed(2);
+				availableQuantities[index] = parseInt(availableQuantities[index]) - parseInt(quantity);
 				$barcode.val('');
 				resetToDefaults();
-				updateAddedItemsTable();
+				updateAddedItemsTableAddItem();
 			}
 			else{
 				handleAjaxError("Enter valid data");
@@ -617,14 +626,14 @@ function addItem(){
 			if(validator(json)){
 				barcodes.push(barcode);
 				quantities.push(parseInt(quantity));
-				sellingPrices.push(parseFloat(sellingPrice));
+				sellingPrices.push(parseFloat(sellingPrice).toFixed(2));
 				names.push(dataOfItem.name);
 				totals.push(parseFloat(quantity) * parseFloat(sellingPrice));
-				availableQuantities.push(dataOfItem.quantity - parseInt(quantity));
+				availableQuantities.push(parseInt(dataOfItem.quantity) - parseInt(quantity));
 				mrps.push(dataOfItem.mrp);
 				$barcode.val('');
 				resetToDefaults();
-				updateAddedItemsTable();
+				updateAddedItemsTableAddItem();
 			}
 			else{
 				handleAjaxError("Enter valid data");
@@ -750,7 +759,7 @@ function changeToPlaceOrderAttributes(){
 		$('#add-items-confirm').click(addItems);
 		resetToDefaults();
 
-		updateAddedItemsTable();
+		updateAddedItemsTableAddItem();
 
 		$('#add-items-form input[name=barcode]').on('input', validateBarcode);
 		$('#add-items-form input[name=quantity]').on('input', checkQuantity);
@@ -768,14 +777,15 @@ function changeToPlaceOrderAttributes(){
 function editAddedItem(i){
 	dataOfItemForEdit = {
 		"barcode": barcodes[i],
-		"quantity": (availableQuantities[i] + quantities[i]),
+		"quantity": (parseInt(availableQuantities[i]) + parseInt(quantities[i])),
 		"mrp": mrps[i],
 		"name": names[i],
 		"sellingPrice": sellingPrices[i]
 	}
 	dataOfItemForEditOld = Object.assign({}, dataOfItemForEdit);
-	dataOfItemForEditOld.quantity = quantities[i];
+	dataOfItemForEditOld.quantity = parseInt(quantities[i]);
 	changeToEditAddedItemAttributesAdd();
+	validateAddItemRequest(dataOfItemForEdit);
 	displayEditAddedIemAdd(i);
 }
 
@@ -793,13 +803,13 @@ function displayEditAddedIemAdd(i){
 function updateAddedItem(){
 	if(enableOrDisableAddOrEdit()){
 		var i = $('#edit-added-item-form input[name=i]').val();
-		var originalQuantity = quantities[i];
+		var originalQuantity = parseInt(quantities[i]);
 		barcodeSet.delete(barcodes[i]);
 		barcodes[i] = $('#edit-added-item-form input[name=barcode]').val();
-		quantities[i] = $('#edit-added-item-form input[name=quantity]').val();
-		sellingPrices[i] = $('#edit-added-item-form input[name=sellingPrice]').val();
-		totals[i] = quantities[i] * parseFloat(sellingPrices[i]);
-		availableQuantities[i] += originalQuantity - quantities[i];
+		quantities[i] = parseInt($('#edit-added-item-form input[name=quantity]').val());
+		sellingPrices[i] = parseFloat($('#edit-added-item-form input[name=sellingPrice]').val()).toFixed(2);
+		totals[i] =  parseFloat(parseInt(quantities[i]) * parseFloat(sellingPrices[i]).toFixed(2)).toFixed(2);
+		availableQuantities[i] = parseInt(availableQuantities[i]) + parseInt(originalQuantity) - parseInt(quantities[i]);
 		barcodeSet.add(barcodes[i]);
 		$barcode.val('');
 		changeToPlaceOrderAttributes();

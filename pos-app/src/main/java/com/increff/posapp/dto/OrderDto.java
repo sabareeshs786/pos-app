@@ -62,7 +62,18 @@ public class OrderDto {
 			inventoryPojo.setQuantity(finalQuantity);
 			inventoryService.updateByProductId(inventoryPojo);
 
-			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(form, i, orderPojo, inventoryPojo.getProductId());
+			OrderItemPojo itemPojo = orderItemService.getOrderIdAndProductId(
+					orderPojo.getId(),
+					productPojo.getId());
+			if(itemPojo != null){
+				itemPojo.setQuantity(itemPojo.getQuantity() + form.getQuantities().get(i));
+				itemPojo.setSellingPrice(form.getSellingPrices().get(i));
+				orderItemService.updateById(itemPojo.getId(), itemPojo);
+				continue;
+			}
+
+			OrderItemPojo orderItemPojo = Converter.convertToOrderItemPojo(
+					form, i, orderPojo, inventoryPojo.getProductId());
 			list.add(
 					Converter.convertToOrderItemData(
 							orderItemService.add(orderItemPojo),
@@ -106,13 +117,15 @@ public class OrderDto {
 				orderItemDataList.add(Converter.convertToOrderItemData(orderItemPojo, productPojo));
 			}
 
-			List<Integer> orderItemsIds = new ArrayList<>();
+			List<Integer> snos = new ArrayList<>();
 			List<String> productNames = new ArrayList<>();
 			List<Integer> quantities = new ArrayList<>();
-			List<String> sellingPrices = new ArrayList<>();
 			List<String> mrps = new ArrayList<>();
+			List<String> sellingPrices = new ArrayList<>();
+			int sno = 0;
 			for(OrderItemData orderItemData: orderItemDataList){
-				orderItemsIds.add(orderItemData.getId());
+				sno += 1;
+				snos.add(sno);
 				productNames.add(orderItemData.getProductName());
 				quantities.add(orderItemData.getQuantity());
 				sellingPrices.add(orderItemData.getSellingPrice());
@@ -123,11 +136,11 @@ public class OrderDto {
 			String base64EncodedString = PdfService.getBase64String(
 					date,
 					orderId,
-					orderItemsIds,
+					snos,
 					productNames,
 					quantities,
-					sellingPrices,
-					mrps
+					mrps,
+					sellingPrices
 			);
 
 			byte[] decodedBytes = Base64.getDecoder().decode(base64EncodedString);
@@ -274,4 +287,5 @@ public class OrderDto {
 			throw new ApiException("Invoiced orders can't be edited");
 		}
 	}
+
 }

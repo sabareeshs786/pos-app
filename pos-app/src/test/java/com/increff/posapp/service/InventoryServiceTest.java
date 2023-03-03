@@ -105,4 +105,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
         List<InventoryPojo> inventoryPojoList = inventoryService.getAll(0,5);
         assertTrue(inventoryPojoList.size() > 0 && inventoryPojoList.size() <= 5);
     }
+
+    @Test
+    public void testGetTotalElements() throws ApiException {
+        addProductInInventory();
+        Long totalElements = inventoryService.getTotalElements();
+        assertTrue(totalElements > 0);
+    }
 }

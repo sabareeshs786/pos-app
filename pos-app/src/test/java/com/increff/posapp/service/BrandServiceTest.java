@@ -222,6 +222,14 @@ public class BrandServiceTest extends AbstractUnitTest {
 		brandService.getByBrand(null);
 	}
 
+	@Test(expected = ApiException.class)
+	public void testGetByBrandEmpty() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrand("");
+	}
 	@Test
 	public void testGetByCategoryValid() throws ApiException {
 		BrandPojo p = new BrandPojo();
@@ -251,6 +259,15 @@ public class BrandServiceTest extends AbstractUnitTest {
 		brandService.getByCategory(null);
 	}
 
+	@Test(expected = ApiException.class)
+	public void testGetByCategoryEmpty() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByCategory("  ");
+	}
+
 	@Test
 	public void testGetByBrandAndCategory() throws ApiException {
 		BrandPojo p = new BrandPojo();
@@ -272,13 +289,58 @@ public class BrandServiceTest extends AbstractUnitTest {
 	}
 
 	@Test(expected = ApiException.class)
-	public void testGetByBrandAndCategoryNull() throws ApiException {
+	public void testGetByBrandAndCategoryBrandNull() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrandAndCategory(null, "category1");
+	}
+
+	@Test(expected = ApiException.class)
+	public void testGetByBrandAndCategoryNullCategory() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrandAndCategory("brand1", null);
+	}
+
+	@Test(expected = ApiException.class)
+	public void testGetByBrandAndCategoryBrandEmpty() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrandAndCategory("", "category1");
+	}
+
+	@Test(expected = ApiException.class)
+	public void testGetByBrandAndCategoryEmptyCategory() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrandAndCategory("brand1", "");
+	}
+	@Test(expected = ApiException.class)
+	public void testGetByBrandAndCategoryBothNull() throws ApiException {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("brand1");
 		p.setCategory("category1");
 		brandService.add(p);
 		brandService.getByBrandAndCategory(null, null);
 	}
+
+	@Test(expected = ApiException.class)
+	public void testGetByBrandAndCategoryBothEmpty() throws ApiException {
+		BrandPojo p = new BrandPojo();
+		p.setBrand("brand1");
+		p.setCategory("category1");
+		brandService.add(p);
+		brandService.getByBrandAndCategory("", "");
+	}
+
 	@Test
 	public void testUpdateByIdValid() throws ApiException {
 		BrandPojo pojo1 = new BrandPojo();

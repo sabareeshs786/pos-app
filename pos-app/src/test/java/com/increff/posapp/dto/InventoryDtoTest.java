@@ -76,6 +76,17 @@ public class InventoryDtoTest extends AbstractUnitTest {
         inventoryDto.get(null);
     }
 
+    @Test
+    public void testGetDataInPage() throws ApiException, IllegalAccessException {
+        ProductPojo productPojo = addProduct();
+        InventoryForm form = new InventoryForm();
+        form.setBarcode(productPojo.getBarcode());
+        form.setQuantity(12);
+        InventoryData data = inventoryDto.add(form);
+        List<InventoryData> dataList = inventoryDto.get(0, 9).getContent();
+        assertEquals(1, dataList.size());
+    }
+
     @Test(expected = ApiException.class)
     public void testGetDataPageNull() throws ApiException, IllegalAccessException {
         ProductPojo productPojo = addProduct();
@@ -84,7 +95,6 @@ public class InventoryDtoTest extends AbstractUnitTest {
         form.setQuantity(12);
         InventoryData data = inventoryDto.add(form);
         List<InventoryData> dataList = inventoryDto.get(null, 9).getContent();
-        assertEquals(1, dataList.size());
     }
 
     @Test(expected = ApiException.class)
@@ -95,7 +105,6 @@ public class InventoryDtoTest extends AbstractUnitTest {
         form.setQuantity(12);
         InventoryData data = inventoryDto.add(form);
         List<InventoryData> dataList = inventoryDto.get(0, null).getContent();
-        assertEquals(1, dataList.size());
     }
 
     @Test(expected = ApiException.class)

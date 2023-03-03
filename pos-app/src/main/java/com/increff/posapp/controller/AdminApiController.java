@@ -49,7 +49,7 @@ public class AdminApiController {
 
 	@ApiOperation(value = "Deletes a user")
 	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable int id) {
+	public void deleteUser(@PathVariable int id) throws ApiException {
 		service.delete(id);
 	}
 

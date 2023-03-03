@@ -104,7 +104,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetByBarcodeInventoryNotEmpty() throws ApiException, IllegalAccessException {
+    public void testGetByBarcodeInventoryStatusTrue() throws ApiException, IllegalAccessException {
         BrandPojo pojo = addBrand();
         ProductData data1 = addProduct();
         addInventory(data1.getId());
@@ -115,6 +115,19 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("123.45", data.getMrp().toString());
         assertEquals("asd3455t5", data.getBarcode());
         assertEquals("12", data.getQuantity().toString());
+    }
+
+    @Test
+    public void testGetByBarcodeInventoryStatusFalse() throws ApiException, IllegalAccessException {
+        BrandPojo pojo = addBrand();
+        ProductData data1 = addProduct();
+        addInventory(data1.getId());
+        ProductData data = (ProductData) productDto.get(data1.getBarcode(), false, null, null);
+        assertEquals("brand1", data.getBrand());
+        assertEquals("category1", data.getCategory());
+        assertEquals("product1", data.getName());
+        assertEquals("123.45", data.getMrp().toString());
+        assertEquals("asd3455t5", data.getBarcode());
     }
 
     @Test(expected = ApiException.class)

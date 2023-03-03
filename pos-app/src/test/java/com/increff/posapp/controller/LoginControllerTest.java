@@ -22,7 +22,7 @@ public class LoginControllerTest extends AbstractUnitTest {
         HttpServletRequest request = new MockHttpServletRequest();
         LoginForm form = new LoginForm();
         form.setEmail("hari@gmail.com");
-        form.setPassword("1234");
+        form.setPassword("Hari@1234");
         assertNotNull(loginController.login(request, form));
     }
 
@@ -31,7 +31,7 @@ public class LoginControllerTest extends AbstractUnitTest {
         HttpServletRequest request = new MockHttpServletRequest();
         LoginForm form = new LoginForm();
         form.setEmail("user1@gmail.com");
-        form.setPassword("12345");
+        form.setPassword("User@12345");
         assertNotNull(loginController.login(request, form));
     }
 }
