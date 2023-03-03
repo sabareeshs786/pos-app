@@ -51,7 +51,7 @@ public class OrderDto {
 		for(int i=0; i < len; i++) {
 
 			ProductPojo productPojo = productService.getByBarcode(form.getBarcodes().get(i));
-			InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+			InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
 			Double mrp = productPojo.getMrp();
 			Integer initialQuantity = inventoryPojo.getQuantity();
 
@@ -60,7 +60,7 @@ public class OrderDto {
 
 			Integer finalQuantity = initialQuantity - form.getQuantities().get(i);
 			inventoryPojo.setQuantity(finalQuantity);
-			inventoryService.updateByProductId(inventoryPojo);
+			inventoryService.update(inventoryPojo);
 
 			OrderItemPojo itemPojo = orderItemService.getOrderIdAndProductId(
 					orderPojo.getId(),
@@ -206,8 +206,8 @@ public class OrderDto {
 
 	public void update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
 		Validator.validate(orderItemEditForm);
-		isInvoiced(orderService.getById(id));
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
+		isInvoiced(orderService.getById(orderItemPojo.getOrderId()));
 		checkInventory(orderItemEditForm, orderItemPojo);
 		isSellingPriceValid(orderItemEditForm);
 		updateInventory(orderItemEditForm, orderItemPojo);
@@ -220,11 +220,11 @@ public class OrderDto {
 	private void updateInventory(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		Integer initialQuantity = orderItemPojo.getQuantity();
 		Integer finalQuantity = orderItemEditForm.getQuantity();
-		InventoryPojo inventoryPojo = inventoryService.getByProductId(orderItemPojo.getProductId());
+		InventoryPojo inventoryPojo = inventoryService.get(orderItemPojo.getProductId());
 
 		if(finalQuantity < initialQuantity){
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
-			inventoryService.updateByProductId(inventoryPojo);
+			inventoryService.update(inventoryPojo);
 			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());
 			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());
 			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);
@@ -236,7 +236,7 @@ public class OrderDto {
 				throw new ApiException("Required additional quantity is not present");
 			}
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
-			inventoryService.updateByProductId(inventoryPojo);
+			inventoryService.update(inventoryPojo);
 			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());
 			orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());
 			orderItemService.updateById(orderItemPojo.getId(), orderItemPojo);
@@ -256,7 +256,7 @@ public class OrderDto {
 	// Validating methods
 	private void checkInventory(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
-		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+		InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
 		Integer additionalQuantity = orderItemEditForm.getQuantity() - orderItemPojo.getQuantity();
 		Integer actualQuantity = inventoryPojo.getQuantity();
 		if(additionalQuantity > actualQuantity){
@@ -286,6 +286,14 @@ public class OrderDto {
 		if(pojo.getOrderStatus().equals(OrderStatus.INVOICED)){
 			throw new ApiException("Invoiced orders can't be edited");
 		}
+	}
+
+	public void deleteOrderItem(Integer id) throws ApiException {
+		OrderItemPojo orderItemPojo = orderItemService.getById(id);
+		InventoryPojo inventoryPojo = inventoryService.get(orderItemPojo.getProductId());
+		inventoryPojo.setQuantity(inventoryPojo.getQuantity() + orderItemPojo.getQuantity());
+		inventoryService.update(inventoryPojo);
+		orderItemService.deleteById(id);
 	}
 
 }

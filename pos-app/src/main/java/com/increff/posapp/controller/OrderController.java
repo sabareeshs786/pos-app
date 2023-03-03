@@ -86,4 +86,10 @@ public class OrderController {
 	public void addNewOrderItems(@PathVariable Integer id, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
 		orderDto.addNewItems(id, form);
 	}
+
+	@ApiOperation(value = "Edits an order item by id")
+	@RequestMapping(path = "/api/order-items/{id}", method = RequestMethod.DELETE)
+	public void deleteOrderItem(@PathVariable Integer id) throws ApiException{
+		orderDto.deleteOrderItem(id);
+	}
 }

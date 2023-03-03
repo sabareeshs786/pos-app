@@ -1,6 +1,5 @@
 package com.increff.posapp.service;
 
-import com.increff.posapp.model.BrandData;
 import com.increff.posapp.pojo.BrandPojo;
 import com.increff.posapp.pojo.InventoryPojo;
 import com.increff.posapp.pojo.ProductPojo;
@@ -80,7 +79,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
         InventoryPojo pojo2 = new InventoryPojo();
         pojo2.setProductId(pojo1.getProductId());
         pojo2.setQuantity(10);
-        InventoryPojo pojo = inventoryService.updateByProductId(pojo2);
+        InventoryPojo pojo = inventoryService.update(pojo2);
         assertEquals(pojo1.getProductId(), pojo.getProductId());
         assertEquals("10", pojo.getQuantity().toString());
     }
@@ -90,7 +89,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
         InventoryPojo pojo = new InventoryPojo();
         pojo.setProductId(100002);
         pojo.setQuantity(10);
-        inventoryService.updateByProductId(pojo);
+        inventoryService.update(pojo);
     }
 
     @Test

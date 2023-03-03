@@ -27,7 +27,6 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test
     public void testAdd() throws ApiException, IllegalAccessException {
         BrandData data = addBrand();
-        System.out.println("Data="+data);
         assertEquals("brand1", data.getBrand());
         assertEquals("category1", data.getCategory());
         assertNotNull(data.getId());

@@ -65,7 +65,7 @@ function toJsonArray($form){
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
     $.notify(response.message, {
-        position: "bottom right",
+        position: "top right",
         autoHideDelay: 5000,
         horizontalAlign: "right",
         zIndex: 9999999,
@@ -75,7 +75,7 @@ function handleAjaxError(response){
 
 function handleAjaxSuccess(response){
  $.notify(response, {
-    position: "bottom right",
+    position: "top right",
     autoHideDelay: 3000,
     horizontalAlign: "right",
     zIndex: 100000,

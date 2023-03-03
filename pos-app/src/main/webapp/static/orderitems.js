@@ -182,7 +182,16 @@ function displayOrderItems(data, sno){
 	var row = '';
 	for(var i = 0; i < data.length; i++){
 		total = parseFloat(parseFloat(data[i].sellingPrice) * parseInt(data[i].quantity)).toFixed(2);
-		var buttonHtml = spanBegin + ' <button onclick="displayEditOrderItem(' + data[i].id + ')" class="btn btn-secondary only-supervisor">Edit</button>' + spanEnd;
+		var buttonHtml = spanBegin + 
+		' <button onclick="displayEditOrderItem(' 
+		+ data[i].id 
+		+ ')" class="btn btn-secondary only-supervisor">Edit</button>' 
+		+ spanEnd
+		+ '&nbsp;&nbsp;'
+		+ spanBegin 
+		+ '<button onclick="deleteOrderItem('
+		+ data[i].id
+		+ ')" class="btn btn-secondary only-supervisor">Delete</button>';
 		sno += 1;
 		row = '<tr><td>' + sno + '</td>'
 		+ '<td>' + data[i].barcode + '</td>'
@@ -201,6 +210,21 @@ function displayOrderItems(data, sno){
 	}
 	$('#total').html(total);
 	$('#total').attr('style', 'font-weight: bold;');
+}
+
+function deleteOrderItem(id){
+	var url = getOrderItemsUrl() + "/" + id;
+	$.ajax({
+	   url: url,
+	   type: 'DELETE',
+	   success: function(data) {
+			handleAjaxSuccess("Deleted successfully");
+			getOrderItemsUtil();
+	   },
+	   error: function(response){
+			handleAjaxError(response);
+	   }
+	});	
 }
 
 function offAll(){
@@ -295,7 +319,7 @@ function updateOrderItem(){
 			'Content-Type': 'application/json'
 		},
 		success: function(response) {
-			handleAjaxSuccess(response);
+			handleAjaxSuccess("Updated Successfully");
 			canAddActionCol = false;
 			getOrderItemsUtil();
 			$('#edit-order-item-modal').modal('toggle');

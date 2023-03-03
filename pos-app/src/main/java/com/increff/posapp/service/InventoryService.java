@@ -27,7 +27,7 @@ public class InventoryService {
 		return (InventoryPojo) inventoryDao.insert(inventoryPojo);
 	}
 
-	public InventoryPojo getByProductId(int pid) throws ApiException {
+	public InventoryPojo get(int pid) throws ApiException {
 		return getCheckProductId(pid);
 	}
 
@@ -41,9 +41,9 @@ public class InventoryService {
 	public Long getTotalElements(){
 		return inventoryDao.getTotalElements(InventoryPojo.class);
 	}
-	public InventoryPojo updateByProductId(InventoryPojo inventoryPojo) throws ApiException {
+	public InventoryPojo update(InventoryPojo inventoryPojo) throws ApiException {
 		validate(inventoryPojo);
-		InventoryPojo ex = getByProductId(inventoryPojo.getProductId());
+		InventoryPojo ex = get(inventoryPojo.getProductId());
 		ex.setQuantity(inventoryPojo.getQuantity());
 		inventoryDao.update(ex);
 		return ex;

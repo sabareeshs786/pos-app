@@ -857,11 +857,15 @@ function displayOrderList(data, sno){
 	sno += 1;
 	var editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;';
 	if(data[i].orderStatus == 'INVOICED'){
-		editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor disabled" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' 
+		editButton = spanBeginEdit 
+		+ '<button onclick="displayOrderItemsEdit(' 
+		+ data[i].id
+		+ ')" class="btn btn-secondary only-supervisor disabled" class="btn btn-secondary">Edit</button>' 
+		+ spanEnd + '&nbsp;&nbsp;';
 	}
 	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd
-					 + spanBeginEdit + editButton + spanEnd
-					 + spanBegin + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Download Invoice</button>' + spanEnd;
+					 +  editButton 
+					 + spanBegin + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Generate Invoice</button>' + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].id + "</td><td>"

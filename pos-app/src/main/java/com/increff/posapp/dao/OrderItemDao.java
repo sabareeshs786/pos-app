@@ -4,6 +4,7 @@ import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.service.ApiException;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,9 +18,8 @@ public class OrderItemDao extends AbstractDao{
 	private static final String SUM_OF_INVOICED_QUANTITY_BY_ORDER_ID = "select sum(quantity) from OrderItemPojo p where orderId=:orderId";
 	private static final String TOTAL_COST_BY_ORDER_ID = "select sum(quantity*sellingPrice) from OrderItemPojo p where orderId=:orderId";
 	private static final String SELECT_BY_ORDER_ID_COUNT = "select count(p) from OrderItemPojo p where orderId=:orderId";
-
 	private static final String SELECT_BY_ORDER_ID_AND_PRODUCT_ID = "select p from OrderItemPojo p where orderId=:orderId and productId=:productId";
-
+	private static final String DELETE_BY_ID = "delete from OrderItemPojo p where id=:id";
 	public OrderItemPojo selectById(Integer id) {
 		TypedQuery<OrderItemPojo> query = getQuery(SELECT_BY_ID, OrderItemPojo.class);
 		query.setParameter("id", id);
@@ -65,6 +65,12 @@ public class OrderItemDao extends AbstractDao{
 
 	public void update(OrderItemPojo p) {
 		// Implemented by Spring itself
+	}
+
+	public Integer deleteById(Integer id){
+		Query query = em().createQuery(DELETE_BY_ID);
+		query.setParameter("id", id);
+		return query.executeUpdate();
 	}
 
 }

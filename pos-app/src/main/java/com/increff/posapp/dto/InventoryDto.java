@@ -39,7 +39,7 @@ public class InventoryDto {
 
 	public InventoryData get(Integer productId) throws ApiException {
 		Validator.validate("Product id", productId);
-		InventoryPojo inventoryPojo = inventoryService.getByProductId(productId);
+		InventoryPojo inventoryPojo = inventoryService.get(productId);
 		ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
 		return Converter.convertToInventoryData(inventoryPojo, productPojo);
 	}
@@ -69,7 +69,7 @@ public class InventoryDto {
 		Integer productId = productPojo.getId();
 		InventoryPojo inventoryPojo = Converter.convertToInventoryPojo(form, productId);
 		return Converter.convertToInventoryData(
-				inventoryService.updateByProductId(inventoryPojo),
+				inventoryService.update(inventoryPojo),
 				productPojo
 		);
 	}

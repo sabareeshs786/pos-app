@@ -79,7 +79,7 @@ public class ProductDto {
 		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-		InventoryPojo inventoryPojo = inventoryService.getByProductId(productPojo.getId());
+		InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
 		return Converter.convertToProductInventoryData(productPojo, brandPojo, inventoryPojo);
 	}
 
