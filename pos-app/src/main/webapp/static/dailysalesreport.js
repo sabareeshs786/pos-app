@@ -80,7 +80,12 @@ function getDateAsStringStandardFormat(d){
 	var date = d.getDate().toString();
 	var month = d.getMonth().toString();
 	var year = d.getFullYear().toString();
-
+	if(date.toString().length == 1){
+		date = '0' + date.toString();
+	}
+	if(month.toString().length == 1){
+		month = '0' + month.toString();
+	}
 	var dateString = date + '/' + month + '/' + year;
 	return dateString;
 }

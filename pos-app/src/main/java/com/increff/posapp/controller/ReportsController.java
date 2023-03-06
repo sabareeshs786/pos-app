@@ -37,7 +37,6 @@ public class ReportsController {
             @RequestParam(name = "page-number") Integer page,
             @RequestParam(name = "page-size") Integer size
     ) throws ApiException {
-        logger.info("Inventory Report >> "+"Brand="+brand+" Category="+category);
         return reportsDto.getInventoryReport(brand, category, page, size);
     }
 
