@@ -14,7 +14,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api-all/reports")
 public class PosDaySalesController {
 
 	@Autowired
@@ -25,7 +25,6 @@ public class PosDaySalesController {
 	@ApiOperation(value = "Gets the daily sales report")
 	@RequestMapping(path = "/daily-sales-report", method = RequestMethod.GET)
 	public List<PosDaySalesData> getData() throws ApiException{
-		logger.info("Daily sales report controller!!");
 		return posDaySalesDto.getAll();
 	}
 

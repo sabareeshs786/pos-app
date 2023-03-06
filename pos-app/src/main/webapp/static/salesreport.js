@@ -2,7 +2,7 @@
 var downloadContent = "";
 function getSalesReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/sales-report";
+	return baseUrl + "/api-all/reports/sales-report";
 }
 
 function toArrayOfJsonObjects(){

@@ -1,6 +1,6 @@
 function getInventoryReportUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/inventory-report";
+	return baseUrl + "/api-all/reports/inventory-report";
 }
 
 //Global variables

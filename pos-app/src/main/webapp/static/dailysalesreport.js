@@ -3,7 +3,7 @@ var downloadContent = null;
 
 function getDailySalesReportUrl() {
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/reports/daily-sales-report";
+	return baseUrl + "/api-all/reports/daily-sales-report";
 }
 
 //BUTTON ACTIONS

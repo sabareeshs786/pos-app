@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api-all/reports")
 public class ReportsController {
 
     @Autowired

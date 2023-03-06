@@ -868,7 +868,7 @@ function displayOrderList(data, sno){
 
 		invoiceButton = '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Download Invoice</button>';
 	}
-	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd
+	var buttonHtml = '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;'
 					 + editButton 
 					 + spanBegin + invoiceButton + spanEnd;
 	row = "<tr><td>" 
