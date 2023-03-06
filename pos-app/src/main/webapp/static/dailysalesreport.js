@@ -75,9 +75,21 @@ function processData(pageNumber, pageSize) {
 	return false;
 }
 
+function getDateAsStringStandardFormat(d){
+	var d = new Date(d);
+	var date = d.getDate().toString();
+	var month = d.getMonth().toString();
+	var year = d.getFullYear().toString();
+
+	var dateString = date + '/' + month + '/' + year;
+	return dateString;
+}
+
 //UI DISPLAY METHODS
 
 function displaySchedulerReportList(data, sno) {
+	$('#start-date').html(getDateAsStringStandardFormat($('#daily-sales-report-form input[name=startDate]').val()));
+	$('#end-date').html(getDateAsStringStandardFormat($('#daily-sales-report-form input[name=endDate]').val()));
 	$("#scheduler-report-table-all-body").empty();
 	var row = "";
 	for (var i = 0; i < data.length; i++) {

@@ -99,9 +99,7 @@ public class Validator {
 				throw new ApiException(field + " is invalid");
 			}
 		}
-		else {
-			throw new ApiException("Invalid field type detected");
-		}
+
 	}
 
 	public static void validate(Object o) throws ApiException {

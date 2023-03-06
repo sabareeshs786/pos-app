@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 @Controller
-public class LoginController {
+public class SessionController {
 
 	@Autowired
 	private UserService service;

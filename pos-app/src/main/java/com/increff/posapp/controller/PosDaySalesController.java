@@ -14,6 +14,7 @@ import java.util.List;
 
 @Api
 @RestController
+@RequestMapping("/api/reports")
 public class PosDaySalesController {
 
 	@Autowired
@@ -22,14 +23,14 @@ public class PosDaySalesController {
 
 
 	@ApiOperation(value = "Gets the daily sales report")
-	@RequestMapping(path = "/api/reports/daily-sales-report", method = RequestMethod.GET)
+	@RequestMapping(path = "/daily-sales-report", method = RequestMethod.GET)
 	public List<PosDaySalesData> getData() throws ApiException{
 		logger.info("Daily sales report controller!!");
 		return posDaySalesDto.getAll();
 	}
 
 	@ApiOperation(value = "Gets the daily sales report between specified dates")
-	@RequestMapping(path = "/api/reports/daily-sales-report", method = RequestMethod.POST)
+	@RequestMapping(path = "/daily-sales-report", method = RequestMethod.POST)
 	public Object getDataByDate(
 			@RequestBody PosDaySalesForm form,
 			@RequestParam(name = "page-number") Integer page,

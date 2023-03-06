@@ -6,10 +6,7 @@ import com.increff.posapp.model.SalesReportData;
 import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.*;
-import com.increff.posapp.util.Converter;
-import com.increff.posapp.util.DateTimeUtil;
-import com.increff.posapp.util.DoubleUtil;
-import com.increff.posapp.util.StringUtil;
+import com.increff.posapp.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -212,6 +209,7 @@ public class ReportsDto {
     }
 
     public <T> T getSalesReport(SalesReportForm salesReportForm, Integer page, Integer size) throws ApiException {
+       validate(salesReportForm);
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
         ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);
         ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(salesReportForm.getEndDate(), zoneId);

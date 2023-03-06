@@ -309,6 +309,8 @@ public class OrderDto {
 		inventoryPojo.setQuantity(inventoryPojo.getQuantity() + orderItemPojo.getQuantity());
 		inventoryService.update(inventoryPojo);
 		orderItemService.deleteById(id);
+		OrderPojo pojo = orderService.getById(orderItemPojo.getOrderId());
+		pojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
+		orderService.updateById(pojo.getId(), pojo);
 	}
-
 }

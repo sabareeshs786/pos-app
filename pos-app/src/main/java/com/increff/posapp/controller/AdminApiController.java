@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
+@RequestMapping("/api/supervisor")
 public class AdminApiController {
 
 	@Autowired
@@ -33,7 +34,7 @@ public class AdminApiController {
 	private static Logger logger = Logger.getLogger(AdminApiController.class);
 
 	@ApiOperation(value = "Adds a user")
-	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.POST)
+	@RequestMapping(path = "/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
 		Validator.isEmailValid(form.getEmail());
 		Validator.isPasswordValid(form.getPassword());
@@ -48,19 +49,19 @@ public class AdminApiController {
 	}
 
 	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/user/{id}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable int id) throws ApiException {
 		service.delete(id);
 	}
 
 	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
 	public UserData getUser(@PathVariable int id) throws ApiException {
 		return convert(service.get(id));
 	}
 
 	@ApiOperation(value = "Gets list of all users")
-	@RequestMapping(path = "/api/supervisor/user", method = RequestMethod.GET)
+	@RequestMapping(path = "/user", method = RequestMethod.GET)
 	public Page<UserData> getAllUser(@RequestParam(name = "page-number") Integer page, @RequestParam(name = "page-size") Integer size) {
 		List<UserPojo> list = service.getAllInPage(page, size);
 		List<UserData> list2 = new ArrayList<UserData>();
@@ -71,7 +72,7 @@ public class AdminApiController {
 	}
 
 	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/supervisor/user/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/user/{id}", method = RequestMethod.PUT)
 	public void updateUser(@PathVariable int id, @RequestBody UserEditForm form) throws ApiException {
 		Validator.isEmailValid(form.getEmail());
 		form.setEmail(StringUtil.toLowerCase(form.getEmail()));

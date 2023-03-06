@@ -848,24 +848,29 @@ function updateAddedItem(){
 //<---------------------------UI DISPLAY METHODS---------------------------------------------->
 
 function displayOrderList(data, sno){
-	console.log("Order data -->");
-	console.log(data);
 	$("#order-table-body").empty();
 	var spanBeginEdit = '<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cannot edit invoiced orders">';
     var row = "";
 	for (var i = 0; i < data.length; i++) {
 	sno += 1;
-	var editButton = '<button onclick="displayOrderItemsEdit(' + data[i].id + ')" class="btn btn-secondary only-supervisor" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;';
+	var editButton = spanBegin 
+					+ '&nbsp;&nbsp;<button onclick="displayOrderItemsEdit(' 
+					+ data[i].id 
+					+ ')" class="btn btn-secondary only-supervisor" class="btn btn-secondary">Edit</button>&nbsp;&nbsp;' 
+					+ spanEnd;
+	var invoiceButton = '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Generate Invoice</button>';
 	if(data[i].orderStatus == 'INVOICED'){
 		editButton = spanBeginEdit 
 		+ '<button onclick="displayOrderItemsEdit(' 
 		+ data[i].id
 		+ ')" class="btn btn-secondary only-supervisor disabled" class="btn btn-secondary">Edit</button>' 
 		+ spanEnd + '&nbsp;&nbsp;';
+
+		invoiceButton = '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Download Invoice</button>';
 	}
 	var buttonHtml = spanBegin + '<button onclick="displayOrderItemsView(' + data[i].id + ')" class="btn btn-secondary">View</button>&nbsp;&nbsp;' + spanEnd
-					 +  editButton 
-					 + spanBegin + '<button onclick="generateInvoicePdf(' + data[i].id + ')" class="btn btn-primary only-supervisor">Generate Invoice</button>' + spanEnd;
+					 + editButton 
+					 + spanBegin + invoiceButton + spanEnd;
 	row = "<tr><td>" 
 	+ sno + "</td><td>" 
 	+ data[i].id + "</td><td>"

@@ -15,25 +15,26 @@ import javax.validation.Valid;
 
 @Api
 @RestController
+@RequestMapping("/api/brands")
 public class BrandController {
 	private static final Logger logger = Logger.getLogger(BrandController.class);
 	@Autowired
 	private BrandDto brandDto;
 
 	@ApiOperation(value = "Adds a new brand and category")
-	@RequestMapping(path = "/api/brands", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public BrandData add(@RequestBody BrandForm form) throws ApiException{
 		return brandDto.add(form);
 	}
 
 	@ApiOperation(value = "Gets brand and category by id")
-	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public BrandData get(@PathVariable Integer id) throws ApiException, IllegalAccessException {
 		return brandDto.get(id);
 	}
 
 	@ApiOperation(value = "Gets brand and category in a particular page")
-	@RequestMapping(path = "/api/brands", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public Page<BrandData> get(
 			@RequestParam(name = "page-number", required = false) Integer page,
 			@RequestParam(name = "page-size", required = false) Integer size
@@ -42,7 +43,7 @@ public class BrandController {
 	}
 
 	@ApiOperation(value = "Updates a brand and category")
-	@RequestMapping(path = "/api/brands/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public BrandData update(@PathVariable int id, @Valid @RequestBody BrandForm form) throws ApiException {
 		return brandDto.update(id, form);
 	}

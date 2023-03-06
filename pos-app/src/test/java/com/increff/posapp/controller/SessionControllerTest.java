@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
-public class LoginControllerTest extends AbstractUnitTest {
+public class SessionControllerTest extends AbstractUnitTest {
 
     @Autowired
-    private LoginController loginController;
+    private SessionController sessionController;
 
     @Test
     public void testLoginSupervisor() throws ApiException {
@@ -23,7 +23,7 @@ public class LoginControllerTest extends AbstractUnitTest {
         LoginForm form = new LoginForm();
         form.setEmail("hari@gmail.com");
         form.setPassword("Hari@1234");
-        assertNotNull(loginController.login(request, form));
+        assertNotNull(sessionController.login(request, form));
     }
 
     @Test
@@ -32,6 +32,6 @@ public class LoginControllerTest extends AbstractUnitTest {
         LoginForm form = new LoginForm();
         form.setEmail("user1@gmail.com");
         form.setPassword("User@12345");
-        assertNotNull(loginController.login(request, form));
+        assertNotNull(sessionController.login(request, form));
     }
 }

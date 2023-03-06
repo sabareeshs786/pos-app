@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api
 @RestController
+@RequestMapping("/api/reports")
 public class ReportsController {
 
     @Autowired
@@ -18,7 +19,7 @@ public class ReportsController {
 
     private static final Logger logger = Logger.getLogger(ReportsController.class);
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/brand-report", method = RequestMethod.GET)
+    @RequestMapping(path = "/brand-report", method = RequestMethod.GET)
     public <T> T getBrandReport(
            @RequestParam(required = false) String brand,
            @RequestParam(required = false) String category,
@@ -29,7 +30,7 @@ public class ReportsController {
     }
 
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/inventory-report", method = RequestMethod.GET)
+    @RequestMapping(path = "/inventory-report", method = RequestMethod.GET)
     public <T> T getInventoryReport(
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String category,
@@ -41,7 +42,7 @@ public class ReportsController {
     }
 
     @ApiOperation(value = "Used to get the brand report")
-    @RequestMapping(path = "/api/reports/sales-report", method = RequestMethod.POST)
+    @RequestMapping(path = "/sales-report", method = RequestMethod.POST)
     public <T> T getSalesReport(
             @RequestBody SalesReportForm salesReportForm,
             @RequestParam(name = "page-number") Integer page,

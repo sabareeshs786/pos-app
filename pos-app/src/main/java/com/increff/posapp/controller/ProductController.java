@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 
 @Api
 @RestController
+@RequestMapping("/api/products")
 public class ProductController {
 	
 	@Autowired
@@ -21,19 +22,19 @@ public class ProductController {
 	private static final Logger logger = Logger.getLogger(ProductController.class);
 
 	@ApiOperation(value = "Adds a product")
-	@RequestMapping(path = "/api/products", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public ProductData add(@RequestBody ProductForm form) throws ApiException{
 		return productDto.add(form);
 	}
 
 	@ApiOperation(value = "Updates a product")
-	@RequestMapping(path = "/api/products/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public ProductData get(@PathVariable Integer id) throws ApiException{
 		return productDto.get(id);
 	}
 
 	@ApiOperation(value = "Gets the requested product data")
-	@RequestMapping(path = "/api/products", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public Object get(
 			@RequestParam(required = false) String barcode,
 			@RequestParam(name = "inventory-status", required = false, defaultValue = "false") Boolean inventoryStatus,
@@ -44,7 +45,7 @@ public class ProductController {
 	}
 
 	@ApiOperation(value = "Updates a product")
-	@RequestMapping(path = "/api/products/{id}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public ProductData update(@PathVariable Integer id, @RequestBody ProductForm form) throws ApiException{
 		return productDto.update(id, form);
 	}
