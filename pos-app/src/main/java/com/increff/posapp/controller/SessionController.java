@@ -39,7 +39,7 @@ public class SessionController {
 	@RequestMapping(path = "/session/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm f) throws ApiException {
 		try{
-			Validator.isEmailValid(f.getEmail());
+			Validator.validateEmail(f.getEmail());
 		}
 		catch (ApiException ex){
 			info.setMessage(ex.getMessage());

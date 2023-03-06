@@ -75,15 +75,14 @@ public class PosDaySalesDto {
 					zonedDateTimeEnd);
 			return Converter.convertToPosDaySalesDataList(pojos);
 		}
-		else if (page != null && size != null){
+		if (page != null && size != null){
 			List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
 					zonedDateTimeEnd, page, size);
 			List<PosDaySalesData> list = Converter.convertToPosDaySalesDataList(pojos);
 			return new PageImpl<>(list, PageRequest.of(page, size), posDaySalesService.getByIntervalTotalElements(zonedDateTimeStart, zonedDateTimeEnd));
 		}
-		else {
-			throw new ApiException("Invalid request");
-		}
+
+		throw new ApiException("Invalid request");
 	}
 
 	private void validate(PosDaySalesForm form) throws ApiException {

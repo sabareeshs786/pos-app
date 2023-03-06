@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 public class Normalizer {
 
     private Normalizer() {}
+
     public static void normalize(Object o) throws ApiException {
         Field[] fields = o.getClass().getDeclaredFields();
         for(Field field: fields){
@@ -26,7 +27,7 @@ public class Normalizer {
                 }
             }
             catch (IllegalAccessException illegalArgumentException){
-                throw new ApiException("Unknown error occurred");
+                throw new ApiException("An unknown error occurred");
             }
 
         }

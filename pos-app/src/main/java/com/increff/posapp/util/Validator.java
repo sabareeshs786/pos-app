@@ -11,19 +11,19 @@ public class Validator {
 
 	private Validator() {}
 
-	public static void orderFormValidator(OrderForm form) throws ApiException {
+	public static void validateOrderForm(OrderForm form) throws ApiException {
 		if((form.getBarcodes().size() != form.getQuantities().size()) || (form.getBarcodes().size() != form.getSellingPrices().size())){
 			throw new ApiException("Input form contains missing values");
 		}
 		Integer len = form.getBarcodes().size();
 		for(Integer i=0; i < len; i++){
-			validate("Barcode", form.getBarcodes().get(i));
+			validateBarcode(form.getBarcodes().get(i));
 			validate("Quantity", form.getQuantities().get(i));
 			validate("Selling price", form.getSellingPrices().get(i));
 		}
 	}
 
-	public static void isEmailValid(String s) throws ApiException {
+	public static void validateEmail(String s) throws ApiException {
 		if(s == null){
 			throw new ApiException("Email can't be empty");
 		}
@@ -38,7 +38,7 @@ public class Validator {
 		}
 	}
 
-	public static void isPasswordValid(String s) throws ApiException {
+	public static void validatePassword(String s) throws ApiException {
 		if(s == null){
 			throw new ApiException("Password can't be empty");
 		}
@@ -63,9 +63,21 @@ public class Validator {
 		}
 	}
 
-	public static void isRoleValid(String role) throws ApiException {
+	public static void validateRole(String role) throws ApiException {
 		if(!role.equals("supervisor") && !role.equals("operator")){
 			throw new ApiException("Invalid role");
+		}
+	}
+
+	public static void validateBarcode(String barcode) throws ApiException {
+		if(barcode == null){
+			throw new ApiException("Barcode is null");
+		}
+		String regex = "^[a-zA-Z0-9]*$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(barcode);
+		if(!matcher.matches()){
+			throw new ApiException("Barcode is invalid");
 		}
 	}
 

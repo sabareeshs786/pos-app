@@ -30,6 +30,7 @@ public class InventoryDto {
 	
 	public InventoryData add(InventoryForm form) throws ApiException{
 		Validator.validate(form);
+		Validator.validateBarcode(form.getBarcode());
 		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();
@@ -64,6 +65,7 @@ public class InventoryDto {
 			throws ApiException{
 		Validator.validate("Id", id);
 		Validator.validate(form);
+		Validator.validateBarcode(form.getBarcode());
 		Normalizer.normalize(form);
 		ProductPojo productPojo = productService.getByBarcode(form.getBarcode());
 		Integer productId = productPojo.getId();

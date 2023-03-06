@@ -36,6 +36,7 @@ public class ProductDto {
 
 	public ProductData add(ProductForm form) throws ApiException{
 		Validator.validate(form);
+		Validator.validateBarcode(form.getBarcode());
 		Normalizer.normalize(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		Integer brandCategory = brandPojo.getId();
@@ -55,6 +56,7 @@ public class ProductDto {
 		if(barcode == null && page != null && size != null){
 			return getAll(page, size);
 		}
+		Validator.validateBarcode(barcode);
 		if(barcode != null && inventoryStatus){
 			return getDataAndInventoryStatus(barcode);
 		}
@@ -67,6 +69,7 @@ public class ProductDto {
 	public ProductData update(Integer id, ProductForm form) throws ApiException {
 		Validator.validate("Id", id);
 		Validator.validate(form);
+		Validator.validateBarcode(form.getBarcode());
 		Normalizer.normalize(form);
 		BrandPojo brandPojo = brandService.getByBrandAndCategory(form.getBrand(), form.getCategory());
 		ProductPojo productPojo = Converter.convertToProductPojo(form, brandPojo.getId());
@@ -76,6 +79,7 @@ public class ProductDto {
 
 	private ProductInventoryData getDataAndInventoryStatus(String barcode) throws ApiException {
 		Validator.validate("Barcode", barcode);
+		Validator.validateBarcode(barcode);
 		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -85,6 +89,7 @@ public class ProductDto {
 
 	private ProductData getData(String barcode) throws ApiException {
 		Validator.validate("Barcode", barcode);
+		Validator.validateBarcode(barcode);
 		barcode = StringUtil.toLowerCase(barcode);
 		ProductPojo productPojo = productService.getByBarcode(barcode);
 		BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());

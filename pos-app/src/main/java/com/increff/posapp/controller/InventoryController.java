@@ -20,8 +20,8 @@ public class InventoryController {
 
 	@ApiOperation(value = "Adds a product to inventory if not exists or updates if exists")
 	@RequestMapping(path = "", method = RequestMethod.POST)
-	public void add(@RequestBody InventoryForm form) throws ApiException{
-		inventoryDto.add(form);
+	public InventoryData add(@RequestBody InventoryForm form) throws ApiException{
+		return inventoryDto.add(form);
 	}
 	@ApiOperation(value = "Gets an item in the inventory by id")
 	@RequestMapping(path = "/{productId}", method = RequestMethod.GET)

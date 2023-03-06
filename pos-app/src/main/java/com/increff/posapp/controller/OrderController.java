@@ -33,8 +33,8 @@ public class OrderController {
 
 	@ApiOperation(value = "Adds an order")
 	@RequestMapping(path = "/api/orders", method = RequestMethod.POST)
-	public void add(@RequestBody OrderForm form) throws ApiException{
-		orderDto.add(form);
+	public List<OrderItemData> add(@RequestBody OrderForm form) throws ApiException{
+		return orderDto.add(form);
 	}
 
 	@ApiOperation(value = "Gets list of all ordered items by order id")
@@ -78,19 +78,19 @@ public class OrderController {
 
 	@ApiOperation(value = "Edits an order item by id")
 	@RequestMapping(path = "/api/order-items/edit/{id}", method = RequestMethod.PUT)
-	public void updateExistingOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
-		orderDto.update(id, orderItemEditForm);
+	public OrderItemData updateExistingOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
+		return orderDto.update(id, orderItemEditForm);
 	}
 
 	@ApiOperation(value = "Edits an order item by id")
 	@RequestMapping(path = "/api/order-items/add/{orderId}", method = RequestMethod.PUT)
-	public void addNewOrderItems(@PathVariable Integer orderId, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
-		orderDto.addNewItems(orderId, form);
+	public List<OrderItemData> addNewOrderItems(@PathVariable Integer orderId, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
+		return orderDto.addNewItems(orderId, form);
 	}
 
 	@ApiOperation(value = "Edits an order item by id")
 	@RequestMapping(path = "/api/order-items/{id}", method = RequestMethod.DELETE)
-	public void deleteOrderItem(@PathVariable Integer id) throws ApiException{
-		orderDto.deleteOrderItem(id);
+	public Integer deleteOrderItem(@PathVariable Integer id) throws ApiException{
+		return orderDto.deleteOrderItem(id);
 	}
 }

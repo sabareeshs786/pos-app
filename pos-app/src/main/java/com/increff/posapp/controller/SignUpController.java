@@ -42,7 +42,7 @@ public class SignUpController {
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signUp(HttpServletRequest req, SignUpForm form) throws ApiException {
 		try{
-			Validator.isEmailValid(form.getEmail());
+			Validator.validateEmail(form.getEmail());
 		}
 		catch (ApiException ex){
 			info.setMessage(ex.getMessage());
@@ -60,7 +60,7 @@ public class SignUpController {
 			return new ModelAndView("redirect:/site/signup");
 		}
 		try {
-			Validator.isPasswordValid(form.getPassword());
+			Validator.validatePassword(form.getPassword());
 		}
 		catch (ApiException ex){
 			info.setMessage(ex.getMessage());

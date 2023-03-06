@@ -300,10 +300,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         editForm.setBarcode("barcode123");
         editForm.setQuantity(7);
         editForm.setSellingPrice(110.89);
-        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        OrderItemData pojo = orderDto.update(list1.get(0).getId(), editForm);
         assertEquals(list1.get(0).getId(), pojo.getId());
         assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("product1", pojo.getProductName());
         assertEquals("7", pojo.getQuantity().toString());
         assertEquals("110.89", pojo.getSellingPrice().toString());
     }
@@ -403,10 +403,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         editForm.setBarcode("barcode123");
         editForm.setQuantity(1);
         editForm.setSellingPrice(110.89);
-        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        OrderItemData pojo = orderDto.update(list1.get(0).getId(), editForm);
         assertEquals(list1.get(0).getId(), pojo.getId());
         assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("product1", pojo.getProductName());
         assertEquals("1", pojo.getQuantity().toString());
         assertEquals("110.89", pojo.getSellingPrice().toString());
     }
@@ -419,10 +419,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         editForm.setBarcode("barcode123");
         editForm.setQuantity(7);
         editForm.setSellingPrice(110.89);
-        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        OrderItemData pojo = orderDto.update(list1.get(0).getId(), editForm);
         assertEquals(list1.get(0).getId(), pojo.getId());
         assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
-        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("product1", pojo.getProductName());
         assertEquals("7", pojo.getQuantity().toString());
         assertEquals("110.89", pojo.getSellingPrice().toString());
     }

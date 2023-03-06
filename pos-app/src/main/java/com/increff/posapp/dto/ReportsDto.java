@@ -32,7 +32,7 @@ public class ReportsDto {
     @Autowired
     private OrderItemService orderItemService;
 
-    public <T> T getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
+    public Object getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
         if(page == null && size == null){
@@ -50,33 +50,31 @@ public class ReportsDto {
                 pojos = brandService.getByBrand(brand);
             }
             List<BrandData> list = Converter.convertToBrandDataList(pojos);
-            return (T) list;
+            return list;
         }
-        else if(page == null){
+        if(page == null){
             throw new ApiException("Page can't be empty");
         }
-        else if(size == null){
+        if(size == null){
             throw new ApiException("Size can't be empty");
         }
-        else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
+        if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
             List<BrandPojo> brandList = brandService.getAll(page, size);
-            return (T) getPage(brandList, page, size, brandService.getTotalElements());
+            return getPage(brandList, page, size, brandService.getTotalElements());
         }
-        else if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
+        if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
             BrandPojo brandPojo = brandService.getByBrandAndCategory(brand, category);
             List<BrandData> list = new ArrayList<>();
             list.add(Converter.convertToBrandData(brandPojo));
-            return (T) new PageImpl<>(list, PageRequest.of(page, size), 1 );
+            return new PageImpl<>(list, PageRequest.of(page, size), 1 );
         }
-        else if(!StringUtil.isEmpty(brand)){
+        if(!StringUtil.isEmpty(brand)){
             List<BrandPojo> brandPojoList = brandService.getByBrand(brand, page, size);
-            return (T) getPage(brandPojoList, page, size, brandService.getByBrandTotalElements(brand));
+            return getPage(brandPojoList, page, size, brandService.getByBrandTotalElements(brand));
         }
-        else {
-            List<BrandPojo> brandList = brandService.getByCategory(category, page, size);
-            return (T) getPage(brandList, page, size,
+        List<BrandPojo> brandList = brandService.getByCategory(category, page, size);
+        return getPage(brandList, page, size,
                     brandService.getCategoryTotalElements(category));
-        }
     }
 
     private Page<BrandData> getPage(List<BrandPojo> brandList, Integer page, Integer size, Long totalElements){
@@ -89,7 +87,7 @@ public class ReportsDto {
                 totalElements);
     }
 
-    public <T> T getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
+    public Object getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
@@ -133,25 +131,25 @@ public class ReportsDto {
                 }
                 validate(inventoryReportDataList);
             }
-            return (T) inventoryReportDataList;
+            return inventoryReportDataList;
         }
-        else if(page == null){
+        if(page == null){
             throw new ApiException("Page can't be empty");
         }
-        else if(size == null){
+        if(size == null){
             throw new ApiException("Size can't be empty");
         }
-        else if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
+        if(StringUtil.isEmpty(brand) && StringUtil.isEmpty(category)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
                 inventoryReportDataList.add(Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo));
             }
             validate(inventoryReportDataList);
-            return (T) getPage(inventoryReportDataList, page, size);
+            return getPage(inventoryReportDataList, page, size);
         }
 
-        else if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
+        if(!StringUtil.isEmpty(brand) && !StringUtil.isEmpty(category)){
             for(InventoryPojo inventoryPojo: inventoryPojoList){
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
@@ -162,36 +160,35 @@ public class ReportsDto {
                 }
             }
             validate(inventoryReportDataList);
-            return (T) getPage(inventoryReportDataList, page, size);
+            return getPage(inventoryReportDataList, page, size);
         }
-        else if(!StringUtil.isEmpty(brand)){
-            for(InventoryPojo inventoryPojo: inventoryPojoList){
+        if(!StringUtil.isEmpty(brand)) {
+            for (InventoryPojo inventoryPojo : inventoryPojoList) {
                 ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
                 BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-                if(brandPojo.getBrand().equals(brand)){
+                if (brandPojo.getBrand().equals(brand)) {
                     inventoryReportDataList.add(
                             Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)
                     );
                 }
             }
             validate(inventoryReportDataList);
-            return (T) getPage(inventoryReportDataList, page, size);
+            return getPage(inventoryReportDataList, page, size);
         }
-        else {
-            for(InventoryPojo inventoryPojo: inventoryPojoList){
-                ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
-                BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
-                if(brandPojo.getCategory().equals(category)){
-                    inventoryReportDataList.add(
-                            Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)
-                    );
-                }
+        for(InventoryPojo inventoryPojo: inventoryPojoList){
+            ProductPojo productPojo = productService.getById(inventoryPojo.getProductId());
+            BrandPojo brandPojo = brandService.getById(productPojo.getBrandCategory());
+            if(brandPojo.getCategory().equals(category)){
+                inventoryReportDataList.add(
+                        Converter.convertToInventoryReportData(inventoryPojo, productPojo, brandPojo)
+                );
             }
-            validate(inventoryReportDataList);
-            return (T) getPage(inventoryReportDataList, page, size);
         }
+        validate(inventoryReportDataList);
+        return getPage(inventoryReportDataList, page, size);
+
     }
-    private <T> T getPage(List<InventoryReportData> inventoryReportDataList, Integer page, Integer size){
+    private Object getPage(List<InventoryReportData> inventoryReportDataList, Integer page, Integer size){
         List<InventoryReportData> inventoryReportDataList1 = new ArrayList<>();
         Long totalElements = (long) inventoryReportDataList.size();
         Integer start = page*size;
@@ -199,7 +196,7 @@ public class ReportsDto {
         for(int i=start; i <= end && i < inventoryReportDataList.size(); i++){
             inventoryReportDataList1.add(inventoryReportDataList.get(i));
         }
-        return (T) new PageImpl<>(inventoryReportDataList1, PageRequest.of(page, size), inventoryReportDataList.size());
+        return new PageImpl<>(inventoryReportDataList1, PageRequest.of(page, size), inventoryReportDataList.size());
     }
 
     private void validate(List<InventoryReportData> list) throws ApiException {
@@ -208,7 +205,7 @@ public class ReportsDto {
         }
     }
 
-    public <T> T getSalesReport(SalesReportForm salesReportForm, Integer page, Integer size) throws ApiException {
+    public Object getSalesReport(SalesReportForm salesReportForm, Integer page, Integer size) throws ApiException {
        validate(salesReportForm);
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
         ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);
@@ -268,7 +265,7 @@ public class ReportsDto {
         }
 
         if(page == null && size == null){
-            return (T) salesReportData;
+            return salesReportData;
         }
         SalesReportData salesReportDataPage = new SalesReportData();
         salesReportDataPage.setStartDate(salesReportData.getStartDate());
@@ -282,7 +279,7 @@ public class ReportsDto {
             salesReportDataPage.getTotalAmounts().add(salesReportData.getTotalAmounts().get(i));
         }
         salesReportDataPage.setTotalElements((long) salesReportData.getBrands().size());
-        return (T) salesReportDataPage;
+        return salesReportDataPage;
     }
 
     private void setSortedMap1(SortedMap<String, Double> sm, OrderItemPojo orderItemPojo, String brand, String category){

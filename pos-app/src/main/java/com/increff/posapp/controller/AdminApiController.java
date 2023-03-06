@@ -36,8 +36,8 @@ public class AdminApiController {
 	@ApiOperation(value = "Adds a user")
 	@RequestMapping(path = "/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
-		Validator.isEmailValid(form.getEmail());
-		Validator.isPasswordValid(form.getPassword());
+		Validator.validateEmail(form.getEmail());
+		Validator.validatePassword(form.getPassword());
 		String[] emailArray = emails.split(",");
 		Set<String> emailSet = new HashSet<>(Arrays.asList(emailArray));
 		UserPojo p = convert(form);
@@ -74,16 +74,16 @@ public class AdminApiController {
 	@ApiOperation(value = "Deletes a user")
 	@RequestMapping(path = "/user/{id}", method = RequestMethod.PUT)
 	public void updateUser(@PathVariable int id, @RequestBody UserEditForm form) throws ApiException {
-		Validator.isEmailValid(form.getEmail());
+		Validator.validateEmail(form.getEmail());
 		form.setEmail(StringUtil.toLowerCase(form.getEmail()));
 		Validator.validate("Role", form.getRole());
-		Validator.isRoleValid(form.getRole());
+		Validator.validateRole(form.getRole());
 		form.setRole(StringUtil.toLowerCase(form.getRole()));
 		UserPojo pojo = service.get(id);
 		pojo.setEmail(form.getEmail());
 		pojo.setRole(form.getRole());
 		if(!StringUtil.isEmpty(form.getPassword())){
-			Validator.isPasswordValid(form.getPassword());
+			Validator.validatePassword(form.getPassword());
 		}
 		pojo.setPassword(form.getPassword());
 		service.update(id, pojo);

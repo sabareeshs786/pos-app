@@ -20,7 +20,7 @@ public class ReportsController {
     private static final Logger logger = Logger.getLogger(ReportsController.class);
     @ApiOperation(value = "Used to get the brand report")
     @RequestMapping(path = "/brand-report", method = RequestMethod.GET)
-    public <T> T getBrandReport(
+    public Object getBrandReport(
            @RequestParam(required = false) String brand,
            @RequestParam(required = false) String category,
             @RequestParam(name = "page-number", required = false) Integer page,
@@ -31,7 +31,7 @@ public class ReportsController {
 
     @ApiOperation(value = "Used to get the brand report")
     @RequestMapping(path = "/inventory-report", method = RequestMethod.GET)
-    public <T> T getInventoryReport(
+    public Object getInventoryReport(
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String category,
             @RequestParam(name = "page-number") Integer page,
@@ -42,7 +42,7 @@ public class ReportsController {
 
     @ApiOperation(value = "Used to get the brand report")
     @RequestMapping(path = "/sales-report", method = RequestMethod.POST)
-    public <T> T getSalesReport(
+    public Object getSalesReport(
             @RequestBody SalesReportForm salesReportForm,
             @RequestParam(name = "page-number") Integer page,
             @RequestParam(name = "page-size") Integer size
