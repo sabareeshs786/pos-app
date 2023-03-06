@@ -45,6 +45,7 @@ public class OrderDto {
 		return addItems(orderPojo, form);
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
 	private List<OrderItemData> addItems(OrderPojo orderPojo, OrderForm form) throws ApiException {
 		List<OrderItemData> list = new ArrayList<>();
 		Integer len = form.getBarcodes().size();
@@ -207,7 +208,7 @@ public class OrderDto {
 
 	// Edit order item
 
-
+	@Transactional(rollbackOn = ApiException.class)
 	public OrderItemPojo update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException {
 		Validator.validate(orderItemEditForm);
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
@@ -222,6 +223,7 @@ public class OrderDto {
 	}
 
 	// Updating methods
+	@Transactional(rollbackOn = ApiException.class)
 	private void updateInventory(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		Integer initialQuantity = orderItemPojo.getQuantity();
 		Integer finalQuantity = orderItemEditForm.getQuantity();
@@ -245,9 +247,11 @@ public class OrderDto {
 		}
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
 	private void updateSellingPrice(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		orderItemPojo.setSellingPrice(orderItemEditForm.getSellingPrice());
 	}
+	@Transactional(rollbackOn = ApiException.class)
 	private void updateOrderPojo(OrderItemPojo orderItemPojo) throws ApiException {
 		OrderPojo orderPojo = orderService.getById(orderItemPojo.getOrderId());
 		orderPojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
@@ -256,6 +260,7 @@ public class OrderDto {
 
 
 	// Validating methods
+	@Transactional(rollbackOn = ApiException.class)
 	private void checkInventory(OrderItemEditForm orderItemEditForm, OrderItemPojo orderItemPojo) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
 		InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
@@ -267,6 +272,7 @@ public class OrderDto {
 	}
 
 	// Validation
+	@Transactional(rollbackOn = ApiException.class)
 	private void isSellingPriceValid(OrderItemEditForm orderItemEditForm) throws ApiException {
 		ProductPojo productPojo = productService.getByBarcode(orderItemEditForm.getBarcode());
 		Double mrp = productPojo.getMrp();
@@ -276,6 +282,7 @@ public class OrderDto {
 		}
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
 	public List<OrderItemData> addNewItems(Integer orderId, OrderForm form) throws ApiException {
 		OrderPojo orderPojo = orderService.getById(orderId);
 		List<OrderItemData> list = addItems(orderPojo, form);
@@ -285,14 +292,19 @@ public class OrderDto {
 		return list;
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
 	private void isInvoiced(OrderPojo pojo) throws ApiException {
 		if(pojo.getOrderStatus().equals(OrderStatus.INVOICED)){
 			throw new ApiException("Invoiced orders can't be edited");
 		}
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
 	public void deleteOrderItem(Integer id) throws ApiException {
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
+		if(orderItemService.getByOrderId(orderItemPojo.getOrderId()).size() == 1){
+			throw new ApiException("All order items can't be deleted");
+		}
 		InventoryPojo inventoryPojo = inventoryService.get(orderItemPojo.getProductId());
 		inventoryPojo.setQuantity(inventoryPojo.getQuantity() + orderItemPojo.getQuantity());
 		inventoryService.update(inventoryPojo);

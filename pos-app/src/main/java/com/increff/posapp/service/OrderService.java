@@ -51,6 +51,11 @@ public class OrderService {
 		return ex;
 	}
 
+	public Integer deleteById(Integer id) throws ApiException {
+		getCheckById(id);
+		return orderDao.delete(id);
+	}
+
 	private OrderPojo getCheckById(Integer id) throws ApiException {
 		OrderPojo p = orderDao.selectById(id);
 		if (p == null) {
