@@ -7,19 +7,12 @@
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dao/OrderItemDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dao/OrderItemDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/InventoryDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/OrderDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ProductDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/OrderItemEditForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/model/OrderItemEditForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/InventoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orderitems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/BrandDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/BrandDtoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/InventoryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/InventoryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/OrderDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/OrderDtoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportDtoSalesReportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportDtoSalesReportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,56 +71,8 @@
       <recent name="com.increff.posapp.util" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BrandDtoTest.testGetById">
-    <configuration name="BrandDtoTest.testGetById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pos-app" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.increff.posapp.dto.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.BrandDtoTest" />
-      <option name="METHOD_NAME" value="testGetById" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BrandDtoTest.testGetInPage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pos-app" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.increff.posapp.dto.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.BrandDtoTest" />
-      <option name="METHOD_NAME" value="testGetInPage" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InventoryDtoTest.testGetDataProductIdNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pos-app" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.increff.posapp.dto.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.InventoryDtoTest" />
-      <option name="METHOD_NAME" value="testGetDataProductIdNull" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrderDtoTest.testGetByOrderId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.ReportDtoSalesReportTest.testGetSalesReport">
+    <configuration name="OrderDtoTest.testAddNewItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="pos-app" />
       <extension name="coverage">
         <pattern>
@@ -137,13 +82,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
       <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.OrderDtoTest" />
-      <option name="METHOD_NAME" value="testGetByOrderId" />
+      <option name="METHOD_NAME" value="testAddNewItems" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductDtoTest.testGetDataIdNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OrderDtoTest.testAddNewItemsAddExisting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="pos-app" />
       <extension name="coverage">
         <pattern>
@@ -152,8 +97,56 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.ProductDtoTest" />
-      <option name="METHOD_NAME" value="testGetDataIdNull" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.OrderDtoTest" />
+      <option name="METHOD_NAME" value="testAddNewItemsAddExisting" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderDtoTest.testDeleteOrderItemInvalidId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pos-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.posapp.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.OrderDtoTest" />
+      <option name="METHOD_NAME" value="testDeleteOrderItemInvalidId" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderDtoTest.testUpdateInvoiced" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pos-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.posapp.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.OrderDtoTest" />
+      <option name="METHOD_NAME" value="testUpdateInvoiced" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReportDtoSalesReportTest.testGetSalesReport" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pos-app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.posapp.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.posapp.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.posapp.dto.ReportDtoSalesReportTest" />
+      <option name="METHOD_NAME" value="testGetSalesReport" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -161,11 +154,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ProductDtoTest.testGetDataIdNull" />
-        <item itemvalue="JUnit.OrderDtoTest.testGetByOrderId" />
-        <item itemvalue="JUnit.InventoryDtoTest.testGetDataProductIdNull" />
-        <item itemvalue="JUnit.BrandDtoTest.testGetInPage" />
-        <item itemvalue="JUnit.BrandDtoTest.testGetById" />
+        <item itemvalue="JUnit.ReportDtoSalesReportTest.testGetSalesReport" />
+        <item itemvalue="JUnit.OrderDtoTest.testDeleteOrderItemInvalidId" />
+        <item itemvalue="JUnit.OrderDtoTest.testAddNewItems" />
+        <item itemvalue="JUnit.OrderDtoTest.testAddNewItemsAddExisting" />
+        <item itemvalue="JUnit.OrderDtoTest.testUpdateInvoiced" />
       </list>
     </recent_temporary>
   </component>
@@ -201,6 +194,9 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pos$PosDaySalesDtoTest_testUpdateScheduler.ic" NAME="PosDaySalesDtoTest.testUpdateScheduler Coverage Results" MODIFIED="1676887479387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.posapp.dto.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/pos$ReportDtoSalesReportTest_testGetSalesReport.ic" NAME="ReportDtoSalesReportTest.testGetSalesReport Coverage Results" MODIFIED="1677849767794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.posapp.dto.*</FILTER>
     </SUITE>
   </component>

@@ -68,7 +68,11 @@ public class OrderDto {
 			if(itemPojo != null){
 				itemPojo.setQuantity(itemPojo.getQuantity() + form.getQuantities().get(i));
 				itemPojo.setSellingPrice(form.getSellingPrices().get(i));
-				orderItemService.updateById(itemPojo.getId(), itemPojo);
+				list.add(Converter.convertToOrderItemData(
+						orderItemService.updateById(
+								itemPojo.getId(), itemPojo
+						),
+						productPojo));
 				continue;
 			}
 
@@ -204,7 +208,7 @@ public class OrderDto {
 	// Edit order item
 
 
-	public void update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
+	public OrderItemPojo update(Integer id, OrderItemEditForm orderItemEditForm) throws ApiException {
 		Validator.validate(orderItemEditForm);
 		OrderItemPojo orderItemPojo = orderItemService.getById(id);
 		isInvoiced(orderService.getById(orderItemPojo.getOrderId()));
@@ -212,8 +216,9 @@ public class OrderDto {
 		isSellingPriceValid(orderItemEditForm);
 		updateInventory(orderItemEditForm, orderItemPojo);
 		updateSellingPrice(orderItemEditForm, orderItemPojo);
-		orderItemService.updateById(id, orderItemPojo);
+		OrderItemPojo pojo = orderItemService.updateById(id, orderItemPojo);
 		updateOrderPojo(orderItemPojo);
+		return pojo;
 	}
 
 	// Updating methods
@@ -232,9 +237,6 @@ public class OrderDto {
 		else if(finalQuantity > initialQuantity){
 			Integer additionalQuantityRequired = finalQuantity - initialQuantity;
 			Integer quantityPresent = inventoryPojo.getQuantity();
-			if(quantityPresent < additionalQuantityRequired){
-				throw new ApiException("Required additional quantity is not present");
-			}
 			inventoryPojo.setQuantity(inventoryPojo.getQuantity() + (initialQuantity - finalQuantity));
 			inventoryService.update(inventoryPojo);
 			orderItemPojo.setQuantity(orderItemEditForm.getQuantity());
@@ -274,12 +276,13 @@ public class OrderDto {
 		}
 	}
 
-	public void addNewItems(Integer id, OrderForm form) throws ApiException {
-		OrderPojo orderPojo = orderService.getById(id);
-		addItems(orderPojo, form);
+	public List<OrderItemData> addNewItems(Integer orderId, OrderForm form) throws ApiException {
+		OrderPojo orderPojo = orderService.getById(orderId);
+		List<OrderItemData> list = addItems(orderPojo, form);
 		orderPojo.setOrderStatus(OrderStatus.NOT_INVOICED);
 		orderPojo.setTime(DateTimeUtil.getZonedDateTime("Asia/Kolkata"));
-		orderService.updateById(id, orderPojo);
+		orderService.updateById(orderId, orderPojo);
+		return list;
 	}
 
 	private void isInvoiced(OrderPojo pojo) throws ApiException {

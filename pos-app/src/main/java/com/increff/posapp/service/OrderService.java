@@ -54,7 +54,7 @@ public class OrderService {
 	private OrderPojo getCheckById(Integer id) throws ApiException {
 		OrderPojo p = orderDao.selectById(id);
 		if (p == null) {
-			throw new ApiException("Brand Category combination with given ID does not exit, id: " + id);
+			throw new ApiException("Order with the given id doesn't exist");
 		}
 		return p;
 	}

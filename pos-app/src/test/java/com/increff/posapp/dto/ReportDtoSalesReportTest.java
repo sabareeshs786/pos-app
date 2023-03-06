@@ -76,7 +76,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
             list.add(orderPojo1.getId());
             for (int j = s; j <= e; j++) {
                 OrderItemPojo pojo = new OrderItemPojo();
-                pojo.setOrderId(orderPojo.getId());
+                pojo.setOrderId(orderPojo1.getId());
                 pojo.setProductId(productDao.selectByBarcode("barcode" + j).getId());
                 pojo.setQuantity(2);
                 pojo.setSellingPrice(98.01);
@@ -86,9 +86,18 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         return list;
     }
 
+    private void invoiceOrders(List<Integer> orderIds){
+        for(Integer id: orderIds){
+            OrderPojo pojo = orderDao.selectById(id);
+            pojo.setOrderStatus(OrderStatus.INVOICED);
+            orderDao.update(pojo);
+        }
+    }
+
     @Test
-    public void testGetDataValid() throws ApiException {
-        createOrders(1,2);
+    public void testGetSalesReport() throws ApiException {
+        List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -106,13 +115,16 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
                                         .ofPattern("dd/MM/yyyy")),
                 data.getStartDate()
         );
-        assertEquals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), data.getEndDate());
+        assertEquals(LocalDate
+                .now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), data.getEndDate());
 //        assertEquals("784.08", data.getTotalRevenue());
     }
 
     @Test
     public void testGetDataBrand() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -136,6 +148,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     @Test
     public void testGetDataBrandInvalid() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -158,6 +171,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     @Test
     public void testGetDataCategory() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -179,6 +193,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     @Test
     public void testGetDataCategoryInvalid() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -201,6 +216,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     @Test
     public void testGetDataBrandCategory() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -223,6 +239,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     @Test
     public void testGetDataBrandCategoryInvalid() throws ApiException {
         List<Integer> orderIds = createOrders(1,2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusDays(10L));
         form.setEndDate(LocalDateTime.now());
@@ -242,7 +259,8 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
     }
     @Test(expected = ApiException.class)
     public void testGetDataStartDateInvalid() throws ApiException {
-        createOrders(1, 2);
+        List<Integer> orderIds = createOrders(1, 2);
+        invoiceOrders(orderIds);
         SalesReportForm form = new SalesReportForm();
         form.setStartDate(LocalDateTime.now().minusYears(10L));
         form.setEndDate(LocalDateTime.now().plusMinutes(10L));

@@ -1,10 +1,7 @@
 package com.increff.posapp.dto;
 
 import com.increff.posapp.dao.*;
-import com.increff.posapp.model.OrderData;
-import com.increff.posapp.model.OrderForm;
-import com.increff.posapp.model.OrderItemData;
-import com.increff.posapp.model.OrderItemEditForm;
+import com.increff.posapp.model.*;
 import com.increff.posapp.pojo.*;
 import com.increff.posapp.service.AbstractUnitTest;
 import com.increff.posapp.service.ApiException;
@@ -119,7 +116,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         OrderItemPojo orderItemPojo1 = new OrderItemPojo();
         orderItemPojo1.setOrderId(orderPojo.getId());
         orderItemPojo1.setProductId(inventoryPojo1.getProductId());
-        orderItemPojo1.setQuantity(2);
+        orderItemPojo1.setQuantity(5);
         orderItemPojo1.setSellingPrice(120.68);
         list.add((OrderItemPojo) orderItemDao.insert(orderItemPojo1));
 
@@ -292,6 +289,276 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals("product1", data.getProductName());
         assertEquals(list1.get(0).getQuantity(), data.getQuantity());
         assertEquals(list1.get(0).getSellingPrice().toString(), data.getSellingPrice());
+    }
+
+    // Test edit orders
+    @Test
+    public void testUpdateOrder() throws ApiException, IllegalAccessException {
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        assertEquals(list1.get(0).getId(), pojo.getId());
+        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
+        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("7", pojo.getQuantity().toString());
+        assertEquals("110.89", pojo.getSellingPrice().toString());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateOrderIdInvalid() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId() + 12345);
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+       orderDto.update(list1.get(0).getId() + 12345, editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateOrderIdNull() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(null);
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(null, editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateOrderIdBarcodeNull() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode(null);
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateOrderIdBarcodeInvalid() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode1../23");
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateQuantityNull() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(null);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+    @Test(expected = ApiException.class)
+    public void testUpdateQuantityNegative() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(-70);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateQuantityZero() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(0);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateQuantityGreaterThanAvailable() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(7000);
+        editForm.setSellingPrice(110.89);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test
+    public void testUpdateQuantityLessThanPrevious() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(110.89);
+        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        assertEquals(list1.get(0).getId(), pojo.getId());
+        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
+        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("1", pojo.getQuantity().toString());
+        assertEquals("110.89", pojo.getSellingPrice().toString());
+    }
+
+    @Test
+    public void testUpdateQuantityGreaterThanPrevious() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(7);
+        editForm.setSellingPrice(110.89);
+        OrderItemPojo pojo = orderDto.update(list1.get(0).getId(), editForm);
+        assertEquals(list1.get(0).getId(), pojo.getId());
+        assertEquals(list1.get(0).getOrderId(), pojo.getOrderId());
+        assertEquals(list1.get(0).getProductId(), pojo.getProductId());
+        assertEquals("7", pojo.getQuantity().toString());
+        assertEquals("110.89", pojo.getSellingPrice().toString());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceNull() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(null);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceGreaterThanMrp() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(10000000.90);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceZero() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(0.0);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceNegative() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(-90.98);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceNan() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(Double.NaN);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPricePositiveInfinity() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(Double.POSITIVE_INFINITY);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateSellingPriceNegativeInfinity() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(Double.NEGATIVE_INFINITY);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateInvoiced() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderPojo orderPojo = orderDao.selectById(list1.get(0).getOrderId());
+        orderPojo.setOrderStatus(OrderStatus.INVOICED);
+        orderDao.update(orderPojo);
+        OrderItemEditForm editForm = new OrderItemEditForm();
+        editForm.setId(list1.get(0).getId());
+        editForm.setBarcode("barcode123");
+        editForm.setQuantity(1);
+        editForm.setSellingPrice(Double.NEGATIVE_INFINITY);
+        orderDto.update(list1.get(0).getId(), editForm);
+    }
+
+    @Test
+    public void testAddNewItems() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderForm form = new OrderForm();
+        addInventory3();
+        form.getBarcodes().add("barcode12345");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(12.56);
+        List<OrderItemData> list = orderDto.addNewItems(list1.get(0).getOrderId(), form);
+        assertTrue(list.size() > 0);
+        assertEquals(list1.get(0).getOrderId(), list.get(0).getOrderId());
+        assertEquals("2", list.get(0).getQuantity().toString());
+        assertEquals("12.56", list.get(0).getSellingPrice().toString());
+        assertEquals("product3", list.get(0).getProductName());
+    }
+
+    @Test
+    public void testAddNewItemsAddExisting() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        OrderForm form = new OrderForm();
+        form.getBarcodes().add("barcode1234");
+        form.getQuantities().add(2);
+        form.getSellingPrices().add(10.78);
+        List<OrderItemData> list = orderDto.addNewItems(list1.get(0).getOrderId(), form);
+        assertTrue(list.size() > 0);
+        assertEquals(list1.get(0).getOrderId(), list.get(0).getOrderId());
+        assertEquals("4", list.get(0).getQuantity().toString());
+        assertEquals("10.78", list.get(0).getSellingPrice().toString());
+        assertEquals("product2", list.get(0).getProductName());
+    }
+
+    @Test
+    public void testDeleteOrderItem() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        orderDto.deleteOrderItem(list1.get(0).getId());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testDeleteOrderItemInvalidId() throws ApiException{
+        List<OrderItemPojo> list1 = addOrderItems();
+        orderDto.deleteOrderItem(list1.get(0).getId()+67890);
     }
 
 }

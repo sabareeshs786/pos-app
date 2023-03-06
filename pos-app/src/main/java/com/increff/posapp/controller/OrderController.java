@@ -5,6 +5,7 @@ import com.increff.posapp.model.OrderData;
 import com.increff.posapp.model.OrderForm;
 import com.increff.posapp.model.OrderItemData;
 import com.increff.posapp.model.OrderItemEditForm;
+import com.increff.posapp.pojo.OrderItemPojo;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,14 +78,14 @@ public class OrderController {
 
 	@ApiOperation(value = "Edits an order item by id")
 	@RequestMapping(path = "/api/order-items/edit/{id}", method = RequestMethod.PUT)
-	public void updateExistingOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException, IllegalAccessException {
+	public void updateExistingOrderItem(@PathVariable Integer id, @RequestBody OrderItemEditForm orderItemEditForm) throws ApiException {
 		orderDto.update(id, orderItemEditForm);
 	}
 
 	@ApiOperation(value = "Edits an order item by id")
-	@RequestMapping(path = "/api/order-items/add/{id}", method = RequestMethod.PUT)
-	public void addNewOrderItems(@PathVariable Integer id, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
-		orderDto.addNewItems(id, form);
+	@RequestMapping(path = "/api/order-items/add/{orderId}", method = RequestMethod.PUT)
+	public void addNewOrderItems(@PathVariable Integer orderId, @RequestBody OrderForm form) throws ApiException, IllegalAccessException {
+		orderDto.addNewItems(orderId, form);
 	}
 
 	@ApiOperation(value = "Edits an order item by id")
