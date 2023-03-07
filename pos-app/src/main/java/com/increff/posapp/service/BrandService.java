@@ -79,14 +79,14 @@ public class BrandService {
 	public Long getTotalElements(){
 		return dao.getTotalElements(BrandPojo.class);
 	}
-	public BrandData update(int id, BrandPojo p) throws ApiException {
+	public BrandPojo update(int id, BrandPojo p) throws ApiException {
 		normalize(p);
 		validate(p);
 		BrandPojo ex = getCheckById(id);
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
 		dao.update(ex);
-		return Converter.convertToBrandData(ex);
+		return ex;
 	}
 
 
