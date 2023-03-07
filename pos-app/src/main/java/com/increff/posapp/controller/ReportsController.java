@@ -3,6 +3,7 @@ package com.increff.posapp.controller;
 import com.increff.posapp.dto.ReportsDto;
 import com.increff.posapp.model.BrandData;
 import com.increff.posapp.model.InventoryReportData;
+import com.increff.posapp.model.SalesReportData;
 import com.increff.posapp.model.SalesReportForm;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
@@ -45,7 +46,7 @@ public class ReportsController {
 
     @ApiOperation(value = "Used to get the brand report")
     @RequestMapping(path = "/sales-report", method = RequestMethod.POST)
-    public Object getSalesReport(
+    public SalesReportData getSalesReport(
             @RequestBody SalesReportForm salesReportForm,
             @RequestParam(name = "page-number") Integer page,
             @RequestParam(name = "page-size") Integer size
