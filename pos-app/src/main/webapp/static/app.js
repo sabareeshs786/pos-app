@@ -134,21 +134,10 @@ function writeFileData(arr){
     tempLink.click(); 
 }
 
-function prohibtedInputDetected(){
-    $.notify("This key's input is prohibited in this field", {
-        position: "bottom right",
-        autoHideDelay: 5000,
-        horizontalAlign: "right",
-        zIndex: 9999999,
-        className: "error"
-    })
-}
-
 function onlyNonNegativeInt() {
     $('input[type="number"]').keypress(function(event) {
       var keycode = (event.keyCode ? event.keyCode : event.which);
       if (!(keycode >= 48 && keycode <= 57)) {
-        prohibtedInputDetected();
         event.preventDefault();
       }
     });
@@ -163,13 +152,6 @@ function noOfCharLimiter(){
         var str = $(this).val();
         var isAlNum = isAlphaNumeric(str);
         if (len >= 20 && isAlNum) {
-            $.notify('Number of characters is restricted to 20', {
-                position: "bottom right",
-                autoHideDelay: 3000,
-                horizontalAlign: "right",
-                zIndex: 100000,
-                className: "success"
-             });
             event.preventDefault();
         }
       });
@@ -186,7 +168,6 @@ function decimalNumber(){
     $('.decimal-number').keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
     if (!(keycode >= 48 && keycode <= 57) && (keycode != 46 || $(this).val().indexOf('.') != -1) && keycode != 8) {
-        prohibtedInputDetected();
         event.preventDefault();
     }
     });
