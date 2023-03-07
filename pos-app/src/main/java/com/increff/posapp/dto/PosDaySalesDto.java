@@ -12,6 +12,7 @@ import com.increff.posapp.util.Converter;
 import com.increff.posapp.util.DoubleUtil;
 import com.increff.posapp.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -58,12 +59,7 @@ public class PosDaySalesDto {
 		posDaySalesService.add(pojo);
 	}
 
-	public List<PosDaySalesData> getAll(){
-		List<PosDaySalesPojo> pojos = posDaySalesService.getAll();
-		return Converter.convertToPosDaySalesDataList(pojos);
-	}
-
-	public Object getData(PosDaySalesForm form, Integer page, Integer size) throws ApiException {
+	public Page<PosDaySalesData> getData(PosDaySalesForm form, Integer page, Integer size) throws ApiException {
 		Validator.validate(form);
 		validate(form);
 		ZoneId zoneId = ZoneId.of("Asia/Kolkata");
@@ -73,11 +69,18 @@ public class PosDaySalesDto {
 		if(page == null & size == null){
 			List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
 					zonedDateTimeEnd);
-			return Converter.convertToPosDaySalesDataList(pojos);
+			if(pojos.size() == 0){
+				throw new ApiException("Nothing to show");
+			}
+			List<PosDaySalesData> list = Converter.convertToPosDaySalesDataList(pojos);
+			return new PageImpl<>(list, PageRequest.of(0, list.size()), list.size());
 		}
 		if (page != null && size != null){
 			List<PosDaySalesPojo> pojos = posDaySalesService.getByInterval(zonedDateTimeStart,
 					zonedDateTimeEnd, page, size);
+			if(pojos.size() == 0){
+				throw new ApiException("Nothing to show");
+			}
 			List<PosDaySalesData> list = Converter.convertToPosDaySalesDataList(pojos);
 			return new PageImpl<>(list, PageRequest.of(page, size), posDaySalesService.getByIntervalTotalElements(zonedDateTimeStart, zonedDateTimeEnd));
 		}

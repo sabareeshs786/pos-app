@@ -1,12 +1,14 @@
 package com.increff.posapp.controller;
 
 import com.increff.posapp.dto.PosDaySalesDto;
+import com.increff.posapp.model.PosDaySalesData;
 import com.increff.posapp.model.PosDaySalesForm;
 import com.increff.posapp.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @Api
@@ -20,7 +22,7 @@ public class PosDaySalesController {
 
 	@ApiOperation(value = "Gets the daily sales report between specified dates")
 	@RequestMapping(path = "/daily-sales-report", method = RequestMethod.POST)
-	public Object getDataByDate(
+	public Page<PosDaySalesData> getDataByDate(
 			@RequestBody PosDaySalesForm form,
 			@RequestParam(name = "page-number") Integer page,
 			@RequestParam(name = "page-size") Integer size) throws ApiException{

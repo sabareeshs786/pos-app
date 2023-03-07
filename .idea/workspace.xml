@@ -6,9 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="f8633ae8-7e5c-4e08-9e51-9259ac0a469d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/PosDaySalesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/PosDaySalesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ReportsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/controller/ReportsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/PosDaySalesDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/PosDaySalesDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ReportsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/java/com/increff/posapp/dto/ReportsDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/resources/com/increff/posapp/invoice.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/service/OrderServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brandreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/brandreport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/dailysalesreport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventoryreport.js" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/main/webapp/static/inventoryreport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/PosDaySalesDtoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/PosDaySalesDtoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportDtoSalesReportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportDtoSalesReportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportsDtoBrandReportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportsDtoBrandReportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportsDtoInventoryReportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/pos-app/src/test/java/com/increff/posapp/dto/ReportsDtoInventoryReportTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

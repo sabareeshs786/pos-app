@@ -32,7 +32,7 @@ public class ReportsDto {
     @Autowired
     private OrderItemService orderItemService;
 
-    public Object getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
+    public Page<BrandData> getBrandReport(String brand, String category, Integer page, Integer size) throws ApiException {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
         if(page == null && size == null){
@@ -50,7 +50,7 @@ public class ReportsDto {
                 pojos = brandService.getByBrand(brand);
             }
             List<BrandData> list = Converter.convertToBrandDataList(pojos);
-            return list;
+            return new PageImpl<>(list, PageRequest.of(0, list.size()), list.size());
         }
         if(page == null){
             throw new ApiException("Page can't be empty");
@@ -87,7 +87,7 @@ public class ReportsDto {
                 totalElements);
     }
 
-    public Object getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
+    public Page<InventoryReportData> getInventoryReport(String brand, String category, Integer page, Integer size) throws ApiException {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
         List<InventoryReportData> inventoryReportDataList = new ArrayList<>();
@@ -131,7 +131,9 @@ public class ReportsDto {
                 }
                 validate(inventoryReportDataList);
             }
-            return inventoryReportDataList;
+            return new PageImpl<>(inventoryReportDataList,
+                    PageRequest.of(0, inventoryReportDataList.size()),
+                    inventoryReportDataList.size());
         }
         if(page == null){
             throw new ApiException("Page can't be empty");
@@ -188,7 +190,7 @@ public class ReportsDto {
         return getPage(inventoryReportDataList, page, size);
 
     }
-    private Object getPage(List<InventoryReportData> inventoryReportDataList, Integer page, Integer size){
+    private Page<InventoryReportData> getPage(List<InventoryReportData> inventoryReportDataList, Integer page, Integer size){
         List<InventoryReportData> inventoryReportDataList1 = new ArrayList<>();
         Long totalElements = (long) inventoryReportDataList.size();
         Integer start = page*size;
@@ -205,8 +207,8 @@ public class ReportsDto {
         }
     }
 
-    public Object getSalesReport(SalesReportForm salesReportForm, Integer page, Integer size) throws ApiException {
-       validate(salesReportForm);
+    public SalesReportData getSalesReport(SalesReportForm salesReportForm, Integer page, Integer size) throws ApiException {
+        validate(salesReportForm);
         ZoneId zoneId = ZoneId.of("Asia/Kolkata");
         ZonedDateTime zonedDateTimeStart = ZonedDateTime.of(salesReportForm.getStartDate(), zoneId);
         ZonedDateTime zonedDateTimeEnd = ZonedDateTime.of(salesReportForm.getEndDate(), zoneId);

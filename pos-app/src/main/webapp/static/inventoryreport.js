@@ -41,8 +41,13 @@ function getInventoryList(brand, category, pageNumber, pageSize){
 			}
 	   },
 	   error: function(response){
+			displayInventoryList([], 0);
+			$('#selected-rows').html("Nothing to show");
 			downloadContent = [{'sno': '\0', 'productID': '\0', 'barcode':'\0', 'productName':'\0', 'brand':'\0', 'category': '\0', 'quantity': '\0'}];
-	   }
+			if($('#filter-modal').hasClass('show')){
+				$('#filter-modal').modal('toggle');
+			}
+		}
 	});
 	return false;
 }
@@ -124,7 +129,8 @@ function downloadReport(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-		data = rearrange(data);
+		console.log(data);
+		data = rearrange(data.content);
 		downloadContent.sort(function(a, b){
 			return a.productId - b.productId;
 		})

@@ -103,7 +103,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("");
         form.setCategory("");
-        SalesReportData data = (SalesReportData) reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
 
         assertEquals(
                 LocalDateTime
@@ -130,7 +130,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("brand1");
         form.setCategory("");
-        SalesReportData data = (SalesReportData) reportsDto.getSalesReport(form,0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form,0, 5);
         assertEquals(
                 LocalDateTime
                         .now()
@@ -154,7 +154,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("brand3");
         form.setCategory("");
-        SalesReportData data = (SalesReportData)reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
         assertEquals(
                 LocalDateTime
                         .now()
@@ -177,7 +177,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("");
         form.setCategory("category1");
-        SalesReportData data = (SalesReportData)reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
         assertEquals(
                 LocalDateTime
                         .now()
@@ -199,7 +199,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("");
         form.setCategory("category3");
-        SalesReportData data = (SalesReportData)reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
         assertEquals(
                 LocalDateTime
                         .now()
@@ -222,7 +222,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("brand1");
         form.setCategory("category1");
-        SalesReportData data = (SalesReportData)reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
         assertEquals(
                 LocalDateTime
                         .now()
@@ -245,7 +245,7 @@ public class ReportDtoSalesReportTest extends AbstractUnitTest {
         form.setEndDate(LocalDateTime.now());
         form.setBrand("brand3");
         form.setCategory("category3");
-        SalesReportData data = (SalesReportData)reportsDto.getSalesReport(form, 0, 5);
+        SalesReportData data = reportsDto.getSalesReport(form, 0, 5);
         assertEquals(
                 LocalDateTime
                         .now()

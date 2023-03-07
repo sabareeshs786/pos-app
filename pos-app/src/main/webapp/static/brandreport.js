@@ -26,7 +26,6 @@ function getBrandList(brand, category, pageNumber, pageSize){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-			console.log(data);
 	   		displayBrandList(data.content,pageNumber*pageSize);
 			$('#selected-rows').html('Showing ' + (pageNumber*pageSize + 1) + ' to ' + (pageNumber*pageSize + data.content.length) + ' of ' + data.totalElements);
 			paginatorForReport(data, "getBrandList", brand, category, pageSize);
@@ -115,7 +114,8 @@ function downloadReport(){
 	   dataType : 'json',
 	   contentType : 'application/json',
 	   success: function(data) {
-		downloadContent = rearrange(data);
+		console.log(data);
+		downloadContent = rearrange(data.content);
 		writeBrandReportFileData(downloadContent);
 	   },
 	   error: function(response){

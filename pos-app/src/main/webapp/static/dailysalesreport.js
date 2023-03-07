@@ -20,11 +20,12 @@ function getDailySalesReportList() {
 		dataType: 'json',
 		contentType: 'application/json',
 		success: function (data) {
-			downloadContent = data;
+			downloadContent = data.content;
 			writeReportData(addSno());
 		},
 		error: function(response){
-			downloadContent = [];
+			downloadContent = [{'sno':'\0', 'date': '\0', 'invoicedOrdersCount': '\0', 'invoicedItemsCount': '\0', 'totalRevenue': '\0'}];
+			writeReportData(addSno());
 		}
 	});
 	return false;
@@ -182,17 +183,21 @@ function addSno(){
 	if(downloadContent == null){
 		return null;
 	}
-		var downloadContentEdited = [];
-		for(var i=0; i < downloadContent.length; i++){
-			var editedObj = {};
-			editedObj.sno = i+1;
-			editedObj.date = downloadContent[i].date;
-			editedObj.invoicedOrdersCount = downloadContent[i].invoicedOrdersCount;
-			editedObj.invoicedItemsCount = downloadContent[i].invoicedItemsCount;
-			editedObj.totalRevenue = parseFloat(downloadContent[i].totalRevenue).toFixed(2);
-			downloadContentEdited.push(editedObj);
+	var downloadContentEdited = [];
+	for(var i=0; i < downloadContent.length; i++){
+		var editedObj = {};
+		editedObj.sno = i+1;
+		editedObj.date = downloadContent[i].date;
+		editedObj.invoicedOrdersCount = downloadContent[i].invoicedOrdersCount;
+		editedObj.invoicedItemsCount = downloadContent[i].invoicedItemsCount;
+		editedObj.totalRevenue = parseFloat(downloadContent[i].totalRevenue).toFixed(2);
+		if(downloadContent[i].sno == '\0'){
+			editedObj.sno = '\0';
+			editedObj.totalRevenue = '\0';
 		}
-		return downloadContentEdited;
+		downloadContentEdited.push(editedObj);
+	}
+	return downloadContentEdited;
 }
 
 function downloadReport() {

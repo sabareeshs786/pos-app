@@ -161,17 +161,6 @@ public class PosDaySalesDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAll() throws InterruptedException, ApiException {
-        invoiceOrders(createOrdersYesterday(1,2));
-        Thread.sleep(1000);
-        posDaySalesDto.updatePosDaySalesTable();
-        invoiceOrders(createOrdersYesterdayAnother(1,2));
-        Thread.sleep(1200);
-        posDaySalesDto.updatePosDaySalesTable();
-        posDaySalesDto.getAll();
-    }
-
-    @Test
     public void testGetData() throws ApiException, InterruptedException, IllegalAccessException {
         invoiceOrders(createOrdersYesterday(1,2));
         Thread.sleep(1000);

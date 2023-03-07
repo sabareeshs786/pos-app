@@ -38,7 +38,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = (List<BrandData>) reportsDto.getBrandReport("", "", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("", "", null, null).getContent();
         assertEquals(3, list.size());
     }
 
@@ -47,7 +47,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = (List<BrandData>) reportsDto.getBrandReport("", "", null, 9);
+        List<BrandData> list = reportsDto.getBrandReport("", "", null, 9).getContent();
         assertEquals(3, list.size());
     }
 
@@ -64,7 +64,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = (List<BrandData>)reportsDto.getBrandReport("brand1", "", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("brand1", "", null, null).getContent();
         assertEquals(1, list.size());
     }
 
@@ -73,7 +73,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = (List<BrandData>)reportsDto.getBrandReport("", "category1", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("", "category1", null, null).getContent();
         assertEquals(1, list.size());
     }
 
@@ -82,7 +82,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        List<BrandData> list = (List<BrandData>) reportsDto.getBrandReport("brand1", "category1", null, null);
+        List<BrandData> list = reportsDto.getBrandReport("brand1", "category1", null, null).getContent();
         assertEquals(1, list.size());
     }
 
@@ -91,7 +91,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p1 = addBrand(1);
         BrandPojo p2 = addBrand(2);
         BrandPojo p3 = addBrand(3);
-        Page<BrandData> page = (Page<BrandData>) reportsDto.getBrandReport("", "", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("", "", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(2, list.size());
         assertEquals("brand1", list.get(0).getBrand());
@@ -106,7 +106,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(1, 2);
         BrandPojo p3 = addBrand(1, 3);
         BrandPojo p4 = addBrand(2, 1);
-        Page<BrandData> page = (Page<BrandData>) reportsDto.getBrandReport("brand1", "", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("brand1", "", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(3, page.getTotalElements());
         assertEquals(2, list.size());
@@ -122,7 +122,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(2, 1);
         BrandPojo p3 = addBrand(3, 1);
         BrandPojo p4 = addBrand(4, 1);
-        Page<BrandData> page = (Page<BrandData>) reportsDto.getBrandReport("", "category1", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("", "category1", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(4, page.getTotalElements());
         assertEquals(2, list.size());
@@ -138,7 +138,7 @@ public class ReportsDtoBrandReportTest extends AbstractUnitTest {
         BrandPojo p2 = addBrand(2, 1);
         BrandPojo p3 = addBrand(3, 1);
         BrandPojo p4 = addBrand(4, 1);
-        Page<BrandData> page = (Page<BrandData>) reportsDto.getBrandReport("brand1", "category1", 0, 2);
+        Page<BrandData> page = reportsDto.getBrandReport("brand1", "category1", 0, 2);
         List<BrandData> list = page.getContent();
         assertEquals(1, page.getTotalElements());
         assertEquals(1, list.size());
