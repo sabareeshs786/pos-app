@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <invoice>
-    <date>07/03/2023</date>
-    <orderId>52</orderId>
+    <date>15/03/2023</date>
+    <orderId>2</orderId>
     <item>
         <sno>1</sno>
-        <productName>product1</productName>
-        <quantity>2</quantity>
-        <mrp>123.45</mrp>
-        <sellingPrice>120.68</sellingPrice>
-        <subTotal>241.36</subTotal>
+        <productName>iphone 13 pro</productName>
+        <quantity>1</quantity>
+        <mrp>200000.78</mrp>
+        <sellingPrice>200000.78</sellingPrice>
+        <subTotal>200000.78</subTotal>
     </item>
     <item>
         <sno>2</sno>
-        <productName>product2</productName>
-        <quantity>2</quantity>
-        <mrp>12.45</mrp>
-        <sellingPrice>10.78</sellingPrice>
-        <subTotal>21.56</subTotal>
+        <productName>samsung ear pods</productName>
+        <quantity>8</quantity>
+        <mrp>1999.89</mrp>
+        <sellingPrice>299.89</sellingPrice>
+        <subTotal>2399.12</subTotal>
     </item>
-    <total>262.92</total>
+    <total>202399.90</total>
 </invoice>

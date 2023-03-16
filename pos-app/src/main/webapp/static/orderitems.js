@@ -187,7 +187,7 @@ function displayOrderItems(data, sno){
 		+ data[i].id 
 		+ ')" class="btn btn-secondary only-supervisor">Edit</button>' 
 		+ spanEnd
-		+ '&nbsp;&nbsp;'
+		+ '&nbsp;'
 		+ spanBegin 
 		+ '<button onclick="deleteOrderItem('
 		+ data[i].id
