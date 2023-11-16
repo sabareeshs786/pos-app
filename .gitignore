@@ -1,6 +1,5 @@
 target/
 .idea/
-pos/.idea/
 *.log
 *.log.1
 node_modules/
