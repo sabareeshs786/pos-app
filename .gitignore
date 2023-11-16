@@ -1,4 +1,5 @@
 target/
+.idea/
 pos/.idea/
 *.log
 *.log.1

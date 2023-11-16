@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.increff.training</groupId>
-  <artifactId>pos</artifactId>
+  <artifactId>pos-app-all</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
