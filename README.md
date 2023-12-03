@@ -9,11 +9,13 @@ Follow these step-by-step instructions to set up the POS Application on your loc
 - Maven installed
 - MySQL database server installed and running
 
-Steps
+#### Steps to install the pos app:
+
 1. **Clone the repository**
     ```bash
    git clone https://github.com/Hackovator/pos-app
    cd pos-app
+
 2. **Configure MySQL Database**
 
    - Create a database named **pos**
@@ -28,6 +30,7 @@ Steps
 4. **Build and Run**
     ```bash
     mvn clean install
+    cd pos-app
     mvn jetty:run
 
 5. **Access the Application:**
@@ -85,3 +88,6 @@ Steps
   - Login and Signup:
   - Users can log in with their credentials.
   - New users can sign up to create an account.
+
+
+
