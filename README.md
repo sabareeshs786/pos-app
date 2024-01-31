@@ -51,43 +51,39 @@ Follow these step-by-step instructions to set up the POS Application on your loc
 
 ### Features
 
-1. **Brands**
-- Manage and categorize product brands.
+1. **Authentication**
+      - Login and Signup:
+      - Users can log in with their credentials.
+      - New users can sign up to create an account.
+2. **Brands**
+    - Manage and categorize product brands.
 
-2. **Products**
-- Store product details such as barcode, product name, brand, category, and MRP.
+3. **Products**
+    - Store product details such as barcode, product name, brand, category, and MRP.
 
-3. **Inventory**
-- Track the quantity of items for each product.
+4. **Inventory**
+    - Track the quantity of items for each product.
 
-4. **Orders**
-- Store order details including date, time, product name, quantity, and selling price.
-- Ensure that the selling price is less than or equal to the MRP.
+5. **Orders**
+    - Store order details including date, time, product name, quantity, and selling price.
+    - Ensure that the selling price is less than or equal to the MRP.
 
-5. **Reports**
+6. **Reports**
 
-- **Daily Sales Report:**
-  - Displays the quantity of items sold on a daily basis.
+    - **Daily Sales Report:**
+      - Displays the quantity of items sold on a daily basis.
 
-- **Overall Sales Report:**
-  - Provides an overview of overall sales.
+    - **Overall Sales Report:**
+      - Provides an overview of overall sales.
 
-- **Inventory Report:**
-  - Shows the current inventory status.
+    - **Inventory Report:**
+      - Shows the current inventory status.
 
-- **User Roles**
-  - **Supervisor (Admin):**
-    - Has full access to all sections.
-    - Can perform CRUD operations.
+    - **User Roles**
+      - **Supervisor (Admin):**
+        - Has full access to all sections.
+        - Can perform CRUD operations.
 
-  - **Operator:**
-    - Can view UI elements for brands, products, etc.
-    - Can place orders.
-
-- **Authentication**
-  - Login and Signup:
-  - Users can log in with their credentials.
-  - New users can sign up to create an account.
-
-
-
+      - **Operator:**
+        - Can view UI elements for brands, products, etc.
+        - Can place orders.
